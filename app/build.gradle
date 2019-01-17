@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.bottlerocketstudios.brarchitecture"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
+    implementation "androidx.appcompat:appcompat:$APPCOMPAT_VERSION"
+    implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    implementation "com.squareup.moshi:moshi-kotlin:$MOSHI_VERSION"
+    implementation "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
+    implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
+    implementation "commons-codec:commons-codec:$COMMON_CODEC_VERSION"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
+    testImplementation "junit:junit:$JUNIT_VERSION"
+    androidTestImplementation "com.android.support.test:runner:$TESTRUNNER_VERSION"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
+}
