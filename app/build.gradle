@@ -29,6 +29,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
     implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
     implementation "commons-codec:commons-codec:$COMMON_CODEC_VERSION"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLINX_VERSION"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
     testImplementation "junit:junit:$JUNIT_VERSION"
     androidTestImplementation "com.android.support.test:runner:$TESTRUNNER_VERSION"

@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class BasicAuthRepositoryTest {
@@ -8,6 +9,8 @@ class BasicAuthRepositoryTest {
     fun authInterceptor() {
         System.out.println("Running test")
         val b = BasicAuthRepository()
-        val p = b.authInterceptor("patentlychris@gmail.com", "password1")
+        runBlocking {
+            val p = b.authInterceptor("patentlychris@gmail.com", "password1")
+        }
     }
 }
