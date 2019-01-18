@@ -32,6 +32,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLINX_VERSION"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
     testImplementation "junit:junit:$JUNIT_VERSION"
+    testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
     androidTestImplementation "com.android.support.test:runner:$TESTRUNNER_VERSION"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
 }

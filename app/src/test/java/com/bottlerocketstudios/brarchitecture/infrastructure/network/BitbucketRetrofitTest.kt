@@ -11,21 +11,31 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class BasicAuthRepositoryTest {
 
     @Test
-    fun authInterceptor() {
+    fun getRepositories() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://bitbucket.org/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-        val b = TokenAuthRepository(retrofit)
-        var p: Interceptor? = null
+        val repo = TokenAuthRepository(retrofit)
+        var interceptor: Interceptor? = null
         runBlocking {
-            p = b.authInterceptor("patentlychris@gmail.com", "password1")
+            interceptor = repo.authInterceptor("patentlychris@gmail.com", "password1")
         }
-        assert(p != null)
-        p?.let {
+        assert(interceptor != null)
+        interceptor?.let {
             val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(it)
             runBlocking {
-                System.out.println(bitbucketRetrofit.getRepositories("patentlychris").execute().body()?.values?.get(0)?.name)
+                val response = bitbucketRetrofit.getRepositories("patentlychris").execute().body()
+                assert(response != null)
+                response?.let {
+                    assert(it.values != null)
+                    it.values?.let {
+                        val privateRepo = it.find { it.name == "private" }
+                        assert(privateRepo != null)
+                        assert(privateRepo?.is_private != null)
+                        assert(privateRepo?.is_private == true)
+                    }
+                }
             }
         }
     }
