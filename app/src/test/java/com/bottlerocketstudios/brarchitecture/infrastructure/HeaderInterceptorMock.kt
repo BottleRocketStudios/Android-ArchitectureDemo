@@ -10,11 +10,10 @@ import org.mockito.Mockito.any
 
 
 class HeaderInterceptorMock {
-    val headers = mutableMapOf<String, String>()
+    lateinit var requestBuilder : Request.Builder
     fun getMockedChain() : Interceptor.Chain {
-        val requestBuilder: Request.Builder = mock { requestBuilder ->
+        requestBuilder = mock { requestBuilder ->
             on { header(any(), any()) } doAnswer { invocation ->
-                headers.put(invocation.getArgument(0), invocation.getArgument(1))
                 requestBuilder
             }
         }
