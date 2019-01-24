@@ -14,13 +14,21 @@ interface BitbucketRetrofit {
     @GET(value="2.0/repositories/{owner}")
     fun getRepositories(
         @Path(value="owner") owner: String
-    ) : Call<BitbucketResponse<List<Repository>>>
-    
+    ) : Call<BitbucketPagedResponse<List<Repository>>>
+
+    @GET(value="2.0/repositories/{owner}/{repo}")
+    fun getRepository(
+        @Path(value="owner") owner: String,
+        @Path(value="repo") repo: String
+    ) : Call<Repository>
+
     companion object {
-        fun getRetrofit(interceptor: Interceptor): BitbucketRetrofit {
-            val client = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build()
+        fun getRetrofit(interceptor: Interceptor?): BitbucketRetrofit {
+            val clientBuilder = OkHttpClient.Builder()
+            interceptor?.let {
+                clientBuilder.addInterceptor(interceptor)
+            }
+            val client = clientBuilder.build()
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.bitbucket.org")
                 .client(client)

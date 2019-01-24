@@ -8,7 +8,6 @@ class BasicAuthRepositoryTest {
 
     @Test
     fun authInterceptor() {
-        System.out.println("Running test")
         val auth = BasicAuthRepository()
         runBlocking {
             val interceptor = auth.authInterceptor("patentlychris@gmail.com", "password1")
