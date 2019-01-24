@@ -9,6 +9,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
+import java.net.HttpURLConnection
 
 
 class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
@@ -28,7 +29,7 @@ class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
                         .header("Authorization", getTokenAuthHeader(it))
                         .build()
                     var chainResult = chain.proceed(newRequest)
-                    if (chainResult.code() == 401) {
+                    if (chainResult.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                         val failureJson = chainResult.body()?.string()?:""
                         val failure = Moshi.Builder().build().adapter(BitbucketFailure::class.java).fromJson(failureJson)
                         if (failure != null && failure.type == "error" && failure.error != null && (failure.error.message?:"").contains("token expired")) {
