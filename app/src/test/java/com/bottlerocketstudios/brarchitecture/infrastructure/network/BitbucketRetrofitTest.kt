@@ -55,7 +55,7 @@ class BitbucketRetrofitTest {
         runBlocking {
             val response = bitbucketRetrofit.getRepository("patentlychris", "private").execute()
             val body = response.body()
-            assertThat(body).isNotNull()
+            assertThat(body).isNull()
             val errorBody = response.errorBody()
             assertThat(errorBody).isNotNull()
             val bodyString = errorBody?.string()?:""

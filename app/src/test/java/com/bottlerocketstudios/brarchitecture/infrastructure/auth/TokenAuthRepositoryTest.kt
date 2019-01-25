@@ -47,7 +47,7 @@ class TokenAuthRepositoryTest {
             verify(headerInterceptorMock.requestBuilder, times(1)).header(nameCaptor.capture(), valueCaptor.capture())
             assertWithMessage("Header should be added with key 'Authorization'")
                 .that(nameCaptor.lastValue)
-                .isEqualTo("Authorizatio")
+                .isEqualTo("Authorization")
             assertWithMessage("Header value should be created based on username and password")
                 .that(valueCaptor.lastValue)
                 .isEqualTo("Bearer patentlychris@gmail.com + password1")
