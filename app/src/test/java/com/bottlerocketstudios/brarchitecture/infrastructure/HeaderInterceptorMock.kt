@@ -2,8 +2,10 @@ package com.bottlerocketstudios.brarchitecture.infrastructure
 
 import okhttp3.Interceptor
 import okhttp3.Request
+import okhttp3.Response
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 
@@ -17,8 +19,11 @@ class HeaderInterceptorMock {
             headers.put(invocation.getArgument(0), invocation.getArgument(1))
             requestBuilder
         }
-        Mockito.`when`(request.newBuilder()).then {requestBuilder}
-        Mockito.`when`(chain.request()).then {request}
+        `when`(request.newBuilder()).then {requestBuilder}
+        `when`(chain.request()).then {request}
+        val response = mock(Response::class.java)
+        `when`(response.code()).then {200}
+        `when`(chain.proceed(ArgumentMatchers.any())).then {response}
         return chain
     }
 }

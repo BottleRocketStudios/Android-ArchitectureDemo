@@ -22,7 +22,7 @@ class TokenAuthRepositoryTest {
             .baseUrl("https://bitbucket.org/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-        */
+            */
         val retrofit = mock(Retrofit::class.java)
         val service = mock(TokenAuthRepository.AuthService::class.java)
         `when`(service.getToken(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenAnswer { invocation ->
@@ -35,13 +35,14 @@ class TokenAuthRepositoryTest {
             `when`(call.execute()).then {response}
             call
         }
-        Mockito.`when`(retrofit.create(Mockito.any(Class::class.java))).then { service }
+        `when`(retrofit.create(Mockito.any(Class::class.java))).then { service }
         val auth = TokenAuthRepository(retrofit)
         runBlocking {
             val interceptor = auth.authInterceptor(username = "patentlychris@gmail.com", password = "password1")
             val headerInterceptorMock = HeaderInterceptorMock()
             interceptor.intercept(headerInterceptorMock.getMockedChain())
             assert(headerInterceptorMock.headers.size == 1)
+            System.out.println(headerInterceptorMock.headers["Authorization"])
             assert(headerInterceptorMock.headers["Authorization"]=="Bearer patentlychris@gmail.com + password1")
         }
     }
