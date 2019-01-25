@@ -1,12 +1,14 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.net.HttpURLConnection
 
 
 class BitbucketRetrofitTest {
@@ -31,10 +33,10 @@ class BitbucketRetrofitTest {
         runBlocking {
             val response = bitbucketRetrofit.getRepository("patentlychris", "private").execute()
             val body = response.body()
-            assert(body != null)
+            assertThat(body).isNotNull()
             body?.let {privateRepo ->
-                assert(privateRepo.is_private != null)
-                assert(privateRepo.is_private == true)
+                assertThat(privateRepo.is_private).isNotNull()
+                assertThat(privateRepo.is_private).isTrue()
             }
         }
     }
@@ -53,12 +55,12 @@ class BitbucketRetrofitTest {
         runBlocking {
             val response = bitbucketRetrofit.getRepository("patentlychris", "private").execute()
             val body = response.body()
-            assert(body == null)
+            assertThat(body).isNotNull()
             val errorBody = response.errorBody()
-            assert(errorBody != null)
+            assertThat(errorBody).isNotNull()
             val bodyString = errorBody?.string()?:""
-            assert(bodyString.contains("Access token expired")?:false)
-            assert(response.code() == 401)
+            assertThat(bodyString).contains("Access token expired")
+            assertThat(response.code()).isEqualTo(HttpURLConnection.HTTP_UNAUTHORIZED)
         }
     }
 }
