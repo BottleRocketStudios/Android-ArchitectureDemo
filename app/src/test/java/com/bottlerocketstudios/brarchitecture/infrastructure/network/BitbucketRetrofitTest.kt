@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
+import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
@@ -8,10 +9,11 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber.d
 import java.net.HttpURLConnection
 
 
-class BitbucketRetrofitTest {
+class BitbucketRetrofitTest : BaseTest() {
     lateinit var interceptor: Interceptor
 
     @Before

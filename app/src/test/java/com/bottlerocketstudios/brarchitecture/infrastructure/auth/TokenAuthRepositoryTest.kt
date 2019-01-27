@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
+import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
 import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.*
@@ -9,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class TokenAuthRepositoryTest {
+class TokenAuthRepositoryTest : BaseTest() {
 
     @Test
     fun authInterceptor() {
