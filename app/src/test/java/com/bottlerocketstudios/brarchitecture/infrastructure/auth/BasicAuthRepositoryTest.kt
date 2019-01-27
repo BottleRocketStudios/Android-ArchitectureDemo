@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
+import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
 import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.argumentCaptor
@@ -8,7 +9,7 @@ import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class BasicAuthRepositoryTest {
+class BasicAuthRepositoryTest : BaseTest() {
 
     @Test
     fun authInterceptor() {
