@@ -1,16 +1,13 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
+import com.google.common.truth.Truth.assertWithMessage
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.http.Body
 
 class TokenAuthRepositoryTest {
 
@@ -23,27 +20,37 @@ class TokenAuthRepositoryTest {
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             */
-        val retrofit = mock(Retrofit::class.java)
-        val service = mock(TokenAuthRepository.AuthService::class.java)
-        `when`(service.getToken(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenAnswer { invocation ->
-            val call = mock(Call::class.java)
-            val response = mock(Response::class.java)
-            val body = mock(Body::class.java)
-            val accessToken = TokenAuthRepository.AccessToken()
-            accessToken.access_token = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}"
-            `when`(response.body()).then {accessToken}
-            `when`(call.execute()).then {response}
-            call
+        val accessToken = TokenAuthRepository.AccessToken()
+        val response: Response<*> = mock() {
+            on {body()}.then {accessToken}
         }
-        `when`(retrofit.create(Mockito.any(Class::class.java))).then { service }
+        val call: Call<TokenAuthRepository.AccessToken> = mock() {
+            on {execute()}.then { response }
+        }
+        val service: TokenAuthRepository.AuthService = mock() {
+            on {getToken(any(), any(), any(), any())}.doAnswer { invocation ->
+                accessToken.access_token = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}"
+                call
+            }
+        }
+        val retrofit: Retrofit = mock() {
+            on {create<Any>(any())}.then {service}
+        }
         val auth = TokenAuthRepository(retrofit)
         runBlocking {
             val interceptor = auth.authInterceptor(username = "patentlychris@gmail.com", password = "password1")
             val headerInterceptorMock = HeaderInterceptorMock()
             interceptor.intercept(headerInterceptorMock.getMockedChain())
-            assert(headerInterceptorMock.headers.size == 1)
-            System.out.println(headerInterceptorMock.headers["Authorization"])
-            assert(headerInterceptorMock.headers["Authorization"]=="Bearer patentlychris@gmail.com + password1")
+            // Need to capture two arguments, can't use mockito-kotlin dsl
+            val nameCaptor = argumentCaptor<String>()
+            val valueCaptor = argumentCaptor<String>()
+            verify(headerInterceptorMock.requestBuilder, times(1)).header(nameCaptor.capture(), valueCaptor.capture())
+            assertWithMessage("Header should be added with key 'Authorization'")
+                .that(nameCaptor.lastValue)
+                .isEqualTo("Authorization")
+            assertWithMessage("Header value should be created based on username and password")
+                .that(valueCaptor.lastValue)
+                .isEqualTo("Bearer patentlychris@gmail.com + password1")
         }
     }
 }

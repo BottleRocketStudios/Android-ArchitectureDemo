@@ -1,4 +1,7 @@
+import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
+import org.gradle.internal.impldep.com.amazonaws.PredefinedClientConfigurations.defaultConfig
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.application")
@@ -33,7 +36,8 @@ object DependencyVersions {
     const val CONST_CODEC = "20041127.091804"
     const val KOTLIN_COROUTINES = "1.1.0"
     const val JUNIT = "4.12"
-    const val MOCKITO = "2.23.4"
+    const val MOCKITO_KOTLIN = "2.1.0"
+    const val TRUTH = "0.42"
     const val TEST_RUNNER = "1.0.2"
     const val ESPRESSO = "3.0.2"
 }
@@ -50,7 +54,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependencyVersions.KOTLIN_COROUTINES}")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
     testImplementation("junit:junit:${DependencyVersions.JUNIT}")
-    testImplementation("org.mockito:mockito-core:${DependencyVersions.MOCKITO}")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")
+    testImplementation("com.google.truth:truth:${DependencyVersions.TRUTH}")
     androidTestImplementation("com.android.support.test:runner:${DependencyVersions.TEST_RUNNER}")
     androidTestImplementation("com.android.support.test.espresso:espresso-core:${DependencyVersions.ESPRESSO}")
 }
