@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
+import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -44,8 +45,12 @@ class TokenAuthRepositoryTest {
             val nameCaptor = argumentCaptor<String>()
             val valueCaptor = argumentCaptor<String>()
             verify(headerInterceptorMock.requestBuilder, times(1)).header(nameCaptor.capture(), valueCaptor.capture())
-            assert(nameCaptor.lastValue == "Authorization")
-            assert(valueCaptor.lastValue == "Bearer patentlychris@gmail.com + password1")
+            assertWithMessage("Header should be added with key 'Authorization'")
+                .that(nameCaptor.lastValue)
+                .isEqualTo("Authorization")
+            assertWithMessage("Header value should be created based on username and password")
+                .that(valueCaptor.lastValue)
+                .isEqualTo("Bearer patentlychris@gmail.com + password1")
         }
     }
 }

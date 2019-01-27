@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
+import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
@@ -20,8 +21,12 @@ class BasicAuthRepositoryTest {
             val nameCaptor = argumentCaptor<String>()
             val valueCaptor = argumentCaptor<String>()
             verify(headerInterceptorMock.requestBuilder, times(1)).header(nameCaptor.capture(), valueCaptor.capture())
-            assert(nameCaptor.lastValue == "Authorization")
-            assert(valueCaptor.lastValue == "Basic cGF0ZW50bHljaHJpc0BnbWFpbC5jb206cGFzc3dvcmQx")
+            assertWithMessage("Header should be added with key 'Authorization'")
+                .that(nameCaptor.lastValue)
+                .isEqualTo("Authorization")
+            assertWithMessage("Header value should be base64 encoding of username and password")
+                .that(valueCaptor.lastValue)
+                .isEqualTo("Basic cGF0ZW50bHljaHJpc0BnbWFpbC5jb206cGFzc3dvcmQx")
         }
     }
 }

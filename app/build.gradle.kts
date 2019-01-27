@@ -37,6 +37,7 @@ object DependencyVersions {
     const val KOTLIN_COROUTINES = "1.1.0"
     const val JUNIT = "4.12"
     const val MOCKITO_KOTLIN = "2.1.0"
+    const val TRUTH = "0.42"
     const val TEST_RUNNER = "1.0.2"
     const val ESPRESSO = "3.0.2"
 }
@@ -54,6 +55,7 @@ dependencies {
     kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
     testImplementation("junit:junit:${DependencyVersions.JUNIT}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")
+    testImplementation("com.google.truth:truth:${DependencyVersions.TRUTH}")
     androidTestImplementation("com.android.support.test:runner:${DependencyVersions.TEST_RUNNER}")
     androidTestImplementation("com.android.support.test.espresso:espresso-core:${DependencyVersions.ESPRESSO}")
 }
