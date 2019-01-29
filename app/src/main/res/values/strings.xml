@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BR Architecture</string>
+    <string name="login_id_hint">Login ID</string>
+    <string name="login_id_accessibility">Login ID</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_password_accessibility">Password</string>
+    <string name="login_button">Login</string>
 </resources>

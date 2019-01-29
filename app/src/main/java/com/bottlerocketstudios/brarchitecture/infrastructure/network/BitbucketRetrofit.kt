@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
+import com.bottlerocketstudios.brarchitecture.domain.model.User
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -11,6 +12,10 @@ import retrofit2.http.Path
 
 
 interface BitbucketRetrofit {
+    @GET(value="2.0/user")
+    fun getUser(
+    ) : Call<User>
+
     @GET(value="2.0/repositories/{owner}")
     fun getRepositories(
         @Path(value="owner") owner: String

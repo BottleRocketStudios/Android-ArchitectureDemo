@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextInputLayout" parent="Theme.AppCompat">
+
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/colorPrimary</item>
+
+    </style>
+
+    <style name="TextInputEditText" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/colorPrimary</item>
+
+    </style>
+
 </resources>

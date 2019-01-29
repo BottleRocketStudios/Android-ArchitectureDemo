@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
 import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
@@ -9,7 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import timber.log.Timber.d
+import timber.log.Timber
 import java.net.HttpURLConnection
 
 
@@ -24,7 +25,7 @@ class BitbucketRetrofitTest : BaseTest() {
             .build()
         val repo = TokenAuthRepository(retrofit)
         runBlocking {
-            interceptor = repo.authInterceptor("patentlychris@gmail.com", "password1")
+            interceptor = repo.authInterceptor(ValidCredentialModel("patentlychris@gmail.com", "password1"))
         }
     }
 
@@ -42,7 +43,6 @@ class BitbucketRetrofitTest : BaseTest() {
             }
         }
     }
-
 
     @Test
     fun getRepository_shouldFail_whenForceTokenExpired() {
@@ -63,6 +63,18 @@ class BitbucketRetrofitTest : BaseTest() {
             val bodyString = errorBody?.string()?:""
             assertThat(bodyString).contains("Access token expired")
             assertThat(response.code()).isEqualTo(HttpURLConnection.HTTP_UNAUTHORIZED)
+        }
+    }
+    
+    @Test
+    fun getUser_shouldReturnUser_whenAuthenticated() {
+        val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(interceptor)
+        runBlocking {
+            val response = bitbucketRetrofit.getUser().execute()
+            val body = response.body()
+            Timber.e(body.toString())
+            val errorBody = response.errorBody()
+            Timber.e(errorBody.toString())
         }
     }
 }
