@@ -11,8 +11,8 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.repository.Bitbucke
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import kotlinx.coroutines.launch
 
-class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo), Observer<String> {
-    override fun onChanged(t: String?) {
+class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+    val textWatcher = Observer<String> { _ ->
         loginEnabled.postValue(CredentialModel(email.value, password.value).valid)
     }
 
@@ -25,8 +25,8 @@ class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewMode
 
     init {
         loginEnabled.postValue(false)
-        email.observeForever(this)
-        password.observeForever(this)
+        email.observeForever(textWatcher)
+        password.observeForever(textWatcher)
     }
 
     fun onLoginClicked(v: View) {
@@ -48,7 +48,7 @@ class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewMode
     }
 
     fun doClear() {
-        email.removeObserver(this)
-        password.removeObserver(this)
+        email.removeObserver(textWatcher)
+        password.removeObserver(textWatcher)
     }
 }

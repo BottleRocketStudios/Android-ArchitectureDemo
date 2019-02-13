@@ -74,6 +74,8 @@ class LoginViewModelTest: BaseTest() {
     @Test
     fun loginViewModel_shouldClearObservers_whenDoClearCalled() {
         val loginViewModel = LoginViewModel(mock {}, mock {})
+        assertThat(loginViewModel.password.hasActiveObservers()).isTrue()
+        assertThat(loginViewModel.email.hasActiveObservers()).isTrue()
         loginViewModel.doClear()
         assertThat(loginViewModel.password.hasActiveObservers()).isFalse()
         assertThat(loginViewModel.email.hasActiveObservers()).isFalse()
