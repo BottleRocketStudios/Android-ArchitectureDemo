@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
 import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
 import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.*
@@ -19,8 +20,7 @@ class TokenAuthRepositoryTest : BaseTest() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://bitbucket.org/")
             .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-            */
+            .build()*/
         val accessToken = TokenAuthRepository.AccessToken()
         val response: Response<*> = mock() {
             on {body()}.then {accessToken}
@@ -39,7 +39,7 @@ class TokenAuthRepositoryTest : BaseTest() {
         }
         val auth = TokenAuthRepository(retrofit)
         runBlocking {
-            val interceptor = auth.authInterceptor(username = "patentlychris@gmail.com", password = "password1")
+            val interceptor = auth.authInterceptor(ValidCredentialModel("patentlychris@gmail.com", "password1"))
             val headerInterceptorMock = HeaderInterceptorMock()
             interceptor.intercept(headerInterceptorMock.getMockedChain())
             // Need to capture two arguments, can't use mockito-kotlin dsl

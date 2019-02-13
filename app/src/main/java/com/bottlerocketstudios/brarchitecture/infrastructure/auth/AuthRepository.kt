@@ -1,11 +1,12 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
+import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import okhttp3.Interceptor
 import org.apache.commons.codec.binary.Base64
 
 
 interface AuthRepository {
-    suspend fun authInterceptor(username: String, password: String): Interceptor
+    suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor
 
     companion object {
         fun getBasicAuthHeader(username: String, password: String): String {

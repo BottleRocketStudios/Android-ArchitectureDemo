@@ -1,26 +1,33 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
+import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketFailure
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
+import timber.log.Timber.e
 import java.net.HttpURLConnection
 
 
 class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
     var token: AccessToken? = null
 
-    override suspend fun authInterceptor(username: String, password: String): Interceptor {
-        val response = retrofit.create(AuthService::class.java).getToken(username, password).execute()
+    override suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor {
+        var authError : String? = null
+        val response = retrofit.create(AuthService::class.java).getToken(credentials.id, credentials.password).execute()
         token = response.body()
         // Uncomment this line, and the authInterceptor will always start out with an expired token
         //token = AccessToken(access_token="mdAoLW3_ug7IPJHSdnn2s_J67sPAnxNbOvVq6ePlOszhqWBxsUUWS4v_ItvhdVnkUxaaxQKn_2jrsXVqDlg=", scopes="project pullrequest", expires_in=7200, refresh_token="WLcfLY3tdXRukHq7kJ", token_type="bearer")
-        val authError = response.errorBody()?.string()
+        authError = response.errorBody()?.string()
+        authError?.let {
+            e(authError)
+        }
         token?.let {
             it.access_token?.let {
                 return Interceptor { chain ->
@@ -30,13 +37,18 @@ class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
                         .build()
                     var chainResult = chain.proceed(newRequest)
                     if (chainResult.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                        val failureJson = chainResult.body()?.string()?:""
-                        val failure = Moshi.Builder().build().adapter(BitbucketFailure::class.java).fromJson(failureJson)
-                        if (failure != null && failure.type == "error" && failure.error != null && (failure.error.message?:"").contains("token expired")) {
-                            val refreshResponse = retrofit.create(AuthService::class.java).refreshToken(token?.refresh_token?:"").execute()
+                        val failureJson = chainResult.body()?.string() ?: ""
+                        val failure =
+                            Moshi.Builder().build().adapter(BitbucketFailure::class.java).fromJson(failureJson)
+                        if (failure != null && failure.type == "error" && failure.error != null && (failure.error.message
+                                ?: "").contains("token expired")
+                        ) {
+                            val refreshResponse =
+                                retrofit.create(AuthService::class.java).refreshToken(token?.refresh_token ?: "")
+                                    .execute()
                             token = refreshResponse.body()
                             val newestRequest = request.newBuilder()
-                                .header("Authorization", getTokenAuthHeader(token?.access_token?:""))
+                                .header("Authorization", getTokenAuthHeader(token?.access_token ?: ""))
                                 .build()
                             chainResult = chain.proceed(newestRequest)
                         }
@@ -52,6 +64,14 @@ class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
     private fun getTokenAuthHeader(token: String): String {
         return "Bearer "+token
     }
+    
+    companion object {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://bitbucket.org/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+ 
+    }
 
     interface AuthService {
         @FormUrlEncoded
@@ -62,7 +82,7 @@ class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
             @Field("grant_type") grantType: String? = "password",
             @Header("Authorization") header: String = AuthRepository.getBasicAuthHeader("hqY4kPWYFgYJuCLWhz", "HTnJuCaarHeLTW5hBTJ5pbY5EawZPr65"))
                 : Call<AccessToken>
-        
+
         @FormUrlEncoded
         @POST("site/oauth2/access_token")
         fun refreshToken(
