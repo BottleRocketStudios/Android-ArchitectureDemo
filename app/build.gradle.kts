@@ -1,13 +1,16 @@
-import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
-import org.gradle.internal.impldep.com.amazonaws.PredefinedClientConfigurations.defaultConfig
+
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.application")
+    id("jacoco-android")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+}
+
+jacoco {
+    toolVersion = "0.8.3"
 }
 
 android {
@@ -27,6 +30,9 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+        getByName("debug") {
+            isTestCoverageEnabled = true
+        }
     }
 }
 
@@ -41,6 +47,7 @@ object DependencyVersions {
     const val TIMBER = "4.7.1"
     const val CONST_CODEC = "20041127.091804"
     const val KOTLIN_COROUTINES = "1.1.0"
+    const val GROUPIE = "2.3.0"
     const val JUNIT = "4.12"
     const val MOCKITO_KOTLIN = "2.1.0"
     const val TRUTH = "0.42"
@@ -64,6 +71,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependencyVersions.KOTLIN_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersions.KOTLIN_COROUTINES}")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
+    implementation("com.xwray", "groupie", DependencyVersions.GROUPIE)
+    implementation("com.xwray", "groupie-kotlin-android-extensions", DependencyVersions.GROUPIE)
+    implementation("com.xwray", "groupie-databinding", DependencyVersions.GROUPIE)
     testImplementation("junit:junit:${DependencyVersions.JUNIT}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")
     testImplementation("com.google.truth:truth:${DependencyVersions.TRUTH}")
