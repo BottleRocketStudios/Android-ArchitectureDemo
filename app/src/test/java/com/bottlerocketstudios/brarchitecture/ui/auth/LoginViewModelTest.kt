@@ -1,19 +1,18 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 
+@ExperimentalCoroutinesApi
 class LoginViewModelTest: BaseTest() {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -23,7 +22,7 @@ class LoginViewModelTest: BaseTest() {
         val loginViewModel = LoginViewModel(mock {}, mock {})
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
-        assertThat(loginViewModel.getLoginEnabled().value).isTrue()
+        assertThat(loginViewModel.loginEnabled.value).isTrue()
     }
 
     @Test
@@ -31,22 +30,15 @@ class LoginViewModelTest: BaseTest() {
         val loginViewModel = LoginViewModel(mock {}, mock {})
         loginViewModel.email.postValue("t")
         loginViewModel.password.postValue("P")
-        assertThat(loginViewModel.getLoginEnabled().value).isFalse()
+        assertThat(loginViewModel.loginEnabled.value).isFalse()
     }
     
     fun tryToLoginWithMockedRepo(repo: BitbucketRepository) : Boolean? {
         val loginViewModel = LoginViewModel(mock {}, repo)
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
-        val latch = CountDownLatch(1)
-        val observer = Observer{ b: Boolean? ->
-            latch.countDown()
-        }
-        loginViewModel.getAuthenticated().observeForever(observer)
         loginViewModel.onLoginClicked(mock {})
-        latch.await(1, TimeUnit.SECONDS)
-        loginViewModel.getAuthenticated().removeObserver(observer)
-        return loginViewModel.getAuthenticated().value
+        return loginViewModel.authenticated.value
     }
 
     @Test
@@ -76,6 +68,7 @@ class LoginViewModelTest: BaseTest() {
         val loginViewModel = LoginViewModel(mock {}, mock {})
         assertThat(loginViewModel.password.hasActiveObservers()).isTrue()
         assertThat(loginViewModel.email.hasActiveObservers()).isTrue()
+        assertThat(loginViewModel.textWatcher).isNotNull()
         loginViewModel.doClear()
         assertThat(loginViewModel.password.hasActiveObservers()).isFalse()
         assertThat(loginViewModel.email.hasActiveObservers()).isFalse()
