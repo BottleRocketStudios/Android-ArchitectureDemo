@@ -12,8 +12,15 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketRe
 
 class BitbucketRepository(val authRepo: AuthRepository) {
     var retrofit = BitbucketRetrofit.getRetrofit(null)
-    val user = MutableLiveData<User>()
+    private val _user = MutableLiveData<User>()
+    private val _repos = MutableLiveData<List<Repository>>()
     var authenticated = false
+    
+    val user: LiveData<User>
+        get() = _user
+    
+    val repos: LiveData<List<Repository>>
+        get() = _repos
     
     suspend fun authenticate(creds: ValidCredentialModel) : Boolean {
         if (authenticated) {
@@ -22,7 +29,7 @@ class BitbucketRepository(val authRepo: AuthRepository) {
         try {
             val interceptor = authRepo.authInterceptor(creds)
             retrofit = BitbucketRetrofit.getRetrofit(interceptor)
-            if (getUser().value != null) {
+            if (refreshUser()) {
                 authenticated = true
                 return true
             }
@@ -32,18 +39,25 @@ class BitbucketRepository(val authRepo: AuthRepository) {
         return false
     }
     
-    suspend fun getUser() : LiveData<User> {
-        user.value?.let {
-            return user
-        }
+    fun refreshUser() : Boolean {
         val response = retrofit.getUser().execute()
+        var userResponse: User? = null
         if (response.isSuccessful) {
-            user.postValue(response.body())
+            userResponse = response.body()
+            _user.postValue(userResponse)
         }
-        return user
+        return response.isSuccessful
     }
     
-    suspend fun getRepositories(owner: String) : List<Repository>  {
+    fun refreshMyRepos() : Boolean {
+        val response = retrofit.getRepositories(_user.value?.username?:"").execute()
+        if (response.isSuccessful) {
+            _repos.postValue(response.body()?.values)
+        }
+        return response.isSuccessful
+    }
+    
+    fun getRepositories(owner: String) : List<Repository>  {
         val response = retrofit.getRepositories(owner).execute()
         if (response.isSuccessful) {
             return response.body()?.values?:emptyList()

@@ -10,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import timber.log.Timber
 import java.net.HttpURLConnection
 
 
@@ -72,9 +71,7 @@ class BitbucketRetrofitTest : BaseTest() {
         runBlocking {
             val response = bitbucketRetrofit.getUser().execute()
             val body = response.body()
-            Timber.e(body.toString())
             val errorBody = response.errorBody()
-            Timber.e(errorBody.toString())
         }
     }
 }

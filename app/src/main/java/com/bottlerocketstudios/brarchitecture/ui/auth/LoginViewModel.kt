@@ -10,21 +10,24 @@ import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val textWatcher = Observer<String> { _ ->
-        loginEnabled.postValue(CredentialModel(email.value, password.value).valid)
+        _loginEnabled.postValue(CredentialModel(email.value, password.value).valid)
     }
 
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
-    private val loginEnabled = MutableLiveData<Boolean>()
-    fun getLoginEnabled(): LiveData<Boolean> = loginEnabled
-    private val authenticated = MutableLiveData<Boolean>()
-    fun getAuthenticated(): LiveData<Boolean> = authenticated
+    private val _loginEnabled = MutableLiveData<Boolean>()
+    val loginEnabled: LiveData<Boolean>
+        get() = _loginEnabled
+    private val _authenticated = MutableLiveData<Boolean>()
+    val authenticated: LiveData<Boolean>
+        get() = _authenticated
 
     init {
-        loginEnabled.postValue(false)
+        _loginEnabled.postValue(false)
         email.observeForever(textWatcher)
         password.observeForever(textWatcher)
     }
@@ -38,7 +41,7 @@ class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewMode
 
     private fun authenticate(creds: ValidCredentialModel) {
         launch {
-            authenticated.postValue(repo.authenticate(creds))
+            _authenticated.postValue(repo.authenticate(creds))
         }
     }
 
