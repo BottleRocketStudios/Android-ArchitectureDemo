@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.LoginActivityBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
@@ -20,8 +21,11 @@ class LoginFragment : BaseFragment() {
         return DataBindingUtil.inflate<LoginActivityBinding>(inflater, R.layout.login_activity, container, false ).apply {
             viewModel = loginViewModel
             setLifecycleOwner(this@LoginFragment)
-            loginViewModel.getAuthenticated().observe(this@LoginFragment, Observer { auth: Boolean ->
-                Toast.makeText(activity, "LOGGED IN", Toast.LENGTH_LONG).show()
+            loginViewModel.authenticated.observe(this@LoginFragment, Observer { auth: Boolean ->
+                Toast.makeText(activity, "LOGGED ${if(auth)"IN" else "OUT"}", Toast.LENGTH_LONG).show()
+                if (auth) {
+                    Navigation.findNavController(root).navigate(R.id.action_loginFragment_to_homeFragment)
+                }
             })
         }.root
     }

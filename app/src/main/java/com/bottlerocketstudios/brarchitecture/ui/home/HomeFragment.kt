@@ -1,46 +1,41 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
+import com.bottlerocketstudios.brarchitecture.databinding.HomeActivityBinding
+import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.home_activity.*
 
 
-class HomeActivity : BaseActivity() {
-    companion object {
-        fun newIntent(c: Context): Intent {
-            val i = Intent(c, HomeActivity::class.java)
-            return i
-        }
-    }
-
+class HomeFragment : BaseFragment() {
     private val homeViewModel: HomeViewModel by lazy {
         getProvidedViewModel(HomeViewModel::class.java)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        DataBindingUtil.setContentView<com.bottlerocketstudios.brarchitecture.databinding.HomeActivityBinding>(this, R.layout.home_activity).apply {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return DataBindingUtil.inflate<HomeActivityBinding>(inflater, R.layout.home_activity, container, false ).apply {
             viewModel = homeViewModel
-            repository_list.adapter = GroupAdapter<ViewHolder>().apply { 
-                add(homeViewModel.reposGroup)
-                setOnItemClickListener { item, view -> 
-                    if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {
-                        Toast.makeText(this@HomeActivity, item.viewModel.repository.name, Toast.LENGTH_SHORT).show()
+            repositoryList.apply {
+                adapter = GroupAdapter<ViewHolder>().apply {
+                    add(homeViewModel.reposGroup)
+                    setOnItemClickListener { item, _ ->
+                        if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {
+                            Toast.makeText(activity, item.viewModel.repository.name, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
+                layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
             }
-            repositoryList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@HomeActivity)
-            setLifecycleOwner(this@HomeActivity)
-        }
+            setLifecycleOwner(this@HomeFragment)
+        }.root
     }
 }
  

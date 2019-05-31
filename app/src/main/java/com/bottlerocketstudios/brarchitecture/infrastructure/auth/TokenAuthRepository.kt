@@ -19,7 +19,7 @@ class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
     var token: AccessToken? = null
 
     override suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor {
-        var authError : String? = null
+        var authError : String?
         val response = retrofit.create(AuthService::class.java).getToken(credentials.id, credentials.password).execute()
         token = response.body()
         // Uncomment this line, and the authInterceptor will always start out with an expired token
