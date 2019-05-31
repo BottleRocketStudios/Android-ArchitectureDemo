@@ -1,13 +1,12 @@
-import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
-import org.gradle.internal.impldep.com.amazonaws.PredefinedClientConfigurations.defaultConfig
+
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -46,6 +45,7 @@ object DependencyVersions {
     const val TRUTH = "0.42"
     const val TEST_RUNNER = "1.0.2"
     const val ESPRESSO = "3.1.0"
+    const val NAV = "2.1.0-alpha04"
 }
 
 dependencies {
@@ -63,6 +63,8 @@ dependencies {
     implementation("commons-codec:commons-codec:${DependencyVersions.CONST_CODEC}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependencyVersions.KOTLIN_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersions.KOTLIN_COROUTINES}")
+    implementation("androidx.navigation", "navigation-fragment", DependencyVersions.NAV)
+    implementation("androidx.navigation", "navigation-ui", DependencyVersions.NAV)
     kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
     testImplementation("junit:junit:${DependencyVersions.JUNIT}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")

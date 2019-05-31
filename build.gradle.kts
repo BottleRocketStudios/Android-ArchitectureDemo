@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:3.3.0")
         classpath(kotlin("gradle-plugin", version = "1.3.11"))
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-alpha04")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
     }
