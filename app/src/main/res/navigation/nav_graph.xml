@@ -16,5 +16,23 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment"
+        tools:layout="@layout/home_activity">
+        <action
+            android:id="@+id/action_homeFragment_to_repositoryFragment"
+            app:destination="@id/repositoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragment"
+        android:label="RepositoryFragment"
+        tools:layout="@layout/repository_fragment"/>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
+        android:label="UserFragment" 
+        tools:layout="@layout/user_fragment"/>
 </navigation>

@@ -27,6 +27,10 @@ class HomeViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel
             val p = repo.refreshMyRepos()
         }
     }
+    
+    fun doTheThing() {
+        
+    }
 
     override fun onCleared() {
         super.onCleared()

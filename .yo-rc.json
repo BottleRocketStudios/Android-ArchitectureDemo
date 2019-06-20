@@ -1,0 +1,9 @@
+{
+  "generator-android-fragment-br": {
+    "promptValues": {
+      "commonPackage": "com.bottlerocketstudios.brarchitecture.ui",
+      "baseViewModel": "ScopedViewModel",
+      "testPackage": ""
+    }
+  }
+}

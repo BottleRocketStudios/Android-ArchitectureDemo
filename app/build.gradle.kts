@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
@@ -82,5 +81,11 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")
     testImplementation("com.google.truth:truth:${DependencyVersions.TRUTH}")
     testImplementation("androidx.arch.core", "core-testing", DependencyVersions.CORE)
+    debugImplementation("androidx.fragment:fragment-testing:1.1.0-alpha07")
     androidTestImplementation("androidx.test.espresso:espresso-core:${DependencyVersions.ESPRESSO}")
+    androidTestImplementation("androidx.test:runner:1.1.0")
+    androidTestImplementation("androidx.test.ext:junit:1.0.0")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.1.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.1.0")
+    androidTestImplementation("androidx.test.ext:truth:1.0.0")
 }

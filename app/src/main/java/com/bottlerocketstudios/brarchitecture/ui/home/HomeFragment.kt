@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.HomeActivityBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
@@ -29,6 +30,7 @@ class HomeFragment : BaseFragment() {
                     setOnItemClickListener { item, _ ->
                         if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {
                             Toast.makeText(activity, item.viewModel.repository.name, Toast.LENGTH_SHORT).show()
+                            Navigation.findNavController(root).navigate(R.id.action_homeFragment_to_repositoryFragment)
                         }
                     }
                 }
