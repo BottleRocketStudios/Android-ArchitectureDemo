@@ -9,14 +9,13 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 
-
 class HomeViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val user = repo.user
     val repos = repo.repos
     val reposGroup = Section()
-    
+
     private val repoObserver = Observer<List<Repository>> { repoList ->
-        val map = repoList.map {RepositoryViewModel(it)}
+        val map = repoList.map { RepositoryViewModel(it) }
         reposGroup.update(map)
     }
 
@@ -27,9 +26,8 @@ class HomeViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel
             val p = repo.refreshMyRepos()
         }
     }
-    
+
     fun doTheThing() {
-        
     }
 
     override fun onCleared() {

@@ -11,7 +11,7 @@ class CredentialModelTest : BaseTest() {
         assertThat(cm.id).isEqualTo("id")
         assertThat(cm.password).isEqualTo("password")
     }
-    
+
     @Test
     fun getValidCredentialModel_shouldReturnNull_whenCredentialsInvalid() {
         val cm = CredentialModel(null, null)

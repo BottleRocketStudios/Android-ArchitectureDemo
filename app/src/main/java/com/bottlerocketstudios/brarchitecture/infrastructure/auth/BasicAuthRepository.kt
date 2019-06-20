@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import okhttp3.Interceptor
 
-
 class BasicAuthRepository : AuthRepository {
     override suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor {
         return Interceptor { chain ->

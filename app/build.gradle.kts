@@ -60,9 +60,9 @@ dependencies {
     // TODO: Find a way to make sure we are aware of out-of-date versions
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlin","kotlin-reflect", DependencyVersions.REFLECT)
-    implementation("androidx.appcompat","appcompat", DependencyVersions.APP_COMPAT)
-    implementation("com.google.android.material","material", DependencyVersions.DESIGN)
+    implementation("org.jetbrains.kotlin", "kotlin-reflect", DependencyVersions.REFLECT)
+    implementation("androidx.appcompat", "appcompat", DependencyVersions.APP_COMPAT)
+    implementation("com.google.android.material", "material", DependencyVersions.DESIGN)
     implementation("androidx.lifecycle:lifecycle-extensions:${DependencyVersions.LIFECYCLE}")
     implementation("com.squareup.retrofit2:retrofit:${DependencyVersions.RETROFIT}")
     implementation("com.squareup.moshi:moshi-kotlin:${DependencyVersions.MOSHI}")

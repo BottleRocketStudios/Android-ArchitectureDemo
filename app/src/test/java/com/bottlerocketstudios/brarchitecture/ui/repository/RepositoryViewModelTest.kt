@@ -9,7 +9,7 @@ import org.junit.Test
 class RepositoryViewModelTest : BaseTest() {
     @Test
     fun repositoryViewModel_shouldHaveMembers_whee() {
-        val rvm = RepositoryViewModel(mock{})
+        val rvm = RepositoryViewModel(mock {})
         assertThat(rvm.repository).isNotNull()
         assertThat(rvm.getItem(0)).isInstanceOf(ViewModelItem::class.java)
     }

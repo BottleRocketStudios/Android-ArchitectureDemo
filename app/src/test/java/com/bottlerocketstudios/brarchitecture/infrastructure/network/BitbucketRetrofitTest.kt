@@ -12,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.net.HttpURLConnection
 
-
 class BitbucketRetrofitTest : BaseTest() {
     lateinit var interceptor: Interceptor
 
@@ -36,7 +35,7 @@ class BitbucketRetrofitTest : BaseTest() {
             val response = bitbucketRetrofit.getRepository("patentlychris", "private").execute()
             val body = response.body()
             assertThat(body).isNotNull()
-            body?.let {privateRepo ->
+            body?.let { privateRepo ->
                 assertThat(privateRepo.is_private).isNotNull()
                 assertThat(privateRepo.is_private).isTrue()
             }
@@ -59,12 +58,12 @@ class BitbucketRetrofitTest : BaseTest() {
             assertThat(body).isNull()
             val errorBody = response.errorBody()
             assertThat(errorBody).isNotNull()
-            val bodyString = errorBody?.string()?:""
+            val bodyString = errorBody?.string() ?: ""
             assertThat(bodyString).contains("Access token expired")
             assertThat(response.code()).isEqualTo(HttpURLConnection.HTTP_UNAUTHORIZED)
         }
     }
-    
+
     @Test
     fun getUser_shouldReturnUser_whenAuthenticated() {
         val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(interceptor)

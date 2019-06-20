@@ -10,12 +10,12 @@ import com.bottlerocketstudios.brarchitecture.databinding.UserFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 
 class UserFragment : BaseFragment() {
-    private val fragmentViewModel : UserFragmentViewModel by lazy {
+    private val fragmentViewModel: UserFragmentViewModel by lazy {
         getProvidedViewModel(UserFragmentViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<UserFragmentBinding>(inflater, R.layout.user_fragment, container, false ).apply {
+        return DataBindingUtil.inflate<UserFragmentBinding>(inflater, R.layout.user_fragment, container, false).apply {
             viewModel = fragmentViewModel
             setLifecycleOwner(this@UserFragment)
         }.root

@@ -10,22 +10,20 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-
 interface BitbucketRetrofit {
-    @GET(value="2.0/user")
-    fun getUser(
-    ) : Call<User>
+    @GET(value = "2.0/user")
+    fun getUser(): Call<User>
 
-    @GET(value="2.0/repositories/{owner}")
+    @GET(value = "2.0/repositories/{owner}")
     fun getRepositories(
-        @Path(value="owner") owner: String
-    ) : Call<BitbucketPagedResponse<List<Repository>>>
+        @Path(value = "owner") owner: String
+    ): Call<BitbucketPagedResponse<List<Repository>>>
 
-    @GET(value="2.0/repositories/{owner}/{repo}")
+    @GET(value = "2.0/repositories/{owner}/{repo}")
     fun getRepository(
-        @Path(value="owner") owner: String,
-        @Path(value="repo") repo: String
-    ) : Call<Repository>
+        @Path(value = "owner") owner: String,
+        @Path(value = "repo") repo: String
+    ): Call<Repository>
 
     companion object {
         fun getRetrofit(interceptor: Interceptor?): BitbucketRetrofit {

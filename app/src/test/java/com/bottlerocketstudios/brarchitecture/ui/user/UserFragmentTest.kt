@@ -6,7 +6,6 @@ import org.junit.Test
 import org.robolectric.Robolectric
 import kotlin.test.assertNotNull
 
-
 class UserFragmentTest : BaseRobolectricTest() {
     @Before
     fun setup() {
@@ -15,7 +14,7 @@ class UserFragmentTest : BaseRobolectricTest() {
                 .resume()
                 .get()
     }
-    
+
     @Test
     fun testExists() {
         assertNotNull(activity, "UserFragment not created successfully")

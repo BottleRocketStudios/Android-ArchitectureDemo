@@ -18,18 +18,18 @@ class BitbucketApplication : Application() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (RepoViewModel::class.java.isAssignableFrom(modelClass)) {
                 try {
-                    return modelClass.getConstructor(Application::class.java, BitbucketRepository::class.java).newInstance(app, repo);
+                    return modelClass.getConstructor(Application::class.java, BitbucketRepository::class.java).newInstance(app, repo)
                 } catch (e: NoSuchMethodException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e);
+                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
                 } catch (e: IllegalAccessException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e);
+                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
                 } catch (e: InstantiationException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e);
+                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
                 } catch (e: InvocationTargetException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e);
+                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
                 }
             }
-            return super.create(modelClass);
+            return super.create(modelClass)
         }
     }
 

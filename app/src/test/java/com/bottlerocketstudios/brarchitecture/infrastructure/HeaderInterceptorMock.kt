@@ -8,10 +8,9 @@ import okhttp3.Request
 import okhttp3.Response
 import org.mockito.Mockito.any
 
-
 class HeaderInterceptorMock {
-    lateinit var requestBuilder : Request.Builder
-    fun getMockedChain() : Interceptor.Chain {
+    lateinit var requestBuilder: Request.Builder
+    fun getMockedChain(): Interceptor.Chain {
         requestBuilder = mock { requestBuilder ->
             on { header(any(), any()) } doAnswer { invocation ->
                 requestBuilder

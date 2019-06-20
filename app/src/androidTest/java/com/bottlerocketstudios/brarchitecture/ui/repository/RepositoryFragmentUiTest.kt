@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RepositoryFragmentUiTest {
-    
+
     @Test
     fun launchAFragment() {
         val scenario = launchFragmentInContainer<LoginFragment>(themeResId = R.style.AppTheme)

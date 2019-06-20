@@ -13,16 +13,16 @@ import com.bottlerocketstudios.brarchitecture.databinding.LoginActivityBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 
 class LoginFragment : BaseFragment() {
-    private val loginViewModel : LoginViewModel by lazy {
+    private val loginViewModel: LoginViewModel by lazy {
         getProvidedViewModel(LoginViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<LoginActivityBinding>(inflater, R.layout.login_activity, container, false ).apply {
+        return DataBindingUtil.inflate<LoginActivityBinding>(inflater, R.layout.login_activity, container, false).apply {
             viewModel = loginViewModel
             setLifecycleOwner(this@LoginFragment)
             loginViewModel.authenticated.observe(this@LoginFragment, Observer { auth: Boolean ->
-                Toast.makeText(activity, "LOGGED ${if(auth)"IN" else "OUT"}", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "LOGGED ${if (auth)"IN" else "OUT"}", Toast.LENGTH_LONG).show()
                 if (auth) {
                     Navigation.findNavController(root).navigate(R.id.action_loginFragment_to_homeFragment)
                 }

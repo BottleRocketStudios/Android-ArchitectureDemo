@@ -13,7 +13,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 @ExperimentalCoroutinesApi
-class LoginViewModelTest: BaseTest() {
+class LoginViewModelTest : BaseTest() {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
@@ -32,8 +32,8 @@ class LoginViewModelTest: BaseTest() {
         loginViewModel.password.postValue("P")
         assertThat(loginViewModel.loginEnabled.value).isFalse()
     }
-    
-    fun tryToLoginWithMockedRepo(repo: BitbucketRepository) : Boolean? {
+
+    fun tryToLoginWithMockedRepo(repo: BitbucketRepository): Boolean? {
         val loginViewModel = LoginViewModel(mock {}, repo)
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
@@ -51,7 +51,7 @@ class LoginViewModelTest: BaseTest() {
         val authenticated = tryToLoginWithMockedRepo(repo)
         assertThat(authenticated).isTrue()
     }
-    
+
     @Test
     fun loginViewModel_shouldSetAuthenticatedToFalse_whenRepoSaysTo() {
         val repo: BitbucketRepository = mock {
@@ -62,7 +62,7 @@ class LoginViewModelTest: BaseTest() {
         val authenticated = tryToLoginWithMockedRepo(repo)
         assertThat(authenticated).isFalse()
     }
-    
+
     @Test
     fun loginViewModel_shouldClearObservers_whenDoClearCalled() {
         val loginViewModel = LoginViewModel(mock {}, mock {})

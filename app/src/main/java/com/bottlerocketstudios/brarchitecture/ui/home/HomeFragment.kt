@@ -15,14 +15,13 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 
-
 class HomeFragment : BaseFragment() {
     private val homeViewModel: HomeViewModel by lazy {
         getProvidedViewModel(HomeViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<HomeActivityBinding>(inflater, R.layout.home_activity, container, false ).apply {
+        return DataBindingUtil.inflate<HomeActivityBinding>(inflater, R.layout.home_activity, container, false).apply {
             viewModel = homeViewModel
             repositoryList.apply {
                 adapter = GroupAdapter<ViewHolder>().apply {
@@ -40,4 +39,3 @@ class HomeFragment : BaseFragment() {
         }.root
     }
 }
- 

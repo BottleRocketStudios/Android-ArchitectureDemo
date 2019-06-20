@@ -1,7 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.domain.model
 
-
-data class User (
+data class User(
     val username: String? = "",
     val nickname: String? = "",
     val account_status: String? = "",
