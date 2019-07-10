@@ -34,6 +34,9 @@ android {
             isTestCoverageEnabled = true
         }
     }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 object DependencyVersions {
@@ -81,7 +84,7 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")
     testImplementation("com.google.truth:truth:${DependencyVersions.TRUTH}")
     testImplementation("androidx.arch.core", "core-testing", DependencyVersions.CORE)
-    debugImplementation("androidx.fragment:fragment-testing:1.1.0-alpha07")
+    implementation("androidx.fragment:fragment-testing:1.2.0-alpha01")
     androidTestImplementation("androidx.test.espresso:espresso-core:${DependencyVersions.ESPRESSO}")
     androidTestImplementation("androidx.test:runner:1.1.0")
     androidTestImplementation("androidx.test.ext:junit:1.0.0")
