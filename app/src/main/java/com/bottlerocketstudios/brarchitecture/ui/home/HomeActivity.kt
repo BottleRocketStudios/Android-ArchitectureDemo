@@ -3,11 +3,11 @@ package com.bottlerocketstudios.brarchitecture.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryActivity
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -33,8 +33,8 @@ class HomeActivity : BaseActivity() {
             repository_list.adapter = GroupAdapter<ViewHolder>().apply { 
                 add(homeViewModel.reposGroup)
                 setOnItemClickListener { item, view -> 
-                    if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {
-                        Toast.makeText(this@HomeActivity, item.viewModel.repository.name, Toast.LENGTH_SHORT).show()
+                    if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel && item.viewModel.repository.name!=null) {
+                        startActivity(RepositoryActivity.newIntent(this@HomeActivity, item.viewModel.repository.name))
                     }
                 }
             }

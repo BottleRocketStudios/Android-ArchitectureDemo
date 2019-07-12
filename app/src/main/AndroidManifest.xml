@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.repository.RepositoryActivity" />
 
     </application>
 </manifest>
