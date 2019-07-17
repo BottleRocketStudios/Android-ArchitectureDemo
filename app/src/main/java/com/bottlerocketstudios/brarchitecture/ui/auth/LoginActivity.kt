@@ -8,11 +8,10 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.LoginActivityBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity() {
-    private val loginViewModel : LoginViewModel by lazy {
-        getProvidedViewModel(LoginViewModel::class.java)
-    }   
+    private val loginViewModel : LoginViewModel by viewModel()
       
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

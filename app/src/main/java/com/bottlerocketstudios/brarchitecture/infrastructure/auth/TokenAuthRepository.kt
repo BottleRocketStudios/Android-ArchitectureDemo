@@ -15,7 +15,7 @@ import timber.log.Timber.e
 import java.net.HttpURLConnection
 
 
-class TokenAuthRepository (val retrofit: Retrofit) : AuthRepository {
+class TokenAuthRepository (val retrofit: Retrofit = Companion.retrofit) : AuthRepository {
     var token: AccessToken? = null
 
     override suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor {

@@ -12,6 +12,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.home_activity.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeActivity : BaseActivity() {
@@ -22,9 +23,7 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    private val homeViewModel: HomeViewModel by lazy {
-        getProvidedViewModel(HomeViewModel::class.java)
-    }
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

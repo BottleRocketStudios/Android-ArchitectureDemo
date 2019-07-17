@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class RepositoryActivity : BaseActivity() {
@@ -19,9 +20,7 @@ class RepositoryActivity : BaseActivity() {
         const val EXTRA_REPO_ID = "repo_id"
     }
 
-    private val repoViewModel: RepositoryActivityViewModel by lazy {
-        getProvidedViewModel(RepositoryActivityViewModel::class.java)
-    }
+    private val repoViewModel: RepositoryActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
