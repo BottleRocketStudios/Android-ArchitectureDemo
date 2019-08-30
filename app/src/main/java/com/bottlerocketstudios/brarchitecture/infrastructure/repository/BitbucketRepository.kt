@@ -22,7 +22,7 @@ class BitbucketRepository(val authRepo: AuthRepository) {
     val repos: LiveData<List<Repository>>
         get() = _repos
     
-    suspend fun authenticate(creds: ValidCredentialModel) : Boolean {
+    suspend fun authenticate(creds: ValidCredentialModel? = null) : Boolean {
         if (authenticated) {
             return true
         }

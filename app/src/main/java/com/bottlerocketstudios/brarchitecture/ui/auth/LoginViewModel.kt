@@ -10,7 +10,6 @@ import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val textWatcher = Observer<String> { _ ->

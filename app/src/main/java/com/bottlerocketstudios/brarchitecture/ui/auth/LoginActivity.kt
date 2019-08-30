@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -10,6 +12,13 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeActivity
 
 class LoginActivity : BaseActivity() {
+    companion object {
+        fun newIntent(c: Context): Intent {
+            val i = Intent(c, LoginActivity::class.java)
+            return i
+        }
+    }
+    
     private val loginViewModel : LoginViewModel by lazy {
         getProvidedViewModel(LoginViewModel::class.java)
     }   

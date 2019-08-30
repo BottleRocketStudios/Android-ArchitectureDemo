@@ -37,7 +37,7 @@ class TokenAuthRepositoryTest : BaseTest() {
         val retrofit: Retrofit = mock() {
             on {create<Any>(any())}.then {service}
         }
-        val auth = TokenAuthRepository(retrofit)
+        val auth = TokenAuthRepository(retrofit, mock())
         runBlocking {
             val interceptor = auth.authInterceptor(ValidCredentialModel("patentlychris@gmail.com", "password1"))
             val headerInterceptorMock = HeaderInterceptorMock()
