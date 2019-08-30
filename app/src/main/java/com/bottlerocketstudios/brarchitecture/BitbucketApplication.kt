@@ -3,16 +3,24 @@ package com.bottlerocketstudios.brarchitecture
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import timber.log.Timber
 import java.lang.reflect.InvocationTargetException
 
+
+
 class BitbucketApplication : Application() {
     val factory: BitbucketViewModelFactory
         get() = BitbucketViewModelFactory(this, repository)
-    lateinit var repository: BitbucketRepository
+    val credentialsRepo: BitbucketCredentialsRepository by lazy {
+        BitbucketCredentialsRepository(this)
+    }
+    val repository: BitbucketRepository by lazy {
+        BitbucketRepository(TokenAuthRepository(TokenAuthRepository.retrofit, credentialsRepo))
+    }
 
     class BitbucketViewModelFactory(val app: Application, val repo: BitbucketRepository) : ViewModelProvider.AndroidViewModelFactory(app) {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -36,6 +44,5 @@ class BitbucketApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        repository = BitbucketRepository(TokenAuthRepository(TokenAuthRepository.retrofit))
     }
 }

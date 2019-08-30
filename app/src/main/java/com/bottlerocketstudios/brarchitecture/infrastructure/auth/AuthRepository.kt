@@ -5,7 +5,7 @@ import okhttp3.Interceptor
 import org.apache.commons.codec.binary.Base64
 
 interface AuthRepository {
-    suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor
+    suspend fun authInterceptor(credentials: ValidCredentialModel?): Interceptor
 
     companion object {
         fun getBasicAuthHeader(username: String, password: String): String {

@@ -14,20 +14,26 @@ import retrofit2.http.POST
 import timber.log.Timber.e
 import java.net.HttpURLConnection
 
-class TokenAuthRepository(val retrofit: Retrofit) : AuthRepository {
+class TokenAuthRepository (val retrofit: Retrofit, val credentialsRepo: BitbucketCredentialsRepository) : AuthRepository {
     var token: AccessToken? = null
 
-    override suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor {
-        var authError: String?
-        val response = retrofit.create(AuthService::class.java).getToken(credentials.id, credentials.password).execute()
-        token = response.body()
-        // Uncomment this line, and the authInterceptor will always start out with an expired token
-        // token = AccessToken(access_token="mdAoLW3_ug7IPJHSdnn2s_J67sPAnxNbOvVq6ePlOszhqWBxsUUWS4v_ItvhdVnkUxaaxQKn_2jrsXVqDlg=", scopes="project pullrequest", expires_in=7200, refresh_token="WLcfLY3tdXRukHq7kJ", token_type="bearer")
-        authError = response.errorBody()?.string()
-        authError?.let {
-            e(authError)
+    override suspend fun authInterceptor(credentials: ValidCredentialModel?): Interceptor {
+        token = credentialsRepo.loadToken()
+        var authError: String? = null
+        if (token == null) {
+            val response =
+                retrofit.create(AuthService::class.java).getToken(credentials?.id?:"", credentials?.password?:"").execute()
+            token = response.body()
+
+            // Uncomment this line, and the authInterceptor will always start out with an expired token
+            //token = AccessToken(access_token="mdAoLW3_ug7IPJHSdnn2s_J67sPAnxNbOvVq6ePlOszhqWBxsUUWS4v_ItvhdVnkUxaaxQKn_2jrsXVqDlg=", scopes="project pullrequest", expires_in=7200, refresh_token="WLcfLY3tdXRukHq7kJ", token_type="bearer")
+            authError = response.errorBody()?.string()
+            authError?.let {
+                e(authError)
+            }
         }
         token?.let {
+            credentialsRepo.storeToken(it)
             it.access_token?.let {
                 return Interceptor { chain ->
                     val request = chain.request()

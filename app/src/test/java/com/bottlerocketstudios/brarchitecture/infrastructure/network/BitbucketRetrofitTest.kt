@@ -4,6 +4,7 @@ import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
 import com.google.common.truth.Truth.assertThat
+import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import org.junit.Before
@@ -21,7 +22,7 @@ class BitbucketRetrofitTest : BaseTest() {
             .baseUrl("https://bitbucket.org/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-        val repo = TokenAuthRepository(retrofit)
+        val repo = TokenAuthRepository(retrofit, mock())
         runBlocking {
             interceptor = repo.authInterceptor(ValidCredentialModel("patentlychris@gmail.com", "password1"))
         }

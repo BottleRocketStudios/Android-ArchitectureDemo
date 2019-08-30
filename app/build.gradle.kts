@@ -57,6 +57,7 @@ object DependencyVersions {
     const val TEST_RUNNER = "1.0.2"
     const val ESPRESSO = "3.1.0"
     const val NAV = "2.1.0-alpha04"
+    const val VAULT = "1.4.2"
 }
 
 dependencies {
@@ -76,6 +77,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersions.KOTLIN_COROUTINES}")
     implementation("androidx.navigation", "navigation-fragment", DependencyVersions.NAV)
     implementation("androidx.navigation", "navigation-ui", DependencyVersions.NAV)
+    implementation("com.bottlerocketstudios", "vault", DependencyVersions.VAULT)
     kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
     implementation("com.xwray", "groupie", DependencyVersions.GROUPIE)
     implementation("com.xwray", "groupie-kotlin-android-extensions", DependencyVersions.GROUPIE)
