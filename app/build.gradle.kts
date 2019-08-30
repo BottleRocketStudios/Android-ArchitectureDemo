@@ -54,6 +54,7 @@ object DependencyVersions {
     const val TEST_RUNNER = "1.0.2"
     const val ESPRESSO = "3.1.0"
     const val KOIN = "2.0.1"
+    const val VAULT = "1.4.2"
 }
 
 dependencies {
@@ -73,6 +74,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersions.KOTLIN_COROUTINES}")
     implementation("org.koin", "koin-android", DependencyVersions.KOIN)
     implementation("org.koin", "koin-androidx-viewmodel", DependencyVersions.KOIN)
+    implementation("com.bottlerocketstudios", "vault", DependencyVersions.VAULT)
     kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
     implementation("com.xwray", "groupie", DependencyVersions.GROUPIE)
     implementation("com.xwray", "groupie-kotlin-android-extensions", DependencyVersions.GROUPIE)

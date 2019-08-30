@@ -15,20 +15,26 @@ import timber.log.Timber.e
 import java.net.HttpURLConnection
 
 
-class TokenAuthRepository (val retrofit: Retrofit = Companion.retrofit) : AuthRepository {
+class TokenAuthRepository (val credentialsRepo: BitbucketCredentialsRepository, val retrofit: Retrofit = Companion.retrofit) : AuthRepository {
     var token: AccessToken? = null
 
-    override suspend fun authInterceptor(credentials: ValidCredentialModel): Interceptor {
-        var authError : String? = null
-        val response = retrofit.create(AuthService::class.java).getToken(credentials.id, credentials.password).execute()
-        token = response.body()
-        // Uncomment this line, and the authInterceptor will always start out with an expired token
-        //token = AccessToken(access_token="mdAoLW3_ug7IPJHSdnn2s_J67sPAnxNbOvVq6ePlOszhqWBxsUUWS4v_ItvhdVnkUxaaxQKn_2jrsXVqDlg=", scopes="project pullrequest", expires_in=7200, refresh_token="WLcfLY3tdXRukHq7kJ", token_type="bearer")
-        authError = response.errorBody()?.string()
-        authError?.let {
-            e(authError)
+    override suspend fun authInterceptor(credentials: ValidCredentialModel?): Interceptor {
+        token = credentialsRepo.loadToken()
+        var authError: String? = null
+        if (token == null) {
+            val response =
+                retrofit.create(AuthService::class.java).getToken(credentials?.id?:"", credentials?.password?:"").execute()
+            token = response.body()
+
+            // Uncomment this line, and the authInterceptor will always start out with an expired token
+            //token = AccessToken(access_token="mdAoLW3_ug7IPJHSdnn2s_J67sPAnxNbOvVq6ePlOszhqWBxsUUWS4v_ItvhdVnkUxaaxQKn_2jrsXVqDlg=", scopes="project pullrequest", expires_in=7200, refresh_token="WLcfLY3tdXRukHq7kJ", token_type="bearer")
+            authError = response.errorBody()?.string()
+            authError?.let {
+                e(authError)
+            }
         }
         token?.let {
+            credentialsRepo.storeToken(it)
             it.access_token?.let {
                 return Interceptor { chain ->
                     val request = chain.request()
@@ -64,13 +70,12 @@ class TokenAuthRepository (val retrofit: Retrofit = Companion.retrofit) : AuthRe
     private fun getTokenAuthHeader(token: String): String {
         return "Bearer "+token
     }
-    
+
     companion object {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://bitbucket.org/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
- 
     }
 
     interface AuthService {

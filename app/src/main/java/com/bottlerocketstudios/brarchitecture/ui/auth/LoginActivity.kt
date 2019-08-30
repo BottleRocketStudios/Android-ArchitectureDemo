@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -12,6 +14,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity() {
     private val loginViewModel : LoginViewModel by viewModel()
+    companion object {
+        fun newIntent(c: Context): Intent {
+            val i = Intent(c, LoginActivity::class.java)
+            return i
+        }
+    }
       
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
