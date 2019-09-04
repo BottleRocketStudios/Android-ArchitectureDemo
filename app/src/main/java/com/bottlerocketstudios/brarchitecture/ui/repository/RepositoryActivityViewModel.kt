@@ -24,7 +24,7 @@ class RepositoryActivityViewModel(app: Application, repo: BitbucketRepository) :
         }
     }
 
-    private val repoObserver = Observer<List<Repository>> { repoList ->
+    private val repoObserver = Observer<List<Repository>> { _ ->
         selectRepository(selectedId)
     }
 

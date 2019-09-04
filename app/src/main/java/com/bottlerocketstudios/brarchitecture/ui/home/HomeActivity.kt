@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryActivity
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
+import com.bottlerocketstudios.brarchitecture.ui.user.UserActivity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.home_activity.*
@@ -38,6 +40,12 @@ class HomeActivity : BaseActivity() {
                     }
                 }
             }
+            homeViewModel.userClick.observe(this@HomeActivity, Observer {
+                when(it) {
+                    true ->
+                        startActivity(UserActivity.newIntent(this@HomeActivity))
+                }
+            })
             repositoryList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@HomeActivity)
             setLifecycleOwner(this@HomeActivity)
         }

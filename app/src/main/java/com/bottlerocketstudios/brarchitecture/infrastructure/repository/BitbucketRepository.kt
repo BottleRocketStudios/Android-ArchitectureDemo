@@ -41,7 +41,7 @@ class BitbucketRepository(val authRepo: AuthRepository) {
     
     fun refreshUser() : Boolean {
         val response = retrofit.getUser().execute()
-        var userResponse: User? = null
+        var userResponse: User?
         if (response.isSuccessful) {
             userResponse = response.body()
             _user.postValue(userResponse)

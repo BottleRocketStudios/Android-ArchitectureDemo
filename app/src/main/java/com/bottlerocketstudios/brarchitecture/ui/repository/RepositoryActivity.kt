@@ -6,12 +6,13 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
+import com.bottlerocketstudios.brarchitecture.ui.user.UserActivity
 
 
 class RepositoryActivity : BaseActivity() {
     companion object {
         fun newIntent(c: Context, id: String): Intent {
-            val i = Intent(c, RepositoryActivity::class.java)
+            val i = Intent(c, UserActivity::class.java)
             i.putExtra(EXTRA_REPO_ID, id)
             return i
         }

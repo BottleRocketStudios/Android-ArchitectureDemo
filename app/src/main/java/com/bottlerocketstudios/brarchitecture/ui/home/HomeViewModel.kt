@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
+import com.bottlerocketstudios.brarchitecture.ui.SingleLiveEvent
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ class HomeViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel
     val user = repo.user
     val repos = repo.repos
     val reposGroup = Section()
-    
+    val userClick = SingleLiveEvent<Boolean>()
+
     private val repoObserver = Observer<List<Repository>> { repoList ->
         val map = repoList.map {RepositoryViewModel(it)}
         reposGroup.update(map)
@@ -26,6 +28,10 @@ class HomeViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel
             val t = repo.refreshUser()
             val p = repo.refreshMyRepos()
         }
+    }
+
+    fun doTheThing() {
+        userClick.value = true
     }
 
     override fun onCleared() {
