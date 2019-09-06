@@ -18,5 +18,9 @@
             android:layout_height="wrap_content" 
             android:text="@{viewModel.selectedRepository.name}"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/file_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </layout>

@@ -2,6 +2,7 @@ package com.bottlerocketstudios.brarchitecture.infrastructure.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.domain.model.User
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
@@ -71,6 +72,13 @@ class BitbucketRepository(val authRepo: AuthRepository) {
             return response.body()
         }
         return null
-
+    }
+    
+    fun getSource(owner: String, repo: String): List<RepoFile>? {
+        val response = retrofit.getRepositorySource(owner, repo).execute()
+        if (response.isSuccessful) {
+            return response.body()?.values?: emptyList()
+        }
+        return null
     }
 }

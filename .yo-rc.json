@@ -1,0 +1,10 @@
+{
+  "generator-android-activity-br": {
+    "promptValues": {
+      "commonPackage": "com.bottlerocketstudios.brarchitecture.ui",
+      "dagger": false,
+      "serviceLocator": false,
+      "testPackage": ""
+    }
+  }
+}
