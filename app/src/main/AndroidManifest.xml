@@ -23,6 +23,8 @@
         <activity android:name=".ui.home.HomeActivity" />
         <activity android:name=".ui.repository.RepositoryActivity" />
         <activity android:name=".ui.user.UserActivity" />
-
+        <activity android:name=".ui.repository.RepositoryFolderActivity" />
+        <!--YEOMAN-->
+        <activity android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileActivity" />
     </application>
 </manifest>

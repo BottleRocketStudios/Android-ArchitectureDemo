@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
+import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.domain.model.User
 import okhttp3.Interceptor
@@ -26,6 +27,12 @@ interface BitbucketRetrofit {
         @Path(value="owner") owner: String,
         @Path(value="repo") repo: String
     ) : Call<Repository>
+
+    @GET(value="2.0/repositories/{owner}/{repo}/src")
+    fun getRepositorySource(
+        @Path(value="owner") owner: String,
+        @Path(value="repo") repo: String
+    ) : Call<BitbucketPagedResponse<List<RepoFile>>>
 
     companion object {
         fun getRetrofit(interceptor: Interceptor?): BitbucketRetrofit {
