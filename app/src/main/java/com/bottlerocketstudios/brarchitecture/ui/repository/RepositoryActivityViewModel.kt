@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 class RepositoryActivityViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val repos = repo.repos
     var selectedId: String? = null
-    val _selectedRepository = MutableLiveData<Repository>()
-    val selectedRepository: LiveData<Repository>
+    val _selectedRepository = MutableLiveData<Repository?>()
+    val selectedRepository: LiveData<Repository?>
         get() = _selectedRepository
-    val _srcFiles = MutableLiveData<List<RepoFile>>()
-    val srcFiles: LiveData<List<RepoFile>>
+    val _srcFiles = MutableLiveData<List<RepoFile>?>()
+    val srcFiles: LiveData<List<RepoFile>?>
         get() = _srcFiles
     val filesGroup = Section()
     
@@ -41,9 +41,11 @@ class RepositoryActivityViewModel(app: Application, repo: BitbucketRepository) :
         selectRepository(selectedId)
     }
 
-    private val filesObserver = Observer<List<RepoFile>> { files ->
-        val map = files.map { RepoFileViewModel(it) }
-        filesGroup.update(map)
+    private val filesObserver = Observer<List<RepoFile>?> { files ->
+        val map = files?.map { RepoFileViewModel(it) }
+        map?.let {
+            filesGroup.update(map)
+        }
     }
 
     init {
