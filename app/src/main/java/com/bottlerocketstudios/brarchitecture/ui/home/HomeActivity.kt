@@ -36,7 +36,7 @@ class HomeActivity : BaseActivity() {
                 add(homeViewModel.reposGroup)
                 setOnItemClickListener { item, view -> 
                     if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel && item.viewModel.repository.name!=null) {
-                        startActivity(RepositoryActivity.newIntent(this@HomeActivity, item.viewModel.repository.name))
+                        startActivity(RepositoryActivity.newIntent(this@HomeActivity, item.viewModel.repository))
                     }
                 }
             }

@@ -65,6 +65,7 @@ dependencies {
     implementation("com.google.android.material","material", DependencyVersions.DESIGN)
     implementation("androidx.lifecycle:lifecycle-extensions:${DependencyVersions.LIFECYCLE}")
     implementation("com.squareup.retrofit2:retrofit:${DependencyVersions.RETROFIT}")
+    implementation("com.squareup.retrofit2:converter-scalars:${DependencyVersions.RETROFIT}")
     implementation("com.squareup.moshi:moshi-kotlin:${DependencyVersions.MOSHI}")
     implementation("com.squareup.retrofit2:converter-moshi:${DependencyVersions.RETROFIT}")
     implementation("com.jakewharton.timber:timber:${DependencyVersions.TIMBER}")
