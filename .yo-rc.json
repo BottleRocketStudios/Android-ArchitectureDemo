@@ -1,8 +1,16 @@
 {
+<<<<<<< HEAD
   "generator-android-fragment-br": {
     "promptValues": {
       "commonPackage": "com.bottlerocketstudios.brarchitecture.ui",
       "baseViewModel": "ScopedViewModel",
+=======
+  "generator-android-activity-br": {
+    "promptValues": {
+      "commonPackage": "com.bottlerocketstudios.brarchitecture.ui",
+      "dagger": false,
+      "serviceLocator": false,
+>>>>>>> master
       "testPackage": ""
     }
   }
