@@ -76,7 +76,7 @@ dependencies {
     implementation("commons-codec:commons-codec:${DependencyVersions.CONST_CODEC}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependencyVersions.KOTLIN_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersions.KOTLIN_COROUTINES}")
-    implementation("androidx.navigation", "navigation-fragment", DependencyVersions.NAV)
+    implementation("androidx.navigation", "navigation-fragment-ktx", DependencyVersions.NAV)
     implementation("androidx.navigation", "navigation-ui", DependencyVersions.NAV)
     implementation("com.bottlerocketstudios", "vault", DependencyVersions.VAULT)
     kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")

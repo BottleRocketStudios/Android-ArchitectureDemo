@@ -41,10 +41,35 @@
         android:id="@+id/repositoryFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragment"
         android:label="RepositoryFragment"
-        tools:layout="@layout/repository_fragment"/>
+        tools:layout="@layout/repository_fragment">
+        <action
+            android:id="@+id/action_repositoryFragment_to_repositoryFileFragment"
+            app:destination="@id/repositoryFileFragment" />
+        <action
+            android:id="@+id/action_repositoryFragment_to_repositoryFolderFragment"
+            app:destination="@id/repositoryFolderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
         android:label="UserFragment" 
         tools:layout="@layout/user_fragment"/>
+    <fragment
+        android:id="@+id/repositoryFileFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"
+        android:label="RepositoryFileFragment" 
+        tools:layout="@layout/repository_file_fragment">
+        <argument
+            android:name="file"
+            app:argType="com.bottlerocketstudios.brarchitecture.domain.model.RepoFile" />
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryFolderFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragment"
+        android:label="RepositoryFolderFragment" 
+        tools:layout="@layout/repository_folder_fragment">
+        <argument
+            android:name="file"
+            app:argType="com.bottlerocketstudios.brarchitecture.domain.model.RepoFile" />
+    </fragment>
 </navigation>

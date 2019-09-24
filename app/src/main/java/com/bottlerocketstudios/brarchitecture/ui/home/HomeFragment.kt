@@ -23,7 +23,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private val activityViewModel: MainActivityViewModel by lazy {
-        getProvidedViewModel(MainActivityViewModel::class.java)
+        getProvidedActivityViewModel(MainActivityViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

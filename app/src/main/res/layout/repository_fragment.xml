@@ -16,6 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.selectedRepository.name}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/file_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 </layout>
