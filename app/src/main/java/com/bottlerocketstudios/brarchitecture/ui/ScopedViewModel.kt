@@ -8,7 +8,7 @@ import kotlin.coroutines.CoroutineContext
 
 open class ScopedViewModel(app: Application) : BaseViewModel(app), CoroutineScope {
     private val job = Job()
-    override val coroutineContext: CoroutineContext 
+    override val coroutineContext: CoroutineContext
             get() = job + context
     override fun onCleared() {
         super.onCleared()

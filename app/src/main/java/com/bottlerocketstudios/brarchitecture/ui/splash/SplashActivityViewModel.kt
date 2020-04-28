@@ -7,11 +7,10 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.repository.Bitbucke
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import kotlinx.coroutines.launch
 
-class SplashActivityViewModel (app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+class SplashActivityViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     private val _authenticated = MutableLiveData<Boolean>()
     val authenticated: LiveData<Boolean>
         get() = _authenticated
-
 
     init {
         launch {

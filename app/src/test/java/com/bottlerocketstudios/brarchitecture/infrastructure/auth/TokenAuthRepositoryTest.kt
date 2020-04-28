@@ -4,7 +4,12 @@ import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
 import com.google.common.truth.Truth.assertWithMessage
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.doAnswer
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import retrofit2.Call
@@ -23,19 +28,19 @@ class TokenAuthRepositoryTest : BaseTest() {
             .build()*/
         val accessToken = TokenAuthRepository.AccessToken()
         val response: Response<*> = mock() {
-            on {body()}.then {accessToken}
+            on { body() }.then { accessToken }
         }
         val call: Call<TokenAuthRepository.AccessToken> = mock() {
-            on {execute()}.then { response }
+            on { execute() }.then { response }
         }
         val service: TokenAuthRepository.AuthService = mock() {
-            on {getToken(any(), any(), any(), any())}.doAnswer { invocation ->
+            on { getToken(any(), any(), any(), any()) }.doAnswer { invocation ->
                 accessToken.access_token = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}"
                 call
             }
         }
         val retrofit: Retrofit = mock() {
-            on {create<Any>(any())}.then {service}
+            on { create<Any>(any()) }.then { service }
         }
         val auth = TokenAuthRepository(retrofit, mock())
         runBlocking {

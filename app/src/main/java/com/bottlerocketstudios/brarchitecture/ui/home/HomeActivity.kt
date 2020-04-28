@@ -15,7 +15,6 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.home_activity.*
 
-
 class HomeActivity : BaseActivity() {
     companion object {
         fun newIntent(c: Context): Intent {
@@ -32,16 +31,16 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<com.bottlerocketstudios.brarchitecture.databinding.HomeActivityBinding>(this, R.layout.home_activity).apply {
             viewModel = homeViewModel
-            repository_list.adapter = GroupAdapter<ViewHolder>().apply { 
+            repository_list.adapter = GroupAdapter<ViewHolder>().apply {
                 add(homeViewModel.reposGroup)
-                setOnItemClickListener { item, view -> 
-                    if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel && item.viewModel.repository.name!=null) {
+                setOnItemClickListener { item, view ->
+                    if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel && item.viewModel.repository.name != null) {
                         startActivity(RepositoryActivity.newIntent(this@HomeActivity, item.viewModel.repository))
                     }
                 }
             }
             homeViewModel.userClick.observe(this@HomeActivity, Observer {
-                when(it) {
+                when (it) {
                     true ->
                         startActivity(UserActivity.newIntent(this@HomeActivity))
                 }
@@ -51,4 +50,3 @@ class HomeActivity : BaseActivity() {
         }
     }
 }
- 

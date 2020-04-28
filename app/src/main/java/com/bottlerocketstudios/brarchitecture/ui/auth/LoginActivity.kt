@@ -18,18 +18,18 @@ class LoginActivity : BaseActivity() {
             return i
         }
     }
-    
-    private val loginViewModel : LoginViewModel by lazy {
+
+    private val loginViewModel: LoginViewModel by lazy {
         getProvidedViewModel(LoginViewModel::class.java)
-    }   
-      
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<LoginActivityBinding>(this, R.layout.login_activity).apply {
             viewModel = loginViewModel
             setLifecycleOwner(this@LoginActivity)
             loginViewModel.authenticated.observe(this@LoginActivity, Observer { auth: Boolean ->
-                Toast.makeText(this@LoginActivity, "${auth}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@LoginActivity, "$auth", Toast.LENGTH_SHORT).show()
                 if (auth) {
                     startActivity(HomeActivity.newIntent(this@LoginActivity))
                 }

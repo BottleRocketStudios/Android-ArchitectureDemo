@@ -8,12 +8,11 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.auth.LoginActivity
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeActivity
 
-
 class SplashActivity : BaseActivity() {
     private val splashViewModel: SplashActivityViewModel by lazy {
         getProvidedViewModel(SplashActivityViewModel::class.java)
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)

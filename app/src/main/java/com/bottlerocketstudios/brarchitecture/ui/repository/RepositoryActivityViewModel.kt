@@ -11,7 +11,6 @@ import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 
-
 class RepositoryActivityViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val repos = repo.repos
     var selectedId: String? = null
@@ -22,10 +21,10 @@ class RepositoryActivityViewModel(app: Application, repo: BitbucketRepository) :
     val srcFiles: LiveData<List<RepoFile>?>
         get() = _srcFiles
     val filesGroup = Section()
-    
+
     fun selectRepository(id: String?) {
         selectedId = id
-        repos.value?.firstOrNull{it.name?.equals(id)?:false}?.let {
+        repos.value?.firstOrNull { it.name?.equals(id) ?: false }?.let {
             _selectedRepository.value = it
             it.owner?.nickname?.let { nickname ->
                 it.name?.let { repoName ->
@@ -66,4 +65,3 @@ class RepositoryActivityViewModel(app: Application, repo: BitbucketRepository) :
         srcFiles.removeObserver(filesObserver)
     }
 }
-

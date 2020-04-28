@@ -11,8 +11,6 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.repository_activity.*
-
 
 class RepositoryActivity : BaseActivity() {
     companion object {
@@ -33,23 +31,21 @@ class RepositoryActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<com.bottlerocketstudios.brarchitecture.databinding.RepositoryActivityBinding>(this, R.layout.repository_activity).apply {
             viewModel = repoViewModel
-            val repo : Repository = intent.getParcelableExtra(EXTRA_REPO)
-            file_list.adapter = GroupAdapter<ViewHolder>().apply {
+            val repo: Repository = intent.getParcelableExtra(EXTRA_REPO)
+            fileList.adapter = GroupAdapter<ViewHolder>().apply {
                 add(repoViewModel.filesGroup)
                 setOnItemClickListener { item, view ->
-                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type=="commit_directory") {
-                        startActivity(RepositoryFolderActivity.newIntent(this@RepositoryActivity, repo,
-                           item.viewModel.file))
+                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_directory") {
+                        startActivity(RepositoryFolderActivity.newIntent(this@RepositoryActivity, repo, item.viewModel.file))
                     }
-                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type=="commit_file") {
+                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_file") {
                         startActivity(RepositoryFileActivity.newIntent(this@RepositoryActivity, repo, item.viewModel.file))
                     }
                 }
             }
-            file_list.layoutManager = LinearLayoutManager(this@RepositoryActivity)
+            fileList.layoutManager = LinearLayoutManager(this@RepositoryActivity)
             repoViewModel.selectRepository(repo.name)
             setLifecycleOwner(this@RepositoryActivity)
         }
     }
 }
- 

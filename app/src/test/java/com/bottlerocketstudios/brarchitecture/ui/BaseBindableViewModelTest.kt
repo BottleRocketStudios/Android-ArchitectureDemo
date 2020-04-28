@@ -87,7 +87,7 @@ class BaseBindableViewModelTest : BaseTest() {
         assertThat(vmi.isSameAs(ti)).isFalse()
         assertThat(vmi.equals(ti)).isFalse()
     }
-    
+
     @Test
     fun viewModelItem_shouldNotEqual_String() {
         val tvm = TestBindableViewModel(TEST_DATA)
@@ -107,4 +107,3 @@ class BaseBindableViewModelTest : BaseTest() {
         vmi.bind(bindable, 0)
     }
 }
-
