@@ -3,7 +3,9 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     id("com.android.application")
-    id("jacoco-android")
+    // id("jacoco-android")
+    // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
+    id("com.hiya.jacoco-android")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
