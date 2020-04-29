@@ -21,7 +21,7 @@ object Config {
     // 2. Execute `open app/build/jacoco/jacocoHtml/index.html`
     // http://www.jacoco.org/jacoco/trunk/doc/
     // https://github.com/jacoco/jacoco/releases
-    const val JACOCO_VERSION = "0.8.3"
+    const val JACOCO_VERSION = "0.8.5"
 
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
@@ -95,7 +95,7 @@ object Config {
         // https://kotlinlang.org/docs/reference/coroutines/flow.html
         // https://github.com/Kotlin/kotlinx.coroutines/blob/master/CHANGES.md
         // https://github.com/Kotlin/kotlinx.coroutines/releases
-        private const val KOTLIN_COROUTINES_VERSION = "1.1.0"
+        private const val KOTLIN_COROUTINES_VERSION = "1.3.5"
         const val KOTLINX_COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES_VERSION"
         const val KOTLINX_COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$KOTLIN_COROUTINES_VERSION"
 
@@ -139,7 +139,7 @@ object Config {
     object TestLibraries {
         // https://github.com/junit-team/junit4/releases
         // https://github.com/junit-team/junit4/blob/master/doc/ReleaseNotes4.13.md
-        const val JUNIT = "junit:junit:4.12"
+        const val JUNIT = "junit:junit:4.13"
         // main site: https://google.github.io/truth/
         // comparison to other assertion libs: https://google.github.io/truth/comparison
         // benefits: https://google.github.io/truth/benefits
