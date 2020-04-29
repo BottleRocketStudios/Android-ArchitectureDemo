@@ -1,7 +1,3 @@
-
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id(Config.ApplyPlugins.ANDROID_APPLICATION)
     id(Config.ApplyPlugins.JACOCO_ANDROID)
@@ -43,9 +39,7 @@ dependencies {
 
     // Kotlin
     implementation(Config.Libraries.KOTLIN_STDLIB_JDK7)
-    // TODO: Replace with commented line when buildSrc migration complete to use a singular version of kotlin
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.0")
-    // implementation(Config.Libraries.KOTLIN_REFLECT)
+    implementation(Config.Libraries.KOTLIN_REFLECT)
 
     // AndroidX
     implementation(Config.Libraries.APP_COMPAT)
