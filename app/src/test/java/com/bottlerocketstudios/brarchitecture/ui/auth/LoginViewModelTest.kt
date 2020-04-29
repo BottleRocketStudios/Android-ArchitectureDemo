@@ -3,10 +3,12 @@ package com.bottlerocketstudios.brarchitecture.ui.auth
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.ui.ScopedViewModel
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
@@ -43,6 +45,7 @@ class LoginViewModelTest: BaseTest() {
 
     @Test
     fun loginViewModel_shouldSetAuthenticatedToTrue_whenRepoSaysTo() {
+        ScopedViewModel.context = Dispatchers.Unconfined
         val repo: BitbucketRepository = mock {
             onBlocking {
                 authenticate(any())
@@ -54,6 +57,7 @@ class LoginViewModelTest: BaseTest() {
     
     @Test
     fun loginViewModel_shouldSetAuthenticatedToFalse_whenRepoSaysTo() {
+        ScopedViewModel.context = Dispatchers.Unconfined
         val repo: BitbucketRepository = mock {
             onBlocking {
                 authenticate(any())
