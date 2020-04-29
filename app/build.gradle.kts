@@ -22,6 +22,14 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    // https://stackoverflow.com/questions/48988778/cannot-inline-bytecode-built-with-jvm-target-1-8-into-bytecode-that-is-being-bui#comment93879366_50991772
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -44,7 +52,9 @@ dependencies {
     // AndroidX
     implementation(Config.Libraries.APP_COMPAT)
     implementation(Config.Libraries.MATERIAL)
-    implementation(Config.Libraries.LIFECYCLE_EXTENSIONS)
+    implementation(Config.Libraries.LIFECYCLE_LIVEDATA_KTX)
+    implementation(Config.Libraries.LIFECYCLE_VIEWMODEL_KTX)
+    implementation(Config.Libraries.LIFECYCLE_COMMON_JAVA8)
 
     // Coroutines
     implementation(Config.Libraries.KOTLINX_COROUTINES_CORE)

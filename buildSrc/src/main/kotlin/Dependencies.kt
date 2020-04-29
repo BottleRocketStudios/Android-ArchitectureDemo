@@ -75,14 +75,16 @@ object Config {
         // https://developer.android.com/kotlin/ktx
         // Lifecycle
         // https://developer.android.com/jetpack/androidx/releases/lifecycle
-        private const val LIFECYCLE_VERSION = "2.0.0"
-        const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:$LIFECYCLE_VERSION"
+        private const val LIFECYCLE_VERSION = "2.2.0"
+        const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
+        const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
+        const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
         // https://developer.android.com/jetpack/androidx/releases/appcompat
-        const val APP_COMPAT = "androidx.appcompat:appcompat:1.0.2"
+        const val APP_COMPAT = "androidx.appcompat:appcompat:1.1.0"
 
         //// Material
         // https://github.com/material-components/material-components-android/releases
-        const val MATERIAL = "com.google.android.material:material:1.0.0"
+        const val MATERIAL = "com.google.android.material:material:1.1.0"
 
         //// Kotlin
         const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -101,7 +103,7 @@ object Config {
         // javadoc: https://square.github.io/retrofit/2.x/retrofit/
         // https://github.com/square/retrofit/blob/master/CHANGELOG.md
         // https://github.com/square/retrofit/releases
-        private const val RETROFIT_VERSION = "2.4.0"
+        private const val RETROFIT_VERSION = "2.8.1"
         const val RETROFIT = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
         const val RETROFIT_SCALARS_CONVERTER = "com.squareup.retrofit2:converter-scalars:$RETROFIT_VERSION"
         const val RETROFIT_MOSHI_CONVERTER = "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
@@ -109,7 +111,7 @@ object Config {
         //// Moshi
         // https://github.com/square/moshi/blob/master/CHANGELOG.md
         // https://github.com/square/moshi/releases
-        private const val MOSHI_VERSION = "1.6.0"
+        private const val MOSHI_VERSION = "1.9.2"
         const val MOSHI_KOTLIN = "com.squareup.moshi:moshi-kotlin:$MOSHI_VERSION"
         const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
 
@@ -143,15 +145,15 @@ object Config {
         // benefits: https://google.github.io/truth/benefits
         // javadocs: https://truth.dev/api/1.0/
         // https://github.com/google/truth/releases
-        const val TRUTH = "com.google.truth:truth:0.42"
+        const val TRUTH = "com.google.truth:truth:1.0.1"
         // https://github.com/nhaarman/mockito-kotlin/wiki/Mocking-and-verifying
         // https://github.com/nhaarman/mockito-kotlin/releases
         const val MOCKITO_KOTLIN = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
 
         //// AndroidX - testing
         // https://developer.android.com/jetpack/androidx/releases/arch
-        const val ARCH_CORE_TESTING = "androidx.arch.core:core-testing:2.0.0"
-        const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.1.0"
+        const val ARCH_CORE_TESTING = "androidx.arch.core:core-testing:2.1.0"
+        const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.2.0"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
