@@ -117,7 +117,7 @@ object Config {
 
         //// UI
         // https://github.com/lisawray/groupie/releases
-        private const val GROUPIE_VERSION = "2.3.0"
+        private const val GROUPIE_VERSION = "2.8.0"
         const val GROUPIE = "com.xwray:groupie:$GROUPIE_VERSION"
         const val GROUPIE_KOTLIN_ANDROID_EXTENSIONS = "com.xwray:groupie-kotlin-android-extensions:$GROUPIE_VERSION"
         const val GROUPIE_DATABINDING = "com.xwray:groupie-databinding:$GROUPIE_VERSION"

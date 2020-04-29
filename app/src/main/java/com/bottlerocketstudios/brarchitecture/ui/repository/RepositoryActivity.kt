@@ -10,7 +10,7 @@ import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 
 class RepositoryActivity : BaseActivity() {
     companion object {
@@ -32,7 +32,7 @@ class RepositoryActivity : BaseActivity() {
         DataBindingUtil.setContentView<com.bottlerocketstudios.brarchitecture.databinding.RepositoryActivityBinding>(this, R.layout.repository_activity).apply {
             viewModel = repoViewModel
             val repo: Repository = intent.getParcelableExtra(EXTRA_REPO)
-            fileList.adapter = GroupAdapter<ViewHolder>().apply {
+            fileList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(repoViewModel.filesGroup)
                 setOnItemClickListener { item, view ->
                     if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_directory") {
