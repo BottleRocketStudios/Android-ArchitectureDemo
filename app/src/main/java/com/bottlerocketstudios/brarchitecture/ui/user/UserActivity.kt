@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 
-
 class UserActivity : BaseActivity() {
     companion object {
         fun newIntent(c: Context): Intent {
@@ -28,4 +27,3 @@ class UserActivity : BaseActivity() {
         }
     }
 }
- 

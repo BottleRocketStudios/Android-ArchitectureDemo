@@ -97,7 +97,7 @@ class BitbucketCredentialsRepository(private val context: Context) {
             null
         }
     }
-    
+
     fun storeToken(token: TokenAuthRepository.AccessToken): Boolean {
         getSharedPreferenceVault()?.let {
             it.edit().putString(BITBUCKET_TOKEN, TOKEN_ADAPTER.toJson(token)).apply()

@@ -10,18 +10,18 @@ import com.xwray.groupie.databinding.BindableItem
  * I can't find a way to make this generic take the actual ViewDataBinding, so everything is generic
  * as ViewDataBinding up until inside the corresponding Item, which has to cast it to the correct
  * binding
- * 
+ *
  * See CategoryItem for an example
  */
 abstract class BaseBindableViewModel : Group {
-    private val delegateItem : BindableItem<ViewDataBinding> by lazy {
+    private val delegateItem: BindableItem<ViewDataBinding> by lazy {
         DelegateItemFactory.getItem(this)
     }
 
-    protected abstract fun getItemFactory () : (BaseBindableViewModel) -> BindableItem<ViewDataBinding>
-    
+    protected abstract fun getItemFactory(): (BaseBindableViewModel) -> BindableItem<ViewDataBinding>
+
     private object DelegateItemFactory {
-        fun getItem(me: BaseBindableViewModel) : BindableItem<ViewDataBinding> {
+        fun getItem(me: BaseBindableViewModel): BindableItem<ViewDataBinding> {
             return me.getItemFactory()(me)
         }
     }
@@ -45,5 +45,4 @@ abstract class BaseBindableViewModel : Group {
     override fun registerGroupDataObserver(groupDataObserver: GroupDataObserver) {
         return delegateItem.registerGroupDataObserver(groupDataObserver)
     }
-
 }

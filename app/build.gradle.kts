@@ -3,7 +3,9 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     id("com.android.application")
-    id("jacoco-android")
+    // id("jacoco-android")
+    // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
+    id("com.hiya.jacoco-android")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
@@ -60,9 +62,9 @@ dependencies {
     // TODO: Find a way to make sure we are aware of out-of-date versions
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlin","kotlin-reflect", DependencyVersions.REFLECT)
-    implementation("androidx.appcompat","appcompat", DependencyVersions.APP_COMPAT)
-    implementation("com.google.android.material","material", DependencyVersions.DESIGN)
+    implementation("org.jetbrains.kotlin", "kotlin-reflect", DependencyVersions.REFLECT)
+    implementation("androidx.appcompat", "appcompat", DependencyVersions.APP_COMPAT)
+    implementation("com.google.android.material", "material", DependencyVersions.DESIGN)
     implementation("androidx.lifecycle:lifecycle-extensions:${DependencyVersions.LIFECYCLE}")
     implementation("com.squareup.retrofit2:retrofit:${DependencyVersions.RETROFIT}")
     implementation("com.squareup.retrofit2:converter-scalars:${DependencyVersions.RETROFIT}")

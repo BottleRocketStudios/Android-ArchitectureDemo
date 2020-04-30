@@ -36,15 +36,15 @@ class RepositoryFolderActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<RepositoryFolderActivityBinding>(this, R.layout.repository_folder_activity).apply {
             viewModel = repository_folderViewModel
-            val repo : Repository = intent.getParcelableExtra(EXTRA_REPO)
-            val folder : RepoFile = intent.getParcelableExtra(EXTRA_FOLDER)
+            val repo: Repository = intent.getParcelableExtra(EXTRA_REPO)
+            val folder: RepoFile = intent.getParcelableExtra(EXTRA_FOLDER)
             file_list.adapter = GroupAdapter<ViewHolder>().apply {
                 add(repository_folderViewModel.filesGroup)
                 setOnItemClickListener { item, view ->
-                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type=="commit_directory") {
+                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_directory") {
                         startActivity(RepositoryFolderActivity.newIntent(this@RepositoryFolderActivity, repo, item.viewModel.file))
                     }
-                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type=="commit_file") {
+                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_file") {
                         startActivity(RepositoryFileActivity.newIntent(this@RepositoryFolderActivity, repo, item.viewModel.file))
                     }
                 }
@@ -52,10 +52,10 @@ class RepositoryFolderActivity : BaseActivity() {
             file_list.layoutManager = LinearLayoutManager(this@RepositoryFolderActivity)
 
             repository_folderViewModel.loadRepo(
-                repo.owner?.nickname?:"",
-                repo.name?:"",
-                folder.commit?.hash?:"",
-                folder.path?:"")
+                repo.owner?.nickname ?: "",
+                repo.name ?: "",
+                folder.commit?.hash ?: "",
+                folder.path ?: "")
             setLifecycleOwner(this@RepositoryFolderActivity)
         }
     }

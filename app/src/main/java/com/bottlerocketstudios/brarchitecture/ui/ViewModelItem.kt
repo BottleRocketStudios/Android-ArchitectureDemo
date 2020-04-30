@@ -8,15 +8,14 @@ import kotlin.reflect.full.cast
 import kotlin.reflect.full.createType
 import kotlin.reflect.full.isSubtypeOf
 
-
 class ViewModelItem <T : BaseBindableViewModel> (val viewModel: T, val _layout: Int) : BindableItem<ViewDataBinding>() {
     override fun bind(viewBinding: ViewDataBinding, position: Int) {
         val members = viewBinding::class.members
         val setViewModels = members.filter {
-            it.name == "setViewModel" 
-                    && it.parameters.size == 2
-                    && it.parameters[0].type.isSubtypeOf(viewBinding::class.createType())
-                    && it.parameters[1].type.isSubtypeOf(viewModel::class.createType())
+            it.name == "setViewModel" &&
+                    it.parameters.size == 2 &&
+                    it.parameters[0].type.isSubtypeOf(viewBinding::class.createType()) &&
+                    it.parameters[1].type.isSubtypeOf(viewModel::class.createType())
         }
         if (setViewModels.size == 1) {
             setViewModels.first().call(viewBinding, viewModel)
@@ -44,7 +43,7 @@ class ViewModelItem <T : BaseBindableViewModel> (val viewModel: T, val _layout: 
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other is Item<*>) {
+        if (other is Item<*>) {
             return isSameAs(other)
         } else
             return super.equals(other)

@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.bottlerocketstudios.brarchitecture.BitbucketApplication
 
 abstract class BaseActivity : AppCompatActivity() {
-    
-    fun <T : ViewModel> getProvidedViewModel(vmClass: Class<T>): T {
-       return ViewModelProviders.of(this, (application as BitbucketApplication).factory).get(vmClass)
-    }
 
+    fun <T : ViewModel> getProvidedViewModel(vmClass: Class<T>): T {
+        return ViewModelProviders.of(this, (application as BitbucketApplication).factory).get(vmClass)
+    }
 }
