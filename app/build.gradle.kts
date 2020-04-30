@@ -1,18 +1,17 @@
 
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
-    id("com.android.application")
-    // id("jacoco-android")
-    // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
-    id("com.hiya.jacoco-android")
-    kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
+    id(Config.ApplyPlugins.ANDROID_APPLICATION)
+    id(Config.ApplyPlugins.JACOCO_ANDROID)
+    kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
+    kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)
+    kotlin(Config.ApplyPlugins.Kotlin.KAPT)
 }
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = Config.JACOCO_VERSION
 }
 
 android {
@@ -38,50 +37,49 @@ android {
     }
 }
 
-object DependencyVersions {
-    const val APP_COMPAT = "1.0.2"
-    const val REFLECT = "1.3.0"
-    const val DESIGN = "1.0.0"
-    const val LIFECYCLE = "2.0.0"
-    const val CORE = "2.0.0"
-    const val RETROFIT = "2.4.0"
-    const val MOSHI = "1.6.0"
-    const val TIMBER = "4.7.1"
-    const val CONST_CODEC = "20041127.091804"
-    const val KOTLIN_COROUTINES = "1.1.0"
-    const val GROUPIE = "2.3.0"
-    const val JUNIT = "4.12"
-    const val MOCKITO_KOTLIN = "2.1.0"
-    const val TRUTH = "0.42"
-    const val TEST_RUNNER = "1.0.2"
-    const val ESPRESSO = "3.1.0"
-    const val VAULT = "1.4.2"
-}
-
 dependencies {
     // TODO: Find a way to make sure we are aware of out-of-date versions
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlin", "kotlin-reflect", DependencyVersions.REFLECT)
-    implementation("androidx.appcompat", "appcompat", DependencyVersions.APP_COMPAT)
-    implementation("com.google.android.material", "material", DependencyVersions.DESIGN)
-    implementation("androidx.lifecycle:lifecycle-extensions:${DependencyVersions.LIFECYCLE}")
-    implementation("com.squareup.retrofit2:retrofit:${DependencyVersions.RETROFIT}")
-    implementation("com.squareup.retrofit2:converter-scalars:${DependencyVersions.RETROFIT}")
-    implementation("com.squareup.moshi:moshi-kotlin:${DependencyVersions.MOSHI}")
-    implementation("com.squareup.retrofit2:converter-moshi:${DependencyVersions.RETROFIT}")
-    implementation("com.jakewharton.timber:timber:${DependencyVersions.TIMBER}")
-    implementation("commons-codec:commons-codec:${DependencyVersions.CONST_CODEC}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependencyVersions.KOTLIN_COROUTINES}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersions.KOTLIN_COROUTINES}")
-    implementation("com.bottlerocketstudios", "vault", DependencyVersions.VAULT)
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
-    implementation("com.xwray", "groupie", DependencyVersions.GROUPIE)
-    implementation("com.xwray", "groupie-kotlin-android-extensions", DependencyVersions.GROUPIE)
-    implementation("com.xwray", "groupie-databinding", DependencyVersions.GROUPIE)
-    testImplementation("junit:junit:${DependencyVersions.JUNIT}")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")
-    testImplementation("com.google.truth:truth:${DependencyVersions.TRUTH}")
-    testImplementation("androidx.arch.core", "core-testing", DependencyVersions.CORE)
-    androidTestImplementation("androidx.test.espresso:espresso-core:${DependencyVersions.ESPRESSO}")
+
+    // Kotlin
+    implementation(Config.Libraries.KOTLIN_STDLIB_JDK7)
+    // TODO: Replace with commented line when buildSrc migration complete to use a singular version of kotlin
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.0")
+    // implementation(Config.Libraries.KOTLIN_REFLECT)
+
+    // AndroidX
+    implementation(Config.Libraries.APP_COMPAT)
+    implementation(Config.Libraries.MATERIAL)
+    implementation(Config.Libraries.LIFECYCLE_EXTENSIONS)
+
+    // Coroutines
+    implementation(Config.Libraries.KOTLINX_COROUTINES_CORE)
+    implementation(Config.Libraries.KOTLINX_COROUTINES_ANDROID)
+
+    // Retrofit
+    implementation(Config.Libraries.RETROFIT)
+    implementation(Config.Libraries.RETROFIT_SCALARS_CONVERTER)
+    implementation(Config.Libraries.RETROFIT_MOSHI_CONVERTER)
+
+    // Moshi
+    implementation(Config.Libraries.MOSHI_KOTLIN)
+    kapt(Config.Libraries.MOSHI_KOTLIN_CODEGEN)
+
+    // UI
+    implementation(Config.Libraries.GROUPIE)
+    implementation(Config.Libraries.GROUPIE_KOTLIN_ANDROID_EXTENSIONS)
+    implementation(Config.Libraries.GROUPIE_DATABINDING)
+
+    // Utility
+    implementation(Config.Libraries.TIMBER)
+    implementation(Config.Libraries.VAULT)
+    implementation(Config.Libraries.COMMONS_CODEC)
+
+    // Test
+    testImplementation(Config.TestLibraries.JUNIT)
+    testImplementation(Config.TestLibraries.MOCKITO_KOTLIN)
+    testImplementation(Config.TestLibraries.TRUTH)
+    testImplementation(Config.TestLibraries.ARCH_CORE_TESTING)
+
+    androidTestImplementation(Config.TestLibraries.ESPRESSO_CORE)
 }
