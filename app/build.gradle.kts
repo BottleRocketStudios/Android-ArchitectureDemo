@@ -39,6 +39,15 @@ android {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
+    signingConfigs {
+        getByName("debug") {
+            // Use common debug keystore so all local builds can be shared between devs/QA
+            storeFile = file("../keystore/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
