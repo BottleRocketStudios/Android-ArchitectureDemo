@@ -12,7 +12,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryActivity
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.bottlerocketstudios.brarchitecture.ui.user.UserActivity
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.home_activity.*
 
 class HomeActivity : BaseActivity() {
@@ -31,7 +31,7 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<com.bottlerocketstudios.brarchitecture.databinding.HomeActivityBinding>(this, R.layout.home_activity).apply {
             viewModel = homeViewModel
-            repository_list.adapter = GroupAdapter<ViewHolder>().apply {
+            repository_list.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(homeViewModel.reposGroup)
                 setOnItemClickListener { item, view ->
                     if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel && item.viewModel.repository.name != null) {

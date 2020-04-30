@@ -7,7 +7,6 @@ import com.bottlerocketstudios.vault.SharedPreferenceVaultFactory
 import com.bottlerocketstudios.vault.SharedPreferenceVaultRegistry
 import com.bottlerocketstudios.vault.keys.generator.Aes256RandomKeyFactory
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import timber.log.Timber.e
 import java.security.GeneralSecurityException
 
@@ -25,11 +24,9 @@ class BitbucketCredentialsRepository(private val context: Context) {
         private const val BITBUCKET_CREDENTIALS = "BitbucketCredentials"
         private const val BITBUCKET_TOKEN = "BitbucketCredentials"
         private val CREDENTIAL_ADAPTER = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
             .build()
             .adapter(ValidCredentialModel::class.java)
         private val TOKEN_ADAPTER = Moshi.Builder()
-                .add(KotlinJsonAdapterFactory())
                 .build()
                 .adapter(TokenAuthRepository.AccessToken::class.java)
     }

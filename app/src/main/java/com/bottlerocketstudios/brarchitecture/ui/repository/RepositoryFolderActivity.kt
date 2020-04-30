@@ -12,7 +12,7 @@ import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.ui.BaseActivity
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.repository_folder_activity.*
 
 class RepositoryFolderActivity : BaseActivity() {
@@ -38,7 +38,7 @@ class RepositoryFolderActivity : BaseActivity() {
             viewModel = repository_folderViewModel
             val repo: Repository = intent.getParcelableExtra(EXTRA_REPO)
             val folder: RepoFile = intent.getParcelableExtra(EXTRA_FOLDER)
-            file_list.adapter = GroupAdapter<ViewHolder>().apply {
+            file_list.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(repository_folderViewModel.filesGroup)
                 setOnItemClickListener { item, view ->
                     if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_directory") {

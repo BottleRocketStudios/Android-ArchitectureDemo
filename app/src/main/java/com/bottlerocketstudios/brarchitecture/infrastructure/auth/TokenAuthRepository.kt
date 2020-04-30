@@ -2,6 +2,7 @@ package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketFailure
+import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import retrofit2.Call
@@ -95,6 +96,7 @@ class TokenAuthRepository(val retrofit: Retrofit, val credentialsRepo: Bitbucket
         ): Call<AccessToken>
     }
 
+    @JsonClass(generateAdapter = true)
     data class AccessToken(
         var access_token: String? = "",
         var scopes: String? = "",

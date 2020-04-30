@@ -28,7 +28,7 @@ class ViewModelItem <T : BaseBindableViewModel> (val viewModel: T, val _layout: 
         return _layout
     }
 
-    override fun isSameAs(other: Item<*>?): Boolean {
+    override fun isSameAs(other: Item<*>): Boolean {
         val retval: Boolean
         if (super.isSameAs(other)) {
             retval = true

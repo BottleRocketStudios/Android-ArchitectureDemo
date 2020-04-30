@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.domain.model
 
+import com.squareup.moshi.JsonClass
+
 data class CredentialModel(val id: String?, val password: String?) {
     fun isIdValid(): Boolean {
         return id != null && id.length > 3
@@ -16,4 +18,5 @@ data class CredentialModel(val id: String?, val password: String?) {
         get() = if (valid) ValidCredentialModel(id!!, password!!) else null
 }
 
+@JsonClass(generateAdapter = true)
 data class ValidCredentialModel(val id: String, val password: String)

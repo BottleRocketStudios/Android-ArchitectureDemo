@@ -5,9 +5,9 @@ import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
+import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
-import com.xwray.groupie.ViewHolder
 import com.xwray.groupie.databinding.BindableItem
 import org.junit.Test
 import timber.log.Timber
@@ -23,12 +23,12 @@ class BaseBindableViewModelTest : BaseTest() {
         }
     }
 
-    class TestItem : Item<ViewHolder>() {
+    class TestItem : Item<GroupieViewHolder>() {
         override fun getLayout(): Int {
             return 0
         }
 
-        override fun bind(viewHolder: ViewHolder, position: Int) {}
+        override fun bind(viewHolder: GroupieViewHolder, position: Int) {}
     }
 
     @Test
