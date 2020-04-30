@@ -12,6 +12,13 @@ jacoco {
 
 val APP_VERSION = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true)
 
+// Some documentation on inner tags/blocks can be found with the below urls:
+// android {...} DSL Reference:
+// http://google.github.io/android-gradle-dsl/ - Select version of AGP
+// https://google.github.io/android-gradle-dsl/current/index.html - Latest version of AGP
+// javadocs:
+// http://google.github.io/android-gradle-dsl/javadoc/ - Select version of AGP
+// http://google.github.io/android-gradle-dsl/javadoc/current/ - Latest version of AGP
 android {
     compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS

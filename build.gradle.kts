@@ -1,3 +1,5 @@
+// Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:buildscript(groovy.lang.Closure)
+// See also https://docs.gradle.org/current/javadoc/org/gradle/api/initialization/dsl/ScriptHandler.html and associated links for children apis
 buildscript {
     repositories {
         google()
@@ -16,10 +18,13 @@ buildscript {
 }
 
 // Gradle kotlinscript syntax: https://github.com/JLLeitschuh/ktlint-gradle#idea-plugin-simple-setup
+// Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.plugin.use.PluginDependenciesSpec.html
 plugins {
     id(Config.ApplyPlugins.KT_LINT) version Config.KTLINT_GRADLE_VERSION
 }
 
+// Configuration below applies to this project file and all other modules (specified in settings.gradle.kts).
+// Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:allprojects(groovy.lang.Closure)
 allprojects {
     repositories {
         google()
@@ -27,7 +32,10 @@ allprojects {
     }
 }
 
+// Configuration below applies to all other modules (specified in settings.gradle.kts)
+// Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:subprojects(groovy.lang.Closure)
 subprojects {
+    // Cannot use plugins {} here so using apply (compilation error)
     apply(plugin = Config.ApplyPlugins.KT_LINT)
     apply(plugin = Config.ApplyPlugins.GRADLE_VERSIONS)
 
