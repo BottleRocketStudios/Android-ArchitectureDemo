@@ -65,12 +65,12 @@ object Config {
 
     // What each version represents - https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
     object AndroidSdkVersions {
-        const val COMPILE_SDK = 28
+        const val COMPILE_SDK = 29
         // https://developer.android.com/studio/releases/build-tools
-        const val BUILD_TOOLS = "28.0.3"
+        const val BUILD_TOOLS = "29.0.3"
         const val MIN_SDK = 23
         // https://developer.android.com/about/versions/10/behavior-changes-10
-        const val TARGET_SDK = 28
+        const val TARGET_SDK = 29
     }
 
     /**
