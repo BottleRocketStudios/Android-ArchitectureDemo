@@ -11,13 +11,13 @@ jacoco {
 }
 
 android {
-    compileSdkVersion(28)
-    buildToolsVersion = "28.0.3"
+    compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
+    buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
     dataBinding.isEnabled = true
     defaultConfig {
         applicationId = "com.bottlerocketstudios.brarchitecture"
-        minSdkVersion(23)
-        targetSdkVersion(28)
+        minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
+        targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
