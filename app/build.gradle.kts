@@ -50,8 +50,11 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            // FIXME: HARDCODED TO USE DEBUG KEYSTORE!!! DO NOT SHIP THIS!!! ADD LOGIC TO USE ACTUAL RELEASE KEYSTORE VIA ENVIRONMENT VARIABLES ON CI!!!
+            signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
             isTestCoverageEnabled = true
