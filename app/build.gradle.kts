@@ -10,6 +10,8 @@ jacoco {
     toolVersion = Config.JACOCO_VERSION
 }
 
+val APP_VERSION = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true)
+
 android {
     compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
@@ -18,8 +20,8 @@ android {
         applicationId = "com.bottlerocketstudios.brarchitecture"
         minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
         targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = APP_VERSION.versionCode
+        versionName = APP_VERSION.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
