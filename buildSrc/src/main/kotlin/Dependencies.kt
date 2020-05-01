@@ -91,6 +91,10 @@ object Config {
         const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
         // https://developer.android.com/jetpack/androidx/releases/appcompat
         const val APP_COMPAT = "androidx.appcompat:appcompat:1.1.0"
+        // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
+        // https://developer.android.com/topic/security/data
+        // https://developer.android.com/jetpack/androidx/releases/security
+        const val SECURITY_CRYPTO = "androidx.security:security-crypto:1.0.0-rc01"
 
         //// Material
         // https://github.com/material-components/material-components-android/releases
@@ -136,7 +140,6 @@ object Config {
         // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
         // https://github.com/JakeWharton/timber/releases
         const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
-        const val VAULT = "com.bottlerocketstudios:vault:1.4.2"
         // Commons codec - used for base64 operations (no android framework requirement)
         // https://github.com/apache/commons-codec/blob/master/RELEASE-NOTES.txt
         // https://github.com/apache/commons-codec/releases

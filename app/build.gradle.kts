@@ -79,6 +79,7 @@ dependencies {
     implementation(Config.Libraries.LIFECYCLE_LIVEDATA_KTX)
     implementation(Config.Libraries.LIFECYCLE_VIEWMODEL_KTX)
     implementation(Config.Libraries.LIFECYCLE_COMMON_JAVA8)
+    implementation(Config.Libraries.SECURITY_CRYPTO)
 
     // Coroutines
     implementation(Config.Libraries.KOTLINX_COROUTINES_CORE)
@@ -100,7 +101,6 @@ dependencies {
 
     // Utility
     implementation(Config.Libraries.TIMBER)
-    implementation(Config.Libraries.VAULT)
     implementation(Config.Libraries.COMMONS_CODEC)
     debugImplementation(Config.Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation)
     debugImplementation(Config.Libraries.CHUCKER) // note the debugImplementation usage (releaseImplementation uses no-op)
