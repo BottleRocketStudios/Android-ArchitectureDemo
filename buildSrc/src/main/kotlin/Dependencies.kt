@@ -141,6 +141,10 @@ object Config {
         // https://github.com/apache/commons-codec/blob/master/RELEASE-NOTES.txt
         // https://github.com/apache/commons-codec/releases
         const val COMMONS_CODEC = "commons-codec:commons-codec:20041127.091804"
+        // https://square.github.io/leakcanary/changelog/
+        // https://github.com/square/leakcanary/releases
+        // Just use on debugImplementation builds
+        const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:2.2"
         // Chucker
         // https://medium.com/@cortinico/introducing-chucker-18f13a51b35d
         // https://github.com/ChuckerTeam/chucker/blob/develop/CHANGELOG.md
