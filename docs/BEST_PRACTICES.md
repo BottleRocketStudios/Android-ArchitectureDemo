@@ -164,6 +164,13 @@ Takeaways:
 
 ## Miscellaneous
 
+### View/Edit local database/shared prefs
+The [Android Debug Database](https://github.com/amitshekhariitbhu/Android-Debug-Database) non-prod dependency allows easy viewing of the internal app database/shared prefs. To view in your browser, do the following things:
+
+1. Connect an emulator/device and execute the following: `adb forward tcp:8080 tcp:8080` (or run the `Prep DebugDb adb connection` Android Studio Run Configuration to execute it)
+    1. For an emulator, open [http://localhost:8080/](http://localhost:8080/) (or run the `Open emu DebugDg Web Portal` Android Studio Run Configuration to launch it)
+    2. For a device, filter logcat by debugdb or keep an eye out for `D/DebugDB: Open http://XXX.XXX.X.XXX:8080 in your browser` and click/copy-paste the link in your browser.
+
 ### Counting lines of code (using [cloc][cloc])
 * Install using homebrew: `brew install cloc` (or your package manager of choice: https://github.com/AlDanial/cloc#install-via-package-manager)
 * Execute the following snippet via command line from the root project directory:
