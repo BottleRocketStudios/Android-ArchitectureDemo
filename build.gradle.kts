@@ -4,7 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven("https://plugins.gradle.org/m2/") // needed for hiya jacoco
+        maven(url = "https://plugins.gradle.org/m2/") // needed for hiya jacoco
     }
     dependencies {
         classpath(Config.BuildScriptPlugins.ANDROID_GRADLE)
@@ -29,6 +29,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven(url = "https://jitpack.io")
     }
 }
 

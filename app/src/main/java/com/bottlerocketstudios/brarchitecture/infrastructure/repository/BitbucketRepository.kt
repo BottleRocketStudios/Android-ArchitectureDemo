@@ -9,9 +9,10 @@ import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.AuthRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.AuthenticationFailureException
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketRetrofit
+import com.bottlerocketstudios.brarchitecture.infrastructure.network.OkHttpBuilderProvider
 
-class BitbucketRepository(val authRepo: AuthRepository) {
-    var retrofit = BitbucketRetrofit.getRetrofit(null)
+class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHttpBuilderProvider) {
+    var retrofit = BitbucketRetrofit.getRetrofit(okHttpProvider, null)
     private val _user = MutableLiveData<User>()
     private val _repos = MutableLiveData<List<Repository>>()
     var authenticated = false
@@ -28,7 +29,7 @@ class BitbucketRepository(val authRepo: AuthRepository) {
         }
         try {
             val interceptor = authRepo.authInterceptor(creds)
-            retrofit = BitbucketRetrofit.getRetrofit(interceptor)
+            retrofit = BitbucketRetrofit.getRetrofit(okHttpProvider, interceptor)
             if (refreshUser()) {
                 authenticated = true
                 return true

@@ -141,6 +141,13 @@ object Config {
         // https://github.com/apache/commons-codec/blob/master/RELEASE-NOTES.txt
         // https://github.com/apache/commons-codec/releases
         const val COMMONS_CODEC = "commons-codec:commons-codec:20041127.091804"
+        // Chucker
+        // https://medium.com/@cortinico/introducing-chucker-18f13a51b35d
+        // https://github.com/ChuckerTeam/chucker/blob/develop/CHANGELOG.md
+        // https://github.com/ChuckerTeam/chucker/releases
+        private const val CHUCKER_VERSION = "3.2.0"
+        const val CHUCKER = "com.github.ChuckerTeam.Chucker:library:$CHUCKER_VERSION"
+        const val CHUCKER_NO_OP = "com.github.ChuckerTeam.Chucker:library-no-op:$CHUCKER_VERSION"
     }
 
     /**
