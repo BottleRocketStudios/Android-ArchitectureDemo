@@ -39,13 +39,28 @@ android {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
+    signingConfigs {
+        getByName("debug") {
+            // Use common debug keystore so all local builds can be shared between devs/QA
+            storeFile = file("../keystore/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            // FIXME: HARDCODED TO USE DEBUG KEYSTORE!!! DO NOT SHIP THIS!!! ADD LOGIC TO USE ACTUAL RELEASE KEYSTORE VIA ENVIRONMENT VARIABLES ON CI!!!
+            signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
-            isTestCoverageEnabled = true
+            // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
+            // the jacocoTest...UnitTestReport tasks. Stopping and restarting build would allow compilation/installation to complete.
+            // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
+            isTestCoverageEnabled = false
         }
     }
 }
