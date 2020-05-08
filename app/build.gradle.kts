@@ -102,6 +102,8 @@ dependencies {
     implementation(Config.Libraries.TIMBER)
     implementation(Config.Libraries.VAULT)
     implementation(Config.Libraries.COMMONS_CODEC)
+    debugImplementation(Config.Libraries.CHUCKER)
+    releaseImplementation(Config.Libraries.CHUCKER_NO_OP)
 
     // Test
     testImplementation(Config.TestLibraries.JUNIT)

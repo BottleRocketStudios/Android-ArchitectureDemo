@@ -2,6 +2,7 @@ package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketFailure
+import com.bottlerocketstudios.brarchitecture.infrastructure.network.OkHttpBuilderProvider
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
@@ -71,10 +72,17 @@ class TokenAuthRepository(val retrofit: Retrofit, val credentialsRepo: Bitbucket
     }
 
     companion object {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://bitbucket.org/")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
+        private var retrofit: Retrofit? = null
+        fun retrofit(okHttpBuilderProvider: OkHttpBuilderProvider): Retrofit {
+            if (retrofit == null) {
+                retrofit = Retrofit.Builder()
+                    .client(okHttpBuilderProvider.okHttpClientBuilder.build())
+                    .baseUrl("https://bitbucket.org/")
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build()
+            }
+            return retrofit!!
+        }
     }
 
     interface AuthService {

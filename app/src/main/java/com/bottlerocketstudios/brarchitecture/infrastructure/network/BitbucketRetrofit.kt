@@ -4,7 +4,6 @@ import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.domain.model.User
 import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -50,8 +49,8 @@ interface BitbucketRetrofit {
     ): Call<String>
 
     companion object {
-        fun getRetrofit(interceptor: Interceptor?): BitbucketRetrofit {
-            val clientBuilder = OkHttpClient.Builder()
+        fun getRetrofit(okHttpBuilderProvider: OkHttpBuilderProvider, interceptor: Interceptor?): BitbucketRetrofit {
+            val clientBuilder = okHttpBuilderProvider.okHttpClientBuilder
             interceptor?.let {
                 clientBuilder.addInterceptor(interceptor)
             }
