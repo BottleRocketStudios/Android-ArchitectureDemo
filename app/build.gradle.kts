@@ -104,6 +104,7 @@ dependencies {
     implementation(Config.Libraries.COMMONS_CODEC)
     debugImplementation(Config.Libraries.CHUCKER)
     releaseImplementation(Config.Libraries.CHUCKER_NO_OP)
+    debugImplementation(Config.Libraries.DEBUG_DATABASE) // note the debugImplementation usage (no releaseImplementation)
 
     // Test
     testImplementation(Config.TestLibraries.JUNIT)

@@ -148,6 +148,9 @@ object Config {
         private const val CHUCKER_VERSION = "3.2.0"
         const val CHUCKER = "com.github.ChuckerTeam.Chucker:library:$CHUCKER_VERSION"
         const val CHUCKER_NO_OP = "com.github.ChuckerTeam.Chucker:library-no-op:$CHUCKER_VERSION"
+        // https://github.com/amitshekhariitbhu/Android-Debug-Database/blob/master/CHANGELOG.md
+        // https://github.com/amitshekhariitbhu/Android-Debug-Database/releases
+        const val DEBUG_DATABASE = "com.amitshekhar.android:debug-db:1.0.6"
     }
 
     /**
