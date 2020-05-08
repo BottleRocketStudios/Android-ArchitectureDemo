@@ -102,8 +102,9 @@ dependencies {
     implementation(Config.Libraries.TIMBER)
     implementation(Config.Libraries.VAULT)
     implementation(Config.Libraries.COMMONS_CODEC)
-    debugImplementation(Config.Libraries.CHUCKER)
-    releaseImplementation(Config.Libraries.CHUCKER_NO_OP)
+    debugImplementation(Config.Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation)
+    debugImplementation(Config.Libraries.CHUCKER) // note the debugImplementation usage (releaseImplementation uses no-op)
+    releaseImplementation(Config.Libraries.CHUCKER_NO_OP) // note the releaseImplementation no-op
     debugImplementation(Config.Libraries.DEBUG_DATABASE) // note the debugImplementation usage (no releaseImplementation)
 
     // Test
