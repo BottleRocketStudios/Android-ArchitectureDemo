@@ -18,7 +18,7 @@ object Config {
     // https://github.com/pinterest/ktlint/releases
     const val KTLINT_VERSION = "0.36.0"
     // 1. Execute `./gradlew jacocoTestReport` OR `./gradlew jacocoTestInternalDebugUnitTestReport`
-    // 2. Execute `open app/build/jacoco/jacocoHtml/index.html`
+    // 2. Execute `open app/build/jacoco/jacocoHtml/index.html` or the `Open Jacoco Report` AS Run Configuration
     // http://www.jacoco.org/jacoco/trunk/doc/
     // https://github.com/jacoco/jacoco/releases
     const val JACOCO_VERSION = "0.8.5"
