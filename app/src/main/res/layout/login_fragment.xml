@@ -20,21 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_id_hint"
-            android:paddingTop="15dp" >
+            android:layout_marginTop="15dp" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/id"
                 style="@style/TextInputEditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="24dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/login_id_accessibility"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:paddingTop="12dp"
-                android:paddingBottom="23dp"
                 android:text="@={viewModel.email}" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,19 +43,17 @@
             style="@style/TextInputLayout"
             android:hint="@string/login_password_hint"
             android:textSize="16sp"
-            android:paddingTop="15dp">
+            android:layout_marginTop="15dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/TextInputEditText"
                 android:contentDescription="@string/login_password_accessibility"
                 android:textStyle="normal"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="24dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="23dp"
                 android:background="@android:color/transparent"
                 android:inputType="textPassword"
                 android:singleLine="false"
@@ -67,7 +63,8 @@
         
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:id="@+id/login"
             android:text="@string/login_button"
             android:enabled="@{viewModel.loginEnabled}"

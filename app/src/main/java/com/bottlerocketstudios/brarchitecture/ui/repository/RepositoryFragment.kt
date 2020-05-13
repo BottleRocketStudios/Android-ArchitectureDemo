@@ -14,7 +14,7 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 
 class RepositoryFragment : BaseFragment() {
     private val fragmentViewModel: RepositoryFragmentViewModel by lazy {
@@ -30,21 +30,21 @@ class RepositoryFragment : BaseFragment() {
             viewModel = fragmentViewModel
             mainActivityViewModel = activityViewModel
             setLifecycleOwner(this@RepositoryFragment)
-            fileList.adapter = GroupAdapter<ViewHolder>().apply {
+            fileList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.filesGroup)
                 setOnItemClickListener { item, view ->
-                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type=="commit_directory") {
+                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_directory") {
                         val action = RepositoryFragmentDirections.actionRepositoryFragmentToRepositoryFolderFragment(item.viewModel.file)
                         Navigation.findNavController(root).navigate(action)
                     }
-                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type=="commit_file") {
+                    if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_file") {
                         val action = RepositoryFragmentDirections.actionRepositoryFragmentToRepositoryFileFragment(item.viewModel.file)
                         Navigation.findNavController(root).navigate(action)
                     }
                 }
             }
             fileList.layoutManager = LinearLayoutManager(this@RepositoryFragment.activity)
-             activityViewModel.selectedRepo.observe(this@RepositoryFragment, Observer {
+            activityViewModel.selectedRepo.observe(this@RepositoryFragment, Observer {
                 fragmentViewModel.selectRepository(it.name)
             })
         }.root

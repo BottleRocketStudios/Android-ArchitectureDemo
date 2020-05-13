@@ -4,7 +4,6 @@ import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.domain.model.User
 import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -27,31 +26,31 @@ interface BitbucketRetrofit {
         @Path(value = "repo") repo: String
     ): Call<Repository>
 
-    @GET(value="2.0/repositories/{owner}/{repo}/src")
+    @GET(value = "2.0/repositories/{owner}/{repo}/src")
     fun getRepositorySource(
-        @Path(value="owner") owner: String,
-        @Path(value="repo") repo: String
-    ) : Call<BitbucketPagedResponse<List<RepoFile>>>
+        @Path(value = "owner") owner: String,
+        @Path(value = "repo") repo: String
+    ): Call<BitbucketPagedResponse<List<RepoFile>>>
 
-    @GET(value="2.0/repositories/{owner}/{repo}/src/{hash}/{path}")
+    @GET(value = "2.0/repositories/{owner}/{repo}/src/{hash}/{path}")
     fun getRepositorySourceFolder(
-        @Path(value="owner") owner: String,
-        @Path(value="repo") repo: String,
-        @Path(value="hash") hash: String,
-        @Path(value="path") path: String
-    ) : Call<BitbucketPagedResponse<List<RepoFile>>>
-    
-    @GET(value="2.0/repositories/{owner}/{repo}/src/{hash}/{path}")
+        @Path(value = "owner") owner: String,
+        @Path(value = "repo") repo: String,
+        @Path(value = "hash") hash: String,
+        @Path(value = "path") path: String
+    ): Call<BitbucketPagedResponse<List<RepoFile>>>
+
+    @GET(value = "2.0/repositories/{owner}/{repo}/src/{hash}/{path}")
     fun getRepositorySourceFile(
-        @Path(value="owner") owner: String,
-        @Path(value="repo") repo: String,
-        @Path(value="hash") hash: String,
-        @Path(value="path") path: String
-    ) : Call<String>
+        @Path(value = "owner") owner: String,
+        @Path(value = "repo") repo: String,
+        @Path(value = "hash") hash: String,
+        @Path(value = "path") path: String
+    ): Call<String>
 
     companion object {
-        fun getRetrofit(interceptor: Interceptor?): BitbucketRetrofit {
-            val clientBuilder = OkHttpClient.Builder()
+        fun getRetrofit(okHttpBuilderProvider: OkHttpBuilderProvider, interceptor: Interceptor?): BitbucketRetrofit {
+            val clientBuilder = okHttpBuilderProvider.okHttpClientBuilder
             interceptor?.let {
                 clientBuilder.addInterceptor(interceptor)
             }

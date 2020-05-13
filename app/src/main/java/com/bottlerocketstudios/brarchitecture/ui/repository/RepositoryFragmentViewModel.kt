@@ -24,7 +24,7 @@ class RepositoryFragmentViewModel(app: Application, repo: BitbucketRepository) :
 
     fun selectRepository(id: String?) {
         selectedId = id
-        repos.value?.firstOrNull{it.name?.equals(id)?:false}?.let {
+        repos.value?.firstOrNull { it.name?.equals(id) ?: false }?.let {
             _selectedRepository.value = it
             it.owner?.nickname?.let { nickname ->
                 it.name?.let { repoName ->
@@ -65,4 +65,3 @@ class RepositoryFragmentViewModel(app: Application, repo: BitbucketRepository) :
         srcFiles.removeObserver(filesObserver)
     }
 }
-

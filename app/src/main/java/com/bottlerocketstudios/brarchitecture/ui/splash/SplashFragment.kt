@@ -11,10 +11,9 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.SplashFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 
-
 class SplashFragment : BaseFragment() {
-    private val splashViewModel: SplashActivityViewModel by lazy {
-        getProvidedViewModel(SplashActivityViewModel::class.java)
+    private val splashViewModel: SplashFragmentViewModel by lazy {
+        getProvidedViewModel(SplashFragmentViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

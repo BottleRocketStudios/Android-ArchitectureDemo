@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
 import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.TestOkHttpBuilderProvider
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
 import com.google.common.truth.Truth.assertThat
@@ -31,7 +32,7 @@ class BitbucketRetrofitTest : BaseTest() {
     @Test
     fun getRepository_shouldRefreshTokenAndSucceed_whenTokenExpired() {
         // This does not currently force the use of an expired token
-        val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(interceptor)
+        val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(TestOkHttpBuilderProvider, interceptor)
         runBlocking {
             val response = bitbucketRetrofit.getRepository("patentlychris", "private").execute()
             val body = response.body()
@@ -45,7 +46,7 @@ class BitbucketRetrofitTest : BaseTest() {
 
     @Test
     fun getRepository_shouldFail_whenForceTokenExpired() {
-        val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(Interceptor { chain ->
+        val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(TestOkHttpBuilderProvider, Interceptor { chain ->
             val request = chain.request()
             val newRequest = request.newBuilder()
                 .header("Authorization", "Bearer mdAoLW3_ug7IPJHSdnn2s_J67sPAnxNbOvVq6ePlOszhqWBxsUUWS4v_ItvhdVnkUxaaxQKn_2jrsXVqDlg=")
@@ -67,7 +68,7 @@ class BitbucketRetrofitTest : BaseTest() {
 
     @Test
     fun getUser_shouldReturnUser_whenAuthenticated() {
-        val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(interceptor)
+        val bitbucketRetrofit = BitbucketRetrofit.getRetrofit(TestOkHttpBuilderProvider, interceptor)
         runBlocking {
             val response = bitbucketRetrofit.getUser().execute()
             val body = response.body()

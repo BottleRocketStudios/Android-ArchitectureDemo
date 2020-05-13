@@ -1,0 +1,17 @@
+[*.{kt,kts}]
+# More info about .editorconfig at https://github.com/pinterest/ktlint#custom-editorconfig-properties
+# possible values: number (e.g. 2) OR unset (no quotes - makes ktlint ignore indentation completely)
+indent_size=4
+# true (recommended) / false
+insert_final_newline=true
+# possible values: number (e.g. 120) (package name, imports & comments are ignored) OR off (no quotes)
+# it's automatically set to 100 on `ktlint --android ...` (per Android Kotlin Style Guide)
+# that is just not long enough IMO - using 200 for now
+max_line_length=200
+# import-ordering - Due to the inability to modify Android Studio/IntelliJ Import rules for kotlin and the general kotlin import ordering rules being not well defined, disabling the import-ordering rule for now
+# to prevent unnecessary ktlint failures when running Optimize Imports or Reformat File in Android Studio due to AS placing java imports below all others.
+# See:
+# * https://stackoverflow.com/questions/59849619/intellij-does-not-sort-kotlin-imports-according-to-ktlints-expectations
+# * https://github.com/pinterest/ktlint/issues/527
+# * https://youtrack.jetbrains.com/issue/KT-10974
+disabled_rules=import-ordering

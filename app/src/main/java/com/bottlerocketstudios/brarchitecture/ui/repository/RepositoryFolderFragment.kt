@@ -14,7 +14,7 @@ import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 
 class RepositoryFolderFragment : BaseFragment() {
     private val fragmentViewModel: RepositoryFolderFragmentViewModel by lazy {
@@ -24,7 +24,7 @@ class RepositoryFolderFragment : BaseFragment() {
     private val activityViewModel: MainActivityViewModel by lazy {
         getProvidedActivityViewModel(MainActivityViewModel::class.java)
     }
-    
+
     val args: RepositoryFolderFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,7 +37,7 @@ class RepositoryFolderFragment : BaseFragment() {
             viewModel = fragmentViewModel
             val repo: Repository = activityViewModel.selectedRepo.value ?: return root
             val folder: RepoFile = args.file
-            fileList.adapter = GroupAdapter<ViewHolder>().apply {
+            fileList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.filesGroup)
                 /*
                 setOnItemClickListener { item, view ->

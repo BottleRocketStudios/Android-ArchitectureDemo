@@ -20,7 +20,7 @@
         android:id="@+id/loginFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.auth.LoginFragment"
         android:label="LoginFragment" 
-        tools:layout="@layout/login_activity">
+        tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -29,7 +29,7 @@
         android:id="@+id/homeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/home_activity">
+        tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_repositoryFragment"
             app:destination="@id/repositoryFragment" />

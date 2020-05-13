@@ -4,7 +4,12 @@ import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
 import com.google.common.truth.Truth.assertWithMessage
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.doAnswer
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import retrofit2.Call

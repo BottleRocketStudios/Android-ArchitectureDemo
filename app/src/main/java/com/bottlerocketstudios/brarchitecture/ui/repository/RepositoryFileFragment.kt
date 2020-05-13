@@ -35,11 +35,11 @@ class RepositoryFileFragment : BaseFragment() {
             val repo: Repository = activityViewModel.selectedRepo.value ?: return root
             val file: RepoFile = args.file
             fragmentViewModel.loadFile(
-                repo.owner?.nickname?:"",
-                repo.name?:"",
-                file.mimetype?:"",
-                file.commit?.hash?:"",
-                file.path?:"")
+                repo.owner?.nickname ?: "",
+                repo.name ?: "",
+                file.mimetype ?: "",
+                file.commit?.hash ?: "",
+                file.path ?: "")
             setLifecycleOwner(this@RepositoryFileFragment)
         }.root
     }

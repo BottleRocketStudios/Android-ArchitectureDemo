@@ -9,13 +9,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.databinding.HomeActivityBinding
+import com.bottlerocketstudios.brarchitecture.databinding.HomeFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 
 class HomeFragment : BaseFragment() {
     private val homeViewModel: HomeViewModel by lazy {
@@ -27,16 +27,16 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<HomeActivityBinding>(inflater, R.layout.home_activity, container, false).apply {
+        return DataBindingUtil.inflate<HomeFragmentBinding>(inflater, R.layout.home_fragment, container, false).apply {
             viewModel = homeViewModel
             homeViewModel.userClick.observe(this@HomeFragment, Observer {
-                when(it) {
+                when (it) {
                     true ->
                         Navigation.findNavController(root).navigate(R.id.action_homeFragment_to_userFragment)
                 }
             })
             repositoryList.apply {
-                adapter = GroupAdapter<ViewHolder>().apply {
+                adapter = GroupAdapter<GroupieViewHolder>().apply {
                     add(homeViewModel.reposGroup)
                     setOnItemClickListener { item, _ ->
                         if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {

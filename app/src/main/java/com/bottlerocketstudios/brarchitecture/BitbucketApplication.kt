@@ -5,21 +5,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
+import com.bottlerocketstudios.brarchitecture.infrastructure.network.DefaultOkHttpBuilderProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.network.OkHttpBuilderProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import timber.log.Timber
 import java.lang.reflect.InvocationTargetException
 
-
-
 class BitbucketApplication : Application() {
     val factory: BitbucketViewModelFactory
         get() = BitbucketViewModelFactory(this, repository)
+    val okHttpProvider: OkHttpBuilderProvider by lazy {
+        DefaultOkHttpBuilderProvider(this)
+    }
     val credentialsRepo: BitbucketCredentialsRepository by lazy {
         BitbucketCredentialsRepository(this)
     }
     val repository: BitbucketRepository by lazy {
-        BitbucketRepository(TokenAuthRepository(TokenAuthRepository.retrofit, credentialsRepo))
+        BitbucketRepository(TokenAuthRepository(TokenAuthRepository.retrofit(okHttpProvider), credentialsRepo), okHttpProvider)
     }
 
     class BitbucketViewModelFactory(val app: Application, val repo: BitbucketRepository) : ViewModelProvider.AndroidViewModelFactory(app) {

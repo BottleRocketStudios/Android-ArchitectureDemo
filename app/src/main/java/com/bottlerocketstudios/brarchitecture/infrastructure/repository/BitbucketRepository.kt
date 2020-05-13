@@ -9,9 +9,10 @@ import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.AuthRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.AuthenticationFailureException
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketRetrofit
+import com.bottlerocketstudios.brarchitecture.infrastructure.network.OkHttpBuilderProvider
 
-class BitbucketRepository(val authRepo: AuthRepository) {
-    var retrofit = BitbucketRetrofit.getRetrofit(null)
+class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHttpBuilderProvider) {
+    var retrofit = BitbucketRetrofit.getRetrofit(okHttpProvider, null)
     private val _user = MutableLiveData<User>()
     private val _repos = MutableLiveData<List<Repository>>()
     var authenticated = false
@@ -22,13 +23,13 @@ class BitbucketRepository(val authRepo: AuthRepository) {
     val repos: LiveData<List<Repository>>
         get() = _repos
 
-    suspend fun authenticate(creds: ValidCredentialModel? = null) : Boolean {
+    suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean {
         if (authenticated) {
             return true
         }
         try {
             val interceptor = authRepo.authInterceptor(creds)
-            retrofit = BitbucketRetrofit.getRetrofit(interceptor)
+            retrofit = BitbucketRetrofit.getRetrofit(okHttpProvider, interceptor)
             if (refreshUser()) {
                 authenticated = true
                 return true
@@ -76,7 +77,7 @@ class BitbucketRepository(val authRepo: AuthRepository) {
     fun getSource(owner: String, repo: String): List<RepoFile>? {
         val response = retrofit.getRepositorySource(owner, repo).execute()
         if (response.isSuccessful) {
-            return response.body()?.values?: emptyList()
+            return response.body()?.values ?: emptyList()
         }
         return null
     }
@@ -84,15 +85,15 @@ class BitbucketRepository(val authRepo: AuthRepository) {
     fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>? {
         val response = retrofit.getRepositorySourceFolder(owner, repo, hash, path).execute()
         if (response.isSuccessful) {
-            return response.body()?.values?: emptyList()
+            return response.body()?.values ?: emptyList()
         }
         return null
     }
-    
+
     fun getSourceFile(owner: String, repo: String, hash: String, path: String): String? {
         val response = retrofit.getRepositorySourceFile(owner, repo, hash, path).execute()
         if (response.isSuccessful) {
-            return response.body()?:""
+            return response.body() ?: ""
         }
         return null
     }

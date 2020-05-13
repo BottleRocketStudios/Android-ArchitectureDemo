@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.databinding.LoginActivityBinding
+import com.bottlerocketstudios.brarchitecture.databinding.LoginFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 
 class LoginFragment : BaseFragment() {
@@ -18,7 +18,7 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<LoginActivityBinding>(inflater, R.layout.login_activity, container, false).apply {
+        return DataBindingUtil.inflate<LoginFragmentBinding>(inflater, R.layout.login_fragment, container, false).apply {
             viewModel = loginViewModel
             setLifecycleOwner(this@LoginFragment)
             loginViewModel.authenticated.observe(this@LoginFragment, Observer { auth: Boolean ->

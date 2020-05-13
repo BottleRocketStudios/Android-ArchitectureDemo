@@ -5,6 +5,7 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.repository.Bitbucke
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 
 class UserFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+
     override fun onCleared() {
         super.onCleared()
         doClear()
