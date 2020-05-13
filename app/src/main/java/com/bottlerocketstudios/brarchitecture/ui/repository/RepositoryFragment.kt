@@ -44,7 +44,7 @@ class RepositoryFragment : BaseFragment() {
                 }
             }
             fileList.layoutManager = LinearLayoutManager(this@RepositoryFragment.activity)
-            activityViewModel.selectedRepo.observe(this@RepositoryFragment, Observer {
+            activityViewModel.selectedRepo.observe(viewLifecycleOwner, Observer {
                 fragmentViewModel.selectRepository(it.name)
             })
         }.root

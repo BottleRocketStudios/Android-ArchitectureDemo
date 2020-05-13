@@ -21,7 +21,7 @@ class LoginFragment : BaseFragment() {
         return DataBindingUtil.inflate<LoginFragmentBinding>(inflater, R.layout.login_fragment, container, false).apply {
             viewModel = loginViewModel
             setLifecycleOwner(this@LoginFragment)
-            loginViewModel.authenticated.observe(this@LoginFragment, Observer { auth: Boolean ->
+            loginViewModel.authenticated.observe(viewLifecycleOwner, Observer { auth: Boolean ->
                 Toast.makeText(activity, "LOGGED ${if (auth)"IN" else "OUT"}", Toast.LENGTH_LONG).show()
                 if (auth) {
                     Navigation.findNavController(root).navigate(R.id.action_loginFragment_to_homeFragment)

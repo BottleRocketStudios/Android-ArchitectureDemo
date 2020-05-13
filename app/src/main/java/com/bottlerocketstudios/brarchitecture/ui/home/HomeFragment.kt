@@ -29,7 +29,7 @@ class HomeFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return DataBindingUtil.inflate<HomeFragmentBinding>(inflater, R.layout.home_fragment, container, false).apply {
             viewModel = homeViewModel
-            homeViewModel.userClick.observe(this@HomeFragment, Observer {
+            homeViewModel.userClick.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     true -> findNavController(this@HomeFragment).navigate(R.id.action_homeFragment_to_userFragment)
                 }
