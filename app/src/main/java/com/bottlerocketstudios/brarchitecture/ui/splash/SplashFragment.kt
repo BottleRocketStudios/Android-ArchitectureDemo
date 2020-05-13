@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.SplashFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
@@ -23,9 +23,9 @@ class SplashFragment : BaseFragment() {
             setLifecycleOwner(this@SplashFragment)
             splashViewModel.authenticated.observe(this@SplashFragment, Observer { authenticated ->
                 if (authenticated) {
-                    Navigation.findNavController(root).navigate(R.id.action_splashFragment_to_homeFragment)
+                    findNavController(this@SplashFragment).navigate(R.id.action_splashFragment_to_homeFragment)
                 } else {
-                    Navigation.findNavController(root).navigate(R.id.action_splashFragment_to_loginFragment)
+                    findNavController(this@SplashFragment).navigate(R.id.action_splashFragment_to_loginFragment)
                 }
             })
         }.root

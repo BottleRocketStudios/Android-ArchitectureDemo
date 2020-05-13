@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.HomeFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
@@ -31,8 +31,7 @@ class HomeFragment : BaseFragment() {
             viewModel = homeViewModel
             homeViewModel.userClick.observe(this@HomeFragment, Observer {
                 when (it) {
-                    true ->
-                        Navigation.findNavController(root).navigate(R.id.action_homeFragment_to_userFragment)
+                    true -> findNavController(this@HomeFragment).navigate(R.id.action_homeFragment_to_userFragment)
                 }
             })
             repositoryList.apply {
@@ -42,7 +41,7 @@ class HomeFragment : BaseFragment() {
                         if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {
                             Toast.makeText(activity, item.viewModel.repository.name, Toast.LENGTH_SHORT).show()
                             activityViewModel.selectedRepo.postValue(item.viewModel.repository)
-                            Navigation.findNavController(root).navigate(R.id.action_homeFragment_to_repositoryFragment)
+                            findNavController(this@HomeFragment).navigate(R.id.action_homeFragment_to_repositoryFragment)
                         }
                     }
                 }
