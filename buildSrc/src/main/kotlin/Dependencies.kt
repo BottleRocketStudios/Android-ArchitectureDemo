@@ -144,6 +144,9 @@ object Config {
         const val GROUPIE_DATABINDING = "com.xwray:groupie-databinding:$GROUPIE_VERSION"
 
         //// Utility
+        // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
+        // https://github.com/hadilq/LiveEvent/releases
+        const val LIVE_EVENT = "com.github.hadilq.liveevent:liveevent:1.2.0"
         // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
         // https://github.com/JakeWharton/timber/releases
         const val TIMBER = "com.jakewharton.timber:timber:4.7.1"

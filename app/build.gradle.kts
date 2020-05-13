@@ -108,6 +108,7 @@ dependencies {
     implementation(Config.Libraries.GROUPIE_DATABINDING)
 
     // Utility
+    implementation(Config.Libraries.LIVE_EVENT)
     implementation(Config.Libraries.TIMBER)
     implementation(Config.Libraries.COMMONS_CODEC)
     debugImplementation(Config.Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation)
