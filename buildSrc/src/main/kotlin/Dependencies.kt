@@ -22,7 +22,7 @@ object Config {
     // http://www.jacoco.org/jacoco/trunk/doc/
     // https://github.com/jacoco/jacoco/releases
     const val JACOCO_VERSION = "0.8.5"
-    private const val NAVIGATION_VERSION = "2.1.0-alpha04"
+    private const val NAVIGATION_VERSION = "2.2.2"
 
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
