@@ -4,26 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/splashFragment">
 
+    <!--
+    Use popUpTo/popUpToInclusive to remove fragment from backstack when moving forwards
+    See https://proandroiddev.com/android-navigation-component-tips-tricks-implementing-splash-screen-f0f5ce046a09 and https://developer.android.com/guide/navigation/navigation-navigate#pop
+    -->
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/splash_fragment">
+        <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.auth.LoginFragment"
         android:label="LoginFragment" 
         tools:layout="@layout/login_fragment">
+        <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
