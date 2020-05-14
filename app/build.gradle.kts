@@ -1,4 +1,3 @@
-import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 
@@ -79,10 +78,10 @@ android {
         // Using a local val here since attempting to use a named lambda parameter would change the function signature from operating on applicationVariants.all (with an `Action` parameter)
         // to the Collections Iterable.`all` function. Same thing applies to outputs.all below
         val variant: ApplicationVariant = this
-        createBuildIdentifier(variant)
+        BuildInfoManager.createBuildIdentifier(variant)
         variant.outputs.all {
             val baseVariantOutput: BaseVariantOutput = this
-            modifyVersionNameAndApkName(variant, baseVariantOutput)
+            BuildInfoManager.modifyVersionNameAndApkName(variant, baseVariantOutput)
         }
     }
 }
@@ -136,36 +135,4 @@ dependencies {
     testImplementation(Config.TestLibraries.ARCH_CORE_TESTING)
 
     androidTestImplementation(Config.TestLibraries.ESPRESSO_CORE)
-}
-
-/** Creates BUILD_IDENTIFIER (accessible in code via BuildConfig.BUILD_IDENTIFIER) */
-fun createBuildIdentifier(variant: ApplicationVariant) {
-    println("[applicationVariants ${variant.name}] versionName: ${variant.versionName}")
-    val buildFingerprint = BuildInfoManager.createBuildFingerprint(variant.name)
-    // Write to BUILD_IDENTIFIER to be used within the app's code (dev screen UI)
-    variant.buildConfigField("String", "BUILD_IDENTIFIER", "\"$buildFingerprint\"")
-    println("[applicationVariants ${variant.name}] buildFingerprint: '$buildFingerprint'")
-}
-
-/** Updates version name and apk name when appropriate */
-fun modifyVersionNameAndApkName(variant: ApplicationVariant, output: BaseVariantOutput) {
-    // ApkVariantOutput provides setVersionNameOverride and setOutputFileName
-    // https://android.googlesource.com/platform/tools/base/+/studio-master-dev/build-system/gradle-core/src/main/java/com/android/build/gradle/api/ApkVariantOutput.java
-    // Initial finding pointing out the setVersionNameOverride usage: https://stackoverflow.com/a/47053539/201939
-    val apkVariantOutput: ApkVariantOutput = output as ApkVariantOutput
-
-    // Don't change apk name for non-ci builds to prevent dynamic build configuration values slowing down dev machine builds.
-    // See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
-    if (BuildInfoManager.shouldOverrideApkName()) {
-        apkVariantOutput.outputFileName = BuildInfoManager.createApkFilename(variant.name)
-    }
-    // Don't change version name for prod release builds or local prod release builds
-    // Only change for non-prod release builds on CI to keep the release versionName free from dev values AND to prevent dynamic build configuration values slowing down dev machine builds.
-    // See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
-    if (BuildInfoManager.shouldOverrideVersionName(variant.name)) {
-        apkVariantOutput.versionNameOverride = BuildInfoManager.createComplexVersionName()
-    }
-
-    println("[applicationVariants ${variant.name}] versionNameOverride: ${apkVariantOutput.versionNameOverride}")
-    println("[applicationVariants ${variant.name}] output file name: ${apkVariantOutput.outputFileName}")
 }

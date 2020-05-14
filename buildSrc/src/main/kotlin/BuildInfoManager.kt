@@ -1,3 +1,6 @@
+import com.android.build.gradle.api.ApkVariantOutput
+import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.BaseVariantOutput
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -31,9 +34,9 @@ object BuildInfoManager {
     private val IS_CI: Boolean = determineIfCi()
 
     /** True if apk name should be overridden. Otherwise false */
-    fun shouldOverrideApkName(): Boolean = IS_CI
+    private fun shouldOverrideApkName(): Boolean = IS_CI
     /** True if version name should be overridden. Otherwise false */
-    fun shouldOverrideVersionName(variantName: String): Boolean = IS_CI && !isProductionReleaseVariant(variantName)
+    private fun shouldOverrideVersionName(variantName: String): Boolean = IS_CI && !isProductionReleaseVariant(variantName)
 
     @Suppress("MemberVisibilityCanBePrivate")
     /** Call prior to android block definition in app build gradle. */
@@ -44,6 +47,38 @@ object BuildInfoManager {
         }
     }
 
+    /** Creates BUILD_IDENTIFIER (accessible in code via BuildConfig.BUILD_IDENTIFIER). Call inside [applicationVariants.all] block */
+    fun createBuildIdentifier(variant: ApplicationVariant) {
+        println("[applicationVariants ${variant.name}] versionName: ${variant.versionName}")
+        val buildFingerprint = createBuildFingerprint(variant.name)
+        // Write to BUILD_IDENTIFIER to be used within the app's code (dev screen UI)
+        variant.buildConfigField("String", "BUILD_IDENTIFIER", "\"$buildFingerprint\"")
+        println("[applicationVariants ${variant.name}] buildFingerprint: '$buildFingerprint'")
+    }
+
+    /** Updates version name and apk name when appropriate. Call inside applicationVariant.outputs.all block (within the [applicationVariants.all] block) */
+    fun modifyVersionNameAndApkName(variant: ApplicationVariant, output: BaseVariantOutput) {
+        // ApkVariantOutput provides setVersionNameOverride and setOutputFileName
+        // https://android.googlesource.com/platform/tools/base/+/studio-master-dev/build-system/gradle-core/src/main/java/com/android/build/gradle/api/ApkVariantOutput.java
+        // Initial finding pointing out the setVersionNameOverride usage: https://stackoverflow.com/a/47053539/201939
+        val apkVariantOutput: ApkVariantOutput = output as ApkVariantOutput
+
+        // Don't change apk name for non-ci builds to prevent dynamic build configuration values slowing down dev machine builds.
+        // See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
+        if (shouldOverrideApkName()) {
+            apkVariantOutput.outputFileName = createApkFilename(variant.name)
+        }
+        // Don't change version name for prod release builds or local prod release builds
+        // Only change for non-prod release builds on CI to keep the release versionName free from dev values AND to prevent dynamic build configuration values slowing down dev machine builds.
+        // See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
+        if (shouldOverrideVersionName(variant.name)) {
+            apkVariantOutput.versionNameOverride = createComplexVersionName()
+        }
+
+        println("[applicationVariants ${variant.name}] versionNameOverride: ${apkVariantOutput.versionNameOverride}")
+        println("[applicationVariants ${variant.name}] output file name: ${apkVariantOutput.outputFileName}")
+    }
+
     /**
      * Generates a string to help identify the build between dev/QA, intended to be shown in DevOptions UI. Empty string when given [variantName] matches [BuildInfoInput.productionReleaseVariantName]
      *
@@ -52,7 +87,7 @@ object BuildInfoManager {
      * * local debug: "debug-feature__update-version-name-and-apk-name-dev_build-3d7f6b4-2020-05-14"
      * * release:     ""
      */
-    fun createBuildFingerprint(variantName: String): String {
+    private fun createBuildFingerprint(variantName: String): String {
         // Don't want to create the value for productionRelease (no reason for it to be present in the build)
         return if (isProductionReleaseVariant(variantName)) {
             ""
@@ -73,7 +108,7 @@ object BuildInfoManager {
      * * local debug:   app-debug.apk
      * * local release: app-release.apk
      */
-    fun createApkFilename(variantName: String): String {
+    private fun createApkFilename(variantName: String): String {
         return "${input.brandName}-$variantName-${gitBranchBuildNumberGitShaDateString()}.apk"
     }
 
@@ -87,7 +122,7 @@ object BuildInfoManager {
      * * all CI non-prod variants (debug): 1.0.0-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14
      * * CI prod variant + local:          1.0.0
      */
-    fun createComplexVersionName(): String {
+    private fun createComplexVersionName(): String {
         return "${APP_VERSION.versionName}-${gitBranchBuildNumberGitShaDateString()}"
     }
 
