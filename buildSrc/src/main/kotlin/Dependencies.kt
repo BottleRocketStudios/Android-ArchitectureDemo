@@ -126,7 +126,7 @@ private object Libraries {
     // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
     // https://developer.android.com/topic/security/data
     // https://developer.android.com/jetpack/androidx/releases/security
-    const val SECURITY_CRYPTO = "androidx.security:security-crypto:1.0.0-rc01"
+    const val SECURITY_CRYPTO = "androidx.security:security-crypto:1.0.0-rc02"
 
     //// Material
     // https://github.com/material-components/material-components-android/releases
@@ -140,7 +140,7 @@ private object Libraries {
     // https://kotlinlang.org/docs/reference/coroutines/flow.html
     // https://github.com/Kotlin/kotlinx.coroutines/blob/master/CHANGES.md
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    private const val KOTLIN_COROUTINES_VERSION = "1.3.5"
+    private const val KOTLIN_COROUTINES_VERSION = "1.3.7"
     const val KOTLINX_COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES_VERSION"
     const val KOTLINX_COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$KOTLIN_COROUTINES_VERSION"
 
@@ -156,7 +156,7 @@ private object Libraries {
     // javadoc: https://square.github.io/retrofit/2.x/retrofit/
     // https://github.com/square/retrofit/blob/master/CHANGELOG.md
     // https://github.com/square/retrofit/releases
-    private const val RETROFIT_VERSION = "2.8.1"
+    private const val RETROFIT_VERSION = "2.9.0"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     const val RETROFIT_SCALARS_CONVERTER = "com.squareup.retrofit2:converter-scalars:$RETROFIT_VERSION"
     const val RETROFIT_MOSHI_CONVERTER = "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
@@ -187,12 +187,12 @@ private object Libraries {
     // Commons codec - used for base64 operations (no android framework requirement)
     // https://github.com/apache/commons-codec/blob/master/RELEASE-NOTES.txt
     // https://github.com/apache/commons-codec/releases
-    const val COMMONS_CODEC = "commons-codec:commons-codec:20041127.091804"
+    const val COMMONS_CODEC = "commons-codec:commons-codec:1.14"
 
     // https://square.github.io/leakcanary/changelog/
     // https://github.com/square/leakcanary/releases
     // Just use on debugImplementation builds
-    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:2.2"
+    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:2.3"
 
     // Chucker
     // https://medium.com/@cortinico/introducing-chucker-18f13a51b35d
