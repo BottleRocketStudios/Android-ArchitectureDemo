@@ -23,7 +23,10 @@ data class AppVersion(
         check(minor in 0 until 100) { "minor version number must be >= 0 and < 100" }
         check(patch in 0 until 100) { "patch version number must be >= 0 and < 100" }
         check(hotfix in 0 until 10) { "hotfix version number must be >= 0 and < 10" }
-        println("$this, versionCode=$versionCode, versionName=$versionName")
+    }
+
+    fun logString(): String {
+        return "$this, versionCode=$versionCode, versionName=$versionName"
     }
 
     /**

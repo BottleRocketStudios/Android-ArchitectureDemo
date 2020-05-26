@@ -1,4 +1,5 @@
-
+import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.BaseVariantOutput
 
 plugins {
     id(Config.ApplyPlugins.ANDROID_APPLICATION)
@@ -13,7 +14,15 @@ jacoco {
     toolVersion = Config.JACOCO_VERSION
 }
 
-val APP_VERSION = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true)
+// Prep BuildInfoManager to use its functions/properties later throughout this build script
+BuildInfoManager.initialize(
+    BuildInfoInput(
+        appVersion = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true),
+        brandName = "BR_Architecture",
+        productionReleaseVariantName = "release",
+        rootProjectDir = rootDir
+    )
+)
 
 // Some documentation on inner tags/blocks can be found with the below urls:
 // android {...} DSL Reference:
@@ -30,8 +39,8 @@ android {
         applicationId = "com.bottlerocketstudios.brarchitecture"
         minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
         targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
-        versionCode = APP_VERSION.versionCode
-        versionName = APP_VERSION.versionName
+        versionCode = BuildInfoManager.APP_VERSION.versionCode
+        versionName = BuildInfoManager.APP_VERSION.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
@@ -64,6 +73,16 @@ android {
             // the jacocoTest...UnitTestReport tasks. Stopping and restarting build would allow compilation/installation to complete.
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             isTestCoverageEnabled = false
+        }
+    }
+    applicationVariants.all {
+        // Using a local val here since attempting to use a named lambda parameter would change the function signature from operating on applicationVariants.all (with an `Action` parameter)
+        // to the Collections Iterable.`all` function. Same thing applies to outputs.all below
+        val variant: ApplicationVariant = this
+        BuildInfoManager.createBuildIdentifier(variant)
+        variant.outputs.all {
+            val baseVariantOutput: BaseVariantOutput = this
+            BuildInfoManager.modifyVersionNameAndApkName(variant, baseVariantOutput)
         }
     }
     testOptions {
