@@ -94,52 +94,37 @@ dependencies {
     // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    // Kotlin
-    implementation(Config.Libraries.KOTLIN_STDLIB_JDK7)
-    implementation(Config.Libraries.KOTLIN_REFLECT)
+    // Kotlin/coroutines
+    kotlinDependencies()
+    coroutineDependencies()
 
     // AndroidX
-    implementation(Config.Libraries.APP_COMPAT)
-    implementation(Config.Libraries.MATERIAL)
-    implementation(Config.Libraries.LIFECYCLE_LIVEDATA_KTX)
-    implementation(Config.Libraries.LIFECYCLE_VIEWMODEL_KTX)
-    implementation(Config.Libraries.LIFECYCLE_COMMON_JAVA8)
-    implementation(Config.Libraries.NAVIGATION_FRAGMENT_KTX)
-    implementation(Config.Libraries.NAVIGATION_UI_KTX)
-    implementation(Config.Libraries.SECURITY_CRYPTO)
+    appCompatDependencies()
+    materialDependencies()
+    lifecycleDependencies()
+    navigationDependencies()
+    securityCryptoDependencies()
 
-    // Coroutines
-    implementation(Config.Libraries.KOTLINX_COROUTINES_CORE)
-    implementation(Config.Libraries.KOTLINX_COROUTINES_ANDROID)
-
-    // Retrofit
-    implementation(Config.Libraries.RETROFIT)
-    implementation(Config.Libraries.RETROFIT_SCALARS_CONVERTER)
-    implementation(Config.Libraries.RETROFIT_MOSHI_CONVERTER)
-
-    // Moshi
-    implementation(Config.Libraries.MOSHI_KOTLIN)
-    kapt(Config.Libraries.MOSHI_KOTLIN_CODEGEN)
+    // Networking/parsing
+    retrofitDependencies()
+    moshiDependencies()
 
     // UI
-    implementation(Config.Libraries.GROUPIE)
-    implementation(Config.Libraries.GROUPIE_KOTLIN_ANDROID_EXTENSIONS)
-    implementation(Config.Libraries.GROUPIE_DATABINDING)
+    groupieDependencies()
 
     // Utility
-    implementation(Config.Libraries.LIVE_EVENT)
-    implementation(Config.Libraries.TIMBER)
-    implementation(Config.Libraries.COMMONS_CODEC)
-    debugImplementation(Config.Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation)
-    debugImplementation(Config.Libraries.CHUCKER) // note the debugImplementation usage (releaseImplementation uses no-op)
-    releaseImplementation(Config.Libraries.CHUCKER_NO_OP) // note the releaseImplementation no-op
-    debugImplementation(Config.Libraries.DEBUG_DATABASE) // note the debugImplementation usage (no releaseImplementation)
+    liveEventDependencies()
+    timberDependencies()
+    commonsCodecDependencies()
+    leakCanaryDependencies()
+    chuckerDependencies()
+    debugDatabaseDependencies()
 
     // Test
-    testImplementation(Config.TestLibraries.JUNIT)
-    testImplementation(Config.TestLibraries.MOCKITO_KOTLIN)
-    testImplementation(Config.TestLibraries.TRUTH)
-    testImplementation(Config.TestLibraries.ARCH_CORE_TESTING)
-
-    androidTestImplementation(Config.TestLibraries.ESPRESSO_CORE)
+    junitDependencies()
+    mockitoKotlinDependencies()
+    truthDependencies()
+    archCoreTestingDependencies()
+    // Android Test
+    espressoDependencies()
 }
