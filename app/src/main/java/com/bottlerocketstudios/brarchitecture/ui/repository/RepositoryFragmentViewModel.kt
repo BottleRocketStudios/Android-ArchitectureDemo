@@ -11,7 +11,7 @@ import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 
-class RepositoryActivityViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+class RepositoryFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val repos = repo.repos
     var selectedId: String? = null
     val _selectedRepository = MutableLiveData<Repository?>()

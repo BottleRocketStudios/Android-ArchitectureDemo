@@ -4,9 +4,7 @@ import android.app.Application
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 
-class UserActivityViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
-    init {
-    }
+class UserFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
 
     override fun onCleared() {
         super.onCleared()

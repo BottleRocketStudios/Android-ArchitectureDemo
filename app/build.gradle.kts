@@ -7,6 +7,7 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
+    id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
 jacoco {
@@ -84,6 +85,9 @@ android {
             BuildInfoManager.modifyVersionNameAndApkName(variant, baseVariantOutput)
         }
     }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -100,6 +104,8 @@ dependencies {
     implementation(Config.Libraries.LIFECYCLE_LIVEDATA_KTX)
     implementation(Config.Libraries.LIFECYCLE_VIEWMODEL_KTX)
     implementation(Config.Libraries.LIFECYCLE_COMMON_JAVA8)
+    implementation(Config.Libraries.NAVIGATION_FRAGMENT_KTX)
+    implementation(Config.Libraries.NAVIGATION_UI_KTX)
     implementation(Config.Libraries.SECURITY_CRYPTO)
 
     // Coroutines
@@ -121,6 +127,7 @@ dependencies {
     implementation(Config.Libraries.GROUPIE_DATABINDING)
 
     // Utility
+    implementation(Config.Libraries.LIVE_EVENT)
     implementation(Config.Libraries.TIMBER)
     implementation(Config.Libraries.COMMONS_CODEC)
     debugImplementation(Config.Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation)

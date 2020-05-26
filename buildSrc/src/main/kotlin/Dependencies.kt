@@ -23,6 +23,7 @@ object Config {
     // http://www.jacoco.org/jacoco/trunk/doc/
     // https://github.com/jacoco/jacoco/releases
     const val JACOCO_VERSION = "0.8.5"
+    private const val NAVIGATION_VERSION = "2.2.2"
 
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
@@ -44,6 +45,7 @@ object Config {
         // const val JACOCO_ANDROID = "com.dicedmelon.gradle:jacoco-android:0.1.4"
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
         const val JACOCO_ANDROID = "com.hiya:jacoco-android:0.2"
+        const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     }
 
     /**
@@ -57,6 +59,7 @@ object Config {
         // const val JACOCO_ANDROID = "jacoco-android"
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
         const val JACOCO_ANDROID = "com.hiya.jacoco-android"
+        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs.kotlin"
 
         object Kotlin {
             const val ANDROID = "android"
@@ -93,6 +96,10 @@ object Config {
         const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
         // https://developer.android.com/jetpack/androidx/releases/appcompat
         const val APP_COMPAT = "androidx.appcompat:appcompat:1.1.0"
+        // Navigation
+        // https://developer.android.com/jetpack/androidx/releases/navigation
+        const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
+        const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
         // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
         // https://developer.android.com/topic/security/data
         // https://developer.android.com/jetpack/androidx/releases/security
@@ -139,6 +146,9 @@ object Config {
         const val GROUPIE_DATABINDING = "com.xwray:groupie-databinding:$GROUPIE_VERSION"
 
         //// Utility
+        // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
+        // https://github.com/hadilq/LiveEvent/releases
+        const val LIVE_EVENT = "com.github.hadilq.liveevent:liveevent:1.2.0"
         // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
         // https://github.com/JakeWharton/timber/releases
         const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
