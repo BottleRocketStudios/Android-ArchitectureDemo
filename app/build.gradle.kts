@@ -7,6 +7,7 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
+    id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
 jacoco {
@@ -84,6 +85,9 @@ android {
             BuildInfoManager.modifyVersionNameAndApkName(variant, baseVariantOutput)
         }
     }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -98,6 +102,7 @@ dependencies {
     appCompatDependencies()
     materialDependencies()
     lifecycleDependencies()
+    navigationDependencies()
     securityCryptoDependencies()
 
     // Networking/parsing
@@ -108,6 +113,7 @@ dependencies {
     groupieDependencies()
 
     // Utility
+    liveEventDependencies()
     timberDependencies()
     commonsCodecDependencies()
     leakCanaryDependencies()

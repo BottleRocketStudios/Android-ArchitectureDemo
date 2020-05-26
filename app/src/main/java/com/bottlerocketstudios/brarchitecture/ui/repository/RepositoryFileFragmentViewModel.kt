@@ -7,7 +7,7 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.repository.Bitbucke
 import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
 import kotlinx.coroutines.launch
 
-class RepositoryFileActivityViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+class RepositoryFileFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val _srcFile = MutableLiveData<String?>()
     val srcFile: LiveData<String?>
         get() = _srcFile

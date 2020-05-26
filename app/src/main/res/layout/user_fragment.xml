@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.bottlerocketstudios.brarchitecture.ui.user.UserActivityViewModel" />
+            type="com.bottlerocketstudios.brarchitecture.ui.user.UserFragmentViewModel" />
     </data>
 
     <LinearLayout

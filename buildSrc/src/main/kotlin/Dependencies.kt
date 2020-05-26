@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 // https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
 private const val KOTLIN_VERSION = "1.3.72"
+private const val NAVIGATION_VERSION = "2.2.2"
 
 /**
  * Provides the source of truth for version/configuration information to any gradle build file (project and app module build.gradle.kts)
@@ -51,6 +52,7 @@ object Config {
         // const val JACOCO_ANDROID = "com.dicedmelon.gradle:jacoco-android:0.1.4"
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
         const val JACOCO_ANDROID = "com.hiya:jacoco-android:0.2"
+        const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     }
 
     /**
@@ -65,6 +67,7 @@ object Config {
         // const val JACOCO_ANDROID = "jacoco-android"
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
         const val JACOCO_ANDROID = "com.hiya.jacoco-android"
+        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs.kotlin"
 
         object Kotlin {
             const val ANDROID = "android"
@@ -115,6 +118,11 @@ private object Libraries {
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.1.0"
 
+    // Navigation
+    // https://developer.android.com/jetpack/androidx/releases/navigation
+    const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
+    const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
+
     // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
     // https://developer.android.com/topic/security/data
     // https://developer.android.com/jetpack/androidx/releases/security
@@ -160,6 +168,10 @@ private object Libraries {
     const val GROUPIE_DATABINDING = "com.xwray:groupie-databinding:$GROUPIE_VERSION"
 
     //// Utility
+    // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
+    // https://github.com/hadilq/LiveEvent/releases
+    const val LIVE_EVENT = "com.github.hadilq.liveevent:liveevent:1.2.0"
+
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/timber/releases
     const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
@@ -244,6 +256,10 @@ fun DependencyHandler.lifecycleDependencies() {
     implementation(Libraries.LIFECYCLE_VIEWMODEL_KTX)
     implementation(Libraries.LIFECYCLE_COMMON_JAVA8)
 }
+fun DependencyHandler.navigationDependencies() {
+    implementation(Libraries.NAVIGATION_FRAGMENT_KTX)
+    implementation(Libraries.NAVIGATION_UI_KTX)
+}
 
 fun DependencyHandler.materialDependencies() {
     implementation(Libraries.MATERIAL)
@@ -261,6 +277,9 @@ fun DependencyHandler.groupieDependencies() {
 
 fun DependencyHandler.timberDependencies() {
     implementation(Libraries.TIMBER)
+}
+fun DependencyHandler.liveEventDependencies() {
+    implementation(Libraries.LIVE_EVENT)
 }
 
 fun DependencyHandler.commonsCodecDependencies() {
