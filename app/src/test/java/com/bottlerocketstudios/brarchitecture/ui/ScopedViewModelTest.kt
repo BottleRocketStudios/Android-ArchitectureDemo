@@ -8,7 +8,7 @@ import org.junit.Test
 class ScopedViewModelTest : BaseTest() {
     @Test
     fun scopedViewModel_shouldHaveCoroutineContext_whee() {
-        val svm = ScopedViewModel(mock{})
+        val svm = object : ScopedViewModel(mock {}) {}
         assertThat(svm.coroutineContext).isNotNull()
         assertThat(ScopedViewModel.context).isNotNull()
     }

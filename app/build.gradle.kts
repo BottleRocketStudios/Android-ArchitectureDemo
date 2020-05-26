@@ -1,88 +1,132 @@
-
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.BaseVariantOutput
 
 plugins {
-    id("com.android.application")
-    id("jacoco-android")
-    kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
+    id(Config.ApplyPlugins.ANDROID_APPLICATION)
+    id(Config.ApplyPlugins.JACOCO_ANDROID)
+    kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
+    kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)
+    kotlin(Config.ApplyPlugins.Kotlin.KAPT)
+    id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = Config.JACOCO_VERSION
 }
 
+// Prep BuildInfoManager to use its functions/properties later throughout this build script
+BuildInfoManager.initialize(
+    BuildInfoInput(
+        appVersion = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true),
+        brandName = "BR_Architecture",
+        productionReleaseVariantName = "release",
+        rootProjectDir = rootDir
+    )
+)
+
+// Some documentation on inner tags/blocks can be found with the below urls:
+// android {...} DSL Reference:
+// http://google.github.io/android-gradle-dsl/ - Select version of AGP
+// https://google.github.io/android-gradle-dsl/current/index.html - Latest version of AGP
+// javadocs:
+// http://google.github.io/android-gradle-dsl/javadoc/ - Select version of AGP
+// http://google.github.io/android-gradle-dsl/javadoc/current/ - Latest version of AGP
 android {
-    compileSdkVersion(28)
-    buildToolsVersion = "28.0.3"
+    compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
+    buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
     dataBinding.isEnabled = true
     defaultConfig {
         applicationId = "com.bottlerocketstudios.brarchitecture"
-        minSdkVersion(23)
-        targetSdkVersion(28)
-        versionCode = 1
-        versionName = "1.0"
+        minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
+        targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
+        versionCode = BuildInfoManager.APP_VERSION.versionCode
+        versionName = BuildInfoManager.APP_VERSION.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    // https://stackoverflow.com/questions/48988778/cannot-inline-bytecode-built-with-jvm-target-1-8-into-bytecode-that-is-being-bui#comment93879366_50991772
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    signingConfigs {
+        getByName("debug") {
+            // Use common debug keystore so all local builds can be shared between devs/QA
+            storeFile = file("../keystore/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            // FIXME: HARDCODED TO USE DEBUG KEYSTORE!!! DO NOT SHIP THIS!!! ADD LOGIC TO USE ACTUAL RELEASE KEYSTORE VIA ENVIRONMENT VARIABLES ON CI!!!
+            signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
-            isTestCoverageEnabled = true
+            // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
+            // the jacocoTest...UnitTestReport tasks. Stopping and restarting build would allow compilation/installation to complete.
+            // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
+            isTestCoverageEnabled = false
         }
+    }
+    applicationVariants.all {
+        // Using a local val here since attempting to use a named lambda parameter would change the function signature from operating on applicationVariants.all (with an `Action` parameter)
+        // to the Collections Iterable.`all` function. Same thing applies to outputs.all below
+        val variant: ApplicationVariant = this
+        BuildInfoManager.createBuildIdentifier(variant)
+        variant.outputs.all {
+            val baseVariantOutput: BaseVariantOutput = this
+            BuildInfoManager.modifyVersionNameAndApkName(variant, baseVariantOutput)
+        }
+    }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
     }
 }
 
-object DependencyVersions {
-    const val APP_COMPAT = "1.0.2"
-    const val REFLECT = "1.3.0"
-    const val DESIGN = "1.0.0"
-    const val LIFECYCLE = "2.0.0"
-    const val CORE = "2.0.0"
-    const val RETROFIT = "2.4.0"
-    const val MOSHI = "1.6.0"
-    const val TIMBER = "4.7.1"
-    const val CONST_CODEC = "20041127.091804"
-    const val KOTLIN_COROUTINES = "1.1.0"
-    const val GROUPIE = "2.3.0"
-    const val JUNIT = "4.12"
-    const val MOCKITO_KOTLIN = "2.1.0"
-    const val TRUTH = "0.42"
-    const val TEST_RUNNER = "1.0.2"
-    const val ESPRESSO = "3.1.0"
-    const val KOIN = "2.0.1"
-    const val VAULT = "1.4.2"
-}
-
 dependencies {
-    // TODO: Find a way to make sure we are aware of out-of-date versions
+    // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.kotlin","kotlin-reflect", DependencyVersions.REFLECT)
-    implementation("androidx.appcompat","appcompat", DependencyVersions.APP_COMPAT)
-    implementation("com.google.android.material","material", DependencyVersions.DESIGN)
-    implementation("androidx.lifecycle:lifecycle-extensions:${DependencyVersions.LIFECYCLE}")
-    implementation("com.squareup.retrofit2:retrofit:${DependencyVersions.RETROFIT}")
-    implementation("com.squareup.retrofit2:converter-scalars:${DependencyVersions.RETROFIT}")
-    implementation("com.squareup.moshi:moshi-kotlin:${DependencyVersions.MOSHI}")
-    implementation("com.squareup.retrofit2:converter-moshi:${DependencyVersions.RETROFIT}")
-    implementation("com.jakewharton.timber:timber:${DependencyVersions.TIMBER}")
-    implementation("commons-codec:commons-codec:${DependencyVersions.CONST_CODEC}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependencyVersions.KOTLIN_COROUTINES}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersions.KOTLIN_COROUTINES}")
-    implementation("org.koin", "koin-android", DependencyVersions.KOIN)
-    implementation("org.koin", "koin-androidx-viewmodel", DependencyVersions.KOIN)
-    implementation("com.bottlerocketstudios", "vault", DependencyVersions.VAULT)
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:${DependencyVersions.MOSHI}")
-    implementation("com.xwray", "groupie", DependencyVersions.GROUPIE)
-    implementation("com.xwray", "groupie-kotlin-android-extensions", DependencyVersions.GROUPIE)
-    implementation("com.xwray", "groupie-databinding", DependencyVersions.GROUPIE)
-    testImplementation("junit:junit:${DependencyVersions.JUNIT}")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${DependencyVersions.MOCKITO_KOTLIN}")
-    testImplementation("com.google.truth:truth:${DependencyVersions.TRUTH}")
-    testImplementation("androidx.arch.core", "core-testing", DependencyVersions.CORE)
-    androidTestImplementation("androidx.test.espresso:espresso-core:${DependencyVersions.ESPRESSO}")
+
+    // Kotlin/coroutines
+    kotlinDependencies()
+    coroutineDependencies()
+
+    // AndroidX
+    appCompatDependencies()
+    materialDependencies()
+    lifecycleDependencies()
+    navigationDependencies()
+    securityCryptoDependencies()
+
+    koinDependencies()
+
+    // Networking/parsing
+    retrofitDependencies()
+    moshiDependencies()
+
+    // UI
+    groupieDependencies()
+
+    // Utility
+    liveEventDependencies()
+    timberDependencies()
+    commonsCodecDependencies()
+    leakCanaryDependencies()
+    chuckerDependencies()
+    debugDatabaseDependencies()
+
+    // Test
+    junitDependencies()
+    mockitoKotlinDependencies()
+    truthDependencies()
+    archCoreTestingDependencies()
+    // Android Test
+    espressoDependencies()
 }

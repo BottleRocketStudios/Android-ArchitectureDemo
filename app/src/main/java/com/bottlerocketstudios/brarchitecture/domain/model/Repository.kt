@@ -1,9 +1,10 @@
 package com.bottlerocketstudios.brarchitecture.domain.model
 
 import android.os.Parcelable
+import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
 
+@JsonClass(generateAdapter = true)
 @Parcelize
 data class Repository(
     val scm: String? = "",

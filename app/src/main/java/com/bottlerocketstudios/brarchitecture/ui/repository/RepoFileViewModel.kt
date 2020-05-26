@@ -7,7 +7,6 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseBindableViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.databinding.BindableItem
 
-
 data class RepoFileViewModel(val file: RepoFile) : BaseBindableViewModel() {
     override fun getItemFactory(): (BaseBindableViewModel) -> BindableItem<ViewDataBinding> {
         return { vm -> ViewModelItem(vm as RepoFileViewModel, R.layout.item_file) }

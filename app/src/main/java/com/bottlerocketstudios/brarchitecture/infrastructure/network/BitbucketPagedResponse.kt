@@ -1,5 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class BitbucketPagedResponse<T>(
     val pagelen: Int = 0,
     val page: Int = 0,
