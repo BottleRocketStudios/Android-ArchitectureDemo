@@ -147,7 +147,7 @@ private object Libraries {
     //// Koin
     // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
     // https://github.com/InsertKoinIO/koin/releases
-    private const val KOIN_VERSION = "2.0.1"
+    private const val KOIN_VERSION = "2.1.5"
     const val KOIN_ANDROID = "org.koin:koin-android:$KOIN_VERSION"
     const val KOIN_ANDROIDX_SCOPE = "org.koin:koin-androidx-scope:$KOIN_VERSION"
     const val KOIN_ANDROIDX_VIEWMODEL = "org.koin:koin-androidx-viewmodel:$KOIN_VERSION"
