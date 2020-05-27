@@ -16,7 +16,7 @@ class BitbucketApplication : Application() {
             // TODO: Remove logging in production
             androidLogger()
             androidContext(this@BitbucketApplication)
-            modules(appModule)
+            modules(BitbucketModule.all())
         }
     }
 }

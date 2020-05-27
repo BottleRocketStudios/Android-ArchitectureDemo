@@ -3,20 +3,26 @@ package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
+import com.bottlerocketstudios.brarchitecture.infrastructure.auth.basic.BasicAuthInterceptor
 import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class BasicAuthRepositoryTest : BaseTest() {
+class BasicAuthInterceptorTest : BaseTest() {
 
     @Test
     fun authInterceptor() {
-        val auth = BasicAuthRepository()
         runBlocking {
-            val interceptor = auth.authInterceptor(ValidCredentialModel("patentlychris@gmail.com", "password1"))
+            val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
+                on { loadCredentials() } doReturn ValidCredentialModel("patentlychris@gmail.com", "password1")
+            }
+            val interceptor = BasicAuthInterceptor(bitbucketCredentialsRepository)
+
             val headerInterceptorMock = HeaderInterceptorMock()
             interceptor.intercept(headerInterceptorMock.getMockedChain())
             // Need to capture two arguments, can't use mockito-kotlin dsl

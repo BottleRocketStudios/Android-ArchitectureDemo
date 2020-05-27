@@ -3,10 +3,14 @@ package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 import com.bottlerocketstudios.brarchitecture.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
+import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.AccessToken
+import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthInterceptor
+import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthService
 import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doAnswer
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
@@ -14,37 +18,30 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.Retrofit
 
-class TokenAuthRepositoryTest : BaseTest() {
+class TokenAuthInterceptorTest : BaseTest() {
 
     @Test
     fun authInterceptor() {
-        // The Retrofit required to actually make the call
-        /*
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://bitbucket.org/")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()*/
-        val accessToken = TokenAuthRepository.AccessToken()
+        var accessToken: AccessToken? = null
         val response: Response<*> = mock() {
             on { body() }.then { accessToken }
         }
-        val call: Call<TokenAuthRepository.AccessToken> = mock() {
+        val call: Call<AccessToken> = mock() {
             on { execute() }.then { response }
         }
-        val service: TokenAuthRepository.AuthService = mock() {
+        val service: TokenAuthService = mock() {
             on { getToken(any(), any(), any(), any()) }.doAnswer { invocation ->
-                accessToken.access_token = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}"
+                accessToken = AccessToken(access_token = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}")
                 call
             }
         }
-        val retrofit: Retrofit = mock() {
-            on { create<Any>(any()) }.then { service }
+        val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
+            on { loadCredentials() } doReturn ValidCredentialModel("patentlychris@gmail.com", "password1")
+            on { loadToken() } doAnswer { accessToken }
         }
-        val auth = TokenAuthRepository(mock(), retrofit)
+        val interceptor = TokenAuthInterceptor(service, bitbucketCredentialsRepository)
         runBlocking {
-            val interceptor = auth.authInterceptor(ValidCredentialModel("patentlychris@gmail.com", "password1"))
             val headerInterceptorMock = HeaderInterceptorMock()
             interceptor.intercept(headerInterceptorMock.getMockedChain())
             // Need to capture two arguments, can't use mockito-kotlin dsl

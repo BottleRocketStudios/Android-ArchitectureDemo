@@ -5,22 +5,20 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.AccessToken
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import timber.log.Timber.e
 
-class BitbucketCredentialsRepository(context: Context) {
+class BitbucketCredentialsRepository(context: Context, private val moshi: Moshi) {
     companion object {
         private const val SECURE_PREF_FILE_NAME = "secureBbCredentials"
         private const val BITBUCKET_CREDENTIALS = "BitbucketCredentials"
         private const val BITBUCKET_TOKEN = "BitbucketToken"
-        private val CREDENTIAL_ADAPTER = Moshi.Builder()
-            .build()
-            .adapter(ValidCredentialModel::class.java)
-        private val TOKEN_ADAPTER = Moshi.Builder()
-            .build()
-            .adapter(TokenAuthRepository.AccessToken::class.java)
     }
 
+    private val CREDENTIAL_ADAPTER: JsonAdapter<ValidCredentialModel> by lazy { moshi.adapter(ValidCredentialModel::class.java) }
+    private val TOKEN_ADAPTER: JsonAdapter<AccessToken> by lazy { moshi.adapter(AccessToken::class.java) }
     private val encryptedSharedPrefs: SharedPreferences = EncryptedSharedPreferences.create(
         SECURE_PREF_FILE_NAME,
         MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
@@ -47,11 +45,11 @@ class BitbucketCredentialsRepository(context: Context) {
         }
     }
 
-    fun storeToken(token: TokenAuthRepository.AccessToken) {
+    fun storeToken(token: AccessToken) {
         encryptedSharedPrefs.edit().putString(BITBUCKET_TOKEN, TOKEN_ADAPTER.toJson(token)).apply()
     }
 
-    fun loadToken(): TokenAuthRepository.AccessToken? {
+    fun loadToken(): AccessToken? {
         val credentialsJson = encryptedSharedPrefs.getString(BITBUCKET_TOKEN, null)
         return if (!credentialsJson.isNullOrEmpty()) {
             TOKEN_ADAPTER.fromJson(credentialsJson)
