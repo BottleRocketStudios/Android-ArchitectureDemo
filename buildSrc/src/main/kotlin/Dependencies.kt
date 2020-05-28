@@ -40,8 +40,9 @@ object Config {
         // https://androidstudio.googleblog.com/2019/07/android-studio-342-available.html
         // https://androidstudio.googleblog.com/2019/11/android-studio-352-available.html
         // https://developer.android.com/studio/releases/gradle-plugin#3-6-0
+        // https://developer.android.com/studio/releases/gradle-plugin#4-0-0
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:3.6.3"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:4.0.0"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> android-sunseeker -> Tasks -> help -> dependencyUpdates
