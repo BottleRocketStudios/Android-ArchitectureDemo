@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 
 class SplashFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     private val _authenticated = MutableLiveData<Boolean>()
-    val authenticated: LiveData<Boolean>
-        get() = _authenticated
+    val authenticated: LiveData<Boolean> = _authenticated
 
     init {
         launch {

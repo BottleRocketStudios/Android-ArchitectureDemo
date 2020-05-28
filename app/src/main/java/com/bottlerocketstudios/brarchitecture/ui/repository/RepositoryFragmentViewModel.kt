@@ -15,11 +15,9 @@ class RepositoryFragmentViewModel(app: Application, repo: BitbucketRepository) :
     val repos = repo.repos
     var selectedId: String? = null
     val _selectedRepository = MutableLiveData<Repository?>()
-    val selectedRepository: LiveData<Repository?>
-        get() = _selectedRepository
+    val selectedRepository: LiveData<Repository?> = _selectedRepository
     val _srcFiles = MutableLiveData<List<RepoFile>?>()
-    val srcFiles: LiveData<List<RepoFile>?>
-        get() = _srcFiles
+    val srcFiles: LiveData<List<RepoFile>?> = _srcFiles
     val filesGroup = Section()
 
     fun selectRepository(id: String?) {

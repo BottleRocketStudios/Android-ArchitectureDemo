@@ -12,8 +12,7 @@ import kotlinx.coroutines.launch
 
 class RepositoryFolderFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val _srcFiles = MutableLiveData<List<RepoFile>?>()
-    val srcFiles: LiveData<List<RepoFile>?>
-        get() = _srcFiles
+    val srcFiles: LiveData<List<RepoFile>?> = _srcFiles
     val filesGroup = Section()
 
     private val filesObserver = Observer<List<RepoFile>?> { files ->

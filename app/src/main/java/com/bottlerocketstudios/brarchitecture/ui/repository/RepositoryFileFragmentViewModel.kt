@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 
 class RepositoryFileFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
     val _srcFile = MutableLiveData<String?>()
-    val srcFile: LiveData<String?>
-        get() = _srcFile
+    val srcFile: LiveData<String?> = _srcFile
     fun loadFile(owner: String, repoId: String, mimetype: String, hash: String, path: String) {
         launch {
             _srcFile.postValue(repo.getSourceFile(owner, repoId, hash, path))

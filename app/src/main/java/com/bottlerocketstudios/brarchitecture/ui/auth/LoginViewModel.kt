@@ -19,11 +19,9 @@ class LoginViewModel(app: Application, repo: BitbucketRepository) : RepoViewMode
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     private val _loginEnabled = MutableLiveData<Boolean>()
-    val loginEnabled: LiveData<Boolean>
-        get() = _loginEnabled
+    val loginEnabled: LiveData<Boolean> = _loginEnabled
     private val _authenticated = MutableLiveData<Boolean>()
-    val authenticated: LiveData<Boolean>
-        get() = _authenticated
+    val authenticated: LiveData<Boolean> = _authenticated
 
     init {
         _loginEnabled.postValue(false)
