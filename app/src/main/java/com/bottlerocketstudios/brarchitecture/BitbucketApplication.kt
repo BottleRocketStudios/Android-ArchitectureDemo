@@ -1,51 +1,22 @@
 package com.bottlerocketstudios.brarchitecture
 
 import android.app.Application
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.TokenAuthRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.network.DefaultOkHttpBuilderProvider
-import com.bottlerocketstudios.brarchitecture.infrastructure.network.OkHttpBuilderProvider
-import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import timber.log.Timber
-import java.lang.reflect.InvocationTargetException
 
+@Suppress("unused")
 class BitbucketApplication : Application() {
-    val factory: BitbucketViewModelFactory
-        get() = BitbucketViewModelFactory(this, repository)
-    val okHttpProvider: OkHttpBuilderProvider by lazy {
-        DefaultOkHttpBuilderProvider(this)
-    }
-    val credentialsRepo: BitbucketCredentialsRepository by lazy {
-        BitbucketCredentialsRepository(this)
-    }
-    val repository: BitbucketRepository by lazy {
-        BitbucketRepository(TokenAuthRepository(TokenAuthRepository.retrofit(okHttpProvider), credentialsRepo), okHttpProvider)
-    }
-
-    class BitbucketViewModelFactory(val app: Application, val repo: BitbucketRepository) : ViewModelProvider.AndroidViewModelFactory(app) {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (RepoViewModel::class.java.isAssignableFrom(modelClass)) {
-                try {
-                    return modelClass.getConstructor(Application::class.java, BitbucketRepository::class.java).newInstance(app, repo)
-                } catch (e: NoSuchMethodException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
-                } catch (e: IllegalAccessException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
-                } catch (e: InstantiationException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
-                } catch (e: InvocationTargetException) {
-                    throw RuntimeException("Cannot create an instance of " + modelClass, e)
-                }
-            }
-            return super.create(modelClass)
-        }
-    }
-
     override fun onCreate() {
         super.onCreate()
+        // TODO: Remove logging in production
         Timber.plant(Timber.DebugTree())
+        startKoin {
+            // TODO: Remove logging in production
+            androidLogger()
+            androidContext(this@BitbucketApplication)
+            modules(BitbucketModule.all())
+        }
     }
 }

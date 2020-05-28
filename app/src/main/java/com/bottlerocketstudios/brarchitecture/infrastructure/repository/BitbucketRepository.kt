@@ -6,16 +6,14 @@ import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.domain.model.User
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.AuthRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.AuthenticationFailureException
-import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketRetrofit
-import com.bottlerocketstudios.brarchitecture.infrastructure.network.OkHttpBuilderProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
+import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
 
-class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHttpBuilderProvider) {
-    var retrofit = BitbucketRetrofit.getRetrofit(okHttpProvider, null)
+class BitbucketRepository(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository) {
     private val _user = MutableLiveData<User>()
     private val _repos = MutableLiveData<List<Repository>>()
     var authenticated = false
+        private set
 
     val user: LiveData<User>
         get() = _user
@@ -27,21 +25,16 @@ class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHt
         if (authenticated) {
             return true
         }
-        try {
-            val interceptor = authRepo.authInterceptor(creds)
-            retrofit = BitbucketRetrofit.getRetrofit(okHttpProvider, interceptor)
-            if (refreshUser()) {
-                authenticated = true
-                return true
-            }
-        } catch (e: AuthenticationFailureException) {
-            return false
+        creds?.let { bitbucketCredentialsRepository.storeCredentials(it) }
+        if (refreshUser()) {
+            authenticated = true
+            return true
         }
         return false
     }
 
     fun refreshUser(): Boolean {
-        val response = retrofit.getUser().execute()
+        val response = bitbucketService.getUser().execute()
         var userResponse: User?
         if (response.isSuccessful) {
             userResponse = response.body()
@@ -51,7 +44,7 @@ class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHt
     }
 
     fun refreshMyRepos(): Boolean {
-        val response = retrofit.getRepositories(_user.value?.username ?: "").execute()
+        val response = bitbucketService.getRepositories(_user.value?.username ?: "").execute()
         if (response.isSuccessful) {
             _repos.postValue(response.body()?.values)
         }
@@ -59,7 +52,7 @@ class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHt
     }
 
     fun getRepositories(owner: String): List<Repository> {
-        val response = retrofit.getRepositories(owner).execute()
+        val response = bitbucketService.getRepositories(owner).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
         }
@@ -67,7 +60,7 @@ class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHt
     }
 
     fun getRepository(owner: String, repo: String): Repository? {
-        val response = retrofit.getRepository(owner, repo).execute()
+        val response = bitbucketService.getRepository(owner, repo).execute()
         if (response.isSuccessful) {
             return response.body()
         }
@@ -75,7 +68,7 @@ class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHt
     }
 
     fun getSource(owner: String, repo: String): List<RepoFile>? {
-        val response = retrofit.getRepositorySource(owner, repo).execute()
+        val response = bitbucketService.getRepositorySource(owner, repo).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
         }
@@ -83,7 +76,7 @@ class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHt
     }
 
     fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>? {
-        val response = retrofit.getRepositorySourceFolder(owner, repo, hash, path).execute()
+        val response = bitbucketService.getRepositorySourceFolder(owner, repo, hash, path).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
         }
@@ -91,7 +84,7 @@ class BitbucketRepository(val authRepo: AuthRepository, val okHttpProvider: OkHt
     }
 
     fun getSourceFile(owner: String, repo: String, hash: String, path: String): String? {
-        val response = retrofit.getRepositorySourceFile(owner, repo, hash, path).execute()
+        val response = bitbucketService.getRepositorySourceFile(owner, repo, hash, path).execute()
         if (response.isSuccessful) {
             return response.body() ?: ""
         }

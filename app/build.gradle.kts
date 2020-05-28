@@ -104,6 +104,8 @@ dependencies {
     navigationDependencies()
     securityCryptoDependencies()
 
+    koinDependencies()
+
     // Networking/parsing
     retrofitDependencies()
     moshiDependencies()

@@ -15,16 +15,12 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RepositoryFolderFragment : BaseFragment() {
-    private val fragmentViewModel: RepositoryFolderFragmentViewModel by lazy {
-        getProvidedViewModel(RepositoryFolderFragmentViewModel::class.java)
-    }
-
-    private val activityViewModel: MainActivityViewModel by lazy {
-        getProvidedActivityViewModel(MainActivityViewModel::class.java)
-    }
-
+    private val fragmentViewModel: RepositoryFolderFragmentViewModel by viewModel()
+    private val activityViewModel: MainActivityViewModel by sharedViewModel()
     val args: RepositoryFolderFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

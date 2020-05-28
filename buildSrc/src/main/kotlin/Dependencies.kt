@@ -144,6 +144,14 @@ private object Libraries {
     const val KOTLINX_COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES_VERSION"
     const val KOTLINX_COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$KOTLIN_COROUTINES_VERSION"
 
+    //// Koin
+    // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
+    // https://github.com/InsertKoinIO/koin/releases
+    private const val KOIN_VERSION = "2.1.5"
+    const val KOIN_ANDROID = "org.koin:koin-android:$KOIN_VERSION"
+    const val KOIN_ANDROIDX_SCOPE = "org.koin:koin-androidx-scope:$KOIN_VERSION"
+    const val KOIN_ANDROIDX_VIEWMODEL = "org.koin:koin-androidx-viewmodel:$KOIN_VERSION"
+
     //// Retrofit
     // javadoc: https://square.github.io/retrofit/2.x/retrofit/
     // https://github.com/square/retrofit/blob/master/CHANGELOG.md
@@ -236,6 +244,11 @@ fun DependencyHandler.coroutineDependencies() {
     implementation(Libraries.KOTLINX_COROUTINES_ANDROID)
 }
 
+fun DependencyHandler.koinDependencies() {
+    implementation(Libraries.KOIN_ANDROID)
+    implementation(Libraries.KOIN_ANDROIDX_SCOPE)
+    implementation(Libraries.KOIN_ANDROIDX_VIEWMODEL)
+}
 fun DependencyHandler.retrofitDependencies() {
     implementation(Libraries.RETROFIT)
     implementation(Libraries.RETROFIT_SCALARS_CONVERTER)

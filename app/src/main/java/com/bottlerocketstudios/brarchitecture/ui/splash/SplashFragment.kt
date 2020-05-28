@@ -10,11 +10,10 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.SplashFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashFragment : BaseFragment() {
-    private val splashViewModel: SplashFragmentViewModel by lazy {
-        getProvidedViewModel(SplashFragmentViewModel::class.java)
-    }
+    private val splashViewModel: SplashFragmentViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)

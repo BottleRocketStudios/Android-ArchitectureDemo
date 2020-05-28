@@ -12,16 +12,12 @@ import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RepositoryFileFragment : BaseFragment() {
-    private val fragmentViewModel: RepositoryFileFragmentViewModel by lazy {
-        getProvidedViewModel(RepositoryFileFragmentViewModel::class.java)
-    }
-
-    private val activityViewModel: MainActivityViewModel by lazy {
-        getProvidedActivityViewModel(MainActivityViewModel::class.java)
-    }
-
+    private val fragmentViewModel: RepositoryFileFragmentViewModel by viewModel()
+    private val activityViewModel: MainActivityViewModel by sharedViewModel()
     val args: RepositoryFolderFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

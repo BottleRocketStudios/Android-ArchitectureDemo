@@ -16,15 +16,12 @@ import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
-    private val homeViewModel: HomeViewModel by lazy {
-        getProvidedViewModel(HomeViewModel::class.java)
-    }
-
-    private val activityViewModel: MainActivityViewModel by lazy {
-        getProvidedActivityViewModel(MainActivityViewModel::class.java)
-    }
+    private val homeViewModel: HomeViewModel by viewModel()
+    private val activityViewModel: MainActivityViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return DataBindingUtil.inflate<HomeFragmentBinding>(inflater, R.layout.home_fragment, container, false).apply {

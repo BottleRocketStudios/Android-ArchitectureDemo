@@ -3,15 +3,12 @@ package com.bottlerocketstudios.brarchitecture.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import com.bottlerocketstudios.brarchitecture.BitbucketApplication
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private val activityViewModel: MainActivityViewModel by lazy {
-        ViewModelProvider(this, (application as BitbucketApplication).factory).get(MainActivityViewModel::class.java)
-    }
+    private val activityViewModel: MainActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
