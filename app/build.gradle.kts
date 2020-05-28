@@ -34,7 +34,6 @@ BuildInfoManager.initialize(
 android {
     compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
-    dataBinding.isEnabled = true
     defaultConfig {
         applicationId = "com.bottlerocketstudios.brarchitecture"
         minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
