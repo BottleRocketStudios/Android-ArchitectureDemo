@@ -41,3 +41,14 @@
 # This fixes: Caused by: androidx.fragment.app.Fragment$InstantiationException: Unable to instantiate fragment androidx.navigation.fragment.NavHostFragment: make sure class name exists
 # See https://stackoverflow.com/a/61365688/201939
 -keepnames class androidx.navigation.fragment.NavHostFragment
+
+## AndroidX Security Crypto (internal dependency on Tink)
+# Crash (obfuscated): Caused by: java.lang.RuntimeException: Field keySize_ for c.b.b.a.h0.u not found. Known fields are [private int c.b.b.a.h0.u.j, private static final c.b.b.a.h0.u c.b.b.a.h0.u.k,
+# private static volatile c.b.b.a.i0.a.b1 c.b.b.a.h0.u.l]
+# Crash (unobfuscated): Caused by: java.lang.RuntimeException: Field version_ for com.google.crypto.tink.proto.AesGcmKeyFormat not found. Known fields are
+# [private int com.google.crypto.tink.proto.AesGcmKeyFormat.keySize_, private static final com.google.crypto.tink.proto.AesGcmKeyFormat com.google.crypto.tink.proto.AesGcmKeyFormat.DEFAULT_INSTANCE,
+# private static volatile com.google.crypto.tink.shaded.protobuf.Parser com.google.crypto.tink.proto.AesGcmKeyFormat.PARSER]
+## Necessary as of 1.0.0-rc02. Hopefully solved in later releases. See https://issuetracker.google.com/issues/154315507#comment26 and https://stackoverflow.com/a/61485263/201939
+-keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
+  <fields>;
+}
