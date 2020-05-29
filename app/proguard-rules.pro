@@ -20,6 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+## For more info, see https://www.guardsquare.com/en/products/proguard/manual/usage#obfuscationoptions
+## FIXME: Below line must be commented out! Only uncomment to aid in debugging certain proguard related crashes to better help identify the source of the crash
+#-dontobfuscate
+
 # General proguard directives
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable,Exceptions
