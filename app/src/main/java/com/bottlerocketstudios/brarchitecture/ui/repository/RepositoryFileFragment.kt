@@ -36,7 +36,7 @@ class RepositoryFileFragment : BaseFragment() {
                 file.mimetype ?: "",
                 file.commit?.hash ?: "",
                 file.path ?: "")
-            setLifecycleOwner(this@RepositoryFileFragment)
+            lifecycleOwner = this@RepositoryFileFragment
         }.root
     }
 }

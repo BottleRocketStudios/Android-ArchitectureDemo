@@ -65,7 +65,7 @@ class RepositoryFolderFragment : BaseFragment() {
                 folder.commit?.hash ?: "",
                 folder.path ?: ""
             )
-            setLifecycleOwner(this@RepositoryFolderFragment)
+            lifecycleOwner = this@RepositoryFolderFragment
         }.root
     }
 }

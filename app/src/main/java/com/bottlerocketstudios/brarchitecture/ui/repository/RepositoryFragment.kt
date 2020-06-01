@@ -26,7 +26,7 @@ class RepositoryFragment : BaseFragment() {
         return DataBindingUtil.inflate<RepositoryFragmentBinding>(inflater, R.layout.repository_fragment, container, false).apply {
             viewModel = fragmentViewModel
             mainActivityViewModel = activityViewModel
-            setLifecycleOwner(this@RepositoryFragment)
+            lifecycleOwner = this@RepositoryFragment
             fileList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.filesGroup)
                 setOnItemClickListener { item, view ->
