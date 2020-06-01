@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture
+package com.bottlerocketstudios.brarchitecture.test
 
 import timber.log.Timber
 

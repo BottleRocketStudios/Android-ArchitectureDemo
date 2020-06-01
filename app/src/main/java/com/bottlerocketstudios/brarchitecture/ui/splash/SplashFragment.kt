@@ -19,7 +19,7 @@ class SplashFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         return DataBindingUtil.inflate<SplashFragmentBinding>(inflater, R.layout.splash_fragment, container, false).apply {
             viewModel = splashViewModel
-            setLifecycleOwner(this@SplashFragment)
+            lifecycleOwner = this@SplashFragment
             splashViewModel.authenticated.observe(viewLifecycleOwner, Observer { authenticated ->
                 if (authenticated) {
                     findNavController(this@SplashFragment).navigate(R.id.action_splashFragment_to_homeFragment)

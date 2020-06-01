@@ -16,7 +16,7 @@ class UserFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return DataBindingUtil.inflate<UserFragmentBinding>(inflater, R.layout.user_fragment, container, false).apply {
             viewModel = fragmentViewModel
-            setLifecycleOwner(this@UserFragment)
+            lifecycleOwner = this@UserFragment
         }.root
     }
 }

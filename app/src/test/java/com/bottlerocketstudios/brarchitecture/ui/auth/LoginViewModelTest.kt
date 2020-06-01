@@ -1,14 +1,13 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.ui.ScopedViewModel
+import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
@@ -19,9 +18,11 @@ class LoginViewModelTest : BaseTest() {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
+
     @Test
     fun loginViewModel_shouldEnableLogin_withValidCredentials() {
-        val loginViewModel = LoginViewModel(mock {}, mock {})
+        val loginViewModel = LoginViewModel(mock {}, mock {}, dispatcherProvider)
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
         assertThat(loginViewModel.loginEnabled.value).isTrue()
@@ -29,14 +30,14 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldDisableLogin_withInvalidCredentials() {
-        val loginViewModel = LoginViewModel(mock {}, mock {})
+        val loginViewModel = LoginViewModel(mock {}, mock {}, dispatcherProvider)
         loginViewModel.email.postValue("t")
         loginViewModel.password.postValue("P")
         assertThat(loginViewModel.loginEnabled.value).isFalse()
     }
 
     fun tryToLoginWithMockedRepo(repo: BitbucketRepository): Boolean? {
-        val loginViewModel = LoginViewModel(mock {}, repo)
+        val loginViewModel = LoginViewModel(mock {}, repo, dispatcherProvider)
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
         loginViewModel.onLoginClicked(mock {})
@@ -45,7 +46,6 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldSetAuthenticatedToTrue_whenRepoSaysTo() {
-        ScopedViewModel.context = Dispatchers.Unconfined
         val repo: BitbucketRepository = mock {
             onBlocking {
                 authenticate(any())
@@ -57,7 +57,6 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldSetAuthenticatedToFalse_whenRepoSaysTo() {
-        ScopedViewModel.context = Dispatchers.Unconfined
         val repo: BitbucketRepository = mock {
             onBlocking {
                 authenticate(any())
@@ -69,7 +68,7 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldClearObservers_whenDoClearCalled() {
-        val loginViewModel = LoginViewModel(mock {}, mock {})
+        val loginViewModel = LoginViewModel(mock {}, mock {}, dispatcherProvider)
         assertThat(loginViewModel.password.hasActiveObservers()).isTrue()
         assertThat(loginViewModel.email.hasActiveObservers()).isTrue()
         assertThat(loginViewModel.textWatcher).isNotNull()

@@ -32,12 +32,6 @@
 #noinspection ShrinkerUnresolvedReference
 -keep class com.bottlerocketstudios.brarchitecture.databinding.** { *; }
 
-## Keep all ViewModel classes since they are accessed via reflection in BitbucketApplication.BitbucketViewModelFactory.create
--keep class * extends androidx.lifecycle.AndroidViewModel { *; }
--keep class * extends com.bottlerocketstudios.brarchitecture.ui.BaseViewModel { *; }
--keep class * extends com.bottlerocketstudios.brarchitecture.ui.ScopedViewModel { *; }
--keep class * extends com.bottlerocketstudios.brarchitecture.ui.RepoViewModel { *; }
-
 # This fixes: Caused by: androidx.fragment.app.Fragment$InstantiationException: Unable to instantiate fragment androidx.navigation.fragment.NavHostFragment: make sure class name exists
 # See https://stackoverflow.com/a/61365688/201939
 -keepnames class androidx.navigation.fragment.NavHostFragment

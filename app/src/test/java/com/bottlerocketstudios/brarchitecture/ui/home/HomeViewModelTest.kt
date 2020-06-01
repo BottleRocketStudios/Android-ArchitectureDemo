@@ -2,14 +2,13 @@ package com.bottlerocketstudios.brarchitecture.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.domain.model.User
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.ui.ScopedViewModel
+import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
-import kotlinx.coroutines.Dispatchers.Unconfined
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
@@ -23,6 +22,7 @@ class HomeViewModelTest : BaseTest() {
     val _user = MutableLiveData<User>()
     val _repos = MutableLiveData<List<Repository>>()
     private val TEST_USER_NAME = "testuser"
+    private val dispatcherProvider = TestDispatcherProvider()
     val repo: BitbucketRepository = mock {
         on { user }.then { _user }
         on { repos }.then { _repos }
@@ -40,16 +40,14 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() {
-        ScopedViewModel.context = Unconfined
-        val model = HomeViewModel(mock {}, repo)
+        val model = HomeViewModel(mock {}, repo, dispatcherProvider)
         assertThat(model.repos.value).hasSize(1)
         assertThat(model.reposGroup.itemCount).isEqualTo(1)
     }
 
     @Test
     fun homeViewModel_shouldHaveNoObservers_whenCleared() {
-        ScopedViewModel.context = Unconfined
-        val model = HomeViewModel(mock {}, repo)
+        val model = HomeViewModel(mock {}, repo, dispatcherProvider)
         assertThat(model.repos.hasObservers()).isTrue()
         model.doClear()
         assertThat(model.repos.hasObservers()).isFalse()
@@ -57,8 +55,7 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun homeViewModel_shouldHaveUser_whenInitialized() {
-        ScopedViewModel.context = Unconfined
-        val model = HomeViewModel(mock {}, repo)
+        val model = HomeViewModel(mock {}, repo, dispatcherProvider)
         assertThat(model.user).isNotNull()
         assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)
     }

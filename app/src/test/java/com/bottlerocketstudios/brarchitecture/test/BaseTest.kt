@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture
+package com.bottlerocketstudios.brarchitecture.test
 
 import org.junit.Before
 import timber.log.Timber

@@ -44,7 +44,7 @@ class HomeFragment : BaseFragment() {
                 }
                 layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
             }
-            setLifecycleOwner(this@HomeFragment)
+            lifecycleOwner = this@HomeFragment
         }.root
     }
 }

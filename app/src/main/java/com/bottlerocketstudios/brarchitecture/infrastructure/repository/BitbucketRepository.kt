@@ -15,11 +15,8 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
     var authenticated = false
         private set
 
-    val user: LiveData<User>
-        get() = _user
-
-    val repos: LiveData<List<Repository>>
-        get() = _repos
+    val user: LiveData<User> = _user
+    val repos: LiveData<List<Repository>> = _repos
 
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean {
         if (authenticated) {

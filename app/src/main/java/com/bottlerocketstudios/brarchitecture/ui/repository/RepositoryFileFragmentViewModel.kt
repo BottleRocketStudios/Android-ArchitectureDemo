@@ -3,16 +3,17 @@ package com.bottlerocketstudios.brarchitecture.ui.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
+import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.launch
 
-class RepositoryFileFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+class RepositoryFileFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val _srcFile = MutableLiveData<String?>()
-    val srcFile: LiveData<String?>
-        get() = _srcFile
+    val srcFile: LiveData<String?> = _srcFile
     fun loadFile(owner: String, repoId: String, mimetype: String, hash: String, path: String) {
-        launch {
+        viewModelScope.launch(dispatcherProvider.IO) {
             _srcFile.postValue(repo.getSourceFile(owner, repoId, hash, path))
         }
     }

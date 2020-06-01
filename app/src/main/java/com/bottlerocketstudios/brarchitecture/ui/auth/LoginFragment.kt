@@ -19,7 +19,7 @@ class LoginFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return DataBindingUtil.inflate<LoginFragmentBinding>(inflater, R.layout.login_fragment, container, false).apply {
             viewModel = loginViewModel
-            setLifecycleOwner(this@LoginFragment)
+            lifecycleOwner = this@LoginFragment
             loginViewModel.authenticated.observe(viewLifecycleOwner, Observer { auth: Boolean ->
                 Toast.makeText(activity, "LOGGED ${if (auth)"IN" else "OUT"}", Toast.LENGTH_LONG).show()
                 if (auth) {

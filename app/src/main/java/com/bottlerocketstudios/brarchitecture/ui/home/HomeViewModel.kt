@@ -2,15 +2,17 @@ package com.bottlerocketstudios.brarchitecture.ui.home
 
 import android.app.Application
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
+import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
+import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.hadilq.liveevent.LiveEvent
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 
-class HomeViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+class HomeViewModel(app: Application, repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val user = repo.user
     val repos = repo.repos
     val reposGroup = Section()
@@ -23,7 +25,7 @@ class HomeViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel
 
     init {
         repos.observeForever(repoObserver)
-        launch {
+        viewModelScope.launch(dispatcherProvider.IO) {
             val t = repo.refreshUser()
             val p = repo.refreshMyRepos()
         }
