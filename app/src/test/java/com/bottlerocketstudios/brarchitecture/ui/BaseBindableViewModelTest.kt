@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
 import androidx.databinding.ViewDataBinding
-import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock

@@ -4,14 +4,16 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
+import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.ui.RepoViewModel
+import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 
-class RepositoryFragmentViewModel(app: Application, repo: BitbucketRepository) : RepoViewModel(app, repo) {
+class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val repos = repo.repos
     var selectedId: String? = null
     val _selectedRepository = MutableLiveData<Repository?>()
@@ -26,7 +28,7 @@ class RepositoryFragmentViewModel(app: Application, repo: BitbucketRepository) :
             _selectedRepository.value = it
             it.owner?.nickname?.let { nickname ->
                 it.name?.let { repoName ->
-                    launch {
+                    viewModelScope.launch(dispatcherProvider.IO) {
                         _srcFiles.postValue(repo.getSource(nickname, repoName))
                     }
                 }
@@ -48,7 +50,7 @@ class RepositoryFragmentViewModel(app: Application, repo: BitbucketRepository) :
     init {
         repos.observeForever(repoObserver)
         srcFiles.observeForever(filesObserver)
-        launch {
+        viewModelScope.launch(dispatcherProvider.IO) {
             val p = repo.refreshMyRepos()
         }
     }

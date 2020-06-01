@@ -4,6 +4,8 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCrede
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.basic.BasicAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
@@ -42,16 +44,17 @@ object BitbucketModule {
 /** General app configuration (repositories/viewmodels/etc) */
 private object App {
     val appModule = module {
+        single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single { BitbucketRepository(get(), get()) }
         single { BitbucketCredentialsRepository(androidContext(), get()) }
-        viewModel { MainActivityViewModel(get(), get()) }
-        viewModel { SplashFragmentViewModel(get(), get()) }
-        viewModel { LoginViewModel(get(), get()) }
-        viewModel { HomeViewModel(get(), get()) }
-        viewModel { RepositoryFragmentViewModel(get(), get()) }
-        viewModel { RepositoryFileFragmentViewModel(get(), get()) }
-        viewModel { RepositoryFolderFragmentViewModel(get(), get()) }
+        viewModel { MainActivityViewModel(get()) }
+        viewModel { SplashFragmentViewModel(get(), get(), get()) }
+        viewModel { LoginViewModel(get(), get(), get()) }
+        viewModel { HomeViewModel(get(), get(), get()) }
+        viewModel { RepositoryFragmentViewModel(get(), get(), get()) }
+        viewModel { RepositoryFileFragmentViewModel(get(), get(), get()) }
+        viewModel { RepositoryFolderFragmentViewModel(get(), get(), get()) }
         viewModel { UserFragmentViewModel(get(), get()) }
     }
 }

@@ -1,6 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
-import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.basic.BasicAuthInterceptor

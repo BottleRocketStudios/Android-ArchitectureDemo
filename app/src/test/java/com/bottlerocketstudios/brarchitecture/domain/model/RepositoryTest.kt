@@ -1,6 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.domain.model
 
-import com.bottlerocketstudios.brarchitecture.BaseTest
+import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
