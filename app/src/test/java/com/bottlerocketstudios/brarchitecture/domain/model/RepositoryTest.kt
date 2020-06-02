@@ -10,6 +10,6 @@ class RepositoryTest : BaseTest() {
         val repository = Repository("scm", "name", null, true)
         assertThat(repository.scm).isEqualTo("scm")
         assertThat(repository.name).isEqualTo("name")
-        assertThat(repository.is_private).isTrue()
+        assertThat(repository.isPrivate).isTrue()
     }
 }

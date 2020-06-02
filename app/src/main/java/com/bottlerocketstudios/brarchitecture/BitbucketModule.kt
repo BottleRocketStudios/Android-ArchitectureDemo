@@ -114,7 +114,7 @@ private object TokenAuth {
 
     private fun provideTokenAuthService(okHttpClient: OkHttpClient): TokenAuthService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://bitbucket.org/")
+            .baseUrl("https://bitbucket.org/    ")
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()

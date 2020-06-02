@@ -16,7 +16,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
-            android:text="@{viewModel.user.display_name}"
+            android:text="@{viewModel.user.displayName}"
             android:onClick="@{v -> viewModel.doTheThing()}"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/repository_list"

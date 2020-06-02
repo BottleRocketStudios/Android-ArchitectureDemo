@@ -10,9 +10,9 @@ class UserTest : BaseTest() {
         val user = User("username", "nickname", "account_status", "display_name", "created_on", "uuid")
         assertThat(user.username).isEqualTo("username")
         assertThat(user.nickname).isEqualTo("nickname")
-        assertThat(user.account_status).isEqualTo("account_status")
-        assertThat(user.display_name).isEqualTo("display_name")
-        assertThat(user.created_on).isEqualTo("created_on")
+        assertThat(user.accountStatus).isEqualTo("account_status")
+        assertThat(user.displayName).isEqualTo("display_name")
+        assertThat(user.createdOn).isEqualTo("created_on")
         assertThat(user.uuid).isEqualTo("uuid")
     }
 }

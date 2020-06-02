@@ -38,8 +38,8 @@ class TokenAuthInterceptor(private val tokenAuthService: TokenAuthService, priva
 
     private fun interceptWorker(chain: Interceptor.Chain): Response {
         val token = credentialsRepo.loadToken()
-        val accessToken = token?.access_token
-        val refreshToken = token?.refresh_token
+        val accessToken = token?.accessToken
+        val refreshToken = token?.refreshToken
         return if (accessToken.isNullOrEmpty()) {
             chain.proceed(chain.request())
         } else {
@@ -68,7 +68,7 @@ class TokenAuthInterceptor(private val tokenAuthService: TokenAuthService, priva
                     }
 
                     val newestRequest = request.newBuilder()
-                        .header("Authorization", getTokenAuthHeader(newToken?.access_token ?: ""))
+                        .header("Authorization", getTokenAuthHeader(newToken?.accessToken ?: ""))
                         .build()
                     chainResult = chain.proceed(newestRequest)
                 }
