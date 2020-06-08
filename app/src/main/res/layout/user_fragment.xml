@@ -27,17 +27,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.repo.user.account_status}"/>
+            android:text="@{viewModel.repo.user.accountStatus}"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.repo.user.display_name}"/>
+            android:text="@{viewModel.repo.user.displayName}"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:text="@{viewModel.repo.user.created_on}"/>
+            android:text="@{viewModel.repo.user.createdOn}"/>
         
     </LinearLayout>
 </layout>

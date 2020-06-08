@@ -24,10 +24,10 @@ class BitbucketServiceTest : BaseTest() {
     fun getRepository_shouldRefreshTokenAndSucceed_whenTokenExpired() {
         // This does not currently force the use of an expired token
         val accessToken = AccessToken(
-            access_token = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2",
-            refresh_token = "wrW7MNBnvChqFpnXGe",
-            expires_in = 7200,
-            token_type = "bearer",
+            accessToken = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2",
+            refreshToken = "wrW7MNBnvChqFpnXGe",
+            expiresInSeconds = 7200,
+            tokenType = "bearer",
             scopes = "project account pullrequest"
         )
         runBlocking {
@@ -36,8 +36,8 @@ class BitbucketServiceTest : BaseTest() {
             val body = response.body()
             assertThat(body).isNotNull()
             body?.let { privateRepo: Repository ->
-                assertThat(privateRepo.is_private).isNotNull()
-                assertThat(privateRepo.is_private).isTrue()
+                assertThat(privateRepo.isPrivate).isNotNull()
+                assertThat(privateRepo.isPrivate).isTrue()
             }
         }
     }
@@ -45,10 +45,10 @@ class BitbucketServiceTest : BaseTest() {
     @Test
     fun getRepository_shouldFail_whenForceTokenExpired() {
         val accessToken = AccessToken(
-            access_token = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2aaa",
-            refresh_token = "wrW7MNBnvChqFpnXG",
-            expires_in = 7200,
-            token_type = "bearer",
+            accessToken = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2aaa",
+            refreshToken = "wrW7MNBnvChqFpnXG",
+            expiresInSeconds = 7200,
+            tokenType = "bearer",
             scopes = "project account pullrequest"
         )
         runBlocking {

@@ -1,12 +1,16 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth.token
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+/**
+ * See https://developer.atlassian.com/bitbucket/api/2/reference/meta/authentication
+ */
 @JsonClass(generateAdapter = true)
 data class AccessToken(
-    val access_token: String? = "",
-    val scopes: String? = "",
-    val expires_in: Int? = 0,
-    val refresh_token: String? = "",
-    val token_type: String? = ""
+    @Json(name = "access_token") val accessToken: String? = "",
+    @Json(name = "scopes") val scopes: String? = "",
+    @Json(name = "expires_in") val expiresInSeconds: Int? = 0,
+    @Json(name = "refresh_token") val refreshToken: String? = "",
+    @Json(name = "token_type") val tokenType: String? = ""
 )

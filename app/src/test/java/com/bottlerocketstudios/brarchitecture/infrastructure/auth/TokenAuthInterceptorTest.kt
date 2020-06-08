@@ -32,7 +32,7 @@ class TokenAuthInterceptorTest : BaseTest() {
         }
         val service: TokenAuthService = mock() {
             on { getToken(any(), any(), any(), any()) }.doAnswer { invocation ->
-                accessToken = AccessToken(access_token = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}")
+                accessToken = AccessToken(accessToken = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}")
                 call
             }
         }
