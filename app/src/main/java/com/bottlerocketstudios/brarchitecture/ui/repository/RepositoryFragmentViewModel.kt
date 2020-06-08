@@ -51,7 +51,7 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
         repos.observeForever(repoObserver)
         srcFiles.observeForever(filesObserver)
         viewModelScope.launch(dispatcherProvider.IO) {
-            val p = repo.refreshMyRepos()
+            repo.refreshMyRepos()
         }
     }
 

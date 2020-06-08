@@ -68,7 +68,7 @@
             android:id="@+id/login"
             android:text="@string/login_button"
             android:enabled="@{viewModel.loginEnabled}"
-            android:onClick="@{viewModel::onLoginClicked}"/>
+            android:onClick="@{() -> viewModel.onLoginClicked()}"/>
         
 
     </LinearLayout>

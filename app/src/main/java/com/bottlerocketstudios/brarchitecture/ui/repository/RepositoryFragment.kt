@@ -29,7 +29,7 @@ class RepositoryFragment : BaseFragment() {
             lifecycleOwner = this@RepositoryFragment
             fileList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.filesGroup)
-                setOnItemClickListener { item, view ->
+                setOnItemClickListener { item, _ ->
                     if (item is ViewModelItem<*> && item.viewModel is RepoFileViewModel && item.viewModel.file.type == "commit_directory") {
                         val action = RepositoryFragmentDirections.actionRepositoryFragmentToRepositoryFolderFragment(item.viewModel.file)
                         Navigation.findNavController(root).navigate(action)
