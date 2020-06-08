@@ -36,7 +36,7 @@ class ViewModelItem <T : BaseBindableViewModel> (val viewModel: T, val _layout: 
         if (super.isSameAs(other)) {
             retval = true
         } else {
-            if (other != null && other::class == this::class) {
+            if (other::class == this::class) {
                 retval = (this::class.cast(other).viewModel.equals(this.viewModel))
             } else {
                 retval = false
