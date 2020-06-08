@@ -31,6 +31,7 @@ allprojects {
         google()
         jcenter()
         maven(url = "https://jitpack.io")
+        maven(url = "https://dl.bintray.com/lisawray/maven") // needed for groupie-viewbinding - see https://github.com/lisawray/groupie/issues/333
     }
 }
 

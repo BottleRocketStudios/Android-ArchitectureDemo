@@ -1,14 +1,17 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
+import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.xwray.groupie.Item
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 import timber.log.Timber.e
 import kotlin.reflect.full.cast
 import kotlin.reflect.full.createType
 import kotlin.reflect.full.isSubtypeOf
 
 class ViewModelItem <T : BaseBindableViewModel> (val viewModel: T, val _layout: Int) : BindableItem<ViewDataBinding>() {
+
     override fun bind(viewBinding: ViewDataBinding, position: Int) {
         val members = viewBinding::class.members
         val setViewModels = members.filter {
@@ -47,5 +50,9 @@ class ViewModelItem <T : BaseBindableViewModel> (val viewModel: T, val _layout: 
             return isSameAs(other)
         } else
             return super.equals(other)
+    }
+
+    override fun initializeViewBinding(view: View): ViewDataBinding {
+        return DataBindingUtil.bind(view)!!
     }
 }
