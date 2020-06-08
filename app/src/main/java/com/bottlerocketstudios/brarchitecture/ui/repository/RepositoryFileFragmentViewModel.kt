@@ -10,7 +10,7 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.launch
 
 class RepositoryFileFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
-    val _srcFile = MutableLiveData<String?>()
+    private val _srcFile = MutableLiveData<String?>()
     val srcFile: LiveData<String?> = _srcFile
     fun loadFile(owner: String, repoId: String, @Suppress("UNUSED_PARAMETER") mimetype: String, hash: String, path: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
