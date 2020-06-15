@@ -1,7 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
 import android.app.Application
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -31,7 +30,7 @@ class LoginViewModel(app: Application, private val repo: BitbucketRepository, pr
         password.observeForever(textWatcher)
     }
 
-    fun onLoginClicked(v: View) {
+    fun onLoginClicked() {
         val creds = CredentialModel(email.value, password.value)
         creds.validCredentials?.let {
             authenticate(it)

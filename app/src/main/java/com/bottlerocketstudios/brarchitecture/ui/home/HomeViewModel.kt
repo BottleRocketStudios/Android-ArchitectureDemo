@@ -26,8 +26,8 @@ class HomeViewModel(app: Application, repo: BitbucketRepository, private val dis
     init {
         repos.observeForever(repoObserver)
         viewModelScope.launch(dispatcherProvider.IO) {
-            val t = repo.refreshUser()
-            val p = repo.refreshMyRepos()
+            repo.refreshUser()
+            repo.refreshMyRepos()
         }
     }
 

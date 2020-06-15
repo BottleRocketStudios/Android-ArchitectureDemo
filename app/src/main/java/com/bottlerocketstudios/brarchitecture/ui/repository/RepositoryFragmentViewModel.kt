@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val repos = repo.repos
     var selectedId: String? = null
-    val _selectedRepository = MutableLiveData<Repository?>()
+    private val _selectedRepository = MutableLiveData<Repository?>()
     val selectedRepository: LiveData<Repository?> = _selectedRepository
-    val _srcFiles = MutableLiveData<List<RepoFile>?>()
+    private val _srcFiles = MutableLiveData<List<RepoFile>?>()
     val srcFiles: LiveData<List<RepoFile>?> = _srcFiles
     val filesGroup = Section()
 
@@ -51,7 +51,7 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
         repos.observeForever(repoObserver)
         srcFiles.observeForever(filesObserver)
         viewModelScope.launch(dispatcherProvider.IO) {
-            val p = repo.refreshMyRepos()
+            repo.refreshMyRepos()
         }
     }
 

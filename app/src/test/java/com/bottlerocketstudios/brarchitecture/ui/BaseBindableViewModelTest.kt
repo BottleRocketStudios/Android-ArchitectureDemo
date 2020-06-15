@@ -8,7 +8,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
-import com.xwray.groupie.databinding.BindableItem
+import com.xwray.groupie.viewbinding.BindableItem
 import org.junit.Test
 import timber.log.Timber
 

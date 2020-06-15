@@ -40,7 +40,7 @@ class LoginViewModelTest : BaseTest() {
         val loginViewModel = LoginViewModel(mock {}, repo, dispatcherProvider)
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
-        loginViewModel.onLoginClicked(mock {})
+        loginViewModel.onLoginClicked()
         return loginViewModel.authenticated.value
     }
 
