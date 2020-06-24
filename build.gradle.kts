@@ -1,6 +1,7 @@
 // Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:buildscript(groovy.lang.Closure)
 // See also https://docs.gradle.org/current/javadoc/org/gradle/api/initialization/dsl/ScriptHandler.html and associated links for children apis
 buildscript {
+    val kotlin_version by extra("1.3.72")
     repositories {
         google()
         jcenter()
@@ -12,6 +13,7 @@ buildscript {
         classpath(Config.BuildScriptPlugins.GRADLE_VERSIONS)
         classpath(Config.BuildScriptPlugins.JACOCO_ANDROID)
         classpath(Config.BuildScriptPlugins.NAVIGATION_SAFE_ARGS_GRADLE)
+        "classpath"("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
