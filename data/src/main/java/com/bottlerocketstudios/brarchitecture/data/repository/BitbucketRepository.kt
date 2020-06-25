@@ -2,10 +2,10 @@ package com.bottlerocketstudios.brarchitecture.infrastructure.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
-import com.bottlerocketstudios.brarchitecture.domain.model.Repository
-import com.bottlerocketstudios.brarchitecture.domain.model.User
-import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.User
+import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
 

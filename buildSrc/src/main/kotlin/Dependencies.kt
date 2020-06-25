@@ -62,6 +62,7 @@ object Config {
      */
     object ApplyPlugins {
         const val ANDROID_APPLICATION = "com.android.application"
+        const val ANDROID_LIBRARY = "com.android.library"
         const val GRADLE_VERSIONS = "com.github.ben-manes.versions"
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
 

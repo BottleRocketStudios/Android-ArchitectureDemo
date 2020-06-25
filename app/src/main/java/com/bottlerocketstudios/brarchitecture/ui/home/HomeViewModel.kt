@@ -3,7 +3,7 @@ package com.bottlerocketstudios.brarchitecture.ui.home
 import android.app.Application
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.bottlerocketstudios.brarchitecture.domain.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel

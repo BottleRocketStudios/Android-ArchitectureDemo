@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.domain.model
+package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

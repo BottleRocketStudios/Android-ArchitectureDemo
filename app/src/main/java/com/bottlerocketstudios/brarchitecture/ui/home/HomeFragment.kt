@@ -36,7 +36,7 @@ class HomeFragment : BaseFragment() {
                     add(homeViewModel.reposGroup)
                     setOnItemClickListener { item, _ ->
                         if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {
-                            Toast.makeText(activity, item.viewModel.repository.name, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, item.viewModel.repository.name as CharSequence, Toast.LENGTH_SHORT).show()
                             activityViewModel.selectedRepo.postValue(item.viewModel.repository)
                             findNavController(this@HomeFragment).navigate(R.id.action_homeFragment_to_repositoryFragment)
                         }

@@ -1,6 +1,5 @@
 plugins {
-    //TODO make library
-    id("com.android.library")
+    id(Config.ApplyPlugins.ANDROID_LIBRARY)
     id(Config.ApplyPlugins.JACOCO_ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)

@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
-import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
-import com.bottlerocketstudios.brarchitecture.domain.model.Repository
-import com.bottlerocketstudios.brarchitecture.domain.model.User
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.User
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

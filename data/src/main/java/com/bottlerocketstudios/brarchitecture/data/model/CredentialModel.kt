@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.domain.model
+package com.bottlerocketstudios.brarchitecture.data.model
 
 import com.squareup.moshi.JsonClass
 
