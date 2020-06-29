@@ -8,6 +8,7 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepositoryImplementation
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -25,7 +26,7 @@ object Data {
     val dataModule = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
-        single { BitbucketRepository(get(), get()) }
+        single { BitbucketRepositoryImplementation(get(), get()) }
         single { BitbucketCredentialsRepository(androidContext(), get()) }
     }
 }

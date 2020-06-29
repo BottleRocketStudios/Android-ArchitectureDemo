@@ -8,7 +8,7 @@ import okhttp3.Response
 import timber.log.Timber
 import java.net.HttpURLConnection
 
-class TokenAuthInterceptor(private val tokenAuthService: TokenAuthService, private val credentialsRepo: BitbucketCredentialsRepository) : Interceptor {
+internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthService, private val credentialsRepo: BitbucketCredentialsRepository) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         getTokenWorker()

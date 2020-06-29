@@ -8,9 +8,6 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFrag
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.user.UserFragmentViewModel
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -32,4 +29,3 @@ object App {
 private enum class KoinNamedNetwork {
     Unauthenticated, Authenticated
 }
-

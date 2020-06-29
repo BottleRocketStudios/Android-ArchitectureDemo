@@ -9,16 +9,28 @@ import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
 
-class BitbucketRepository(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository) {
+interface  BitbucketRepository{
+    val user: LiveData<User>
+    val repos: LiveData<List<Repository>>
+    suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
+    fun refreshUser(): Boolean
+    fun refreshMyRepos(): Boolean
+    fun getRepositories(owner: String): List<Repository>
+    fun getRepository(owner: String, repo: String): Repository?
+    fun getSource(owner: String, repo: String): List<RepoFile>?
+    fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>?
+    fun getSourceFile(owner: String, repo: String, hash: String, path: String): String?
+}
+internal class BitbucketRepositoryImplementation(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository):BitbucketRepository {
     private val _user = MutableLiveData<User>()
     private val _repos = MutableLiveData<List<Repository>>()
     var authenticated = false
         private set
 
-    val user: LiveData<User> = _user
-    val repos: LiveData<List<Repository>> = _repos
+    override val user: LiveData<User> = _user
+    override val repos: LiveData<List<Repository>> = _repos
 
-    suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean {
+    override suspend fun authenticate(creds: ValidCredentialModel?): Boolean {
         if (authenticated) {
             return true
         }
@@ -30,7 +42,7 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
         return false
     }
 
-    fun refreshUser(): Boolean {
+    override fun refreshUser(): Boolean {
         val response = bitbucketService.getUser().execute()
         var userResponse: User?
         if (response.isSuccessful) {
@@ -40,7 +52,7 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
         return response.isSuccessful
     }
 
-    fun refreshMyRepos(): Boolean {
+    override fun refreshMyRepos(): Boolean {
         val response = bitbucketService.getRepositories(_user.value?.username ?: "").execute()
         if (response.isSuccessful) {
             _repos.postValue(response.body()?.values)
@@ -48,7 +60,7 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
         return response.isSuccessful
     }
 
-    fun getRepositories(owner: String): List<Repository> {
+    override fun getRepositories(owner: String): List<Repository> {
         val response = bitbucketService.getRepositories(owner).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
@@ -56,7 +68,7 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
         return emptyList()
     }
 
-    fun getRepository(owner: String, repo: String): Repository? {
+    override fun getRepository(owner: String, repo: String): Repository? {
         val response = bitbucketService.getRepository(owner, repo).execute()
         if (response.isSuccessful) {
             return response.body()
@@ -64,7 +76,7 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
         return null
     }
 
-    fun getSource(owner: String, repo: String): List<RepoFile>? {
+    override fun getSource(owner: String, repo: String): List<RepoFile>? {
         val response = bitbucketService.getRepositorySource(owner, repo).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
@@ -72,7 +84,7 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
         return null
     }
 
-    fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>? {
+    override fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>? {
         val response = bitbucketService.getRepositorySourceFolder(owner, repo, hash, path).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
@@ -80,7 +92,7 @@ class BitbucketRepository(private val bitbucketService: BitbucketService, privat
         return null
     }
 
-    fun getSourceFile(owner: String, repo: String, hash: String, path: String): String? {
+    override fun getSourceFile(owner: String, repo: String, hash: String, path: String): String? {
         val response = bitbucketService.getRepositorySourceFile(owner, repo, hash, path).execute()
         if (response.isSuccessful) {
             return response.body() ?: ""

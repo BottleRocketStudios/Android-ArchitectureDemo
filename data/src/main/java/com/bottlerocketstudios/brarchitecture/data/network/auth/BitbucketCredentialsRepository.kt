@@ -10,7 +10,7 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import timber.log.Timber.e
 
-class BitbucketCredentialsRepository(context: Context, private val moshi: Moshi) {
+internal class BitbucketCredentialsRepository(context: Context, private val moshi: Moshi) {
     companion object {
         private const val SECURE_PREF_FILE_NAME = "secureBbCredentials"
         private const val BITBUCKET_CREDENTIALS = "BitbucketCredentials"

@@ -5,7 +5,7 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.auth.getBasicAuthHe
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class BasicAuthInterceptor(private val credentialsRepo: BitbucketCredentialsRepository) : Interceptor {
+internal class BasicAuthInterceptor(private val credentialsRepo: BitbucketCredentialsRepository) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val credentials = credentialsRepo.loadCredentials()
         val request = chain.request()
