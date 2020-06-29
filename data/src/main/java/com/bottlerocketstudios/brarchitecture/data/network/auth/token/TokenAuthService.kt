@@ -8,7 +8,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 /** Bitbucket auth token related apis. See https://developer.atlassian.com/bitbucket/api/2/reference/meta/authentication */
-interface TokenAuthService {
+internal interface TokenAuthService {
     @FormUrlEncoded
     @POST("site/oauth2/access_token")
     fun getToken(

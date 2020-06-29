@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
  * See https://developer.atlassian.com/bitbucket/api/2/reference/meta/authentication
  */
 @JsonClass(generateAdapter = true)
-data class AccessToken(
+internal data class AccessToken(
     @Json(name = "access_token") val accessToken: String? = "",
     @Json(name = "scopes") val scopes: String? = "",
     @Json(name = "expires_in") val expiresInSeconds: Int? = 0,

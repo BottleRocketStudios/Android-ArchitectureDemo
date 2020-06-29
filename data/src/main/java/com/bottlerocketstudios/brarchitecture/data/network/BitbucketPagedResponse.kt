@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
  * Example api docs showing definitions of below values at https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src#get
  */
 @JsonClass(generateAdapter = true)
-data class BitbucketPagedResponse<T>(
+internal data class BitbucketPagedResponse<T>(
     /** Current number of objects on the existing page. The default value is 10 with 100 being the maximum allowed value. Individual APIs may enforce different values. */
     @Json(name = "pagelen") val pageLength: Int = 0,
     /** Page number of the current results */

@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 /** Primary apis to interact with bitbucket. See https://developer.atlassian.com/bitbucket/api/2/reference */
-interface BitbucketService {
+internal interface BitbucketService {
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/user */
     @GET(value = "2.0/user")
     fun getUser(): Call<User>
