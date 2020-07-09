@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.infrastructure
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImplementation
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthService
@@ -24,7 +25,7 @@ object Data {
     val dataModule = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
-        single { BitbucketRepositoryImplementation(get(), get()) }
+        single<BitbucketRepository> { BitbucketRepositoryImplementation(get(), get()) }
         single { BitbucketCredentialsRepository(androidContext(), get()) }
     }
 }
