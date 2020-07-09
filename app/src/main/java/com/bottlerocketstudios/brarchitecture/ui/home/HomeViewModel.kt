@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
-import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.hadilq.liveevent.LiveEvent

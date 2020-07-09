@@ -6,8 +6,8 @@ import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.data.model.User
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
-import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
+import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 
 interface BitbucketRepository {
     val user: LiveData<User>

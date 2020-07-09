@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure
+package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.doReturn

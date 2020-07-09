@@ -5,8 +5,8 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredent
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImplementation
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthInterceptor
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
+import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
