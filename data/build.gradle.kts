@@ -68,6 +68,4 @@ dependencies {
     archCoreTestingDependencies()
     // Android Test
     espressoDependencies()
-
 }
-

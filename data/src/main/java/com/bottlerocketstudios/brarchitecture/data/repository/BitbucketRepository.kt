@@ -9,7 +9,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
 
-interface  BitbucketRepository{
+interface BitbucketRepository {
     val user: LiveData<User>
     val repos: LiveData<List<Repository>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
@@ -21,7 +21,7 @@ interface  BitbucketRepository{
     fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>?
     fun getSourceFile(owner: String, repo: String, hash: String, path: String): String?
 }
-internal class BitbucketRepositoryImplementation(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository):BitbucketRepository {
+internal class BitbucketRepositoryImplementation(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository) : BitbucketRepository {
     private val _user = MutableLiveData<User>()
     private val _repos = MutableLiveData<List<Repository>>()
     var authenticated = false

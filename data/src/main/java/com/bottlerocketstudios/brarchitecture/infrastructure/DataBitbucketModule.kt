@@ -7,7 +7,6 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAut
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
-import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepositoryImplementation
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
@@ -19,7 +18,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-
 
 /** General app configuration (repositories/viewmodels/etc) */
 object Data {
