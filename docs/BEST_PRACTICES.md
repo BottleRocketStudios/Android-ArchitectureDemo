@@ -110,6 +110,43 @@ It is a good practice to add the appropriate Time Unit suffix to methods, parame
 
 If using a type that abstracts the need for a unit such as `org.threeten.bp.Duration`, then you don't need to specify a suffix on that object. If you pull out the ms value of the duration as a variable, then add the suffix.
 
+## Modularization
+Currently the app is broken into two modules: `app` and `data`
+
+### app module
+* The top level module.
+* Uses the `com.android.application` gradle plugin.
+
+#### What should be in it
+* Activity
+* Fragment
+* ViewModels
+* Android resources such as strings/layouts/nav_graphs/drawables/colors/styles/themes/etc
+* DI UI Modules
+* DI Graph creation
+
+### data module
+* The base module.
+* Uses the `com.android.library` gradle plugin.
+* `app` depends on `data`.
+* Make liberal use of the `internal` modifier where applicable to prevent leaking implementation details from `data` to modules that consume it (or are dependent on it).
+
+#### What should be in it
+* Repositories
+* Models
+* Networking
+* Database
+* General Utilities including top level functions and objects
+* DI Data/Networking/Domain Modules
+* **Minimal (or nonexistent) use of context and other android framework apis**
+
+#### What should not be in it
+* Any Android Resources (including usage of Android Resources)
+
+### Testing Notes
+* Test source is isolated per module. For example, `app` doesn't inherit `BaseTest` defined in `data`.
+* Any testing specific classes (such as `BaseTest`) needs to be duplicated for each module that needs it.
+
 ## Code (Project Specific Items)
 Add when things come up.
 
