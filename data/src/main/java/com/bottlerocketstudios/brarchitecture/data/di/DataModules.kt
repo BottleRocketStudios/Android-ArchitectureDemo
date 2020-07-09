@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure
+package com.bottlerocketstudios.brarchitecture.data.di
 
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository

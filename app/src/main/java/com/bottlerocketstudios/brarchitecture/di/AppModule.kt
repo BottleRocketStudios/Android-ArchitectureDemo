@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture
+package com.bottlerocketstudios.brarchitecture.di
 
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.LoginViewModel
@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 /** General app configuration (repositories/viewmodels/etc) */
-object App {
+object AppModule {
     val appModule = module {
         viewModel { MainActivityViewModel(get()) }
         viewModel { SplashFragmentViewModel(get(), get(), get()) }
