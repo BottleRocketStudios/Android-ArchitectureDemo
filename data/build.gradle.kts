@@ -39,34 +39,23 @@ dependencies {
     coroutineDependencies()
 
     // AndroidX
-    appCompatDependencies()
-    materialDependencies()
-    lifecycleDependencies()
-    navigationDependencies()
     securityCryptoDependencies()
 
-    koinDependencies()
+    koinDataDependencies()
 
     // Networking/parsing
     retrofitDependencies()
     moshiDependencies()
 
-    // UI
-    groupieDependencies()
-
     // Utility
     liveEventDependencies()
     timberDependencies()
-    commonsCodecDependencies()
-    leakCanaryDependencies()
     chuckerDependencies()
-    debugDatabaseDependencies()
+    commonsCodecDependencies()
 
     // Test
     junitDependencies()
     mockitoKotlinDependencies()
     truthDependencies()
     archCoreTestingDependencies()
-    // Android Test
-    espressoDependencies()
 }

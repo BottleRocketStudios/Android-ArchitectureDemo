@@ -247,10 +247,14 @@ fun DependencyHandler.coroutineDependencies() {
     implementation(Libraries.KOTLINX_COROUTINES_ANDROID)
 }
 
-fun DependencyHandler.koinDependencies() {
+fun DependencyHandler.koinAppDependencies() {
     implementation(Libraries.KOIN_ANDROID)
     implementation(Libraries.KOIN_ANDROIDX_SCOPE)
     implementation(Libraries.KOIN_ANDROIDX_VIEWMODEL)
+}
+fun DependencyHandler.koinDataDependencies() {
+    implementation(Libraries.KOIN_ANDROID)
+    implementation(Libraries.KOIN_ANDROIDX_SCOPE)
 }
 fun DependencyHandler.retrofitDependencies() {
     implementation(Libraries.RETROFIT)

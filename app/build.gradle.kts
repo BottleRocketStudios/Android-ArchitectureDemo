@@ -102,13 +102,8 @@ dependencies {
     materialDependencies()
     lifecycleDependencies()
     navigationDependencies()
-    securityCryptoDependencies()
 
-    koinDependencies()
-
-    // Networking/parsing
-    retrofitDependencies()
-    moshiDependencies()
+    koinAppDependencies()
 
     // UI
     groupieDependencies()
@@ -116,9 +111,7 @@ dependencies {
     // Utility
     liveEventDependencies()
     timberDependencies()
-    commonsCodecDependencies()
     leakCanaryDependencies()
-    chuckerDependencies()
     debugDatabaseDependencies()
 
     // Test
