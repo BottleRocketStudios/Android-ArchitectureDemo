@@ -24,8 +24,3 @@ object App {
         viewModel { UserFragmentViewModel(get(), get()) }
     }
 }
-
-/** Allows multiple types of network related implementations to co-exist in the koin graph */
-private enum class KoinNamedNetwork {
-    Unauthenticated, Authenticated
-}
