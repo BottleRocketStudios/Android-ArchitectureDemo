@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth.token
 
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.getBasicAuthHeader
+import com.bottlerocketstudios.brarchitecture.data.network.auth.getBasicAuthHeader
+import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

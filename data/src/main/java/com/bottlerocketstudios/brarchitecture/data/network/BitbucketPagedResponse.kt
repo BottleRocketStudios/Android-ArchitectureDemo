@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure.network
+package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

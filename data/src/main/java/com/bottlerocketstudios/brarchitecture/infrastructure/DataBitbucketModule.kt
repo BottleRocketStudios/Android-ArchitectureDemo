@@ -1,13 +1,13 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure
 
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.basic.BasicAuthInterceptor
+import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
+import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
+import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImplementation
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthService
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
-import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketService
-import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepositoryImplementation
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

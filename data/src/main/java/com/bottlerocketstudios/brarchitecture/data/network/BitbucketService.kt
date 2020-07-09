@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure.network
+package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository

@@ -1,11 +1,12 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.network
 
+import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
+import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthInterceptor
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.AccessToken
+import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.TokenAuthService
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn

@@ -1,11 +1,11 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure.auth
+package com.bottlerocketstudios.brarchitecture.data.network.auth
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.token.AccessToken
+import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import timber.log.Timber.e

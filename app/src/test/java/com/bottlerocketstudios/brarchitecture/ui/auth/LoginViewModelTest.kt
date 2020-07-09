@@ -2,7 +2,7 @@ package com.bottlerocketstudios.brarchitecture.ui.auth
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
-import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.any

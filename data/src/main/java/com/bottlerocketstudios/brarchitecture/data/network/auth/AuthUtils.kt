@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure.auth
+package com.bottlerocketstudios.brarchitecture.data.network.auth
 
 import org.apache.commons.codec.binary.Base64
 

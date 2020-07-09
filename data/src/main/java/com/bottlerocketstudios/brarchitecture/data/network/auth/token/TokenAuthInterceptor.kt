@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth.token
 
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.network.BitbucketFailure
+import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
+import com.bottlerocketstudios.brarchitecture.data.network.BitbucketFailure
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.Response

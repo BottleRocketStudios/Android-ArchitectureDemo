@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure.auth.token
+package com.bottlerocketstudios.brarchitecture.data.network.auth.token
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

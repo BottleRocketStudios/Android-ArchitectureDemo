@@ -1,9 +1,10 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.auth
 
+import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.infrastructure.HeaderInterceptorMock
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.basic.BasicAuthInterceptor
+import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
 import com.google.common.truth.Truth.assertWithMessage
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn

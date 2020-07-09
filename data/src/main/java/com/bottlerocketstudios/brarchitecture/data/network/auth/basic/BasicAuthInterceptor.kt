@@ -1,7 +1,7 @@
-package com.bottlerocketstudios.brarchitecture.infrastructure.auth.basic
+package com.bottlerocketstudios.brarchitecture.data.network.auth.basic
 
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.BitbucketCredentialsRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.auth.getBasicAuthHeader
+import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
+import com.bottlerocketstudios.brarchitecture.data.network.auth.getBasicAuthHeader
 import okhttp3.Interceptor
 import okhttp3.Response
 
