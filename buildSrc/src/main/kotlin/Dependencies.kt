@@ -10,7 +10,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 // https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
 private const val KOTLIN_VERSION = "1.3.72"
-private const val NAVIGATION_VERSION = "2.2.2"
+private const val NAVIGATION_VERSION = "2.3.0"
 
 /**
  * Provides the source of truth for version/configuration information to any gradle build file (project and app module build.gradle.kts)
@@ -148,7 +148,7 @@ private object Libraries {
     //// Koin
     // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
     // https://github.com/InsertKoinIO/koin/releases
-    private const val KOIN_VERSION = "2.1.5"
+    private const val KOIN_VERSION = "2.1.6"
     const val KOIN_ANDROID = "org.koin:koin-android:$KOIN_VERSION"
     const val KOIN_ANDROIDX_SCOPE = "org.koin:koin-androidx-scope:$KOIN_VERSION"
     const val KOIN_ANDROIDX_VIEWMODEL = "org.koin:koin-androidx-viewmodel:$KOIN_VERSION"
@@ -165,7 +165,7 @@ private object Libraries {
     //// Moshi
     // https://github.com/square/moshi/blob/master/CHANGELOG.md
     // https://github.com/square/moshi/releases
-    private const val MOSHI_VERSION = "1.9.2"
+    private const val MOSHI_VERSION = "1.9.3"
     const val MOSHI_KOTLIN = "com.squareup.moshi:moshi-kotlin:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
 
@@ -194,7 +194,8 @@ private object Libraries {
     // https://square.github.io/leakcanary/changelog/
     // https://github.com/square/leakcanary/releases
     // Just use on debugImplementation builds
-    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:2.3"
+    // TODO: Keep an eye on plumber-android possible future usage in release builds: https://square.github.io/leakcanary/changelog/#plumber-android-is-a-new-artifact-that-fixes-known-android-leaks
+    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:2.4"
 
     // Chucker
     // https://medium.com/@cortinico/introducing-chucker-18f13a51b35d
