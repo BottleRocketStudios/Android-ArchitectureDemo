@@ -5,4 +5,5 @@
     <string name="login_password_hint">Password</string>
     <string name="login_password_accessibility">Password</string>
     <string name="login_button">Login</string>
+    <string name="dev_options_button">Dev Options</string>
 </resources>

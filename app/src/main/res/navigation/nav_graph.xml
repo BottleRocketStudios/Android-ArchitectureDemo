@@ -37,6 +37,10 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_loginFragment_to_devOptionsFragment"
+            app:destination="@id/devOptionsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -49,6 +53,9 @@
         <action
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_devOptionsFragment"
+            app:destination="@id/devOptionsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/repositoryFragment"
@@ -85,4 +92,10 @@
             android:name="file"
             app:argType="com.bottlerocketstudios.brarchitecture.data.model.RepoFile" />
     </fragment>
+
+    <fragment
+        android:id="@+id/devOptionsFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsFragment"
+        android:label="DevOptionsFragment"
+        tools:layout="@layout/dev_options_fragment"/>
 </navigation>

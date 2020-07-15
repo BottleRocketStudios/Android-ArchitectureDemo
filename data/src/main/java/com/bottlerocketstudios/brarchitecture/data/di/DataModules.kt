@@ -1,5 +1,11 @@
 package com.bottlerocketstudios.brarchitecture.data.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
+import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogicImpl
+import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
+import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
@@ -26,8 +32,18 @@ object Data {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
         single<BitbucketRepository> { BitbucketRepositoryImplementation(get(), get()) }
+        single<EnvironmentRepository> { EnvironmentRepositoryImpl(get(named(KoinNamedSharedPreferences.Environment)), get()) }
+        single<ForceCrashLogic> { ForceCrashLogicImpl(get()) }
         single { BitbucketCredentialsRepository(androidContext(), get()) }
+        single<SharedPreferences>(named(KoinNamedSharedPreferences.Environment)) {
+            androidContext().getSharedPreferences("dev_options_prefs", Context.MODE_PRIVATE)
+        }
     }
+}
+
+/** Allows multiple types of [SharedPreferences] to co-exist in the koin graph */
+enum class KoinNamedSharedPreferences {
+    Environment
 }
 
 /** Allows multiple types of network related implementations to co-exist in the koin graph */

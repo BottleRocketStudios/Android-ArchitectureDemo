@@ -22,7 +22,7 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldEnableLogin_withValidCredentials() {
-        val loginViewModel = LoginViewModel(mock {}, mock {}, dispatcherProvider)
+        val loginViewModel = LoginViewModel(mock {}, mock {}, mock {}, dispatcherProvider)
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
         assertThat(loginViewModel.loginEnabled.value).isTrue()
@@ -30,14 +30,14 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldDisableLogin_withInvalidCredentials() {
-        val loginViewModel = LoginViewModel(mock {}, mock {}, dispatcherProvider)
+        val loginViewModel = LoginViewModel(mock {}, mock {}, mock {}, dispatcherProvider)
         loginViewModel.email.postValue("t")
         loginViewModel.password.postValue("P")
         assertThat(loginViewModel.loginEnabled.value).isFalse()
     }
 
     private fun tryToLoginWithMockedRepo(repo: BitbucketRepository): Boolean? {
-        val loginViewModel = LoginViewModel(mock {}, repo, dispatcherProvider)
+        val loginViewModel = LoginViewModel(mock {}, repo, mock {}, dispatcherProvider)
         loginViewModel.email.postValue("test@example.com")
         loginViewModel.password.postValue("Password1!")
         loginViewModel.onLoginClicked()
@@ -68,7 +68,7 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldClearObservers_whenDoClearCalled() {
-        val loginViewModel = LoginViewModel(mock {}, mock {}, dispatcherProvider)
+        val loginViewModel = LoginViewModel(mock {}, mock {}, mock {}, dispatcherProvider)
         assertThat(loginViewModel.password.hasActiveObservers()).isTrue()
         assertThat(loginViewModel.email.hasActiveObservers()).isTrue()
         assertThat(loginViewModel.textWatcher).isNotNull()
