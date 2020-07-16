@@ -1,4 +1,8 @@
+import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.creating
+import org.gradle.kotlin.dsl.provideDelegate
 
 // Provides dependencies that can be used throughout the project build.gradle files
 
@@ -332,16 +336,23 @@ fun DependencyHandler.commonsCodecDependencies() {
 }
 
 fun DependencyHandler.leakCanaryDependencies() {
-    debugImplementation(Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation)
+    debugImplementation(Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation) - intentionally bypass adding to internalRelease build unless QA has a reason to need it
 }
 
-fun DependencyHandler.chuckerDependencies() {
-    debugImplementation(Libraries.CHUCKER) // note the debugImplementation usage (releaseImplementation uses no-op)
-    releaseImplementation(Libraries.CHUCKER_NO_OP) // note the releaseImplementation no-op
+fun DependencyHandler.chuckerDependencies(devConfigurations: List<Configuration>, productionConfiguration: Configuration) {
+    // Only add dependency for dev configurations in the list
+    devConfigurations.forEach { devConfiguration: Configuration ->
+        add(devConfiguration.name, Libraries.CHUCKER)
+    }
+    // Production configuration is a no-op
+    add(productionConfiguration.name, Libraries.CHUCKER_NO_OP) // note the releaseImplementation no-op
 }
 
-fun DependencyHandler.debugDatabaseDependencies() {
-    debugImplementation(Libraries.DEBUG_DATABASE) // note the debugImplementation usage (no releaseImplementation)
+fun DependencyHandler.debugDatabaseDependencies(devConfigurations: List<Configuration>) {
+    // Only add dependency for dev configurations in the list
+    devConfigurations.forEach { devConfiguration: Configuration ->
+        add(devConfiguration.name, Libraries.DEBUG_DATABASE)
+    }
 }
 
 // Test specific dependency groups

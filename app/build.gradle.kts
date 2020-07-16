@@ -35,7 +35,6 @@ android {
     compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
     defaultConfig {
-        applicationId = "com.bottlerocketstudios.brarchitecture"
         minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
         targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
         versionCode = BuildInfoManager.APP_VERSION.versionCode
@@ -58,6 +57,7 @@ android {
             keyPassword = "android"
         }
     }
+    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -67,10 +67,43 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
             // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
             // the jacocoTest...UnitTestReport tasks. Stopping and restarting build would allow compilation/installation to complete.
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             isTestCoverageEnabled = false
+        }
+        // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
+        create("debugMini") {
+            initWith(getByName("debug"))
+            setMatchingFallbacks("debug")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+    }
+    flavorDimensions("environment")
+    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
+    productFlavors {
+        create("internal") {
+            applicationId = "com.bottlerocketstudios.brarchitecture.internal"
+            versionNameSuffix = "-internal"
+            buildConfigField("boolean", "INTERNAL", "true")
+            buildConfigField("boolean", "PRODUCTION", "false")
+            dimension = "environment"
+        }
+        create("production") {
+            applicationId = "com.bottlerocketstudios.brarchitecture"
+            buildConfigField("boolean", "INTERNAL", "false")
+            buildConfigField("boolean", "PRODUCTION", "true")
+            dimension = "environment"
+        }
+    }
+    variantFilter {
+        // Gradle ignores any variants that satisfy the conditions listed below. `productionDebug` has no value for this project.
+        if (name == "productionDebug" || name == "productionDebugMini") {
+            ignore = true
         }
     }
     applicationVariants.all {
@@ -87,6 +120,14 @@ android {
         unitTests.isIncludeAndroidResources = true
     }
 }
+
+// Declare configurations per variant to use in the dependencies block below. More info: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/#custom_configurations_and_dependencies
+private val internalDebugImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
+private val internalDebugMiniImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
+private val internalReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
+val productionReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
+/** List of all buildable dev configurations */
+val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
 dependencies {
     implementation(project(mapOf("path" to ":data")))
@@ -114,7 +155,7 @@ dependencies {
     timberDependencies()
     processPhoenixDependencies()
     leakCanaryDependencies()
-    debugDatabaseDependencies()
+    debugDatabaseDependencies(devConfigurations = devConfigurations)
 
     // Test
     junitDependencies()

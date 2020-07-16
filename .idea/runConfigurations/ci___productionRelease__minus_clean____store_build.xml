@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ci - debug (minus clean)" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="ci - productionRelease (minus clean) - store build" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,11 +10,11 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="assembleDebug" />
+          <option value="assembleProductionRelease" />
           <option value="ktlintCheck" />
-          <option value="testDebugUnitTest" />
-          <option value="lintDebug" />
-          <option value="jacocoTestDebugUnitTestReport" />
+          <option value="testProductionReleaseUnitTest" />
+          <option value="lintProductionRelease" />
+          <option value="jacocoTestProductionReleaseUnitTestReport" />
         </list>
       </option>
       <option name="vmOptions" value="" />
