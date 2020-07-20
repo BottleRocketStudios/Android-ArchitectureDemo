@@ -12,6 +12,6 @@ class BuildConfigProviderImpl : BuildConfigProvider {
         get() = BuildConfig.BUILD_IDENTIFIER
 }
 
-private fun isProductionReleaseBuild() = !BuildConfig.DEBUG
+private fun isProductionReleaseBuild() = !BuildConfig.DEBUG && BuildConfig.PRODUCTION
 
-private fun isDebugOrInternalBuild() = BuildConfig.DEBUG
+private fun isDebugOrInternalBuild() = BuildConfig.DEBUG || BuildConfig.INTERNAL
