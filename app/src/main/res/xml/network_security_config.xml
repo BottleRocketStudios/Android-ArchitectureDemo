@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- More info at https://developer.android.com/training/articles/security-config.html -->
 <network-security-config>
     <base-config>
         <trust-anchors>
-            <!-- Trust preinstalled CAs -->
-            <certificates src="system" />
+            <certificates src="system" /> <!-- Trust preinstalled CAs -->
         </trust-anchors>
     </base-config>
 </network-security-config>

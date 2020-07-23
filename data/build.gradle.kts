@@ -36,8 +36,42 @@ android {
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             isTestCoverageEnabled = false
         }
+        // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
+        create("debugMini") {
+            initWith(getByName("debug"))
+            setMatchingFallbacks("debug")
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+    }
+    flavorDimensions("environment")
+    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
+    productFlavors {
+        create("internal") {
+            buildConfigField("boolean", "INTERNAL", "true")
+            buildConfigField("boolean", "PRODUCTION", "false")
+            dimension = "environment"
+        }
+        create("production") {
+            buildConfigField("boolean", "INTERNAL", "false")
+            buildConfigField("boolean", "PRODUCTION", "true")
+            dimension = "environment"
+        }
+    }
+    variantFilter {
+        // Gradle ignores any variants that satisfy the conditions listed below. `productionDebug` has no value for this project.
+        if (name == "productionDebug" || name == "productionDebugMini") {
+            ignore = true
+        }
     }
 }
+
+// Declare configurations per variant to use in the dependencies block below. More info: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/#custom_configurations_and_dependencies
+private val internalDebugImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
+private val internalDebugMiniImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
+private val internalReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
+val productionReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
+/** List of all buildable dev configurations */
+val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
 dependencies {
     // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
@@ -59,8 +93,8 @@ dependencies {
     // Utility
     liveEventDependencies()
     timberDependencies()
-    chuckerDependencies()
     commonsCodecDependencies()
+    chuckerDependencies(devConfigurations = devConfigurations, productionConfiguration = productionReleaseImplementation)
 
     // Test
     junitDependencies()

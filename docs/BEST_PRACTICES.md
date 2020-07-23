@@ -147,6 +147,22 @@ Currently the app is broken into two modules: `app` and `data`
 * Test source is isolated per module. For example, `app` doesn't inherit `BaseTest` defined in `data`.
 * Any testing specific classes (such as `BaseTest`) needs to be duplicated for each module that needs it.
 
+## Build Types/Variants Table
+| Variant           | Application ID                                            | Dev use?                                                                                                                             | Dev functionality (environment picker, dev options screen, etc)? | Logging (logcat)? | Proxyable? (Charles) | Debuggable? | Signing Keystore? | Proguard/R8? | Built by CI (Jenkins)? | Artifacts Stored (Artifactory/AppCenter)? | QA use?                                              |
+|-------------------|-----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|-------------------|----------------------|-------------|-------------------|--------------|------------------------|-------------------------------------------|------------------------------------------------------|
+| internalDebug     | **com.bottlerocketstudios.brarchitecture.internal.debug** | Primary local dev machine build                                                                                                      | Enabled                                                          | Enabled           | Yes                  | Yes         | Debug             | No           | No                     | No                                        | Rarely/never                                         |
+| internalDebugMini | **com.bottlerocketstudios.brarchitecture.internal.debug** | Use this variant to enable proguard/R8 (minification/obfuscation) on a debug build. Attaching debugger only allowed on debug builds. | Enabled                                                          | Enabled           | Yes                  | Yes         | Debug             | Yes          | No                     | No                                        | Never                                                |
+| internalRelease   | **com.bottlerocketstudios.brarchitecture.internal**       | Dev doesn't have much use for this variant but can use for proguard/R8 testing if attaching a debugger on device is not needed.      | Enabled                                                          | Enabled           | Yes                  | No          | Release           | Yes          | Yes                    | Yes                                       | Primary variant for QA testing                       |
+| productionRelease | **com.bottlerocketstudios.brarchitecture**                | Smoketest before release                                                                                                             | Disabled                                                         | Disabled          | No                   | No          | Release           | Yes          | Yes                    | Yes                                       | Primary after Feature Complete and until app release |
+
+*Generated with https://www.tablesgenerator.com/markdown_tables#*
+
+### Dev Highlights
+* Use the `internalDebugMini` variant to build a proguarded/R8 debuggable build for local testing/debugging.
+* Use the `internalDebug` variant for day to day development.
+* Use the `internalRelease` variant to build the version QA tests. Can also use CI built apk.
+* Use the `productionRelease` variant to smoke test that all dev options are disabled (environment picker, etc) and the app is not proxyable. Can also use CI built apk.
+
 ## Code (Project Specific Items)
 Add when things come up.
 

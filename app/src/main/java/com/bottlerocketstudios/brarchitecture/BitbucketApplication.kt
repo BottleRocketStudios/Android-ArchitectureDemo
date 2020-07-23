@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture
 
 import android.app.Application
+import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImpl
 import com.bottlerocketstudios.brarchitecture.di.AppModule
 import com.bottlerocketstudios.brarchitecture.data.di.Data
 import com.bottlerocketstudios.brarchitecture.data.di.NetworkObject
@@ -13,6 +14,7 @@ import timber.log.Timber
 
 @Suppress("unused")
 class BitbucketApplication : Application() {
+
     override fun onCreate() {
         super.onCreate()
 
@@ -20,12 +22,17 @@ class BitbucketApplication : Application() {
             // skip initialization when in the Phoenix process (from environment switcher)
             return
         }
-
-        // TODO: Remove logging in production
-        Timber.plant(Timber.DebugTree())
+        // Can't use Koin to create this due to necessary logic needed in startKoin for androidLogger. Just create/use an instance here for this special case.
+        val buildConfigProvider = BuildConfigProviderImpl()
+        if (buildConfigProvider.isDebugOrInternalBuild) {
+            Timber.plant(Timber.DebugTree())
+        }
+        Timber.v("[onCreate]")
         startKoin {
-            // TODO: Remove logging in production
-            androidLogger()
+            if (buildConfigProvider.isDebugOrInternalBuild) {
+                androidLogger()
+            }
+
             androidContext(this@BitbucketApplication)
             modules(listOf(
                 AppModule.appModule,
