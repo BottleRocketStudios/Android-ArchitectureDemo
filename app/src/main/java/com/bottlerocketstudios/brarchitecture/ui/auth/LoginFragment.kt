@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.LoginFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
@@ -25,6 +26,9 @@ class LoginFragment : BaseFragment() {
                 if (auth) {
                     Navigation.findNavController(root).navigate(R.id.action_loginFragment_to_homeFragment)
                 }
+            })
+            loginViewModel.devOptionsClicked.observe(viewLifecycleOwner, Observer {
+                findNavController().navigate(R.id.action_loginFragment_to_devOptionsFragment)
             })
         }.root
     }

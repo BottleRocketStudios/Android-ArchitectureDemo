@@ -45,7 +45,7 @@ object Config {
         const val ANDROID_GRADLE = "com.android.tools.build:gradle:4.0.0"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
-        // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> android-sunseeker -> Tasks -> help -> dependencyUpdates
+        // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.28.0"
 
@@ -110,6 +110,10 @@ private object Libraries {
     // https://developer.android.com/kotlin/ktx#core-packages
     // https://developer.android.com/jetpack/androidx/releases/
     // https://developer.android.com/kotlin/ktx
+
+    // https://developer.android.com/jetpack/androidx/releases/core
+    const val CORE_KTX = "androidx.core:core-ktx:1.3.0"
+
     // Lifecycle
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
     private const val LIFECYCLE_VERSION = "2.2.0"
@@ -119,6 +123,13 @@ private object Libraries {
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.1.0"
+
+    // https://androidstudio.googleblog.com/2019/05/constraintlayout-200-beta-1.html
+    // https://androidstudio.googleblog.com/2019/06/constraintlayout-200-beta-2.html
+    // https://androidstudio.googleblog.com/2019/10/constraintlayout-200-beta-3.html
+    // https://androidstudio.googleblog.com/2019/12/constraintlayout-200-beta-4.html
+    // https://developer.android.com/jetpack/androidx/releases/constraintlayout
+    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.0-beta8"
 
     // Navigation
     // https://developer.android.com/jetpack/androidx/releases/navigation
@@ -186,6 +197,10 @@ private object Libraries {
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/timber/releases
     const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
+
+    // https://github.com/JakeWharton/ProcessPhoenix/blob/master/CHANGELOG.md
+    // https://github.com/JakeWharton/ProcessPhoenix/releases
+    const val PROCESS_PHOENIX = "com.jakewharton:process-phoenix:2.0.0"
 
     // Commons codec - used for base64 operations (no android framework requirement)
     // https://github.com/apache/commons-codec/blob/master/RELEASE-NOTES.txt
@@ -271,6 +286,9 @@ fun DependencyHandler.moshiDependencies() {
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
 }
+fun DependencyHandler.constraintLayoutDependencies() {
+    implementation(Libraries.CONSTRAINT_LAYOUT)
+}
 
 fun DependencyHandler.lifecycleDependencies() {
     implementation(Libraries.LIFECYCLE_LIVEDATA_KTX)
@@ -286,6 +304,10 @@ fun DependencyHandler.materialDependencies() {
     implementation(Libraries.MATERIAL)
 }
 
+fun DependencyHandler.coreKtxDependencies() {
+    implementation(Libraries.CORE_KTX)
+}
+
 fun DependencyHandler.securityCryptoDependencies() {
     implementation(Libraries.SECURITY_CRYPTO)
 }
@@ -298,6 +320,9 @@ fun DependencyHandler.groupieDependencies() {
 
 fun DependencyHandler.timberDependencies() {
     implementation(Libraries.TIMBER)
+}
+fun DependencyHandler.processPhoenixDependencies() {
+    implementation(Libraries.PROCESS_PHOENIX)
 }
 fun DependencyHandler.liveEventDependencies() {
     implementation(Libraries.LIVE_EVENT)

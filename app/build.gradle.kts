@@ -99,6 +99,7 @@ dependencies {
 
     // AndroidX
     appCompatDependencies()
+    constraintLayoutDependencies()
     materialDependencies()
     lifecycleDependencies()
     navigationDependencies()
@@ -111,6 +112,7 @@ dependencies {
     // Utility
     liveEventDependencies()
     timberDependencies()
+    processPhoenixDependencies()
     leakCanaryDependencies()
     debugDatabaseDependencies()
 
