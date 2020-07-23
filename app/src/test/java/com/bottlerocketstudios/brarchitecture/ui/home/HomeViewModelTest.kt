@@ -2,10 +2,10 @@ package com.bottlerocketstudios.brarchitecture.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import com.bottlerocketstudios.brarchitecture.data.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.User
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
-import com.bottlerocketstudios.brarchitecture.domain.model.Repository
-import com.bottlerocketstudios.brarchitecture.domain.model.User
-import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock

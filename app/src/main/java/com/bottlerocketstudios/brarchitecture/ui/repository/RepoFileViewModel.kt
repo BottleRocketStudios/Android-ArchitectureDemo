@@ -2,7 +2,7 @@ package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import androidx.databinding.ViewDataBinding
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.ui.BaseBindableViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.viewbinding.BindableItem

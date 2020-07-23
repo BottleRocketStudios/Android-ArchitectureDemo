@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
-import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch

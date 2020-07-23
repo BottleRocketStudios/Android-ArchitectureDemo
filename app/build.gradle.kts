@@ -89,6 +89,7 @@ android {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":data")))
     // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
@@ -101,13 +102,8 @@ dependencies {
     materialDependencies()
     lifecycleDependencies()
     navigationDependencies()
-    securityCryptoDependencies()
 
-    koinDependencies()
-
-    // Networking/parsing
-    retrofitDependencies()
-    moshiDependencies()
+    koinAppDependencies()
 
     // UI
     groupieDependencies()
@@ -115,9 +111,7 @@ dependencies {
     // Utility
     liveEventDependencies()
     timberDependencies()
-    commonsCodecDependencies()
     leakCanaryDependencies()
-    chuckerDependencies()
     debugDatabaseDependencies()
 
     // Test

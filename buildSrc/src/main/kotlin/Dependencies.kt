@@ -62,6 +62,7 @@ object Config {
      */
     object ApplyPlugins {
         const val ANDROID_APPLICATION = "com.android.application"
+        const val ANDROID_LIBRARY = "com.android.library"
         const val GRADLE_VERSIONS = "com.github.ben-manes.versions"
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
 
@@ -246,10 +247,14 @@ fun DependencyHandler.coroutineDependencies() {
     implementation(Libraries.KOTLINX_COROUTINES_ANDROID)
 }
 
-fun DependencyHandler.koinDependencies() {
+fun DependencyHandler.koinAppDependencies() {
     implementation(Libraries.KOIN_ANDROID)
     implementation(Libraries.KOIN_ANDROIDX_SCOPE)
     implementation(Libraries.KOIN_ANDROIDX_VIEWMODEL)
+}
+fun DependencyHandler.koinDataDependencies() {
+    implementation(Libraries.KOIN_ANDROID)
+    implementation(Libraries.KOIN_ANDROIDX_SCOPE)
 }
 fun DependencyHandler.retrofitDependencies() {
     implementation(Libraries.RETROFIT)

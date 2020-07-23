@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.bottlerocketstudios.brarchitecture.domain.model.CredentialModel
-import com.bottlerocketstudios.brarchitecture.domain.model.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.data.model.CredentialModel
+import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
-import com.bottlerocketstudios.brarchitecture.infrastructure.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.launch
 

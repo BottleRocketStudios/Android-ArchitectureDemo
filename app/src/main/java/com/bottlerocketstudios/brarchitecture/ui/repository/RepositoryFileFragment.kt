@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
 import com.bottlerocketstudios.brarchitecture.R
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.databinding.RepositoryFileFragmentBinding
-import com.bottlerocketstudios.brarchitecture.domain.model.RepoFile
-import com.bottlerocketstudios.brarchitecture.domain.model.Repository
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

@@ -1,6 +1,10 @@
 package com.bottlerocketstudios.brarchitecture
 
 import android.app.Application
+import com.bottlerocketstudios.brarchitecture.di.AppModule
+import com.bottlerocketstudios.brarchitecture.data.di.Data
+import com.bottlerocketstudios.brarchitecture.data.di.NetworkObject
+import com.bottlerocketstudios.brarchitecture.data.di.TokenAuth
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +20,11 @@ class BitbucketApplication : Application() {
             // TODO: Remove logging in production
             androidLogger()
             androidContext(this@BitbucketApplication)
-            modules(BitbucketModule.all())
+            modules(listOf(
+                AppModule.appModule,
+                Data.dataModule,
+                TokenAuth.tokenAuthModule,
+                NetworkObject.networkModule))
         }
     }
 }
