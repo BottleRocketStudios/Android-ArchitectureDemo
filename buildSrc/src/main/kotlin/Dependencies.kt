@@ -169,6 +169,14 @@ private object Libraries {
     const val KOIN_ANDROIDX_SCOPE = "org.koin:koin-androidx-scope:$KOIN_VERSION"
     const val KOIN_ANDROIDX_VIEWMODEL = "org.koin:koin-androidx-viewmodel:$KOIN_VERSION"
 
+    //// Core Library Desugaring
+    // https://developer.android.com/studio/write/java8-support#library-desugaring
+    // https://developer.android.com/studio/write/java8-support-table
+    // https://github.com/google/desugar_jdk_libs
+    // https://github.com/google/desugar_jdk_libs/blob/master/VERSION.txt
+    private const val DESUGAR_VERSION = "1.0.9"
+    const val CORE_LIBRARY_DESUGARING = "com.android.tools:desugar_jdk_libs:$DESUGAR_VERSION"
+
     //// Retrofit
     // javadoc: https://square.github.io/retrofit/2.x/retrofit/
     // https://github.com/square/retrofit/blob/master/CHANGELOG.md
@@ -275,6 +283,9 @@ fun DependencyHandler.koinAppDependencies() {
 fun DependencyHandler.koinDataDependencies() {
     implementation(Libraries.KOIN_ANDROID)
     implementation(Libraries.KOIN_ANDROIDX_SCOPE)
+}
+fun DependencyHandler.coreLibraryDesugaringDependencies() {
+    coreLibraryDesugaring(Libraries.CORE_LIBRARY_DESUGARING)
 }
 fun DependencyHandler.retrofitDependencies() {
     implementation(Libraries.RETROFIT)
