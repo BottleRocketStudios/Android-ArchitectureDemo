@@ -21,6 +21,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
@@ -85,6 +86,8 @@ dependencies {
     securityCryptoDependencies()
 
     koinDataDependencies()
+
+    coreLibraryDesugaringDependencies()
 
     // Networking/parsing
     retrofitDependencies()

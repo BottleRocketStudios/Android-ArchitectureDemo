@@ -76,3 +76,13 @@ internal fun DependencyHandler.`androidTestImplementation`(dependencyNotation: A
  * @see [DependencyHandler.add]
  */
 internal fun DependencyHandler.`api`(dependencyNotation: Any): Dependency? = add("api", dependencyNotation)
+
+/**
+ * Adds a dependency to the 'coreLibraryDesugaring' configuration.
+ *
+ * @param dependencyNotation notation for the dependency to be added.
+ * @return The dependency.
+ *
+ * @see [DependencyHandler.add]
+ */
+internal fun DependencyHandler.`coreLibraryDesugaring`(dependencyNotation: Any): Dependency? = add("coreLibraryDesugaring", dependencyNotation)
