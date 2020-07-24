@@ -1,8 +1,5 @@
-import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.creating
-import org.gradle.kotlin.dsl.provideDelegate
 
 // Provides dependencies that can be used throughout the project build.gradle files
 
@@ -190,7 +187,8 @@ private object Libraries {
     // https://github.com/square/moshi/blob/master/CHANGELOG.md
     // https://github.com/square/moshi/releases
     private const val MOSHI_VERSION = "1.9.3"
-    const val MOSHI_KOTLIN = "com.squareup.moshi:moshi-kotlin:$MOSHI_VERSION"
+    // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the kapt `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
+    const val MOSHI = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
 
     //// UI
@@ -294,7 +292,7 @@ fun DependencyHandler.retrofitDependencies() {
 }
 
 fun DependencyHandler.moshiDependencies() {
-    api(Libraries.MOSHI_KOTLIN)
+    api(Libraries.MOSHI)
     kapt(Libraries.MOSHI_KOTLIN_CODEGEN)
 }
 
