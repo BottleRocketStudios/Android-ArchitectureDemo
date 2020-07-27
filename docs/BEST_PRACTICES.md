@@ -7,9 +7,30 @@ The point of this doc is to share some best practices and processes within the t
 ## Target Audience
 Dev team :)
 
-### IDE
+## IDE
 * Use the Code Style settings provided by the project. Note that the codestyle has been checked into git.
 ![Code style dialog][code-style-dialog]
+
+## Build
+### Using dependency configurations in `buildSrc/.../Dependencies.kt`
+As you add new dependencies, you might run across a configuration not supported in the Dependencies.kt `fun DependencyHandler.fooDependencies() {...}` function body (such as `compileOnly`). If you cmd+click on any existing configuration (such as `deubgImplementation` or `api`), you will see that the implementation actually lives in `DependencyHandlerUtils.kt`. This was copy/pasted from the source file that backs the configuration present in a standard build.gradle.kts dependencies block that is unfortunately inaccessible in `buildSrc` kotlin files. These configurations must be brought in as mentioned below.
+
+### Adding a new configuration
+Here is an example flow to add a new configuration to `DependencyHandlerUtils.kt`
+
+1. In `Dependencies.kt`, you want to add the following block but see a compilation error (`unresolved reference: compileOnly`):
+
+```
+fun DependencyHandler.fooDependencies() {
+    compileOnly(Libraries.FOO)
+}
+```
+
+2. Copy/paste `compileOnly(Libraries.FOO)` to the `:app` build.gradle.kts dependencies block and cmd+click on `compileOnly`
+3. Copy the `compileOnly` extension function source and paste into `DependencyHandlerUtils.kt`
+4. Remove the line from the `:app` build.gradle.kts (in step 2)
+5. Navigate back to`Dependencies.kt` (step 1) and observe the block has no compilation error.
+6. You're done!
 
 ## Code
 ### Style

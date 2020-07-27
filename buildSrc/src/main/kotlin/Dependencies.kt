@@ -263,6 +263,8 @@ private object TestLibraries {
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
+//// See DependencyHandlerUtils.kt to define DependencyHandler extension functions for types not handled (ex: compileOnly).
+//// More info in BEST_PRACTICES.md -> Build section
 fun DependencyHandler.kotlinDependencies() {
     implementation(Libraries.KOTLIN_STDLIB_JDK7)
     implementation(Libraries.KOTLIN_REFLECT)

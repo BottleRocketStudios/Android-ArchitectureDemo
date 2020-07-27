@@ -4,6 +4,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 /**
  * For whatever reason, I'm unable to get `Dependencies.kt` to recognize the `DependencyHandler` syntax sugar functions normally used in the dependencies block of a build.gradle file (as seen below).
  * So I Cmd+Clicked into each one from the app module build.gradle dependencies block and copy/pasted them here so they are accessible to `Dependencies.kt`
+ * More info in BEST_PRACTICES.md -> Build section
  */
 private val fileKDoc = Unit
 
