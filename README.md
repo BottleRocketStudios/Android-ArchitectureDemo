@@ -9,3 +9,43 @@ Bottle Rocket Android Architecture Guidelines
 
 ### Primary Docs
 * **Required reading** - [BEST_PRACTICES.md](./docs/BEST_PRACTICES.md) for Android engineering team norms for the project.
+
+### Future functionality
+*Note: Evaluate if the implementing something in this list is still best practice prior to coding it.*
+
+*Made up example: If kotlin releases native date/time support (and becomes the go to date time solution for Android), don't implement java 8 date/time libs if it is still not implemented but in the list below*
+
+#### To Do List
+* Java 8 Date/Time support (all modules)
+* Base/custom/generic dialogfragment support with:
+    * title (visible/gone) - res id or string (see StringIdHelper below)
+    * body - res id or string (see StringIdHelper below)
+    * positive CTA text/click callback
+    * (optional) negative CTA text/click callback
+    * cancelOnTouchOutside (Boolean)
+
+##### Misc    
+```
+/**
+ * Union type that represents either the int ID or the raw String.
+ *
+ * Calling getString resolves to a String from either type.
+ */
+sealed class StringIdHelper : Serializable {
+    data class Id(@StringRes val idRes: Int) : StringIdHelper()
+
+    data class Raw(val rawString: String) : StringIdHelper()
+
+    fun getString(context: Context): String {
+        return when (this) {
+            is Id -> {
+                context.getString(idRes)
+            }
+            is Raw -> {
+                rawString
+            }
+        }
+    }
+}
+
+```
