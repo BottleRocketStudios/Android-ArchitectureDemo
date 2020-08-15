@@ -12,7 +12,7 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
-        android:label="SplashFragment"
+        android:label="@string/empty_label"
         tools:layout="@layout/splash_fragment">
         <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.auth.LoginFragment"
-        android:label="LoginFragment" 
+        android:label="@string/empty_label" 
         tools:layout="@layout/login_fragment">
         <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
@@ -45,7 +45,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
-        android:label="HomeFragment"
+        android:label="@string/home_title"
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_repositoryFragment"
@@ -60,7 +60,7 @@
     <fragment
         android:id="@+id/repositoryFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragment"
-        android:label="RepositoryFragment"
+        android:label="@string/empty_label"
         tools:layout="@layout/repository_fragment">
         <action
             android:id="@+id/action_repositoryFragment_to_repositoryFileFragment"
@@ -72,7 +72,7 @@
     <fragment
         android:id="@+id/userFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
-        android:label="UserFragment" 
+        android:label="@string/profile_title" 
         tools:layout="@layout/user_fragment"/>
     <fragment
         android:id="@+id/repositoryFileFragment"
@@ -86,7 +86,7 @@
     <fragment
         android:id="@+id/repositoryFolderFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragment"
-        android:label="RepositoryFolderFragment" 
+        android:label="@string/empty_label" 
         tools:layout="@layout/repository_folder_fragment">
         <argument
             android:name="file"
