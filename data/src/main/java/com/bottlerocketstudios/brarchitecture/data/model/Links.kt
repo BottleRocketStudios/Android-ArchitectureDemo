@@ -7,14 +7,12 @@ import kotlinx.android.parcel.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class Links (
+data class Links(
     @Json(name = "avatar") val avatar: Link? = null
 ) : Parcelable
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class Link (
+data class Link(
     @Json(name = "href") val href: String? = null
 ) : Parcelable
-
-

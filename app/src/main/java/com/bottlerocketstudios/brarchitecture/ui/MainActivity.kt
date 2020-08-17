@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val activityViewModel: MainActivityViewModel by viewModel()
 
     private val navController get() = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
@@ -41,10 +41,10 @@ class MainActivity : AppCompatActivity() {
             activityViewModel.title.postValue(destination.label.toString())
             binding.viewToolbar.toolbar.title = ""
             invalidateOptionsMenu()
-            Timber.e("Setting title to '${destination.label.toString()}'")
+            Timber.e("Setting title to '${destination.label}'")
         }
     }
-    
+
     override fun onSupportNavigateUp(): Boolean {
         appBarConfiguration?.let {
             return navigateUp(navController, it)

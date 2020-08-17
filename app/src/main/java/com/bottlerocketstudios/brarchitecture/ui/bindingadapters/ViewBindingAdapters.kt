@@ -43,4 +43,3 @@ fun ImageView.setImageUrl(imageUrl: String?) {
             .into(this)
     }
 }
-
