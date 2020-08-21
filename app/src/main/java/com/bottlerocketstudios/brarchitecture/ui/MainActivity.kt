@@ -37,11 +37,10 @@ class MainActivity : AppCompatActivity() {
             // Don't show the toolbar's AppCompatTextView title, show the one we style
         }
         navController.addOnDestinationChangedListener { _, destination, arguments ->
-            activityViewModel.showToolbar.value = destination.label?.isNotEmpty() == true
-            activityViewModel.title.postValue(destination.label.toString())
+            activityViewModel.showToolbar(destination.label?.isNotEmpty()?:false)
+            activityViewModel.setTitle(destination.label.toString())
             binding.viewToolbar.toolbar.title = ""
             invalidateOptionsMenu()
-            Timber.e("Setting title to '${destination.label}'")
         }
     }
 

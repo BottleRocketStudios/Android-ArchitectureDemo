@@ -32,11 +32,7 @@ fun View.setVisibilityGoneIfNullOrEmpty(value: String?) {
 
 @BindingAdapter("imageUrl")
 fun ImageView.setImageUrl(imageUrl: String?) {
-    val drawable = R.drawable.ic_nav_red_profile
-
-    if (imageUrl.isNullOrEmpty()) {
-        this.setImageDrawable(resources.getDrawable(drawable))
-    } else {
+    if (!imageUrl.isNullOrEmpty()) {
         Glide.with(this)
             .load(imageUrl)
             .error(drawable)
