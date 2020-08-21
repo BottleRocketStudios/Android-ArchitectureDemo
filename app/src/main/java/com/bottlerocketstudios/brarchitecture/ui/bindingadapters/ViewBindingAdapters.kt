@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.ui.bindingadapters
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.bottlerocketstudios.brarchitecture.R
 import com.bumptech.glide.Glide
 
 /** Basically [View.GONE] when [value] is false. If true, set to [View.VISIBLE]. */

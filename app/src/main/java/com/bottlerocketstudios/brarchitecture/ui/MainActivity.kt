@@ -13,7 +13,6 @@ import com.bottlerocketstudios.brarchitecture.databinding.ActivityMainBinding
 import com.bottlerocketstudios.brarchitecture.databinding.DrawerHeaderBinding
 import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private var appBarConfiguration: AppBarConfiguration? = null
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             // Don't show the toolbar's AppCompatTextView title, show the one we style
         }
         navController.addOnDestinationChangedListener { _, destination, arguments ->
-            activityViewModel.showToolbar(destination.label?.isNotEmpty()?:false)
+            activityViewModel.showToolbar(destination.label?.isNotEmpty() ?: false)
             activityViewModel.setTitle(destination.label.toString())
             binding.viewToolbar.toolbar.title = ""
             invalidateOptionsMenu()

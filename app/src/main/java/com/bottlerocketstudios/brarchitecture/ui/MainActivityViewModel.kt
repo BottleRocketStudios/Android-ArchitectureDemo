@@ -13,15 +13,15 @@ class MainActivityViewModel(app: Application, val repo: BitbucketRepository) : B
     val showToolbar: LiveData<Boolean> = _showToolbar
     private val _title = MutableLiveData<String>()
     val title: LiveData<String> = _title
-    
+
     fun selectRepo(repo: Repository) {
         _selectedRepo.postValue(repo)
     }
-    
+
     fun showToolbar(show: Boolean) {
         _showToolbar.postValue(show)
     }
-    
+
     fun setTitle(title: String) {
         _title.postValue(title)
     }
