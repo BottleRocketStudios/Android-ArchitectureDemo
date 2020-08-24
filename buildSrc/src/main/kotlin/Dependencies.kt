@@ -198,6 +198,10 @@ private object Libraries {
     const val GROUPIE = "com.xwray:groupie:$GROUPIE_VERSION"
     const val GROUPIE_KOTLIN_ANDROID_EXTENSIONS = "com.xwray:groupie-kotlin-android-extensions:$GROUPIE_VERSION"
     const val GROUPIE_VIEWBINDING = "com.xwray:groupie-viewbinding:$GROUPIE_VERSION"
+    
+    // Glide
+    private const val GLIDE_VERSION = "4.11.0"
+    const val GLIDE = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
     //// Utility
     // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
@@ -331,6 +335,10 @@ fun DependencyHandler.groupieDependencies() {
     implementation(Libraries.GROUPIE)
     implementation(Libraries.GROUPIE_KOTLIN_ANDROID_EXTENSIONS)
     implementation(Libraries.GROUPIE_VIEWBINDING)
+}
+
+fun DependencyHandler.glideDependencies() {
+    implementation(Libraries.GLIDE)
 }
 
 fun DependencyHandler.timberDependencies() {

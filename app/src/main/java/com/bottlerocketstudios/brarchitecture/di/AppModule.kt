@@ -17,7 +17,7 @@ import org.koin.dsl.module
 /** General app configuration (repositories/viewmodels/etc) */
 object AppModule {
     val appModule = module {
-        viewModel { MainActivityViewModel(get()) }
+        viewModel { MainActivityViewModel(get(), get()) }
         viewModel { SplashFragmentViewModel(get(), get(), get()) }
         viewModel { LoginViewModel(get(), get(), get(), get()) }
         viewModel { HomeViewModel(get(), get(), get(), get()) }

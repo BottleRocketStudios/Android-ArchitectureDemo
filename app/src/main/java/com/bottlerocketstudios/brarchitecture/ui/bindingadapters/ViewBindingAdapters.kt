@@ -1,7 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.ui.bindingadapters
 
 import android.view.View
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 
 /** Basically [View.GONE] when [value] is false. If true, set to [View.VISIBLE]. */
 @BindingAdapter("visibilityGoneIfFalse")
@@ -25,4 +27,14 @@ fun View.setVisibilityVisibleIfNull(value: Any?) {
 @BindingAdapter("visibilityGoneIfNullOrEmpty")
 fun View.setVisibilityGoneIfNullOrEmpty(value: String?) {
     visibility = if (value.isNullOrEmpty()) View.GONE else View.VISIBLE
+}
+
+@BindingAdapter("imageUrl")
+fun ImageView.setImageUrl(imageUrl: String?) {
+    if (!imageUrl.isNullOrEmpty()) {
+        Glide.with(this)
+            .load(imageUrl)
+            .error(drawable)
+            .into(this)
+    }
 }

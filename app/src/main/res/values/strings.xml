@@ -6,4 +6,7 @@
     <string name="login_password_accessibility">Password</string>
     <string name="login_button">Login</string>
     <string name="dev_options_button">Dev Options</string>
+    <string name="empty_label" />
+    <string name="home_title">Home</string>
+    <string name="profile_title">Profile</string>
 </resources>
