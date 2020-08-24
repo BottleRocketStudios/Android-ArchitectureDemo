@@ -17,7 +17,6 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
@@ -30,7 +29,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 object Data {
     val dataModule = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
-        single<Moshi> { Moshi.Builder().add(KotlinJsonAdapterFactory()).build() }
+        single<Moshi> { Moshi.Builder().build() }
         single<BitbucketRepository> { BitbucketRepositoryImplementation(get(), get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(get(named(KoinNamedSharedPreferences.Environment)), get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(get()) }
@@ -61,18 +60,19 @@ object NetworkObject {
         }
         single<Retrofit>(named(KoinNamedNetwork.Authenticated)) {
             provideAuthenticatedRetrofit(
-                get(named(KoinNamedNetwork.Authenticated))
+                get(named(KoinNamedNetwork.Authenticated)),
+                get()
             )
         }
         single<BitbucketService> { provideBitbucketService(get(named(KoinNamedNetwork.Authenticated))) }
     }
 
-    private fun provideAuthenticatedRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    private fun provideAuthenticatedRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://api.bitbucket.org")
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }
 

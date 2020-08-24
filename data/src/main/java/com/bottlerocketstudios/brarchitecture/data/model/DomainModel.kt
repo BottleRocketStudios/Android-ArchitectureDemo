@@ -7,9 +7,14 @@ package com.bottlerocketstudios.brarchitecture.data.model
  * [DomainModel]s shouldn't have json serialization/deserialization logic (that should be represented by a [Dto]).
  *
  * > ... a business object (Domain Model) usually does nothing itself but holds a set of instance variables or properties, also known as attributes, and associations with other business objects,
- * weaving a map of
- * objects representing the business relationships.
+ * weaving a map of objects representing the business relationships.
  *
- * More info at https://en.wikipedia.org/wiki/Domain_model, https://www.martinfowler.com/eaaCatalog/domainModel.html, and https://en.wikipedia.org/wiki/Business_object
+ * More info at:
+ * * https://confluence.bottlerocketapps.com/display/BKB/Common+Code+Quality+Issues#CommonCodeQualityIssues-Datamodels
+ * * https://en.wikipedia.org/wiki/Domain_model
+ * * https://www.martinfowler.com/eaaCatalog/domainModel.html
+ * * https://en.wikipedia.org/wiki/Business_object
+ *
+ * See [Dto] for related information.
  */
 interface DomainModel
