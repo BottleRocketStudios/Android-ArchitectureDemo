@@ -42,7 +42,7 @@ class HomeViewModelTest : BaseTest() {
     fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() {
         val model = HomeViewModel(mock {}, repo, mock {}, dispatcherProvider)
         assertThat(model.repos.value).hasSize(1)
-        assertThat(model.reposGroup.itemCount).isEqualTo(1)
+        assertThat(model.reposGroup.itemCount).isEqualTo(2)
     }
 
     @Test
