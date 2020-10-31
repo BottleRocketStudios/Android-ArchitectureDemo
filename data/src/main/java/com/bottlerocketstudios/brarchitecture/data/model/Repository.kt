@@ -21,7 +21,7 @@ data class Repository(
     @Json(name = "updated_on") val updated: ZonedDateTime? = null
 ) : Parcelable {
     fun formattedUpdateTime(context: Context): String {
-        val wasUpdated = updated?: ZonedDateTime.now()
+        val wasUpdated = updated ?: ZonedDateTime.now()
         val daysAgo = wasUpdated.until(ZonedDateTime.now(), ChronoUnit.DAYS)
         if (daysAgo < 7) {
             return context.getString(R.string.days_ago, daysAgo)

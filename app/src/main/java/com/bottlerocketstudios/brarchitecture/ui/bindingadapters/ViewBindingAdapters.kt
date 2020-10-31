@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bottlerocketstudios.brarchitecture.R
 import com.bumptech.glide.Glide
-import timber.log.Timber
 
 /** Basically [View.GONE] when [value] is false. If true, set to [View.VISIBLE]. */
 @BindingAdapter("visibilityGoneIfFalse")

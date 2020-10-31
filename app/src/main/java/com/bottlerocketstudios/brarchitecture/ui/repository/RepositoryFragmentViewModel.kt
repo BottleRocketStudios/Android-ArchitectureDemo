@@ -43,7 +43,7 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
     private val filesObserver = Observer<List<RepoFile>?> { files ->
         val map = files?.map { RepoFileViewModel(it) }
         map?.let {
-            filesGroup.setHeader(FolderHeaderViewModel(selectedRepository.value?.name?:"", it.size))
+            filesGroup.setHeader(FolderHeaderViewModel(selectedRepository.value?.name ?: "", it.size))
             filesGroup.update(map)
         }
     }

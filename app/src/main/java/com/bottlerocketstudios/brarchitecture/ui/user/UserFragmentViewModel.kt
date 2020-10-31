@@ -15,7 +15,7 @@ class UserFragmentViewModel(app: Application, val repo: BitbucketRepository) : B
     fun onEditClicked() {
         _editClicked.postValue(Unit)
     }
-    
+
     fun onLogoutClicked() {
         repo.clear()
         _logoutClicked.postValue(Unit)

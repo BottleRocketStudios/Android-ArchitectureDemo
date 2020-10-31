@@ -22,7 +22,7 @@ class UserFragment : BaseFragment() {
             viewModel = fragmentViewModel
             lifecycleOwner = this@UserFragment
             fragmentViewModel.editClicked.observe(viewLifecycleOwner, Observer {
-                startActivity( Intent( Intent.ACTION_VIEW,
+                startActivity(Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://bitbucket.org/account/settings/")))
             })
             fragmentViewModel.logoutClicked.observe(viewLifecycleOwner, Observer {

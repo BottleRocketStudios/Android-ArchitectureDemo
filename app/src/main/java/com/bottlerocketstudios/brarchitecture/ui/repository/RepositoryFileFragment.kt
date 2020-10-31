@@ -30,7 +30,7 @@ class RepositoryFileFragment : BaseFragment() {
             viewModel = fragmentViewModel
             val repo: Repository = activityViewModel.selectedRepo.value ?: return root
             val file: RepoFile = args.file
-            activityViewModel.setTitle(file.path?:"")
+            activityViewModel.setTitle(file.path ?: "")
             activityViewModel.showToolbar(true)
             fragmentViewModel.loadFile(
                 repo.owner?.nickname ?: "",

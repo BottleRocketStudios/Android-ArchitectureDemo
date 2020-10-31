@@ -20,7 +20,7 @@ interface BitbucketRepository {
     fun getSource(owner: String, repo: String): List<RepoFile>?
     fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>?
     fun getSourceFile(owner: String, repo: String, hash: String, path: String): String?
-    fun clear() 
+    fun clear()
 }
 
 internal class BitbucketRepositoryImplementation(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository) : BitbucketRepository {

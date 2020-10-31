@@ -43,7 +43,7 @@ class RepositoryFragment : BaseFragment() {
             fileList.layoutManager = LinearLayoutManager(this@RepositoryFragment.activity)
             activityViewModel.selectedRepo.observe(viewLifecycleOwner, Observer {
                 fragmentViewModel.selectRepository(it.name)
-                activityViewModel.setTitle(it.name?:"")
+                activityViewModel.setTitle(it.name ?: "")
                 activityViewModel.showToolbar(true)
             })
         }.root

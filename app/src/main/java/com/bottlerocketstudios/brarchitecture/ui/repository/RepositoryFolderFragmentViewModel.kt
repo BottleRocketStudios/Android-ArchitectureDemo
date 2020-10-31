@@ -19,7 +19,7 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
     var path: String? = null
 
     private val filesObserver = Observer<List<RepoFile>?> { files ->
-        filesGroup.setHeader(FolderHeaderViewModel(path?:"", files?.size?:0))
+        filesGroup.setHeader(FolderHeaderViewModel(path ?: "", files?.size ?: 0))
         val map = files?.map { RepoFileViewModel(it) }
         map?.let {
             filesGroup.update(map)
