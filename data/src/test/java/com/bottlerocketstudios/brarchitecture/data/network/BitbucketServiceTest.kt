@@ -6,10 +6,12 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredent
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.data.repository.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.junit.Test
@@ -99,7 +101,7 @@ class BitbucketServiceTest : BaseTest() {
             .baseUrl("https://api.bitbucket.org")
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(DateTimeAdapter()).build()))
             .build()
 
         return retrofit.create(BitbucketService::class.java)
