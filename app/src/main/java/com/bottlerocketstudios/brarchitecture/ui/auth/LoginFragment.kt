@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +28,14 @@ class LoginFragment : BaseFragment() {
                 if (auth) {
                     Navigation.findNavController(root).navigate(R.id.action_loginFragment_to_homeFragment)
                 }
+            })
+            loginViewModel.signupClicked.observe(viewLifecycleOwner, Observer {
+                startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://id.atlassian.com/signup?application=bitbucket")))
+            })
+            loginViewModel.forgotClicked.observe(viewLifecycleOwner, Observer {
+                startActivity(Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://id.atlassian.com/login/resetpassword?application=bitbucket")))
             })
             loginViewModel.devOptionsClicked.observe(viewLifecycleOwner, Observer {
                 findNavController().navigate(R.id.action_loginFragment_to_devOptionsFragment)

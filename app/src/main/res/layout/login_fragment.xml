@@ -14,12 +14,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logo"
+            android:layout_marginTop="153dp"
+            android:contentDescription="@string/app_name"
+            android:layout_gravity="center"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/idTextInputLayout"
             style="@style/TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_id_hint"
+            android:layout_marginStart="53dp"
+            android:layout_marginEnd="53dp"
             android:layout_marginTop="15dp" >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -27,9 +37,7 @@
                 style="@style/TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="24dp"
-                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_nav_grey_profile"
                 android:contentDescription="@string/login_id_accessibility"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
@@ -43,32 +51,61 @@
             style="@style/TextInputLayout"
             android:hint="@string/login_password_hint"
             android:textSize="16sp"
+            android:layout_marginStart="53dp"
+            android:layout_marginEnd="53dp"
             android:layout_marginTop="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextInputEditText"
+                android:drawableStart="@drawable/ic_lock"
                 android:contentDescription="@string/login_password_accessibility"
-                android:textStyle="normal"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="24dp"
-                android:background="@android:color/transparent"
                 android:inputType="textPassword"
                 android:singleLine="false"
                 android:imeOptions="actionDone"
                 android:text="@={viewModel.password}"/>
         </com.google.android.material.textfield.TextInputLayout>
-        
-        <androidx.appcompat.widget.AppCompatButton
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="12sp"
+            android:textColor="@color/b_r__red"
+            android:letterSpacing="0.03"
+            android:layout_gravity="end"
+            android:layout_marginEnd="53dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/login_forgot"
+            android:onClick="@{() -> viewModel.onForgotClicked()}"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="43dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/b_r__red"
+            android:textColor="@color/white"
             android:id="@+id/login"
             android:text="@string/login_button"
             android:enabled="@{viewModel.loginEnabled}"
             android:onClick="@{() -> viewModel.onLoginClicked()}"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/transparent"
+            android:background="@drawable/abc_btn_borderless_material"
+            android:textColor="@color/b_r__red"
+            android:id="@+id/sign_up"
+            android:text="@string/signup_button"
+            android:onClick="@{() -> viewModel.onSignupClicked()}"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"

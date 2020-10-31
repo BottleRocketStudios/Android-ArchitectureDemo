@@ -11,6 +11,8 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.coroutines.launch
 
 class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {

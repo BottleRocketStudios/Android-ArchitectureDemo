@@ -73,7 +73,11 @@
         android:id="@+id/userFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
         android:label="@string/profile_title" 
-        tools:layout="@layout/user_fragment"/>
+        tools:layout="@layout/user_fragment">
+        <action
+            android:id="@+id/action_userFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/repositoryFileFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"

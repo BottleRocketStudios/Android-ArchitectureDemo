@@ -13,6 +13,7 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImplementation
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.data.repository.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -29,7 +30,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 object Data {
     val dataModule = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
-        single<Moshi> { Moshi.Builder().build() }
+        single<Moshi> { Moshi.Builder().add(DateTimeAdapter()).build() }
         single<BitbucketRepository> { BitbucketRepositoryImplementation(get(), get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(get(named(KoinNamedSharedPreferences.Environment)), get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(get()) }
@@ -117,7 +118,7 @@ object TokenAuth {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://bitbucket.org/    ")
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
             .build()
         return retrofit.create(TokenAuthService::class.java)
     }

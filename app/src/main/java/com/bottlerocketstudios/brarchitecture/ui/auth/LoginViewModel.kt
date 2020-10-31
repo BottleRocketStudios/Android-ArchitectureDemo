@@ -26,6 +26,10 @@ class LoginViewModel(app: Application, private val repo: BitbucketRepository, bu
     private val _authenticated = MutableLiveData<Boolean>()
     val authenticated: LiveData<Boolean> = _authenticated
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+    private val _signupClicked = LiveEvent<Unit>()
+    val signupClicked: LiveData<Unit> = _signupClicked
+    private val _forgotClicked = LiveEvent<Unit>()
+    val forgotClicked: LiveData<Unit> = _forgotClicked
     private val _devOptionsClicked = LiveEvent<Unit>()
     val devOptionsClicked: LiveData<Unit> = _devOptionsClicked
 
@@ -40,6 +44,14 @@ class LoginViewModel(app: Application, private val repo: BitbucketRepository, bu
         creds.validCredentials?.let {
             authenticate(it)
         }
+    }
+
+    fun onSignupClicked() {
+        _signupClicked.postValue(Unit)
+    }
+
+    fun onForgotClicked() {
+        _forgotClicked.postValue(Unit)
     }
 
     fun onDevOptionsClicked() {
