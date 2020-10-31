@@ -15,4 +15,5 @@
     <string name="logout">logout</string>
     
     <string name="home_repositories">Repositories</string>
+    <string name="folder_items">%1$d items</string>
 </resources>

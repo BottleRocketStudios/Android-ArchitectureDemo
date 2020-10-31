@@ -2,8 +2,11 @@ package com.bottlerocketstudios.brarchitecture.ui.bindingadapters
 
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
+import com.bottlerocketstudios.brarchitecture.R
 import com.bumptech.glide.Glide
+import timber.log.Timber
 
 /** Basically [View.GONE] when [value] is false. If true, set to [View.VISIBLE]. */
 @BindingAdapter("visibilityGoneIfFalse")
@@ -37,4 +40,11 @@ fun ImageView.setImageUrl(imageUrl: String?) {
             .error(drawable)
             .into(this)
     }
+}
+
+@BindingAdapter("fileType")
+fun AppCompatImageView.setFileType(fileType: String?) {
+    Glide.with(this)
+        .load(if (fileType.equals("commit_directory")) R.drawable.ic_folders else R.drawable.ic_file)
+        .into(this)
 }

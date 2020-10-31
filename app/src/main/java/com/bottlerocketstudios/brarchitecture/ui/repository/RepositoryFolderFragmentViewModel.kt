@@ -16,8 +16,10 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
     private val _srcFiles = MutableLiveData<List<RepoFile>?>()
     val srcFiles: LiveData<List<RepoFile>?> = _srcFiles
     val filesGroup = Section()
+    var path: String? = null
 
     private val filesObserver = Observer<List<RepoFile>?> { files ->
+        filesGroup.setHeader(FolderHeaderViewModel(path?:"", files?.size?:0))
         val map = files?.map { RepoFileViewModel(it) }
         map?.let {
             filesGroup.update(map)
@@ -31,6 +33,7 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
     fun loadRepo(owner: String, repoId: String, hash: String, path: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
             _srcFiles.postValue(repo.getSourceFolder(owner, repoId, hash, path))
+            this@RepositoryFolderFragmentViewModel.path = path
         }
     }
 

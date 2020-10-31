@@ -34,6 +34,8 @@ class RepositoryFolderFragment : BaseFragment() {
             viewModel = fragmentViewModel
             val repo: Repository = activityViewModel.selectedRepo.value ?: return root
             val folder: RepoFile = args.file
+            activityViewModel.setTitle(folder.path?:"")
+            activityViewModel.showToolbar(true)
             fileList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.filesGroup)
                 /*
