@@ -55,6 +55,17 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:menu="@menu/nav_drawer_menu" 
-            app:headerLayout="@layout/drawer_header"/>
+            app:headerLayout="@layout/drawer_header">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/devOptionsCta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="16dp"
+                style="@style/OutlinedButton.Red"
+                android:text="@string/dev_options_button"
+                app:visibilityGoneIfFalse="@{viewModel.devOptionsEnabled}" />
+        </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

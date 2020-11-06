@@ -40,14 +40,14 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() {
-        val model = HomeViewModel(mock {}, repo, mock {}, dispatcherProvider)
+        val model = HomeViewModel(mock {}, repo, dispatcherProvider)
         assertThat(model.repos.value).hasSize(1)
         assertThat(model.reposGroup.itemCount).isEqualTo(2)
     }
 
     @Test
     fun homeViewModel_shouldHaveNoObservers_whenCleared() {
-        val model = HomeViewModel(mock {}, repo, mock {}, dispatcherProvider)
+        val model = HomeViewModel(mock {}, repo, dispatcherProvider)
         assertThat(model.repos.hasObservers()).isTrue()
         model.doClear()
         assertThat(model.repos.hasObservers()).isFalse()
@@ -55,7 +55,7 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun homeViewModel_shouldHaveUser_whenInitialized() {
-        val model = HomeViewModel(mock {}, repo, mock {}, dispatcherProvider)
+        val model = HomeViewModel(mock {}, repo, dispatcherProvider)
         assertThat(model.user).isNotNull()
         assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)
     }

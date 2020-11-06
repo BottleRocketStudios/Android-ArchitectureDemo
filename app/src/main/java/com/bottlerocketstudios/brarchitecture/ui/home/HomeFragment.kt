@@ -45,10 +45,6 @@ class HomeFragment : BaseFragment() {
                 layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
             }
             lifecycleOwner = this@HomeFragment
-
-            homeViewModel.devOptionsClicked.observe(viewLifecycleOwner, Observer {
-                findNavController(this@HomeFragment).navigate(R.id.action_homeFragment_to_devOptionsFragment)
-            })
         }.root
     }
 }

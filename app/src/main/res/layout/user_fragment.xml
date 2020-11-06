@@ -13,12 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <ImageView
             android:layout_width="74dp"
             android:layout_height="74dp"
             app:imageUrl="@{viewModel.repo.user.avatarUrl}"
             android:layout_marginTop="142dp"
             android:layout_gravity="center"
+            android:contentDescription="@string/user_profile_image_accessibility"
             tools:src="@tools:sample/avatars"
             />
 
@@ -63,13 +65,11 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_marginTop="2dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textAllCaps="false"
             android:layout_gravity="center"
-            android:backgroundTint="@color/transparent"
-            android:background="@drawable/abc_btn_borderless_material"
             android:textColor="@color/brown_grey_two"
-            android:id="@+id/sign_up"
+            android:id="@+id/logout"
             android:text="@string/logout"
             android:onClick="@{() -> viewModel.onLogoutClicked()}"/>
     </LinearLayout>

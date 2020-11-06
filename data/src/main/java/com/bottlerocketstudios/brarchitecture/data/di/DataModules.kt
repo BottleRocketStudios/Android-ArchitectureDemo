@@ -31,10 +31,10 @@ object Data {
     val dataModule = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(DateTimeAdapter()).build() }
-        single<BitbucketRepository> { BitbucketRepositoryImplementation(get(), get()) }
-        single<EnvironmentRepository> { EnvironmentRepositoryImpl(get(named(KoinNamedSharedPreferences.Environment)), get()) }
-        single<ForceCrashLogic> { ForceCrashLogicImpl(get()) }
-        single { BitbucketCredentialsRepository(androidContext(), get()) }
+        single<BitbucketRepository> { BitbucketRepositoryImplementation(bitbucketService = get(), bitbucketCredentialsRepository = get()) }
+        single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
+        single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
+        single { BitbucketCredentialsRepository(context = androidContext(), moshi = get()) }
         single<SharedPreferences>(named(KoinNamedSharedPreferences.Environment)) {
             androidContext().getSharedPreferences("dev_options_prefs", Context.MODE_PRIVATE)
         }
@@ -61,8 +61,8 @@ object NetworkObject {
         }
         single<Retrofit>(named(KoinNamedNetwork.Authenticated)) {
             provideAuthenticatedRetrofit(
-                get(named(KoinNamedNetwork.Authenticated)),
-                get()
+                okHttpClient = get(named(KoinNamedNetwork.Authenticated)),
+                moshi = get()
             )
         }
         single<BitbucketService> { provideBitbucketService(get(named(KoinNamedNetwork.Authenticated))) }
@@ -85,11 +85,11 @@ object NetworkObject {
 /** Basic auth only configuration. Use this or [TokenAuth], never both. **/
 private object BasicAuth {
     val basicAuthModule = module {
-        single { BasicAuthInterceptor(get()) }
+        single { BasicAuthInterceptor(credentialsRepo = get()) }
         single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {
             provideBasicAuthOkHttpClient(
-                get(named(KoinNamedNetwork.Unauthenticated)),
-                get()
+                okHttpClient = get(named(KoinNamedNetwork.Unauthenticated)),
+                basicAuthInterceptor = get()
             )
         }
     }
@@ -104,12 +104,12 @@ private object BasicAuth {
 /** Token auth only configuration. Use this or [BasicAuth], never both. **/
 object TokenAuth {
     val tokenAuthModule = module {
-        single { TokenAuthInterceptor(get(), get()) }
-        single<TokenAuthService> { provideTokenAuthService(get(named(KoinNamedNetwork.Unauthenticated))) }
+        single { TokenAuthInterceptor(tokenAuthService = get(), credentialsRepo = get()) }
+        single<TokenAuthService> { provideTokenAuthService(okHttpClient = get(named(KoinNamedNetwork.Unauthenticated))) }
         single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {
             provideTokenAuthOkHttpClient(
-                get(named(KoinNamedNetwork.Unauthenticated)),
-                get()
+                okHttpClient = get(named(KoinNamedNetwork.Unauthenticated)),
+                tokenAuthInterceptor = get()
             )
         }
     }

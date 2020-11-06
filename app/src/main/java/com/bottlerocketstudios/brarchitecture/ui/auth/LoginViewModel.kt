@@ -43,7 +43,7 @@ class LoginViewModel(app: Application, private val repo: BitbucketRepository, bu
         val creds = CredentialModel(email.value, password.value)
         creds.validCredentials?.let {
             authenticate(it)
-        }
+        } ?: run { _authenticated.postValue(false) } // TODO: Need to represent invalid credential format error here to differentiate from an actual invalid login attempt
     }
 
     fun onSignupClicked() {
