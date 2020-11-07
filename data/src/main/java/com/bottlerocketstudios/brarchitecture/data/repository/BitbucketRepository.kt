@@ -20,7 +20,9 @@ interface BitbucketRepository {
     fun getSource(owner: String, repo: String): List<RepoFile>?
     fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>?
     fun getSourceFile(owner: String, repo: String, hash: String, path: String): String?
+    fun clear()
 }
+
 internal class BitbucketRepositoryImplementation(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository) : BitbucketRepository {
     private val _user = MutableLiveData<User>()
     private val _repos = MutableLiveData<List<Repository>>()
@@ -98,5 +100,12 @@ internal class BitbucketRepositoryImplementation(private val bitbucketService: B
             return response.body() ?: ""
         }
         return null
+    }
+
+    override fun clear() {
+        bitbucketCredentialsRepository.clearStorage()
+        authenticated = false
+        _user.postValue(null)
+        _repos.postValue(listOf())
     }
 }

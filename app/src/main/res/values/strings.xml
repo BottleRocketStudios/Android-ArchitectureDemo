@@ -1,12 +1,32 @@
 <resources>
     <string name="app_name">BR Architecture</string>
-    <string name="login_id_hint">Login ID</string>
+
+    <!-- Screen titles -->
+    <string name="home_title">Home</string>
+    <string name="profile_title">Profile</string>
+    <string name="dev_options_title">@string/dev_options_button</string>
+
+    <!-- Login -->
+    <string name="login_id_hint">Username</string>
     <string name="login_id_accessibility">Login ID</string>
     <string name="login_password_hint">Password</string>
     <string name="login_password_accessibility">Password</string>
+    <string name="login_forgot">Forgot ID or Password?</string>
     <string name="login_button">Login</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="login_error">Login Error</string>
+
+    <!-- User Profile -->
+    <string name="edit">edit</string>
+    <string name="logout">Logout</string>
+    <string name="user_profile_image_accessibility">User profile image</string>
+
+    <!-- Home -->
+    <string name="home_repositories">Repositories</string>
+    <string name="folder_items">%1$d items</string>
+
+    <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>
     <string name="empty_label" />
-    <string name="home_title">Home</string>
-    <string name="profile_title">Profile</string>
+
 </resources>

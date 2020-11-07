@@ -17,15 +17,15 @@ import org.koin.dsl.module
 /** General app configuration (repositories/viewmodels/etc) */
 object AppModule {
     val appModule = module {
-        viewModel { MainActivityViewModel(get(), get()) }
-        viewModel { SplashFragmentViewModel(get(), get(), get()) }
-        viewModel { LoginViewModel(get(), get(), get(), get()) }
-        viewModel { HomeViewModel(get(), get(), get(), get()) }
-        viewModel { RepositoryFragmentViewModel(get(), get(), get()) }
-        viewModel { RepositoryFileFragmentViewModel(get(), get(), get()) }
-        viewModel { RepositoryFolderFragmentViewModel(get(), get(), get()) }
-        viewModel { UserFragmentViewModel(get(), get()) }
-        viewModel { DevOptionsViewModel(get(), get(), get(), get(), get()) }
+        viewModel { MainActivityViewModel(app = get(), repo = get(), buildConfigProvider = get()) }
+        viewModel { SplashFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
+        viewModel { LoginViewModel(app = get(), repo = get(), buildConfigProvider = get(), dispatcherProvider = get()) }
+        viewModel { HomeViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
+        viewModel { RepositoryFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
+        viewModel { RepositoryFileFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
+        viewModel { RepositoryFolderFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
+        viewModel { UserFragmentViewModel(app = get(), repo = get()) }
+        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), buildConfigProvider = get(), dispatcherProvider = get()) }
 
         single<BuildConfigProvider> { BuildConfigProviderImpl() }
     }

@@ -9,6 +9,10 @@
     See https://proandroiddev.com/android-navigation-component-tips-tricks-implementing-splash-screen-f0f5ce046a09 and https://developer.android.com/guide/navigation/navigation-navigate#pop
     -->
 
+    <action
+        android:id="@+id/action_global_to_devOptionsFragment"
+        app:destination="@id/devOptionsFragment" />
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
@@ -53,9 +57,6 @@
         <action
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_devOptionsFragment"
-            app:destination="@id/devOptionsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/repositoryFragment"
@@ -73,11 +74,15 @@
         android:id="@+id/userFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
         android:label="@string/profile_title" 
-        tools:layout="@layout/user_fragment"/>
+        tools:layout="@layout/user_fragment">
+        <action
+            android:id="@+id/action_userFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/repositoryFileFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"
-        android:label="RepositoryFileFragment" 
+        android:label="@string/empty_label"
         tools:layout="@layout/repository_file_fragment">
         <argument
             android:name="file"
@@ -96,6 +101,6 @@
     <fragment
         android:id="@+id/devOptionsFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsFragment"
-        android:label="DevOptionsFragment"
+        android:label="@string/dev_options_button"
         tools:layout="@layout/dev_options_fragment"/>
 </navigation>

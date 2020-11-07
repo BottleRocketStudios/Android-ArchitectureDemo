@@ -9,27 +9,9 @@
             type="com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel" />
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">       
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:text="@{viewModel.user.displayName}"
-            android:onClick="@{v -> viewModel.doTheThing()}"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/repository_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:id="@+id/devOptionsCta"
-            android:text="@string/dev_options_button"
-            app:visibilityGoneIfFalse="@{viewModel.devOptionsEnabled}"
-            android:onClick="@{() -> viewModel.onDevOptionsClicked()}"/>
-
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/repository_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_repository"/>
 </layout>
