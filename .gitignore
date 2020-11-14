@@ -1,6 +1,7 @@
 ### CUSTOM START - DO NOT REMOVE WHEN UPDATING ###
 .idea/jarRepositories.xml
 .idea/intellij-javadocs-*.xml
+apikey.properties
 ### CUSTOM END - DO NOT REMOVE WHEN UPDATING ###
 # Created by https://www.gitignore.io/api/git,gradle,android,intellij,androidstudio
 # Edit at https://www.gitignore.io/?templates=git,gradle,android,intellij,androidstudio
