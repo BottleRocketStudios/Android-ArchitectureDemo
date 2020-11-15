@@ -85,9 +85,7 @@ class ApiKeyProperties(pathToProperties: String, project: Project) {
     private val apikeyPropertiesFile = project.file(pathToProperties)
     private val apikeyProperties = Properties()
     init {
-        System.out.println("GOT HERE")
         apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
-        apikeyProperties.list(System.out)
     }
 
     val key: String
