@@ -24,9 +24,20 @@
     <!-- Home -->
     <string name="home_repositories">Repositories</string>
     <string name="folder_items">%1$d items</string>
+    
+    <!-- Snippets -->
+    <string name="snippets_title">Snippets</string>
+    <string name="new_snippet">New Snippet</string>
+    <string name="snippet_title">Title</string>
+    <string name="snippet_filename">Filename</string>
+    <string name="snippet_contents">Contents</string>
 
     <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>
     <string name="empty_label" />
+    <string name="create_snippets_title">New Snippet</string>
+    <string name="snippet_private">Private</string>
+    <string name="create_button">Create</string>
+    <string name="snippet_creation_failed">Snippet Creation Failed</string>
 
 </resources>

@@ -9,6 +9,8 @@ import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.user.UserFragmentViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -24,6 +26,8 @@ object AppModule {
         viewModel { RepositoryFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { RepositoryFileFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { RepositoryFolderFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
+        viewModel { SnippetsFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
+        viewModel { CreateSnippetFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { UserFragmentViewModel(app = get(), repo = get()) }
         viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), buildConfigProvider = get(), dispatcherProvider = get()) }
 

@@ -2,9 +2,14 @@ package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.Snippet
 import com.bottlerocketstudios.brarchitecture.data.model.User
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 /** Primary apis to interact with bitbucket. See https://developer.atlassian.com/bitbucket/api/2/reference */
@@ -50,4 +55,16 @@ internal interface BitbucketService {
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
     ): Call<String>
+
+    /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
+    @GET(value = "2.0/snippets?role=owner")
+    fun getSnippets(): Call<BitbucketPagedResponse<List<Snippet>>>
+
+    @Multipart
+    @POST(value = "2.0/snippets")
+    fun createSnippet(
+        @Part("title") title: String,
+        @Part body: MultipartBody.Part,
+        @Part("is_private") private: Boolean
+    ): Call<Snippet>
 }

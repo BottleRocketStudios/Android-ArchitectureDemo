@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_snippetsFragment"
+            app:destination="@id/snippetsFragment" />
     </fragment>
     <fragment
         android:id="@+id/repositoryFragment"
@@ -69,6 +72,15 @@
         <action
             android:id="@+id/action_repositoryFragment_to_repositoryFolderFragment"
             app:destination="@id/repositoryFolderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/snippetsFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragment"
+        android:label="@string/snippets_title"
+        tools:layout="@layout/snippets_fragment">
+        <action
+            android:id="@+id/action_snippetsFragment_to_createSnippetFragment"
+            app:destination="@id/createSnippetFragment" />
     </fragment>
     <fragment
         android:id="@+id/userFragment"
@@ -103,4 +115,9 @@
         android:name="com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsFragment"
         android:label="@string/dev_options_button"
         tools:layout="@layout/dev_options_fragment"/>
+    <fragment
+        android:id="@+id/createSnippetFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragment"
+        android:label="@string/create_snippets_title"
+        tools:layout="@layout/create_snippet_fragment"/>
 </navigation>

@@ -27,7 +27,7 @@ class BitbucketServiceTest : BaseTest() {
         // This does not currently force the use of an expired token
         val accessToken = AccessToken(
             accessToken = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2",
-            refreshToken = "wrW7MNBnvChqFpnXGe",
+            refreshToken = "rtUqV3q9yKjrwRPsD2",
             expiresInSeconds = 7200,
             tokenType = "bearer",
             scopes = "project account pullrequest"
@@ -79,7 +79,7 @@ class BitbucketServiceTest : BaseTest() {
     // TODO: Consider adding koin-test and use a test koin graph instead of the manual creation here
     private suspend fun createBitbucketService(accessToken: AccessToken?): BitbucketService {
         val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
-            on { loadCredentials() } doReturn ValidCredentialModel("patentlychris@gmail.com", "password1")
+            on { loadCredentials() } doReturn ValidCredentialModel("username", "password")
             on { loadToken() } doReturn accessToken
         }
 
