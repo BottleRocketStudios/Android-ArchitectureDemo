@@ -14,6 +14,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
+import org.junit.Ignore
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -23,18 +24,19 @@ import java.net.HttpURLConnection
 class BitbucketServiceTest : BaseTest() {
 
     @Test
+    @Ignore("Test only works if actual usable tokens are provided")
     fun getRepository_shouldRefreshTokenAndSucceed_whenTokenExpired() {
         // This does not currently force the use of an expired token
         val accessToken = AccessToken(
-            accessToken = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2",
-            refreshToken = "wrW7MNBnvChqFpnXGe",
+            accessToken = "REPLACE WITH REAL TOKEN",
+            refreshToken = "REPLACE WITH REAL TOKEN",
             expiresInSeconds = 7200,
             tokenType = "bearer",
             scopes = "project account pullrequest"
         )
         runBlocking {
             val bitbucketService = createBitbucketService(accessToken)
-            val response = bitbucketService.getRepository("patentlychris", "private").execute()
+            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY").execute()
             val body = response.body()
             assertThat(body).isNotNull()
             body?.let { privateRepo: Repository ->
@@ -45,17 +47,18 @@ class BitbucketServiceTest : BaseTest() {
     }
 
     @Test
+    @Ignore("Test only works if actual expired tokens are provided")
     fun getRepository_shouldFail_whenForceTokenExpired() {
         val accessToken = AccessToken(
-            accessToken = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2aaa",
-            refreshToken = "wrW7MNBnvChqFpnXG",
+            accessToken = "REPLACE WITH REAL TOKEN",
+            refreshToken = "REPLACE WITH REAL TOKEN",
             expiresInSeconds = 7200,
             tokenType = "bearer",
             scopes = "project account pullrequest"
         )
         runBlocking {
             val bitbucketService = createBitbucketService(accessToken)
-            val response = bitbucketService.getRepository("patentlychris", "private").execute()
+            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY").execute()
             val body = response.body()
             assertThat(body).isNull()
             val errorBody = response.errorBody()

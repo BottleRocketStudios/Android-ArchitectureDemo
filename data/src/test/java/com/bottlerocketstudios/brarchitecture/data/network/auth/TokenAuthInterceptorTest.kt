@@ -37,7 +37,7 @@ class TokenAuthInterceptorTest : BaseTest() {
             }
         }
         val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
-            on { loadCredentials() } doReturn ValidCredentialModel("patentlychris@gmail.com", "password1")
+            on { loadCredentials() } doReturn ValidCredentialModel("test@example.com", "password1")
             on { loadToken() } doAnswer { accessToken }
         }
         val interceptor = TokenAuthInterceptor(service, bitbucketCredentialsRepository)
@@ -53,7 +53,7 @@ class TokenAuthInterceptorTest : BaseTest() {
                 .isEqualTo("Authorization")
             assertWithMessage("Header value should be created based on username and password")
                 .that(valueCaptor.lastValue)
-                .isEqualTo("Bearer patentlychris@gmail.com + password1")
+                .isEqualTo("Bearer test@example.com + password1")
         }
     }
 }
