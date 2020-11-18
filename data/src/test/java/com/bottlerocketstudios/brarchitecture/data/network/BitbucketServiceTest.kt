@@ -82,7 +82,7 @@ class BitbucketServiceTest : BaseTest() {
     // TODO: Consider adding koin-test and use a test koin graph instead of the manual creation here
     private suspend fun createBitbucketService(accessToken: AccessToken?): BitbucketService {
         val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
-            on { loadCredentials() } doReturn ValidCredentialModel("patentlychris@gmail.com", "password1")
+            on { loadCredentials() } doReturn ValidCredentialModel("username", "password")
             on { loadToken() } doReturn accessToken
         }
 
