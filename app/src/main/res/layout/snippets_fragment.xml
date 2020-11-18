@@ -31,7 +31,7 @@
             android:layout_marginBottom="24dp"
             android:src="@drawable/ic_create"
             android:backgroundTint="@color/b_r__red"
-            android:onClick="@{_ -> viewModel.onCreateClick()}"
+            android:onClick="@{() -> viewModel.onCreateClick()}"
             app:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

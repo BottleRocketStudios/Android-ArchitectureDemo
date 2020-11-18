@@ -10,6 +10,7 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class CreateSnippetFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val title = MutableLiveData<String>()
@@ -47,10 +48,10 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
                                 _failed.postValue(true)
                             }
                         }
-                    }
-                }
-            }
-        }
+                    } ?: Timber.e("Snippet creation failed because contents was unexpectedly null")
+                } ?: Timber.e("Snippet creation failed because filename was unexpectedly null")
+            } ?: Timber.e("Snippet creation failed because title was unexpectedly null")
+        } ?: Timber.e("Snippet creation failed because user uuid was unexpectedly null")
     }
 
     override fun onCleared() {

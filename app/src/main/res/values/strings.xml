@@ -31,13 +31,13 @@
     <string name="snippet_title">Title</string>
     <string name="snippet_filename">Filename</string>
     <string name="snippet_contents">Contents</string>
-
-    <!-- Misc -->
-    <string name="dev_options_button">Dev Options</string>
-    <string name="empty_label" />
     <string name="create_snippets_title">New Snippet</string>
     <string name="snippet_private">Private</string>
     <string name="create_button">Create</string>
     <string name="snippet_creation_failed">Snippet Creation Failed</string>
+
+    <!-- Misc -->
+    <string name="dev_options_button">Dev Options</string>
+    <string name="empty_label" />
 
 </resources>

@@ -18,8 +18,8 @@ class CreateSnippetFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return DataBindingUtil.inflate<CreateSnippetFragmentBinding>(inflater, R.layout.create_snippet_fragment, container, false).apply {
             viewModel = fragmentViewModel
-            setLifecycleOwner(this@CreateSnippetFragment)
-            fragmentViewModel.done.observe(this@CreateSnippetFragment, Observer {
+            lifecycleOwner = this@CreateSnippetFragment
+            fragmentViewModel.done.observe(viewLifecycleOwner, Observer {
                 findNavController().navigateUp()
             })
         }.root
