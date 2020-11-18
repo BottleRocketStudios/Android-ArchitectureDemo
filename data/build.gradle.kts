@@ -9,7 +9,7 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
 }
 
-val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES")?:"apikey.properties", rootProject)
+val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject)
 
 android {
     compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
