@@ -6,7 +6,7 @@ Bottle Rocket Android Architecture Guidelines
 * Open project in Android Studio
 * If prompted, select "Default Gradle Wrapper"
 * Project should open and Gradle should sync without any issues. 
-* Generate a Bitbucket OAuth consumer key at https://bitbucket.org/chriskoeberle/workspace/settings/api
+* Generate a Bitbucket OAuth consumer key at https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api
 * Create a file in project root named "apikey.properties" with following format:
 BITBUCKET_KEY="<key>"
 BITBUCKET_SECRET="<secret>"
