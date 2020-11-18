@@ -7,6 +7,10 @@
             android:title="@string/home_title" >
         </item>
         <item
+            android:id="@id/snippetsFragment"
+            android:icon="@drawable/ic_snippet"
+            android:title="@string/snippets_title" />
+        <item
             android:id="@id/userFragment"
             android:icon="@drawable/ic_logo"
             android:title="@string/profile_title" />

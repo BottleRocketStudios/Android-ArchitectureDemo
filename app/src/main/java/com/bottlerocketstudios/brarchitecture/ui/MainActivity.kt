@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             viewModel = activityViewModel
             lifecycleOwner = this@MainActivity
             viewToolbar.viewModel = activityViewModel
-            AppBarConfiguration(setOf(R.id.homeFragment, R.id.userFragment), drawerLayout).let {
+            AppBarConfiguration(setOf(R.id.homeFragment, R.id.userFragment, R.id.snippetsFragment), drawerLayout).let {
                 appBarConfiguration = it
                 navView.setupWithNavController(navController)
                 DrawerHeaderBinding.bind(navView.getHeaderView(0)).apply {

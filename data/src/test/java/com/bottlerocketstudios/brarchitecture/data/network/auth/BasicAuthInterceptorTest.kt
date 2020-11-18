@@ -19,7 +19,7 @@ class BasicAuthInterceptorTest : BaseTest() {
     fun authInterceptor() {
         runBlocking {
             val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
-                on { loadCredentials() } doReturn ValidCredentialModel("patentlychris@gmail.com", "password1")
+                on { loadCredentials() } doReturn ValidCredentialModel("test@example.com", "password1")
             }
             val interceptor = BasicAuthInterceptor(bitbucketCredentialsRepository)
 
@@ -34,7 +34,7 @@ class BasicAuthInterceptorTest : BaseTest() {
                 .isEqualTo("Authorization")
             assertWithMessage("Header value should be base64 encoding of username and password")
                 .that(valueCaptor.lastValue)
-                .isEqualTo("Basic cGF0ZW50bHljaHJpc0BnbWFpbC5jb206cGFzc3dvcmQx")
+                .isEqualTo("Basic dGVzdEBleGFtcGxlLmNvbTpwYXNzd29yZDE=")
         }
     }
 }
