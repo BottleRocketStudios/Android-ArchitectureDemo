@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id(Config.ApplyPlugins.ANDROID_LIBRARY)
     id(Config.ApplyPlugins.JACOCO_ANDROID)
@@ -5,6 +8,8 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
 }
+
+val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject)
 
 android {
     compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
@@ -15,6 +20,8 @@ android {
         targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
         versionCode = BuildInfoManager.APP_VERSION.versionCode
         versionName = BuildInfoManager.APP_VERSION.versionName
+        buildConfigField("String", "BITBUCKET_KEY", apikey.key)
+        buildConfigField("String", "BITBUCKET_SECRET", apikey.secret)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -74,8 +81,30 @@ val productionReleaseImplementation: Configuration by configurations.creating { 
 /** List of all buildable dev configurations */
 val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
+class ApiKeyProperties(pathToProperties: String, project: Project) {
+    private val apikeyPropertiesFile = project.file(pathToProperties)
+    private val apikeyProperties = Properties()
+    init {
+        apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
+    }
+
+    val key: String
+        get() = if (apikeyProperties["BITBUCKET_KEY"] is String) {
+            apikeyProperties["BITBUCKET_KEY"] as String
+        } else {
+            throw(Exception("Unable to find BITBUCKET_KEY in apikey.properties"))
+        }
+
+    val secret: String
+        get() = if (apikeyProperties["BITBUCKET_SECRET"] is String) {
+            apikeyProperties["BITBUCKET_SECRET"] as String
+        } else {
+            throw(Exception("Unable to find BITBUCKET_SECRET in apikey.properties"))
+        }
+}
+
 dependencies {
-    // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
+// TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // Kotlin/coroutines
     kotlinDependencies()

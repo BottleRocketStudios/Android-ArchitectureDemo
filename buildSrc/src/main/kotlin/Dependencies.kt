@@ -1,8 +1,5 @@
-import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.creating
-import org.gradle.kotlin.dsl.provideDelegate
 
 // Provides dependencies that can be used throughout the project build.gradle files
 
@@ -190,7 +187,8 @@ private object Libraries {
     // https://github.com/square/moshi/blob/master/CHANGELOG.md
     // https://github.com/square/moshi/releases
     private const val MOSHI_VERSION = "1.9.3"
-    const val MOSHI_KOTLIN = "com.squareup.moshi:moshi-kotlin:$MOSHI_VERSION"
+    // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the kapt `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
+    const val MOSHI = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
 
     //// UI
@@ -200,6 +198,10 @@ private object Libraries {
     const val GROUPIE = "com.xwray:groupie:$GROUPIE_VERSION"
     const val GROUPIE_KOTLIN_ANDROID_EXTENSIONS = "com.xwray:groupie-kotlin-android-extensions:$GROUPIE_VERSION"
     const val GROUPIE_VIEWBINDING = "com.xwray:groupie-viewbinding:$GROUPIE_VERSION"
+    
+    // Glide
+    private const val GLIDE_VERSION = "4.11.0"
+    const val GLIDE = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
     //// Utility
     // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
@@ -265,6 +267,8 @@ private object TestLibraries {
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
+//// See DependencyHandlerUtils.kt to define DependencyHandler extension functions for types not handled (ex: compileOnly).
+//// More info in BEST_PRACTICES.md -> Build section
 fun DependencyHandler.kotlinDependencies() {
     implementation(Libraries.KOTLIN_STDLIB_JDK7)
     implementation(Libraries.KOTLIN_REFLECT)
@@ -294,7 +298,7 @@ fun DependencyHandler.retrofitDependencies() {
 }
 
 fun DependencyHandler.moshiDependencies() {
-    api(Libraries.MOSHI_KOTLIN)
+    api(Libraries.MOSHI)
     kapt(Libraries.MOSHI_KOTLIN_CODEGEN)
 }
 
@@ -331,6 +335,10 @@ fun DependencyHandler.groupieDependencies() {
     implementation(Libraries.GROUPIE)
     implementation(Libraries.GROUPIE_KOTLIN_ANDROID_EXTENSIONS)
     implementation(Libraries.GROUPIE_VIEWBINDING)
+}
+
+fun DependencyHandler.glideDependencies() {
+    implementation(Libraries.GLIDE)
 }
 
 fun DependencyHandler.timberDependencies() {

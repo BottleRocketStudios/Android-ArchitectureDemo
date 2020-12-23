@@ -13,5 +13,9 @@ data class User(
     @Json(name = "account_status") val accountStatus: String? = "",
     @Json(name = "display_name") val displayName: String? = "",
     @Json(name = "created_on") val createdOn: String? = null,
-    @Json(name = "uuid") val uuid: String? = ""
-) : Parcelable
+    @Json(name = "uuid") val uuid: String? = "",
+    @Json(name = "links") val links: Links? = null
+) : Parcelable {
+    val avatarUrl: String?
+        get() = links?.avatar?.href
+}

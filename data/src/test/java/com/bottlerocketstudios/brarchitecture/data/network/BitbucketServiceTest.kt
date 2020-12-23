@@ -6,12 +6,15 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredent
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.data.repository.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
+import org.junit.Ignore
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -21,18 +24,19 @@ import java.net.HttpURLConnection
 class BitbucketServiceTest : BaseTest() {
 
     @Test
+    @Ignore("Test only works if actual usable tokens are provided")
     fun getRepository_shouldRefreshTokenAndSucceed_whenTokenExpired() {
         // This does not currently force the use of an expired token
         val accessToken = AccessToken(
-            accessToken = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2",
-            refreshToken = "wrW7MNBnvChqFpnXGe",
+            accessToken = "REPLACE WITH REAL TOKEN",
+            refreshToken = "REPLACE WITH REAL TOKEN",
             expiresInSeconds = 7200,
             tokenType = "bearer",
             scopes = "project account pullrequest"
         )
         runBlocking {
             val bitbucketService = createBitbucketService(accessToken)
-            val response = bitbucketService.getRepository("patentlychris", "private").execute()
+            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY").execute()
             val body = response.body()
             assertThat(body).isNotNull()
             body?.let { privateRepo: Repository ->
@@ -43,17 +47,18 @@ class BitbucketServiceTest : BaseTest() {
     }
 
     @Test
+    @Ignore("Test only works if actual expired tokens are provided")
     fun getRepository_shouldFail_whenForceTokenExpired() {
         val accessToken = AccessToken(
-            accessToken = "qxxSQ7DYkrW6-X4F3xIEC_pMc0yYyzloBuucK883Spxma7tJZzUcJK_Nzix9XuS3AefQd3x--GzYSP88F5MDIINejLA-Dz2PC4nCJiXSQhNe4zm2Krd-ttw2aaa",
-            refreshToken = "wrW7MNBnvChqFpnXG",
+            accessToken = "REPLACE WITH REAL TOKEN",
+            refreshToken = "REPLACE WITH REAL TOKEN",
             expiresInSeconds = 7200,
             tokenType = "bearer",
             scopes = "project account pullrequest"
         )
         runBlocking {
             val bitbucketService = createBitbucketService(accessToken)
-            val response = bitbucketService.getRepository("patentlychris", "private").execute()
+            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY").execute()
             val body = response.body()
             assertThat(body).isNull()
             val errorBody = response.errorBody()
@@ -77,7 +82,7 @@ class BitbucketServiceTest : BaseTest() {
     // TODO: Consider adding koin-test and use a test koin graph instead of the manual creation here
     private suspend fun createBitbucketService(accessToken: AccessToken?): BitbucketService {
         val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
-            on { loadCredentials() } doReturn ValidCredentialModel("patentlychris@gmail.com", "password1")
+            on { loadCredentials() } doReturn ValidCredentialModel("username", "password")
             on { loadToken() } doReturn accessToken
         }
 
@@ -99,7 +104,7 @@ class BitbucketServiceTest : BaseTest() {
             .baseUrl("https://api.bitbucket.org")
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(DateTimeAdapter()).build()))
             .build()
 
         return retrofit.create(BitbucketService::class.java)

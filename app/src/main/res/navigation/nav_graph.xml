@@ -9,10 +9,14 @@
     See https://proandroiddev.com/android-navigation-component-tips-tricks-implementing-splash-screen-f0f5ce046a09 and https://developer.android.com/guide/navigation/navigation-navigate#pop
     -->
 
+    <action
+        android:id="@+id/action_global_to_devOptionsFragment"
+        app:destination="@id/devOptionsFragment" />
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
-        android:label="SplashFragment"
+        android:label="@string/empty_label"
         tools:layout="@layout/splash_fragment">
         <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
@@ -29,7 +33,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.auth.LoginFragment"
-        android:label="LoginFragment" 
+        android:label="@string/empty_label" 
         tools:layout="@layout/login_fragment">
         <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
@@ -45,7 +49,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
-        android:label="HomeFragment"
+        android:label="@string/home_title"
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_repositoryFragment"
@@ -54,13 +58,13 @@
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_devOptionsFragment"
-            app:destination="@id/devOptionsFragment"/>
+            android:id="@+id/action_homeFragment_to_snippetsFragment"
+            app:destination="@id/snippetsFragment" />
     </fragment>
     <fragment
         android:id="@+id/repositoryFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragment"
-        android:label="RepositoryFragment"
+        android:label="@string/empty_label"
         tools:layout="@layout/repository_fragment">
         <action
             android:id="@+id/action_repositoryFragment_to_repositoryFileFragment"
@@ -70,14 +74,27 @@
             app:destination="@id/repositoryFolderFragment" />
     </fragment>
     <fragment
+        android:id="@+id/snippetsFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragment"
+        android:label="@string/snippets_title"
+        tools:layout="@layout/snippets_fragment">
+        <action
+            android:id="@+id/action_snippetsFragment_to_createSnippetFragment"
+            app:destination="@id/createSnippetFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/userFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
-        android:label="UserFragment" 
-        tools:layout="@layout/user_fragment"/>
+        android:label="@string/profile_title" 
+        tools:layout="@layout/user_fragment">
+        <action
+            android:id="@+id/action_userFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/repositoryFileFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"
-        android:label="RepositoryFileFragment" 
+        android:label="@string/empty_label"
         tools:layout="@layout/repository_file_fragment">
         <argument
             android:name="file"
@@ -86,7 +103,7 @@
     <fragment
         android:id="@+id/repositoryFolderFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragment"
-        android:label="RepositoryFolderFragment" 
+        android:label="@string/empty_label" 
         tools:layout="@layout/repository_folder_fragment">
         <argument
             android:name="file"
@@ -96,6 +113,11 @@
     <fragment
         android:id="@+id/devOptionsFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsFragment"
-        android:label="DevOptionsFragment"
+        android:label="@string/dev_options_button"
         tools:layout="@layout/dev_options_fragment"/>
+    <fragment
+        android:id="@+id/createSnippetFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragment"
+        android:label="@string/create_snippets_title"
+        tools:layout="@layout/create_snippet_fragment"/>
 </navigation>

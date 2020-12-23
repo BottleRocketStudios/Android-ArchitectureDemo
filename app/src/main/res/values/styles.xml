@@ -1,26 +1,236 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
-        <item name="colorControlActivated">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textColorHint">@color/colorPrimary</item>
-
+    <!-- Info on fields available to style/theme: https://material.io/develop/android/components/text-fields#outlined-text-field -->
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxCornerRadiusTopEnd">1dp</item>
+        <item name="boxCornerRadiusTopStart">1dp</item>
+        <item name="boxCornerRadiusBottomStart">1dp</item>
+        <item name="boxCornerRadiusBottomEnd">1dp</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeColor">@drawable/text_input_border</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="colorControlActivated">@color/brown_grey_three</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <!-- Standard hint placement color (when text input is empty) -->
+        <item name="android:textColorHint">@color/brown_grey_three</item>
+        <!-- Collapsed (floating) color -->
+        <item name="hintTextColor">@color/black_90</item>
     </style>
 
-    <style name="TextInputEditText" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColor">@color/colorPrimary</item>
-
+    <style name="Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/btn_bg_color_selector</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="OutlinedButton.Red" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/b_r__red</item>
+    </style>
+
+    <style name="LightTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">#de000000</item>
+    </style>
+
+    <style name="DarkTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="H1Title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/greyish_brown</item>
+    </style>
+
+    <style name="H2CardTitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/tertiary</item>
+    </style>
+
+    <style name="LightSubhead1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">#de000000</item>
+    </style>
+
+    <style name="DarkSubheadDisabled">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">#80ffffff</item>
+    </style>
+
+    <style name="DarkSubhead">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="LightSubhead1Disabled">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">#61000000</item>
+    </style>
+
+    <style name="LinkBrRed">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/b_r__red</item>
+    </style>
+
+    <style name="LinkDarkGrey">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/greyish_brown</item>
+    </style>
+
+    <style name="NavMainnavGrey">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/greyish_brown</item>
+    </style>
+
+    <style name="NavMainnavRed">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">#ad1f23</item>
+    </style>
+
+    <style name="NavSubmavGrey">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">#de000000</item>
+    </style>
+
+    <style name="DarkBody1">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="H3CardSubtitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/greyish_brown</item>
+    </style>
+
+    <style name="BodyCopy">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/black_90</item>
+    </style>
+
+    <style name="Filter">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/greyish_brown</item>
+    </style>
+
+    <style name="Search">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">#66000000</item>
+    </style>
+
+    <style name="TextNavGrey">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/brown_grey_two</item>
+    </style>
+
+    <style name="TextNavBrRed">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">#ad1f23</item>
+    </style>
+
+    <style name="H5CardDate">
+        <item name="android:gravity">end</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/greyish_brown</item>
+    </style>
+
+    <style name="H4CardMessage">
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textColor">@color/greyish_brown</item>
+    </style>
+    
+    
+    <!-- NOT IN STYLEGUIDE -->
+    <style name="HeroMediumText">
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:letterSpacing">0.03</item>
+    </style>
+
+    <style name="HeroSmallText">
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:letterSpacing">0.03</item>
+    </style>
+
+    <color name="transparent">#00000000</color>
 </resources>

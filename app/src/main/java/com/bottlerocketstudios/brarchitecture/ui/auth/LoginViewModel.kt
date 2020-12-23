@@ -26,6 +26,10 @@ class LoginViewModel(app: Application, private val repo: BitbucketRepository, bu
     private val _authenticated = MutableLiveData<Boolean>()
     val authenticated: LiveData<Boolean> = _authenticated
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+    private val _signupClicked = LiveEvent<Unit>()
+    val signupClicked: LiveData<Unit> = _signupClicked
+    private val _forgotClicked = LiveEvent<Unit>()
+    val forgotClicked: LiveData<Unit> = _forgotClicked
     private val _devOptionsClicked = LiveEvent<Unit>()
     val devOptionsClicked: LiveData<Unit> = _devOptionsClicked
 
@@ -39,7 +43,15 @@ class LoginViewModel(app: Application, private val repo: BitbucketRepository, bu
         val creds = CredentialModel(email.value, password.value)
         creds.validCredentials?.let {
             authenticate(it)
-        }
+        } ?: run { _authenticated.postValue(false) } // TODO: Need to represent invalid credential format error here to differentiate from an actual invalid login attempt
+    }
+
+    fun onSignupClicked() {
+        _signupClicked.postValue(Unit)
+    }
+
+    fun onForgotClicked() {
+        _forgotClicked.postValue(Unit)
     }
 
     fun onDevOptionsClicked() {
