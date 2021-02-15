@@ -1,10 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
@@ -21,17 +16,19 @@ import com.xwray.groupie.GroupieViewHolder
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SnippetsFragment : BaseFragment() {
-    private val fragmentViewModel: SnippetsFragmentViewModel by viewModel()
+class SnippetsFragment : BaseFragment<SnippetsFragmentViewModel, SnippetsFragmentBinding>() {
+    override val fragmentViewModel: SnippetsFragmentViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<SnippetsFragmentBinding>(inflater, R.layout.snippets_fragment, container, false).apply {
-            viewModel = fragmentViewModel
-            this.lifecycleOwner = this@SnippetsFragment
-            fragmentViewModel.createClick.observe(viewLifecycleOwner, Observer {
-                NavHostFragment.findNavController(this@SnippetsFragment).navigate(R.id.action_snippetsFragment_to_createSnippetFragment)
-            })
+    override fun getLayoutRes(): Int = R.layout.snippets_fragment
+
+    override fun setupBinding(binding: SnippetsFragmentBinding) {
+        super.setupBinding(binding)
+
+        fragmentViewModel.createClick.observe(viewLifecycleOwner, Observer {
+            NavHostFragment.findNavController(this@SnippetsFragment).navigate(R.id.action_snippetsFragment_to_createSnippetFragment)
+        })
+        binding.apply {
             snippetList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.snippetGroup)
                 setOnItemClickListener { item, _ ->
@@ -46,7 +43,7 @@ class SnippetsFragment : BaseFragment() {
                 }
             }
             snippetList.layoutManager = LinearLayoutManager(this@SnippetsFragment.activity)
-        }.root
+        }
     }
 
     override fun onResume() {
