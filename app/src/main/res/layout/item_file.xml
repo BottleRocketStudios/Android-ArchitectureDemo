@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name = "viewModel"
+            name = "dbViewModel"
             type = "com.bottlerocketstudios.brarchitecture.ui.repository.RepoFileViewModel"/>
     </data>
 
@@ -26,7 +26,7 @@
                 android:id="@+id/icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:fileType="@{viewModel.file.type}"
+                app:fileType="@{dbViewModel.file.type}"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/icon"
-                android:text="@{viewModel.file.path}"
+                android:text="@{dbViewModel.file.path}"
                 tools:text="Folder"
                 />
 
@@ -54,7 +54,7 @@
                 app:layout_constraintStart_toStartOf="@id/name"
                 app:layout_constraintTop_toBottomOf="@id/name"
                 android:paddingBottom="14dp"
-                android:text="@{viewModel.file.size.toString()}"
+                android:text="@{dbViewModel.file.size.toString()}"
                 tools:text="35MB"
                 />
             <!--
@@ -68,7 +68,7 @@
                             android:paddingBottom="14dp"
                             app:layout_constraintStart_toStartOf="@id/name"
                             app:layout_constraintTop_toBottomOf="@id/user_name"
-                            android:text="@{viewModel.repository.description}"
+                            android:text="@{dbViewModel.repository.description}"
                             tools:text="Repository description"
                             />
 
@@ -81,7 +81,7 @@
                             android:layout_marginEnd="20dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/name"
-                            android:text="@{viewModel.repository.formattedUpdateTime(context)}"
+                            android:text="@{dbViewModel.repository.formattedUpdateTime(context)}"
                             tools:text="Repository description"
                             />
                             -->

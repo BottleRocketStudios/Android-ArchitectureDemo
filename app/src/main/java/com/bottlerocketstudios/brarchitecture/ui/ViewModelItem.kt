@@ -1,9 +1,11 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.bottlerocketstudios.brarchitecture.ui.util.resourceIdName
 import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem
 import timber.log.Timber
@@ -17,18 +19,23 @@ class ViewModelItem<T : BaseBindableViewModel>(val viewModel: T, @LayoutRes priv
         return DataBindingUtil.bind(view)!!
     }
 
+    @SuppressLint("BinaryOperationInTimber")
     override fun bind(viewBinding: ViewDataBinding, position: Int) {
         val members = viewBinding::class.members
         val setViewModels = members.filter {
-            it.name == "setViewModel" &&
+            (it.name == "setViewModel" || it.name == "setDbViewModel") &&
                 it.parameters.size == 2 &&
                 it.parameters[0].type.isSubtypeOf(viewBinding::class.createType()) &&
                 it.parameters[1].type.isSubtypeOf(viewModel::class.createType())
         }
         if (setViewModels.size == 1) {
             setViewModels.first().call(viewBinding, viewModel)
+            viewBinding.executePendingBindings()
         } else {
-            Timber.e("Expected ${viewBinding::class.qualifiedName} to have exactly one member function setViewModel")
+            Timber.e(
+                "Expected ${viewBinding::class.qualifiedName} to have exactly one member function setViewModel OR setDbViewModel - " +
+                    "ensure that the ${_layout.resourceIdName(viewBinding.root.resources)} xml layout databinding data variable entry is named viewModel or dbViewModel"
+            )
         }
     }
 
