@@ -25,8 +25,7 @@ class DevOptionsViewModel(
     var environmentSpinnerPosition = environmentRepository.environments.indexOf(environmentRepository.selectedConfig)
         private set
 
-    private val _baseUrl = MutableLiveData<String>()
-    val baseUrl: LiveData<String> = _baseUrl
+    val baseUrl: LiveData<String> = MutableLiveData()
 
     // ////////////////// FEATURE FLAG SECTION ////////////////// //
     // add project specific things here
@@ -38,10 +37,8 @@ class DevOptionsViewModel(
     val buildIdentifier: LiveData<String>
 
     // ////////////////// MISCELLANEOUS ////////////////// //
-    private val _messageToUser = LiveEvent<String>()
-    val messageToUser: LiveData<String> = _messageToUser
-    private val _environmentDropdownDismissed = LiveEvent<Unit>()
-    val environmentDropdownDismissed: LiveData<Unit> = _environmentDropdownDismissed
+    val messageToUser: LiveData<String> = LiveEvent()
+    val environmentDropdownDismissed: LiveData<Unit> = LiveEvent()
 
     init {
         updateEnvironmentInfo()
@@ -59,14 +56,14 @@ class DevOptionsViewModel(
             environmentSpinnerPosition = newEnvironmentIndex
             environmentRepository.changeEnvironment(environmentRepository.environments[newEnvironmentIndex].environmentType)
             updateEnvironmentInfo()
-            _messageToUser.value = "!!! Restart required !!!"
+            messageToUser.set("!!! Restart required !!!")
         } else {
             Timber.v("[onEnvironmentChanged] no changes needed as the same environment has been selected")
         }
     }
 
     fun onEnvironmentDropdownDismissed() {
-        _environmentDropdownDismissed.postValue(Unit)
+        environmentDropdownDismissed.postValue(Unit)
     }
 
     fun onRestartCtaClick() {
@@ -80,6 +77,6 @@ class DevOptionsViewModel(
     }
 
     private fun updateEnvironmentInfo() {
-        _baseUrl.value = environmentRepository.selectedConfig.baseUrl
+        baseUrl.set(environmentRepository.selectedConfig.baseUrl)
     }
 }

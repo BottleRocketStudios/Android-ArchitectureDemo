@@ -12,11 +12,11 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 class UserFragmentViewModel(app: Application, val repo: BitbucketRepository) : BaseViewModel(app) {
 
     fun onEditClicked() {
-        _externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://bitbucket.org/account/settings/".toUri())))
+        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://bitbucket.org/account/settings/".toUri())))
     }
 
     fun onLogoutClicked() {
         repo.clear()
-        _navigationEvent.postValue(NavigationEvent.Action(R.id.action_userFragment_to_loginFragment))
+        navigationEvent.postValue(NavigationEvent.Action(R.id.action_userFragment_to_loginFragment))
     }
 }

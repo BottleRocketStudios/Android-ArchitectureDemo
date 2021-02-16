@@ -27,7 +27,7 @@ class SnippetsFragmentViewModel(app: Application, private val repo: BitbucketRep
     }
 
     fun onCreateClick() {
-        _navigationEvent.postValue(NavigationEvent.Action(R.id.action_snippetsFragment_to_createSnippetFragment))
+        navigationEvent.postValue(NavigationEvent.Action(R.id.action_snippetsFragment_to_createSnippetFragment))
     }
 
     override fun onCleared() {

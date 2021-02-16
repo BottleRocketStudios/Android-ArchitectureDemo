@@ -21,17 +21,16 @@ import kotlinx.coroutines.launch
 class LoginViewModel(private val app: Application, private val repo: BitbucketRepository, buildConfigProvider: BuildConfigProvider, private val dispatcherProvider: DispatcherProvider) :
     BaseViewModel(app) {
     val textWatcher = Observer<String> { _ ->
-        _loginEnabled.postValue(CredentialModel(email.value, password.value).valid)
+        loginEnabled.postValue(CredentialModel(email.value, password.value).valid)
     }
 
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
-    private val _loginEnabled = MutableLiveData<Boolean>()
-    val loginEnabled: LiveData<Boolean> = _loginEnabled
+    val loginEnabled: LiveData<Boolean> = MutableLiveData()
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
 
     init {
-        _loginEnabled.postValue(false)
+        loginEnabled.postValue(false)
         email.observeForever(textWatcher)
         password.observeForever(textWatcher)
     }
@@ -45,22 +44,22 @@ class LoginViewModel(private val app: Application, private val repo: BitbucketRe
                 when {
                     // TODO: Improve error messaging (update text inputs, show dialog or snackbar, etc)
                     !authenticated -> Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show()
-                    else -> _navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_homeFragment))
+                    else -> navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_homeFragment))
                 }
             } ?: run { Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show() } // TODO: Need to represent invalid credential format error here to differentiate from an actual invalid login attempt
         }
     }
 
     fun onSignupClicked() {
-        _externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://id.atlassian.com/signup?application=bitbucket".toUri())))
+        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://id.atlassian.com/signup?application=bitbucket".toUri())))
     }
 
     fun onForgotClicked() {
-        _externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://id.atlassian.com/login/resetpassword?application=bitbucket".toUri())))
+        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://id.atlassian.com/login/resetpassword?application=bitbucket".toUri())))
     }
 
     fun onDevOptionsClicked() {
-        _navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_devOptionsFragment))
+        navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_devOptionsFragment))
     }
 
     override fun onCleared() {

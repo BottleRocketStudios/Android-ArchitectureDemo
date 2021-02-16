@@ -17,13 +17,11 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
     val filename = MutableLiveData<String>()
     val contents = MutableLiveData<String>()
     val private = MutableLiveData<Boolean>()
-    private val _createEnabled = MutableLiveData<Boolean>()
-    val createEnabled: LiveData<Boolean> = _createEnabled
-    private val _failed = MutableLiveData<Boolean>()
-    val failed: LiveData<Boolean> = _failed
+    val createEnabled: LiveData<Boolean> = MutableLiveData()
+    val failed: LiveData<Boolean> = MutableLiveData()
 
     val textWatcher = Observer<String> { _ ->
-        _createEnabled.postValue(!(title.value.isNullOrEmpty()||filename.value.isNullOrEmpty()||contents.value.isNullOrEmpty()))
+        createEnabled.postValue(!(title.value.isNullOrEmpty()||filename.value.isNullOrEmpty()||contents.value.isNullOrEmpty()))
     }
 
     init {
@@ -33,7 +31,7 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
     }
 
     fun onCreateClick() {
-        _failed.postValue(false)
+        failed.postValue(false)
         repo.user.value?.uuid?.let { userString ->
             title.value?.let { titleString ->
                 filename.value?.let { filenameString ->
@@ -41,9 +39,9 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
                         viewModelScope.launch(dispatcherProvider.IO) {
                             val result = repo.createSnippet(userString, titleString, filenameString, contentsString, private.value ?: false)
                             if (result) {
-                                _navigationEvent.postValue(NavigationEvent.Up)
+                                navigationEvent.postValue(NavigationEvent.Up)
                             } else {
-                                _failed.postValue(true)
+                                failed.postValue(true)
                             }
                         }
                     } ?: Timber.e("Snippet creation failed because contents was unexpectedly null")

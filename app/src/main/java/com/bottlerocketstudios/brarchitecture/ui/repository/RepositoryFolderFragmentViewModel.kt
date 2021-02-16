@@ -13,8 +13,7 @@ import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 
 class RepositoryFolderFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
-    private val _srcFiles = MutableLiveData<List<RepoFile>?>()
-    val srcFiles: LiveData<List<RepoFile>?> = _srcFiles
+    val srcFiles: LiveData<List<RepoFile>?> = MutableLiveData()
     val filesGroup = Section()
     var path: String? = null
 
@@ -32,7 +31,7 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
 
     fun loadRepo(owner: String, repoId: String, hash: String, path: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
-            _srcFiles.postValue(repo.getSourceFolder(owner, repoId, hash, path))
+            srcFiles.postValue(repo.getSourceFolder(owner, repoId, hash, path))
             this@RepositoryFolderFragmentViewModel.path = path
         }
     }
