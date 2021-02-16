@@ -86,4 +86,16 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BINDING : ViewD
     /** Fragment layout id for the screen. (ex: R.layout.home_fragment) */
     @LayoutRes
     abstract fun getLayoutRes(): Int
+
+    /**
+     * Observes [BaseViewModel.navigationEvent] with [NavigationObserver][com.albertsons.acupick.navigation.NavigationObserver] and
+     * [BaseViewModel.externalNavigationEvent] with [ExternalNavigationObserver][com.albertsons.acupick.navigation.ExternalNavigationObserver]
+     * to prevent all subclasses from writing the same line of code.
+     *
+     * Called in [onViewCreated]
+     */
+    @CallSuper
+    protected open fun setupNavigationObservers() {
+        fragmentViewModel.observeNavigationEvents(this)
+    }
 }

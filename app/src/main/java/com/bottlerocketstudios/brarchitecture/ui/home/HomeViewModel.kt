@@ -10,7 +10,6 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.brarchitecture.ui.HeaderViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
-import com.hadilq.liveevent.LiveEvent
 import com.xwray.groupie.Section
 import kotlinx.coroutines.launch
 
@@ -18,7 +17,6 @@ class HomeViewModel(app: Application, repo: BitbucketRepository, private val dis
     val user = repo.user
     val repos = repo.repos
     val reposGroup = Section()
-    val userClick = LiveEvent<Boolean>()
 
     private val repoObserver = Observer<List<Repository>> { repoList ->
         val map = repoList.map { RepositoryViewModel(it) }
