@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="data- All Unit Tests by package" type="AndroidJUnit" factoryName="Android JUnit">
-    <module name="android-br-arch.data" />
+    <module name="ArchitectureDemo.data" />
     <useClassPathOnly />
     <option name="PACKAGE_NAME" value="com.bottlerocketstudios" />
     <option name="MAIN_CLASS_NAME" value="" />
