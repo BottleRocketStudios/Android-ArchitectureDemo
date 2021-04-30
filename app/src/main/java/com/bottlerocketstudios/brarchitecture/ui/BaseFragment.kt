@@ -47,10 +47,11 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BINDING : ViewD
         return binding.root
     }
 
-    /** Calls [setupBinding] */
+    /** Calls [setupNavigationObservers] and [setupBinding] */
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupNavigationObservers()
         setupBinding(binding)
     }
 
