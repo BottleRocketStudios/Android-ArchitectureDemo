@@ -1,17 +1,11 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.databinding.RepositoryFolderFragmentBinding
-
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.xwray.groupie.GroupAdapter
@@ -19,20 +13,18 @@ import com.xwray.groupie.GroupieViewHolder
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoryFolderFragment : BaseFragment() {
-    private val fragmentViewModel: RepositoryFolderFragmentViewModel by viewModel()
+class RepositoryFolderFragment : BaseFragment<RepositoryFolderFragmentViewModel, RepositoryFolderFragmentBinding>() {
+    override val fragmentViewModel: RepositoryFolderFragmentViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
     val args: RepositoryFolderFragmentArgs by navArgs()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<RepositoryFolderFragmentBinding>(
-            inflater,
-            R.layout.repository_folder_fragment,
-            container,
-            false
-        ).apply {
-            viewModel = fragmentViewModel
-            val repo: Repository = activityViewModel.selectedRepo.value ?: return root
+    override fun getLayoutRes(): Int = R.layout.repository_folder_fragment
+
+    override fun setupBinding(binding: RepositoryFolderFragmentBinding) {
+        super.setupBinding(binding)
+
+        binding.apply {
+            val repo: Repository = activityViewModel.selectedRepo.value ?: return
             val folder: RepoFile = args.file
             activityViewModel.setTitle(folder.path ?: "")
             activityViewModel.showToolbar(true)
@@ -68,7 +60,6 @@ class RepositoryFolderFragment : BaseFragment() {
                 folder.commit?.hash ?: "",
                 folder.path ?: ""
             )
-            lifecycleOwner = this@RepositoryFolderFragment
-        }.root
+        }
     }
 }

@@ -1,10 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,15 +13,16 @@ import com.xwray.groupie.GroupieViewHolder
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoryFragment : BaseFragment() {
-    private val fragmentViewModel: RepositoryFragmentViewModel by viewModel()
+class RepositoryFragment : BaseFragment<RepositoryFragmentViewModel, RepositoryFragmentBinding>() {
+    override val fragmentViewModel: RepositoryFragmentViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<RepositoryFragmentBinding>(inflater, R.layout.repository_fragment, container, false).apply {
-            viewModel = fragmentViewModel
+    override fun getLayoutRes(): Int = R.layout.repository_fragment
+
+    override fun setupBinding(binding: RepositoryFragmentBinding) {
+        super.setupBinding(binding)
+        binding.apply {
             mainActivityViewModel = activityViewModel
-            lifecycleOwner = this@RepositoryFragment
             fileList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.filesGroup)
                 setOnItemClickListener { item, _ ->
@@ -46,6 +42,6 @@ class RepositoryFragment : BaseFragment() {
                 activityViewModel.setTitle(it.name ?: "")
                 activityViewModel.showToolbar(true)
             })
-        }.root
+        }
     }
 }
