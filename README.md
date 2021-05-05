@@ -5,11 +5,21 @@ Bottle Rocket Android Architecture Guidelines
 * Clone project to local machine
 * Open project in Android Studio
 * If prompted, select "Default Gradle Wrapper"
-* Project should open and Gradle should sync without any issues. 
+* Project should open and Gradle should sync without any issues.
+
+## OAuth consumer key creation and setup steps
 * Generate a Bitbucket OAuth consumer key at https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api
+    * You must specify a callback url. The value isn't important, so go ahead and use https://www.bottlerocketstudios.com/
+    * You must enable the following permissions (at a minimum) to ensure proper functioning of the app:
+        * **Account** read
+        * **Snippets** read/write
+        * **Repositories** read
 * Create a file in project root named "apikey.properties" with following format:
-BITBUCKET_KEY="<key>"
-BITBUCKET_SECRET="<secret>"
+
+```
+BITBUCKET_KEY="[oauth_consumer_key]"
+BITBUCKET_SECRET="[oauth_consumer_secret]"
+```
 
 ### Primary Docs
 * **Required reading** - [BEST_PRACTICES.md](./docs/BEST_PRACTICES.md) for Android engineering team norms for the project.

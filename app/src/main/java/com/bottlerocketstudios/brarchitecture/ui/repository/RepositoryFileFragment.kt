@@ -24,7 +24,7 @@ class RepositoryFileFragment : BaseFragment<RepositoryFileFragmentViewModel, Rep
         activityViewModel.setTitle(file.path ?: "")
         activityViewModel.showToolbar(true)
         fragmentViewModel.loadFile(
-            repo.owner?.nickname ?: "",
+            repo.workspace?.slug ?: "",
             repo.name ?: "",
             file.mimetype ?: "",
             file.commit?.hash ?: "",

@@ -21,12 +21,12 @@ interface BitbucketRepository {
     fun refreshUser(): Boolean
     fun refreshMyRepos(): Boolean
     fun refreshMySnippets(): Boolean
-    fun getRepositories(owner: String): List<Repository>
-    fun getRepository(owner: String, repo: String): Repository?
-    fun getSource(owner: String, repo: String): List<RepoFile>?
-    fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>?
-    fun getSourceFile(owner: String, repo: String, hash: String, path: String): String?
-    fun createSnippet(owner: String, title: String, filename: String, contents: String, private: Boolean): Boolean
+    fun getRepositories(workspaceSlug: String): List<Repository>
+    fun getRepository(workspaceSlug: String, repo: String): Repository?
+    fun getSource(workspaceSlug: String, repo: String): List<RepoFile>?
+    fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): List<RepoFile>?
+    fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): String?
+    fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Boolean
     fun clear()
 }
 
@@ -64,6 +64,7 @@ internal class BitbucketRepositoryImplementation(private val bitbucketService: B
     }
 
     override fun refreshMyRepos(): Boolean {
+        // TODO: Add support for handling multiple workspaces, as using the user.username might only map to the first workspace created.
         val response = bitbucketService.getRepositories(_user.value?.username ?: "").execute()
         if (response.isSuccessful) {
             _repos.postValue(response.body()?.values)
@@ -79,47 +80,47 @@ internal class BitbucketRepositoryImplementation(private val bitbucketService: B
         return response.isSuccessful
     }
 
-    override fun getRepositories(owner: String): List<Repository> {
-        val response = bitbucketService.getRepositories(owner).execute()
+    override fun getRepositories(workspaceSlug: String): List<Repository> {
+        val response = bitbucketService.getRepositories(workspaceSlug).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
         }
         return emptyList()
     }
 
-    override fun getRepository(owner: String, repo: String): Repository? {
-        val response = bitbucketService.getRepository(owner, repo).execute()
+    override fun getRepository(workspaceSlug: String, repo: String): Repository? {
+        val response = bitbucketService.getRepository(workspaceSlug, repo).execute()
         if (response.isSuccessful) {
             return response.body()
         }
         return null
     }
 
-    override fun getSource(owner: String, repo: String): List<RepoFile>? {
-        val response = bitbucketService.getRepositorySource(owner, repo).execute()
+    override fun getSource(workspaceSlug: String, repo: String): List<RepoFile>? {
+        val response = bitbucketService.getRepositorySource(workspaceSlug, repo).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
         }
         return null
     }
 
-    override fun getSourceFolder(owner: String, repo: String, hash: String, path: String): List<RepoFile>? {
-        val response = bitbucketService.getRepositorySourceFolder(owner, repo, hash, path).execute()
+    override fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): List<RepoFile>? {
+        val response = bitbucketService.getRepositorySourceFolder(workspaceSlug, repo, hash, path).execute()
         if (response.isSuccessful) {
             return response.body()?.values ?: emptyList()
         }
         return null
     }
 
-    override fun getSourceFile(owner: String, repo: String, hash: String, path: String): String? {
-        val response = bitbucketService.getRepositorySourceFile(owner, repo, hash, path).execute()
+    override fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): String? {
+        val response = bitbucketService.getRepositorySourceFile(workspaceSlug, repo, hash, path).execute()
         if (response.isSuccessful) {
             return response.body() ?: ""
         }
         return null
     }
 
-    override fun createSnippet(owner: String, title: String, filename: String, contents: String, private: Boolean): Boolean {
+    override fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Boolean {
         val body = MultipartBody.Part.createFormData("file", filename, RequestBody.create(MediaType.get("text/plain"), contents))
         val response = bitbucketService.createSnippet(title, body, private).execute()
         return response.isSuccessful

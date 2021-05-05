@@ -12,10 +12,10 @@ import kotlinx.coroutines.launch
 class RepositoryFileFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val srcFile: LiveData<String?> = MutableLiveData()
     val path: LiveData<String?> = MutableLiveData()
-    fun loadFile(owner: String, repoId: String, @Suppress("UNUSED_PARAMETER") mimetype: String, hash: String, path: String) {
+    fun loadFile(workspaceSlug: String, repoId: String, @Suppress("UNUSED_PARAMETER") mimetype: String, hash: String, path: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
             // TODO: Differentiate UI per type of content (ex: image/text/etc)
-            srcFile.postValue(repo.getSourceFile(owner, repoId, hash, path))
+            srcFile.postValue(repo.getSourceFile(workspaceSlug, repoId, hash, path))
             this@RepositoryFileFragmentViewModel.path.postValue(path)
         }
     }
