@@ -17,6 +17,7 @@ import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel(private val app: Application, private val repo: BitbucketRepository, buildConfigProvider: BuildConfigProvider, private val dispatcherProvider: DispatcherProvider) :
     BaseViewModel(app) {
@@ -44,10 +45,19 @@ class LoginViewModel(private val app: Application, private val repo: BitbucketRe
                 val authenticated = repo.authenticate(it)
                 when {
                     // TODO: Improve error messaging (update text inputs, show dialog or snackbar, etc)
-                    !authenticated -> Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show()
+                    !authenticated -> {
+                        withContext(dispatcherProvider.Main) {
+                            Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                     else -> _navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_homeFragment))
                 }
-            } ?: run { Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show() } // TODO: Need to represent invalid credential format error here to differentiate from an actual invalid login attempt
+            } ?: run {
+                // TODO: Need to represent invalid credential format error here to differentiate from an actual invalid login attempt
+                withContext(dispatcherProvider.Main) {
+                    Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
