@@ -1,9 +1,13 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
+import android.content.res.Resources
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.google.common.truth.Truth.assertThat
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -101,7 +105,16 @@ class BaseBindableViewModelTest : BaseTest() {
         // We shouldn't ever need to do this
         // Only doing it here to directly test the bind method on ViewModelItem
         val vmi = tvm.getItem(0) as ViewModelItem<TestBindableViewModel>
-        val bindable: ViewDataBinding = mock {}
+
+        val mockResources: Resources = mock {
+            on { getResourceEntryName(any()) } doReturn ""
+        }
+        val mockView: View = mock {
+            on { resources } doReturn mockResources
+        }
+        val bindable: ViewDataBinding = mock {
+            on { root } doReturn mockView
+        }
         // Nothing we can really test here. So turn off the error and let's get one more line of coverage!
         Timber.uprootAll()
         vmi.bind(bindable, 0)

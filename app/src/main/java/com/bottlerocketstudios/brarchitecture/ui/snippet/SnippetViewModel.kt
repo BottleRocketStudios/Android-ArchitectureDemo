@@ -4,10 +4,11 @@ import androidx.databinding.ViewDataBinding
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.Snippet
 import com.bottlerocketstudios.brarchitecture.ui.BaseBindableViewModel
+import com.bottlerocketstudios.brarchitecture.ui.DbViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.viewbinding.BindableItem
 
-data class SnippetViewModel(val snippet: Snippet) : BaseBindableViewModel() {
+data class SnippetViewModel(val snippet: Snippet) : DbViewModel, BaseBindableViewModel() {
     override fun getItemFactory(): (BaseBindableViewModel) -> BindableItem<ViewDataBinding> {
         return { vm -> ViewModelItem(vm as SnippetViewModel, R.layout.item_snippet) }
     }

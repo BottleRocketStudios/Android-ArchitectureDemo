@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name = "viewModel"
+            name = "dbViewModel"
             type = "com.bottlerocketstudios.brarchitecture.ui.HeaderViewModel"/>
     </data>
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.text}"
+            android:text="@{dbViewModel.text}"
             tools:text="REPOSITORIES"
             />
 
