@@ -47,10 +47,11 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BINDING : ViewD
         return binding.root
     }
 
-    /** Calls [setupBinding] */
+    /** Calls [setupNavigationObservers] and [setupBinding] */
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupNavigationObservers()
         setupBinding(binding)
     }
 
@@ -85,4 +86,16 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BINDING : ViewD
     /** Fragment layout id for the screen. (ex: R.layout.home_fragment) */
     @LayoutRes
     abstract fun getLayoutRes(): Int
+
+    /**
+     * Observes [BaseViewModel.navigationEvent] with [NavigationObserver][com.albertsons.acupick.navigation.NavigationObserver] and
+     * [BaseViewModel.externalNavigationEvent] with [ExternalNavigationObserver][com.albertsons.acupick.navigation.ExternalNavigationObserver]
+     * to prevent all subclasses from writing the same line of code.
+     *
+     * Called in [onViewCreated]
+     */
+    @CallSuper
+    protected open fun setupNavigationObservers() {
+        fragmentViewModel.observeNavigationEvents(this)
+    }
 }

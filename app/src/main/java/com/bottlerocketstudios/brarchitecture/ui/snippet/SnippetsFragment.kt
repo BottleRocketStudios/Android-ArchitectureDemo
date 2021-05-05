@@ -1,8 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.SnippetsFragmentBinding
@@ -25,9 +23,6 @@ class SnippetsFragment : BaseFragment<SnippetsFragmentViewModel, SnippetsFragmen
     override fun setupBinding(binding: SnippetsFragmentBinding) {
         super.setupBinding(binding)
 
-        fragmentViewModel.createClick.observe(viewLifecycleOwner, Observer {
-            NavHostFragment.findNavController(this@SnippetsFragment).navigate(R.id.action_snippetsFragment_to_createSnippetFragment)
-        })
         binding.apply {
             snippetList.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(fragmentViewModel.snippetGroup)

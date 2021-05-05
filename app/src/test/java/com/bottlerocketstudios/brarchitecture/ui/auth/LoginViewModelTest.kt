@@ -1,12 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
@@ -34,36 +31,6 @@ class LoginViewModelTest : BaseTest() {
         loginViewModel.email.postValue("t")
         loginViewModel.password.postValue("P")
         assertThat(loginViewModel.loginEnabled.value).isFalse()
-    }
-
-    private fun tryToLoginWithMockedRepo(repo: BitbucketRepository): Boolean? {
-        val loginViewModel = LoginViewModel(mock {}, repo, mock {}, dispatcherProvider)
-        loginViewModel.email.postValue("test@example.com")
-        loginViewModel.password.postValue("Password1!")
-        loginViewModel.onLoginClicked()
-        return loginViewModel.authenticated.value
-    }
-
-    @Test
-    fun loginViewModel_shouldSetAuthenticatedToTrue_whenRepoSaysTo() {
-        val repo: BitbucketRepository = mock {
-            onBlocking {
-                authenticate(any())
-            } doReturn true
-        }
-        val authenticated = tryToLoginWithMockedRepo(repo)
-        assertThat(authenticated).isTrue()
-    }
-
-    @Test
-    fun loginViewModel_shouldSetAuthenticatedToFalse_whenRepoSaysTo() {
-        val repo: BitbucketRepository = mock {
-            onBlocking {
-                authenticate(any())
-            } doReturn false
-        }
-        val authenticated = tryToLoginWithMockedRepo(repo)
-        assertThat(authenticated).isFalse()
     }
 
     @Test
