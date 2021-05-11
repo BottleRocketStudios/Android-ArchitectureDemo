@@ -51,11 +51,18 @@ android {
     }
     signingConfigs {
         getByName("debug") {
-            // Use common debug keystore so all local builds can be shared between devs/QA
+            // Common debug keystore so all local builds can be shared between devs/QA
             storeFile = file("../keystore/debug.keystore")
             storePassword = "android"
             keyAlias = "androiddebugkey"
             keyPassword = "android"
+        }
+        create("release") {
+            // Release keystore expected to be present in environment variables (living on the build server)
+            storeFile = file(System.getenv("_KEYSTORE") ?: "_KEYSTORE environment variable not set for release build type; unable to compile the current variant")
+            storePassword = System.getenv("_KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("_KEY_ALIAS")
+            keyPassword = System.getenv("_KEY_PASSWORD")
         }
     }
     // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
@@ -64,8 +71,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            // FIXME: HARDCODED TO USE DEBUG KEYSTORE!!! DO NOT SHIP THIS!!! ADD LOGIC TO USE ACTUAL RELEASE KEYSTORE VIA ENVIRONMENT VARIABLES ON CI!!!
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"
