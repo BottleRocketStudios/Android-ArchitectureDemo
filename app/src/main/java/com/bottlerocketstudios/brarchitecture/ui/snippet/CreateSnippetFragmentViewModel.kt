@@ -21,7 +21,7 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
     val failed: LiveData<Boolean> = MutableLiveData()
 
     val textWatcher = Observer<String> { _ ->
-        createEnabled.postValue(!(title.value.isNullOrEmpty()||filename.value.isNullOrEmpty()||contents.value.isNullOrEmpty()))
+        createEnabled.postValue(!(title.value.isNullOrEmpty() || filename.value.isNullOrEmpty() || contents.value.isNullOrEmpty()))
     }
 
     init {
@@ -32,22 +32,20 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
 
     fun onCreateClick() {
         failed.postValue(false)
-        repo.user.value?.uuid?.let { userString ->
-            title.value?.let { titleString ->
-                filename.value?.let { filenameString ->
-                    contents.value?.let { contentsString ->
-                        viewModelScope.launch(dispatcherProvider.IO) {
-                            val result = repo.createSnippet(userString, titleString, filenameString, contentsString, private.value ?: false)
-                            if (result) {
-                                navigationEvent.postValue(NavigationEvent.Up)
-                            } else {
-                                failed.postValue(true)
-                            }
+        title.value?.let { titleString ->
+            filename.value?.let { filenameString ->
+                contents.value?.let { contentsString ->
+                    viewModelScope.launch(dispatcherProvider.IO) {
+                        val result = repo.createSnippet(titleString, filenameString, contentsString, private.value ?: false)
+                        if (result) {
+                            navigationEvent.postValue(NavigationEvent.Up)
+                        } else {
+                            failed.postValue(true)
                         }
-                    } ?: Timber.e("Snippet creation failed because contents was unexpectedly null")
-                } ?: Timber.e("Snippet creation failed because filename was unexpectedly null")
-            } ?: Timber.e("Snippet creation failed because title was unexpectedly null")
-        } ?: Timber.e("Snippet creation failed because user uuid was unexpectedly null")
+                    }
+                } ?: Timber.e("Snippet creation failed because contents was unexpectedly null")
+            } ?: Timber.e("Snippet creation failed because filename was unexpectedly null")
+        } ?: Timber.e("Snippet creation failed because title was unexpectedly null")
     }
 
     override fun onCleared() {

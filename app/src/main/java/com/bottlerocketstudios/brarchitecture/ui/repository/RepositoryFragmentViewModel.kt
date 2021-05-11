@@ -24,10 +24,10 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
         selectedId = id
         repos.value?.firstOrNull { it.name?.equals(id) ?: false }?.let {
             selectedRepository.set(it)
-            it.owner?.nickname?.let { nickname ->
+            it.workspace?.slug?.let { workspaceSlug ->
                 it.name?.let { repoName ->
                     viewModelScope.launch(dispatcherProvider.IO) {
-                        srcFiles.postValue(repo.getSource(nickname, repoName))
+                        srcFiles.postValue(repo.getSource(workspaceSlug, repoName))
                     }
                 }
             }

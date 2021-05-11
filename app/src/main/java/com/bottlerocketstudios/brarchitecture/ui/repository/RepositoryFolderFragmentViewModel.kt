@@ -29,9 +29,9 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
         srcFiles.observeForever(filesObserver)
     }
 
-    fun loadRepo(owner: String, repoId: String, hash: String, path: String) {
+    fun loadRepo(workspaceSlug: String, repoId: String, hash: String, path: String) {
         viewModelScope.launch(dispatcherProvider.IO) {
-            srcFiles.postValue(repo.getSourceFolder(owner, repoId, hash, path))
+            srcFiles.postValue(repo.getSourceFolder(workspaceSlug, repoId, hash, path))
             this@RepositoryFolderFragmentViewModel.path = path
         }
     }

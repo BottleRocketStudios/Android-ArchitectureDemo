@@ -55,7 +55,7 @@ class RepositoryFolderFragment : BaseFragment<RepositoryFolderFragmentViewModel,
             fileList.layoutManager = LinearLayoutManager(this@RepositoryFolderFragment.activity)
 
             fragmentViewModel.loadRepo(
-                repo.owner?.nickname ?: "",
+                repo.workspace?.slug ?: "",
                 repo.name ?: "",
                 folder.commit?.hash ?: "",
                 folder.path ?: ""

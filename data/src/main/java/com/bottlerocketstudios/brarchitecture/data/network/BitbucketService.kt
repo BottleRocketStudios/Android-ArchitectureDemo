@@ -19,38 +19,38 @@ internal interface BitbucketService {
     fun getUser(): Call<User>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D */
-    @GET(value = "2.0/repositories/{owner}")
+    @GET(value = "2.0/repositories/{workspace}")
     fun getRepositories(
-        @Path(value = "owner") owner: String
+        @Path(value = "workspace") workspace: String
     ): Call<BitbucketPagedResponse<List<Repository>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D */
-    @GET(value = "2.0/repositories/{owner}/{repo}")
+    @GET(value = "2.0/repositories/{workspace}/{repo}")
     fun getRepository(
-        @Path(value = "owner") owner: String,
+        @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String
     ): Call<Repository>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src */
-    @GET(value = "2.0/repositories/{owner}/{repo}/src")
+    @GET(value = "2.0/repositories/{workspace}/{repo}/src")
     fun getRepositorySource(
-        @Path(value = "owner") owner: String,
+        @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String
     ): Call<BitbucketPagedResponse<List<RepoFile>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src/%7Bnode%7D/%7Bpath%7D */
-    @GET(value = "2.0/repositories/{owner}/{repo}/src/{hash}/{path}")
+    @GET(value = "2.0/repositories/{workspace}/{repo}/src/{hash}/{path}")
     fun getRepositorySourceFolder(
-        @Path(value = "owner") owner: String,
+        @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String,
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
     ): Call<BitbucketPagedResponse<List<RepoFile>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src/%7Bnode%7D/%7Bpath%7D */
-    @GET(value = "2.0/repositories/{owner}/{repo}/src/{hash}/{path}")
+    @GET(value = "2.0/repositories/{workspace}/{repo}/src/{hash}/{path}")
     fun getRepositorySourceFile(
-        @Path(value = "owner") owner: String,
+        @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String,
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
