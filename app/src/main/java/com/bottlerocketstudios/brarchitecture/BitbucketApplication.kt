@@ -2,10 +2,10 @@ package com.bottlerocketstudios.brarchitecture
 
 import android.app.Application
 import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImpl
-import com.bottlerocketstudios.brarchitecture.di.AppModule
 import com.bottlerocketstudios.brarchitecture.data.di.Data
 import com.bottlerocketstudios.brarchitecture.data.di.NetworkObject
 import com.bottlerocketstudios.brarchitecture.data.di.TokenAuth
+import com.bottlerocketstudios.brarchitecture.di.AppModule
 import com.jakewharton.processphoenix.ProcessPhoenix
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -34,11 +34,14 @@ class BitbucketApplication : Application() {
             }
 
             androidContext(this@BitbucketApplication)
-            modules(listOf(
-                AppModule.appModule,
-                Data.dataModule,
-                TokenAuth.tokenAuthModule,
-                NetworkObject.networkModule))
+            modules(
+                listOf(
+                    AppModule.appModule,
+                    Data.dataModule,
+                    TokenAuth.tokenAuthModule,
+                    NetworkObject.networkModule
+                )
+            )
         }
     }
 }

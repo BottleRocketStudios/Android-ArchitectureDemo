@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -15,7 +14,6 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.ActivityMainBinding
 import com.bottlerocketstudios.brarchitecture.databinding.DrawerHeaderBinding
 import com.bottlerocketstudios.brarchitecture.ui.util.hideKeyboard
-import kotlinx.android.synthetic.main.view_toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                     viewModel = activityViewModel
                     lifecycleOwner = this@MainActivity
                 }
-                setSupportActionBar(toolbar)
+                setSupportActionBar(viewToolbar.toolbar)
                 setupActionBarWithNavController(navController, it)
             }
             devOptionsCta.setOnClickListener {

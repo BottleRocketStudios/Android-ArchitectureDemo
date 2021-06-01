@@ -46,3 +46,9 @@
 -keepclassmembers class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite {
   <fields>;
 }
+
+# Keep kotlin.Metadata annotations to maintain metadata on kept items.
+# https://medium.com/androiddevelopers/shrinking-kotlin-libraries-and-applications-using-kotlin-reflection-with-r8-6fe0a0e2d115
+# https://developer.android.com/studio/releases/gradle-plugin#4.1-kotlin-metadata
+-keepattributes RuntimeVisibleAnnotations
+-keep class kotlin.Metadata { *; }

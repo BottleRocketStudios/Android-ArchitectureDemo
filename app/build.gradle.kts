@@ -5,8 +5,8 @@ plugins {
     id(Config.ApplyPlugins.ANDROID_APPLICATION)
     id(Config.ApplyPlugins.JACOCO_ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
+    id(Config.ApplyPlugins.PARCELIZE)
     id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
@@ -26,11 +26,7 @@ BuildInfoManager.initialize(
 
 // Some documentation on inner tags/blocks can be found with the below urls:
 // android {...} DSL Reference:
-// http://google.github.io/android-gradle-dsl/ - Select version of AGP
-// https://google.github.io/android-gradle-dsl/current/index.html - Latest version of AGP
-// javadocs:
-// http://google.github.io/android-gradle-dsl/javadoc/ - Select version of AGP
-// http://google.github.io/android-gradle-dsl/javadoc/current/ - Latest version of AGP
+// Android Gradle Plugin api: https://developer.android.com/reference/tools/gradle-api/4.1/classes
 android {
     compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
@@ -44,7 +40,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-        coreLibraryDesugaringEnabled = true
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
@@ -152,7 +148,7 @@ dependencies {
     lifecycleDependencies()
     navigationDependencies()
 
-    koinAppDependencies()
+    koinDependencies()
 
     coreLibraryDesugaringDependencies()
 

@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.data.network
 
-import com.nhaarman.mockitokotlin2.doAnswer
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
+import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

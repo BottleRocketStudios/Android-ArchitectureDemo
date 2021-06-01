@@ -2,12 +2,11 @@ package com.bottlerocketstudios.brarchitecture.ui.devoptions
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.databinding.DevOptionsFragmentBinding
+import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,12 +32,12 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel, DevOptionsFragmentB
 
     override fun setupBinding(binding: DevOptionsFragmentBinding) {
         super.setupBinding(binding)
-        fragmentViewModel.messageToUser.observe(viewLifecycleOwner, Observer { message ->
+        fragmentViewModel.messageToUser.observe(viewLifecycleOwner) { message ->
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        })
-        fragmentViewModel.environmentDropdownDismissed.observe(viewLifecycleOwner, Observer {
+        }
+        fragmentViewModel.environmentDropdownDismissed.observe(viewLifecycleOwner) {
             // Clear focus on the environment switcher to prevent the dropdown from showing unintentionally on orientation change (related to focus still being on the environment switcher)
             binding.environmentSwitcherInputLayout.clearFocus()
-        })
+        }
     }
 }

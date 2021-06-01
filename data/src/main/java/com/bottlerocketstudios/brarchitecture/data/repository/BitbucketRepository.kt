@@ -14,7 +14,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface BitbucketRepository {
-    val user: LiveData<User>
+    val user: LiveData<User?>
     val repos: LiveData<List<Repository>>
     val snippets: LiveData<List<Snippet>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
@@ -31,13 +31,13 @@ interface BitbucketRepository {
 }
 
 internal class BitbucketRepositoryImplementation(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository) : BitbucketRepository {
-    private val _user = MutableLiveData<User>()
+    private val _user = MutableLiveData<User?>()
     private val _repos = MutableLiveData<List<Repository>>()
     private val _snippets = MutableLiveData<List<Snippet>>()
     var authenticated = false
         private set
 
-    override val user: LiveData<User> = _user
+    override val user: LiveData<User?> = _user
     override val repos: LiveData<List<Repository>> = _repos
     override val snippets: LiveData<List<Snippet>> = _snippets
 
@@ -67,7 +67,7 @@ internal class BitbucketRepositoryImplementation(private val bitbucketService: B
         // TODO: Add support for handling multiple workspaces, as using the user.username might only map to the first workspace created.
         val response = bitbucketService.getRepositories(_user.value?.username ?: "").execute()
         if (response.isSuccessful) {
-            _repos.postValue(response.body()?.values)
+            _repos.postValue(response.body()?.values.orEmpty())
         }
         return response.isSuccessful
     }
@@ -75,7 +75,7 @@ internal class BitbucketRepositoryImplementation(private val bitbucketService: B
     override fun refreshMySnippets(): Boolean {
         val response = bitbucketService.getSnippets().execute()
         if (response.isSuccessful) {
-            _snippets.postValue(response.body()?.values)
+            _snippets.postValue(response.body()?.values.orEmpty())
         }
         return response.isSuccessful
     }

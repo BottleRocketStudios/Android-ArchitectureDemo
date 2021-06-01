@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.mock
+import org.mockito.kotlin.mock
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test

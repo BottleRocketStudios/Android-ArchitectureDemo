@@ -3,11 +3,11 @@ package com.bottlerocketstudios.brarchitecture.ui.devoptions
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.hadilq.liveevent.LiveEvent
 import com.jakewharton.processphoenix.ProcessPhoenix
 import timber.log.Timber

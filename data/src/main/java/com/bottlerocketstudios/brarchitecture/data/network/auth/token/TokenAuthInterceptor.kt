@@ -53,9 +53,7 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
                 val failure =
                     Moshi.Builder().build().adapter(BitbucketFailure::class.java).fromJson(failureJson)
                 Timber.v("auth failure=$failure")
-                if (failure != null && failure.type == "error" && failure.error != null && (failure.error.message
-                        ?: "").contains("token expired")
-                ) {
+                if (failure != null && failure.type == "error" && failure.error != null && (failure.error.message ?: "").contains("token expired")) {
                     val refreshResponse =
                         tokenAuthService.refreshToken(refreshToken ?: "")
                             .execute()

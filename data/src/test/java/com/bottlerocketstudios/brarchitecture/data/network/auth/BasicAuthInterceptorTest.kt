@@ -5,11 +5,11 @@ import com.bottlerocketstudios.brarchitecture.data.network.HeaderInterceptorMock
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertWithMessage
-import com.nhaarman.mockitokotlin2.argumentCaptor
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
