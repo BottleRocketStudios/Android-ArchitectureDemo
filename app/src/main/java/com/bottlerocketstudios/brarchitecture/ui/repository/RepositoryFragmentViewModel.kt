@@ -5,15 +5,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import com.bottlerocketstudios.brarchitecture.R
+import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
+import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
+class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val toaster: Toaster, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val repos = repo.repos
     var selectedId: String? = null
     val selectedRepository: LiveData<Repository?> = MutableLiveData()
@@ -27,15 +33,20 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
             it.workspace?.slug?.let { workspaceSlug ->
                 it.name?.let { repoName ->
                     viewModelScope.launch(dispatcherProvider.IO) {
-                        srcFiles.postValue(repo.getSource(workspaceSlug, repoName))
+                        val result = repo.getSource(workspaceSlug, repoName)
+                        when (result) {
+                            is ApiResult.Success -> srcFiles.postValue(result.data)
+                            is ApiResult.Failure -> {
+                                // TODO: Improve error messaging
+                                withContext(dispatcherProvider.Main) {
+                                    toaster.toast(R.string.error_loading_repository)
+                                }
+                            }
+                        }.exhaustive
                     }
                 }
             }
         }
-    }
-
-    private val repoObserver = Observer<List<Repository>> { _ ->
-        selectRepository(selectedId)
     }
 
     private val filesObserver = Observer<List<RepoFile>?> { files ->
@@ -47,7 +58,11 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
     }
 
     init {
-        repos.observeForever(repoObserver)
+        viewModelScope.launch(dispatcherProvider.IO) {
+            repos.collect {
+                selectRepository(selectedId)
+            }
+        }
         srcFiles.observeForever(filesObserver)
         viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshMyRepos()
@@ -59,8 +74,7 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
         doClear()
     }
 
-    fun doClear() {
-        repos.removeObserver(repoObserver)
+    private fun doClear() {
         srcFiles.removeObserver(filesObserver)
     }
 }

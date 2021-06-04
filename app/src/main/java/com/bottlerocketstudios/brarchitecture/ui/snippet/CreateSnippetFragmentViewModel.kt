@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.launch
@@ -37,11 +39,10 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
                 contents.value?.let { contentsString ->
                     viewModelScope.launch(dispatcherProvider.IO) {
                         val result = repo.createSnippet(titleString, filenameString, contentsString, private.value ?: false)
-                        if (result) {
-                            navigationEvent.postValue(NavigationEvent.Up)
-                        } else {
-                            failed.postValue(true)
-                        }
+                        when (result) {
+                            is ApiResult.Success -> navigationEvent.postValue(NavigationEvent.Up)
+                            is ApiResult.Failure -> failed.postValue(true)
+                        }.exhaustive
                     }
                 } ?: Timber.e("Snippet creation failed because contents was unexpectedly null")
             } ?: Timber.e("Snippet creation failed because filename was unexpectedly null")
@@ -53,7 +54,7 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
         doClear()
     }
 
-    fun doClear() {
+    private fun doClear() {
         title.removeObserver(textWatcher)
         filename.removeObserver(textWatcher)
         contents.removeObserver(textWatcher)

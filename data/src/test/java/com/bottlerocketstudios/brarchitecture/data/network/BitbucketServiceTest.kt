@@ -36,7 +36,7 @@ class BitbucketServiceTest : BaseTest() {
         )
         runBlocking {
             val bitbucketService = createBitbucketService(accessToken)
-            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY").execute()
+            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY")
             val body = response.body()
             assertThat(body).isNotNull()
             body?.let { privateRepo: Repository ->
@@ -58,7 +58,7 @@ class BitbucketServiceTest : BaseTest() {
         )
         runBlocking {
             val bitbucketService = createBitbucketService(accessToken)
-            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY").execute()
+            val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY")
             val body = response.body()
             assertThat(body).isNull()
             val errorBody = response.errorBody()
@@ -73,7 +73,7 @@ class BitbucketServiceTest : BaseTest() {
     fun getUser_shouldReturnUser_whenAuthenticated() {
         runBlocking {
             val bitbucketService = createBitbucketService(null)
-            val response = bitbucketService.getUser().execute()
+            val response = bitbucketService.getUser()
             val body = response.body()
             val errorBody = response.errorBody()
         }

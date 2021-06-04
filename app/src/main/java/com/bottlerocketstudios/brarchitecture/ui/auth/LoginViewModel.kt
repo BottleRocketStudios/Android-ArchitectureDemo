@@ -2,7 +2,6 @@ package com.bottlerocketstudios.brarchitecture.ui.auth
 
 import android.app.Application
 import android.content.Intent
-import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,13 +12,21 @@ import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvid
 import com.bottlerocketstudios.brarchitecture.data.model.CredentialModel
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-class LoginViewModel(private val app: Application, private val repo: BitbucketRepository, buildConfigProvider: BuildConfigProvider, private val dispatcherProvider: DispatcherProvider) :
+class LoginViewModel(
+    private val app: Application,
+    private val repo: BitbucketRepository,
+    buildConfigProvider: BuildConfigProvider,
+    private val toaster: Toaster,
+    private val dispatcherProvider: DispatcherProvider
+) :
     BaseViewModel(app) {
     val textWatcher = Observer<String> { _ ->
         loginEnabled.postValue(CredentialModel(email.value, password.value).valid)
@@ -37,6 +44,7 @@ class LoginViewModel(private val app: Application, private val repo: BitbucketRe
     }
 
     fun onLoginClicked() {
+        Timber.v("[onLoginClicked]")
         viewModelScope.launch(dispatcherProvider.IO) {
             val creds = CredentialModel(email.value, password.value)
             creds.validCredentials?.let {
@@ -46,7 +54,7 @@ class LoginViewModel(private val app: Application, private val repo: BitbucketRe
                     // TODO: Improve error messaging (update text inputs, show dialog or snackbar, etc)
                     !authenticated -> {
                         withContext(dispatcherProvider.Main) {
-                            Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show()
+                            toaster.toast(R.string.login_error)
                         }
                     }
                     else -> navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_homeFragment))
@@ -54,7 +62,7 @@ class LoginViewModel(private val app: Application, private val repo: BitbucketRe
             } ?: run {
                 // TODO: Need to represent invalid credential format error here to differentiate from an actual invalid login attempt
                 withContext(dispatcherProvider.Main) {
-                    Toast.makeText(app, R.string.login_error, Toast.LENGTH_SHORT).show()
+                    toaster.toast(R.string.login_error)
                 }
             }
         }

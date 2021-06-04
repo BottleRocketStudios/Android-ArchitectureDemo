@@ -5,7 +5,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.data.model.Snippet
 import com.bottlerocketstudios.brarchitecture.data.model.User
 import okhttp3.MultipartBody
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -16,55 +16,55 @@ import retrofit2.http.Path
 internal interface BitbucketService {
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/user */
     @GET(value = "2.0/user")
-    fun getUser(): Call<User>
+    suspend fun getUser(): Response<User>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D */
     @GET(value = "2.0/repositories/{workspace}")
-    fun getRepositories(
+    suspend fun getRepositories(
         @Path(value = "workspace") workspace: String
-    ): Call<BitbucketPagedResponse<List<Repository>>>
+    ): Response<BitbucketPagedResponse<List<Repository>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D */
     @GET(value = "2.0/repositories/{workspace}/{repo}")
-    fun getRepository(
+    suspend fun getRepository(
         @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String
-    ): Call<Repository>
+    ): Response<Repository>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src */
     @GET(value = "2.0/repositories/{workspace}/{repo}/src")
-    fun getRepositorySource(
+    suspend fun getRepositorySource(
         @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String
-    ): Call<BitbucketPagedResponse<List<RepoFile>>>
+    ): Response<BitbucketPagedResponse<List<RepoFile>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src/%7Bnode%7D/%7Bpath%7D */
     @GET(value = "2.0/repositories/{workspace}/{repo}/src/{hash}/{path}")
-    fun getRepositorySourceFolder(
+    suspend fun getRepositorySourceFolder(
         @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String,
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
-    ): Call<BitbucketPagedResponse<List<RepoFile>>>
+    ): Response<BitbucketPagedResponse<List<RepoFile>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src/%7Bnode%7D/%7Bpath%7D */
     @GET(value = "2.0/repositories/{workspace}/{repo}/src/{hash}/{path}")
-    fun getRepositorySourceFile(
+    suspend fun getRepositorySourceFile(
         @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String,
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
-    ): Call<String>
+    ): Response<String>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
     @GET(value = "2.0/snippets?role=owner")
-    fun getSnippets(): Call<BitbucketPagedResponse<List<Snippet>>>
+    suspend fun getSnippets(): Response<BitbucketPagedResponse<List<Snippet>>>
 
     @Multipart
     @POST(value = "2.0/snippets")
-    fun createSnippet(
+    suspend fun createSnippet(
         @Part("title") title: String,
         @Part body: MultipartBody.Part,
         @Part("is_private") private: Boolean
-    ): Call<Snippet>
+    ): Response<Snippet>
 }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BR Architecture</string>
 
     <!-- Screen titles -->
@@ -35,6 +35,15 @@
     <string name="snippet_private">Private</string>
     <string name="create_button">Create</string>
     <string name="snippet_creation_failed">Snippet Creation Failed</string>
+
+    <!-- Repository screen -->
+    <string name="error_loading_repository">Error loading repository</string>
+
+    <!-- Repository Folder screen -->
+    <string name="error_loading_folder">Error loading folder</string>
+
+    <!-- Repository File screen -->
+    <string name="error_loading_file" tools:ignore="ExtraTranslation">Error loading file</string>
 
     <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>

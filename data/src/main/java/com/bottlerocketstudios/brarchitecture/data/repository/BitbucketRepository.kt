@@ -1,135 +1,154 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.Snippet
 import com.bottlerocketstudios.brarchitecture.data.model.User
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.data.model.alsoOnSuccess
+import com.bottlerocketstudios.brarchitecture.data.model.asSuccess
+import com.bottlerocketstudios.brarchitecture.data.model.map
+import com.bottlerocketstudios.brarchitecture.data.model.wrapExceptions
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
+import timber.log.Timber
 
 interface BitbucketRepository {
-    val user: LiveData<User?>
-    val repos: LiveData<List<Repository>>
-    val snippets: LiveData<List<Snippet>>
+    val user: StateFlow<User?>
+    val repos: StateFlow<List<Repository>>
+    val snippets: StateFlow<List<Snippet>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
-    fun refreshUser(): Boolean
-    fun refreshMyRepos(): Boolean
-    fun refreshMySnippets(): Boolean
-    fun getRepositories(workspaceSlug: String): List<Repository>
-    fun getRepository(workspaceSlug: String, repo: String): Repository?
-    fun getSource(workspaceSlug: String, repo: String): List<RepoFile>?
-    fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): List<RepoFile>?
-    fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): String?
-    fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Boolean
+    suspend fun refreshUser(): ApiResult<Unit>
+    suspend fun refreshMyRepos(): ApiResult<Unit>
+    suspend fun refreshMySnippets(): ApiResult<Unit>
+    suspend fun getRepositories(workspaceSlug: String): ApiResult<List<Repository>>
+    suspend fun getRepository(workspaceSlug: String, repo: String): ApiResult<Repository>
+    suspend fun getSource(workspaceSlug: String, repo: String): ApiResult<List<RepoFile>>
+    suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): ApiResult<List<RepoFile>>
+    suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): ApiResult<String>
+    suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): ApiResult<Unit>
     fun clear()
 }
 
-internal class BitbucketRepositoryImplementation(private val bitbucketService: BitbucketService, private val bitbucketCredentialsRepository: BitbucketCredentialsRepository) : BitbucketRepository {
-    private val _user = MutableLiveData<User?>()
-    private val _repos = MutableLiveData<List<Repository>>()
-    private val _snippets = MutableLiveData<List<Snippet>>()
+internal class BitbucketRepositoryImplementation(
+    private val bitbucketService: BitbucketService,
+    private val bitbucketCredentialsRepository: BitbucketCredentialsRepository,
+    private val responseToApiResultMapper: ResponseToApiResultMapper
+) : BitbucketRepository {
+    // TODO: Move user specific logic to a separate UserRepository
+    private val _user = MutableStateFlow<User?>(null)
+    private val _repos = MutableStateFlow<List<Repository>>(emptyList())
+    private val _snippets = MutableStateFlow<List<Snippet>>(emptyList())
     var authenticated = false
         private set
 
-    override val user: LiveData<User?> = _user
-    override val repos: LiveData<List<Repository>> = _repos
-    override val snippets: LiveData<List<Snippet>> = _snippets
+    override val user: StateFlow<User?> = _user
+    override val repos: StateFlow<List<Repository>> = _repos
+    override val snippets: StateFlow<List<Snippet>> = _snippets
 
     override suspend fun authenticate(creds: ValidCredentialModel?): Boolean {
+        Timber.v("[authenticate]")
         if (authenticated) {
             return true
         }
         creds?.let { bitbucketCredentialsRepository.storeCredentials(it) }
-        if (refreshUser()) {
-            authenticated = true
-            return true
+        return when (refreshUser()) {
+            is ApiResult.Success -> {
+                authenticated = true
+                true
+            }
+            is ApiResult.Failure -> false
         }
-        return false
     }
 
-    override fun refreshUser(): Boolean {
-        val response = bitbucketService.getUser().execute()
-        var userResponse: User?
-        if (response.isSuccessful) {
-            userResponse = response.body()
-            _user.postValue(userResponse)
+    override suspend fun refreshUser(): ApiResult<Unit> {
+        return wrapExceptions("refreshUser") {
+            bitbucketService.getUser().toResult().alsoOnSuccess {
+                _user.value = it
+            }.map { Unit.asSuccess() }
         }
-        return response.isSuccessful
     }
 
-    override fun refreshMyRepos(): Boolean {
-        // TODO: Add support for handling multiple workspaces, as using the user.username might only map to the first workspace created.
-        val response = bitbucketService.getRepositories(_user.value?.username ?: "").execute()
-        if (response.isSuccessful) {
-            _repos.postValue(response.body()?.values.orEmpty())
+    override suspend fun refreshMyRepos(): ApiResult<Unit> {
+        return wrapExceptions("refreshMyRepos") {
+            // TODO: Add support for handling multiple workspaces, as using the user.username might only map to the first workspace created.
+            bitbucketService.getRepositories(_user.value?.username ?: "").toResult().alsoOnSuccess {
+                _repos.value = it.values.orEmpty()
+            }.map { Unit.asSuccess() }
         }
-        return response.isSuccessful
     }
 
-    override fun refreshMySnippets(): Boolean {
-        val response = bitbucketService.getSnippets().execute()
-        if (response.isSuccessful) {
-            _snippets.postValue(response.body()?.values.orEmpty())
+    override suspend fun refreshMySnippets(): ApiResult<Unit> {
+        return wrapExceptions("refreshMySnippets") {
+            bitbucketService.getSnippets().toResult().map { it.values.orEmpty().asSuccess() }.alsoOnSuccess { snippets: List<Snippet> ->
+                _snippets.value = snippets
+            }.map { Unit.asSuccess() }
         }
-        return response.isSuccessful
     }
 
-    override fun getRepositories(workspaceSlug: String): List<Repository> {
-        val response = bitbucketService.getRepositories(workspaceSlug).execute()
-        if (response.isSuccessful) {
-            return response.body()?.values ?: emptyList()
+    override suspend fun getRepositories(workspaceSlug: String): ApiResult<List<Repository>> {
+        return wrapExceptions("getRepositories") {
+            bitbucketService.getRepositories(workspaceSlug).toResult().map { it.values.orEmpty().asSuccess() }
         }
-        return emptyList()
     }
 
-    override fun getRepository(workspaceSlug: String, repo: String): Repository? {
-        val response = bitbucketService.getRepository(workspaceSlug, repo).execute()
-        if (response.isSuccessful) {
-            return response.body()
+    override suspend fun getRepository(workspaceSlug: String, repo: String): ApiResult<Repository> {
+        return wrapExceptions("getRepository") {
+            bitbucketService.getRepository(workspaceSlug, repo).toResult()
         }
-        return null
     }
 
-    override fun getSource(workspaceSlug: String, repo: String): List<RepoFile>? {
-        val response = bitbucketService.getRepositorySource(workspaceSlug, repo).execute()
-        if (response.isSuccessful) {
-            return response.body()?.values ?: emptyList()
+    override suspend fun getSource(workspaceSlug: String, repo: String): ApiResult<List<RepoFile>> {
+        return wrapExceptions("getSource") {
+            bitbucketService.getRepositorySource(workspaceSlug, repo).toResult().map { it.values.orEmpty().asSuccess() }
         }
-        return null
     }
 
-    override fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): List<RepoFile>? {
-        val response = bitbucketService.getRepositorySourceFolder(workspaceSlug, repo, hash, path).execute()
-        if (response.isSuccessful) {
-            return response.body()?.values ?: emptyList()
+    override suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): ApiResult<List<RepoFile>> {
+        return wrapExceptions("getSourceFolder") {
+            bitbucketService.getRepositorySourceFolder(workspaceSlug, repo, hash, path).toResult().map { it.values.orEmpty().asSuccess() }
         }
-        return null
     }
 
-    override fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): String? {
-        val response = bitbucketService.getRepositorySourceFile(workspaceSlug, repo, hash, path).execute()
-        if (response.isSuccessful) {
-            return response.body() ?: ""
+    override suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): ApiResult<String> {
+        return wrapExceptions("getSourceFile") {
+            bitbucketService.getRepositorySourceFile(workspaceSlug, repo, hash, path).toResult()
         }
-        return null
     }
 
-    override fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Boolean {
-        val body = MultipartBody.Part.createFormData("file", filename, RequestBody.create(MediaType.get("text/plain"), contents))
-        val response = bitbucketService.createSnippet(title, body, private).execute()
-        return response.isSuccessful
+    override suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): ApiResult<Unit> {
+        return wrapExceptions("createSnippet") {
+            val body = MultipartBody.Part.createFormData("file", filename, RequestBody.create(MediaType.get("text/plain"), contents))
+            bitbucketService.createSnippet(title, body, private).toEmptyResult()
+        }
     }
 
     override fun clear() {
         bitbucketCredentialsRepository.clearStorage()
         authenticated = false
-        _user.postValue(null)
-        _repos.postValue(listOf())
+        _user.value = null
+        _repos.value = emptyList()
+        _snippets.value = emptyList()
+    }
+
+    /** Delegates to [wrapExceptions], passing in the class name here instead of requiring it of all callers */
+    private suspend fun <T : Any> wrapExceptions(methodName: String, block: suspend () -> ApiResult<T>): ApiResult<T> {
+        return wrapExceptions("BitbucketRepository", methodName, block)
+    }
+
+    private fun <T : Any> Response<T>.toResult(): ApiResult<T> {
+        return responseToApiResultMapper.toResult(this)
+    }
+
+    private fun <T : Any> Response<T>.toEmptyResult(): ApiResult<Unit> {
+        return responseToApiResultMapper.toEmptyResult(this)
     }
 }
