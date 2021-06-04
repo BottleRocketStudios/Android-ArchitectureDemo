@@ -3,7 +3,7 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/") // needed for hiya jacoco
     }
     dependencies {
@@ -29,9 +29,8 @@ plugins {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven(url = "https://jitpack.io")
-        maven(url = "https://dl.bintray.com/lisawray/maven") // needed for groupie-viewbinding - see https://github.com/lisawray/groupie/issues/333
     }
 }
 

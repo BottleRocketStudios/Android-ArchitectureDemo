@@ -9,8 +9,8 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthS
 import com.bottlerocketstudios.brarchitecture.data.repository.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient

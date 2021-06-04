@@ -56,7 +56,7 @@ object NetworkObject {
     val networkModule = module {
         single<OkHttpClient>(named(KoinNamedNetwork.Unauthenticated)) {
             OkHttpClient.Builder()
-                .addInterceptor(ChuckerInterceptor(androidContext()))
+                .addInterceptor(ChuckerInterceptor.Builder(androidContext()).build())
                 .build()
         }
         single<Retrofit>(named(KoinNamedNetwork.Authenticated)) {

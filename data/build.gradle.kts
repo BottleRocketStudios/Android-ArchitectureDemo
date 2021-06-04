@@ -5,8 +5,12 @@ plugins {
     id(Config.ApplyPlugins.ANDROID_LIBRARY)
     id(Config.ApplyPlugins.JACOCO_ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    kotlin(Config.ApplyPlugins.Kotlin.ANDROID_EXTENSIONS)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
+    id(Config.ApplyPlugins.PARCELIZE)
+}
+
+jacoco {
+    toolVersion = Config.JACOCO_VERSION
 }
 
 val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject)
@@ -28,7 +32,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-        coreLibraryDesugaringEnabled = true
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
@@ -114,7 +118,7 @@ dependencies {
     coreKtxDependencies()
     securityCryptoDependencies()
 
-    koinDataDependencies()
+    koinDependencies()
 
     coreLibraryDesugaringDependencies()
 

@@ -5,14 +5,14 @@ import com.bottlerocketstudios.brarchitecture.data.model.EnvironmentConfig
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.data.test.MockBuildConfigProviders
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.argumentCaptor
-import com.nhaarman.mockitokotlin2.doAnswer
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.junit.Test
 
 class EnvironmentRepositoryImplTest : BaseTest() {

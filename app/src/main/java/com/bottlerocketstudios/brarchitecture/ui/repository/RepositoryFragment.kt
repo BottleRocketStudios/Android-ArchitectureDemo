@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bottlerocketstudios.brarchitecture.R
@@ -37,11 +36,11 @@ class RepositoryFragment : BaseFragment<RepositoryFragmentViewModel, RepositoryF
                 }
             }
             fileList.layoutManager = LinearLayoutManager(this@RepositoryFragment.activity)
-            activityViewModel.selectedRepo.observe(viewLifecycleOwner, Observer {
+            activityViewModel.selectedRepo.observe(viewLifecycleOwner) {
                 fragmentViewModel.selectRepository(it.name)
                 activityViewModel.setTitle(it.name ?: "")
                 activityViewModel.showToolbar(true)
-            })
+            }
         }
     }
 }
