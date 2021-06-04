@@ -21,7 +21,7 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import timber.log.Timber
 
-interface BitbucketRepository {
+interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.data.repository.Repository {
     val user: StateFlow<User?>
     val repos: StateFlow<List<Repository>>
     val snippets: StateFlow<List<Snippet>>
