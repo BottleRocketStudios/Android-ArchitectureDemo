@@ -22,7 +22,7 @@
             android:layout_marginStart="@dimen/medium_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:imageUrl="@{viewModel.repo.user.avatarUrl}"
+            app:imageUrl="@{viewModel.avatarUrl}"
             android:importantForAccessibility="no"
             tools:src="@tools:sample/avatars"
             />
@@ -36,7 +36,7 @@
             android:layout_marginStart="@dimen/medium_margin"
             app:layout_constraintTop_toBottomOf="@id/user_hero"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@{viewModel.repo.user.displayName}"
+            android:text="@{viewModel.displayName}"
             tools:text="Matt Smith"
             />
 
@@ -50,7 +50,7 @@
             android:paddingBottom="@dimen/large_margin"
             app:layout_constraintTop_toBottomOf="@id/user_name"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@{viewModel.repo.user.username}"
+            android:text="@{viewModel.username}"
             tools:text="Matt234"
             />
 

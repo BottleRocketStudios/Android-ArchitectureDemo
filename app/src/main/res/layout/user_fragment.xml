@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="74dp"
             android:layout_height="74dp"
-            app:imageUrl="@{viewModel.repo.user.avatarUrl}"
+            app:imageUrl="@{viewModel.avatarUrl}"
             android:layout_marginTop="142dp"
             android:layout_gravity="center"
             android:contentDescription="@string/user_profile_image_accessibility"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_gravity="center"
-            android:text="@{viewModel.repo.user.displayName}"
+            android:text="@{viewModel.displayName}"
             tools:text="Matt Smith"
             android:fontFamily="sans-serif-medium"
             android:textStyle="normal"
@@ -47,7 +47,7 @@
             android:textColor="@color/greyish_brown"
             android:letterSpacing="0.03"
             android:layout_gravity="center_horizontal"
-            android:text="@{viewModel.repo.user.nickname}"
+            android:text="@{viewModel.nickname}"
             tools:text="Matt234"
             />
         

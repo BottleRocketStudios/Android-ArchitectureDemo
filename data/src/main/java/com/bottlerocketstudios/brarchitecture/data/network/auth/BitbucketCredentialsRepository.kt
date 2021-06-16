@@ -6,11 +6,12 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
+import com.bottlerocketstudios.brarchitecture.data.repository.Repository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import timber.log.Timber.e
+import timber.log.Timber
 
-internal class BitbucketCredentialsRepository(context: Context, private val moshi: Moshi) {
+internal class BitbucketCredentialsRepository(context: Context, private val moshi: Moshi) : Repository {
     companion object {
         private const val SECURE_PREF_FILE_NAME = "secureBbCredentials"
         private const val BITBUCKET_CREDENTIALS = "BitbucketCredentials"
@@ -40,7 +41,7 @@ internal class BitbucketCredentialsRepository(context: Context, private val mosh
         return if (!credentialsJson.isNullOrEmpty()) {
             CREDENTIAL_ADAPTER.fromJson(credentialsJson)
         } else {
-            e("Credentials repository could not load credentials")
+            Timber.e("Credentials repository could not load credentials")
             null
         }
     }
@@ -54,7 +55,7 @@ internal class BitbucketCredentialsRepository(context: Context, private val mosh
         return if (!credentialsJson.isNullOrEmpty()) {
             TOKEN_ADAPTER.fromJson(credentialsJson)
         } else {
-            e("Credentials repository could not load credentials")
+            Timber.e("Credentials repository could not load credentials")
             null
         }
     }
