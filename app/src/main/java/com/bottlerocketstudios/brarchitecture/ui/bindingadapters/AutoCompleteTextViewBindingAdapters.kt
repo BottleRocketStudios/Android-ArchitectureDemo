@@ -26,7 +26,7 @@ fun AutoCompleteTextView.setAdapterWithInitialSelectionArray(entries: Array<Stri
 
 /**
  * Happy path: [AutoCompleteTextView.setAdapter] with [entries] and text set to value at [position].
- * Empty [entries] edge case: When [entries] isEmpty, then the [AutoCompleteTextView] parent (should be the wrapping [TextInputLayout]) visibilty set to [View.GONE]
+ * Empty [entries] edge case: When [entries] isEmpty, then the [AutoCompleteTextView] parent (should be the wrapping [com.google.android.material.textfield.TextInputLayout]) visibility set to [View.GONE]
  * Position out of range edge case: When [position] is not the valid indices of [entries], fall back to zero.
  */
 private fun <T : Any> AutoCompleteTextView.setAdapterWithInitialSelectionWorker(entries: List<T>, position: Int) {

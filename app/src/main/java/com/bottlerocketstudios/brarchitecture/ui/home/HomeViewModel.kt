@@ -21,8 +21,8 @@ class HomeViewModel(app: Application, repo: BitbucketRepository, private val dis
     init {
         viewModelScope.launch(dispatcherProvider.IO) {
             repos.collect { repoList ->
+                val map = repoList.map { RepositoryViewModel(it) }
                 withContext(dispatcherProvider.Main) {
-                    val map = repoList.map { RepositoryViewModel(it) }
                     reposGroup.setHeader(HeaderViewModel(R.string.home_repositories))
                     reposGroup.update(map)
                 }

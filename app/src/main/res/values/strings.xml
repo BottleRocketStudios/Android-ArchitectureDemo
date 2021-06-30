@@ -6,6 +6,9 @@
     <string name="profile_title">Profile</string>
     <string name="dev_options_title">@string/dev_options_button</string>
 
+    <!-- Splash -->
+    <string name="splash_image_content_description">Bottle Rocket Architecture Demo</string>
+
     <!-- Login -->
     <string name="login_id_hint">Username</string>
     <string name="login_id_accessibility">Login ID</string>
@@ -23,7 +26,10 @@
 
     <!-- Home -->
     <string name="home_repositories">Repositories</string>
-    <string name="folder_items">%1$d items</string>
+    <plurals name="folder_items_plural">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
     
     <!-- Snippets -->
     <string name="snippets_title">Snippets</string>
@@ -48,5 +54,11 @@
     <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>
     <string name="empty_label" />
+
+    <plurals name="days_ago_plural">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <string name="today">Today</string>
 
 </resources>

@@ -10,6 +10,7 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SnippetsFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val snippets = repo.snippets
@@ -19,7 +20,9 @@ class SnippetsFragmentViewModel(app: Application, private val repo: BitbucketRep
         viewModelScope.launch(dispatcherProvider.IO) {
             snippets.collect { snippetList ->
                 val map = snippetList.map { SnippetViewModel(it) }
-                snippetGroup.update(map)
+                withContext(dispatcherProvider.Main) {
+                    snippetGroup.update(map)
+                }
             }
         }
         refreshSnippets()

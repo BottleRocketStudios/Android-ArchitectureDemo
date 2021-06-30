@@ -5,7 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 
 /**
- * An [ArrayAdapter] that removes filtering performed by [AutoCompleteTextView]
+ * An [ArrayAdapter] that removes filtering performed by [android.widget.AutoCompleteTextView]
  *
  * Inspired by https://stackoverflow.com/questions/8512762/autocompletetextview-disable-filtering
  */

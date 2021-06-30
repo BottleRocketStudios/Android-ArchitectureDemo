@@ -80,7 +80,7 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/name"
-                android:text="@{dbViewModel.repository.formattedUpdateTime(context)}"
+                android:text="@{dbViewModel.formattedUpdateTime}"
                 tools:text="Repository description"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
