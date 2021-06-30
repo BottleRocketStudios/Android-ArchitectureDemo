@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.crashreporting
 
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
-import com.bottlerocketstudios.brarchitecture.data.test.MockBuildConfigProviders
+import com.bottlerocketstudios.brarchitecture.data.test.mocks.MockBuildConfigProviders
 import org.junit.Test
 
 class ForceCrashLogicImplTest : BaseTest() {

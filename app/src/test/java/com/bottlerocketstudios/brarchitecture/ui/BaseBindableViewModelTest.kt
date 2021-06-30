@@ -4,12 +4,15 @@ import android.content.res.Resources
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.test.KoinTestRule
+import com.bottlerocketstudios.brarchitecture.test.TestModule
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.google.common.truth.Truth.assertThat
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import com.xwray.groupie.Section
 import com.xwray.groupie.viewbinding.BindableItem
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
@@ -17,6 +20,10 @@ import org.mockito.kotlin.mock
 import timber.log.Timber
 
 class BaseBindableViewModelTest : BaseTest() {
+
+    @get:Rule
+    val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
+
     private val TEST_DATA = "data"
 
     data class TestBindableViewModel(val data: String) : BaseBindableViewModel() {

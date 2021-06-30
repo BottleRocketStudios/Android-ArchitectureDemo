@@ -6,7 +6,9 @@ import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.data.model.User
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.test.KoinTestRule
 import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
+import com.bottlerocketstudios.brarchitecture.test.TestModule
 import com.google.common.truth.Truth.assertThat
 import org.mockito.kotlin.mock
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,6 +22,9 @@ import org.junit.rules.TestRule
 class HomeViewModelTest : BaseTest() {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
 
     val _user = MutableStateFlow<User?>(null)
     val _repos = MutableStateFlow<List<Repository>>(emptyList())
