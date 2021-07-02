@@ -74,14 +74,14 @@ object Config {
 
     // What each version represents - https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
     object AndroidSdkVersions {
-        const val COMPILE_SDK = 29
+        const val COMPILE_SDK = 30
 
         // https://developer.android.com/studio/releases/build-tools
         const val BUILD_TOOLS = "30.0.3"
         const val MIN_SDK = 23
 
-        // https://developer.android.com/about/versions/10/behavior-changes-10
-        const val TARGET_SDK = 29
+        // https://developer.android.com/about/versions/11/behavior-changes-11
+        const val TARGET_SDK = 30
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions

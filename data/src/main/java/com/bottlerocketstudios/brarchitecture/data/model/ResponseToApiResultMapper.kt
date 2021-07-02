@@ -4,7 +4,7 @@ import com.squareup.moshi.Moshi
 import retrofit2.Response
 import timber.log.Timber
 
-/** Converts a retrofit response to a wrapped [ApiResult] response, handling parsing from the different flavors of error responses to the single [ServerErrorDto] */
+/** Converts a retrofit response to a wrapped [ApiResult] response */
 interface ResponseToApiResultMapper {
     /** Convert from response to [ApiResult] of the response */
     fun <T : Any> toResult(response: Response<T>): ApiResult<T>

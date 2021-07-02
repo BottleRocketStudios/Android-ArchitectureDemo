@@ -3,7 +3,7 @@ package com.bottlerocketstudios.brarchitecture.data.environment
 import android.content.SharedPreferences
 import com.bottlerocketstudios.brarchitecture.data.model.EnvironmentConfig
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
-import com.bottlerocketstudios.brarchitecture.data.test.MockBuildConfigProviders
+import com.bottlerocketstudios.brarchitecture.data.test.mocks.MockBuildConfigProviders
 import com.google.common.truth.Truth.assertThat
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor

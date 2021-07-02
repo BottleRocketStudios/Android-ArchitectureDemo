@@ -28,7 +28,7 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
 
     fun selectRepository(id: String?) {
         selectedId = id
-        repos.value?.firstOrNull { it.name?.equals(id) ?: false }?.let {
+        repos.value.firstOrNull { it.name?.equals(id) ?: false }?.let {
             selectedRepository.set(it)
             it.workspace?.slug?.let { workspaceSlug ->
                 it.name?.let { repoName ->
