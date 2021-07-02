@@ -17,8 +17,8 @@ jacoco {
 // Prep BuildInfoManager to use its functions/properties later throughout this build script
 BuildInfoManager.initialize(
     BuildInfoInput(
-        appVersion = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true),
-        brandName = "BR_Architecture",
+        appVersion = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true), // TODO: TEMPLATE - Replace with appropriate app version
+        brandName = "BR_Architecture", // TODO: TEMPLATE - Replace with appropriate project brand name
         productionReleaseVariantName = "release",
         rootProjectDir = rootDir
     )
@@ -48,7 +48,7 @@ android {
     signingConfigs {
         getByName("debug") {
             // Common debug keystore so all local builds can be shared between devs/QA
-            storeFile = file("../keystore/debug.keystore")
+            storeFile = file("../keystore/debug.keystore") // TODO: TEMPLATE - Generate a new debug keystore (optional). See https://gist.github.com/henriquemenezes/70feb8fff20a19a65346e48786bedb8f#debug-keystore
             storePassword = "android"
             keyAlias = "androiddebugkey"
             keyPassword = "android"
@@ -90,14 +90,14 @@ android {
     // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
     productFlavors {
         create("internal") {
-            applicationId = "com.bottlerocketstudios.brarchitecture.internal"
+            applicationId = "com.bottlerocketstudios.brarchitecture.internal" // TODO: TEMPLATE - Replace with appropriate project applicationId prefix, leaving .internal
             versionNameSuffix = "-internal"
             buildConfigField("boolean", "INTERNAL", "true")
             buildConfigField("boolean", "PRODUCTION", "false")
             dimension = "environment"
         }
         create("production") {
-            applicationId = "com.bottlerocketstudios.brarchitecture"
+            applicationId = "com.bottlerocketstudios.brarchitecture" // TODO: TEMPLATE - Replace full string with appropriate project applicationId
             buildConfigField("boolean", "INTERNAL", "false")
             buildConfigField("boolean", "PRODUCTION", "true")
             dimension = "environment"

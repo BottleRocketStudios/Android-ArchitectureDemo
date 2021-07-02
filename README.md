@@ -21,10 +21,11 @@ BITBUCKET_KEY="[oauth_consumer_key]"
 BITBUCKET_SECRET="[oauth_consumer_secret]"
 ```
 
-### Primary Docs
+## Primary Docs
+* **Required reading** - [NEW_PROJECT_STARTER.md](./docs/NEW_PROJECT_STARTER.md) for information on how to use this repository as a new project starter.
 * **Required reading** - [BEST_PRACTICES.md](./docs/BEST_PRACTICES.md) for Android engineering team norms for the project.
 
-### Future functionality
+## Future functionality
 *Note: Evaluate if the implementing something in this list is still best practice prior to coding it.*
 
 *Made up example: If kotlin releases native date/time support (and becomes the go to date time solution for Android), don't implement java 8 date/time libs if it is still not implemented but in the list below*
