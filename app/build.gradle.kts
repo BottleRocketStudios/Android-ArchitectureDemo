@@ -48,7 +48,7 @@ android {
     signingConfigs {
         getByName("debug") {
             // Common debug keystore so all local builds can be shared between devs/QA
-            storeFile = file("../keystore/debug.keystore") // TODO: TEMPLATE - Generate a new debug keystore (optional). See https://gist.github.com/henriquemenezes/70feb8fff20a19a65346e48786bedb8f#debug-keystore
+            storeFile = file("../keystore/debug.keystore") // TODO: TEMPLATE - Generate a new debug keystore (optional). More info in NEW_PROJECT_STARTER.md
             storePassword = "android"
             keyAlias = "androiddebugkey"
             keyPassword = "android"
