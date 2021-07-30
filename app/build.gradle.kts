@@ -168,6 +168,7 @@ dependencies {
     mockitoKotlinDependencies()
     truthDependencies()
     archCoreTestingDependencies()
+    kotlinxCoroutineTestingDependencies()
     // Android Test
     espressoDependencies()
 }
