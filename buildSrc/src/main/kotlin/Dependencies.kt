@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 // https://kotlinlang.org/docs/releases.html#release-details
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
 private const val KOTLIN_VERSION = "1.5.10"
+private const val KOTLIN_COROUTINES_VERSION = "1.5.0"
 private const val NAVIGATION_VERSION = "2.3.5"
 
 /**
@@ -143,7 +144,7 @@ private object Libraries {
     // https://kotlinlang.org/docs/reference/coroutines/flow.html
     // https://github.com/Kotlin/kotlinx.coroutines/blob/master/CHANGES.md
     // https://github.com/Kotlin/kotlinx.coroutines/releases
-    private const val KOTLIN_COROUTINES_VERSION = "1.5.0"
+
     const val KOTLINX_COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES_VERSION"
     const val KOTLINX_COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$KOTLIN_COROUTINES_VERSION"
 
@@ -253,6 +254,10 @@ private object TestLibraries {
     // https://developer.android.com/jetpack/androidx/releases/arch
     const val ARCH_CORE_TESTING = "androidx.arch.core:core-testing:2.1.0"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.3.0"
+
+    //// Kotlinx Coroutine - Testing
+    // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
+    const val KOTLINX_COROUTINE_TESTING = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$KOTLIN_COROUTINES_VERSION"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
@@ -377,4 +382,8 @@ fun DependencyHandler.archCoreTestingDependencies() {
 
 fun DependencyHandler.espressoDependencies() {
     androidTestImplementation(TestLibraries.ESPRESSO_CORE)
+}
+
+fun DependencyHandler.kotlinxCoroutineTestingDependencies() {
+    testImplementation(TestLibraries.KOTLINX_COROUTINE_TESTING)
 }

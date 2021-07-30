@@ -137,4 +137,5 @@ dependencies {
     mockitoKotlinDependencies()
     truthDependencies()
     archCoreTestingDependencies()
+    kotlinxCoroutineTestingDependencies()
 }
