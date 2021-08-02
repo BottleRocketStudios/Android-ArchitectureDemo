@@ -19,6 +19,6 @@ dependencies {
     // Found in https://quickbirdstudios.com/blog/gradle-kotlin-buildsrc-plugin-android/
     // Unable to use a single source of truth due to issue mentioned in https://github.com/gradle/kotlin-dsl-samples/issues/1320#issuecomment-486309410
     // TODO: These should be updated in tandem with source of truth values in Dependencies.kt.
-    implementation("com.android.tools.build:gradle:4.2.1")
+    implementation("com.android.tools.build:gradle:7.0.0")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
 }

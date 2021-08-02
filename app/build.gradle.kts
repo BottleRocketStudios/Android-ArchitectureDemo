@@ -1,3 +1,4 @@
+
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 
@@ -28,22 +29,28 @@ BuildInfoManager.initialize(
 // android {...} DSL Reference:
 // Android Gradle Plugin api: https://developer.android.com/reference/tools/gradle-api/4.1/classes
 android {
-    compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
+    compileSdk = Config.AndroidSdkVersions.COMPILE_SDK
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
     defaultConfig {
-        minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
-        targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
+        minSdk = Config.AndroidSdkVersions.MIN_SDK
+        targetSdk = Config.AndroidSdkVersions.TARGET_SDK
         versionCode = BuildInfoManager.APP_VERSION.versionCode
         versionName = BuildInfoManager.APP_VERSION.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+    lint {
+        // TODO: Remove once Timber is updated past 4.7.1 with AGP 7.0.0 related lint fixes: https://github.com/JakeWharton/timber/issues/408
+        disable.addAll(
+            setOf("LogNotTimber", "StringFormatInTimber", "ThrowableNotAtBeginning", "BinaryOperationInTimber", "TimberArgCount", "TimberArgTypes", "TimberTagLength", "TimberExceptionLogging")
+        )
     }
     signingConfigs {
         getByName("debug") {
