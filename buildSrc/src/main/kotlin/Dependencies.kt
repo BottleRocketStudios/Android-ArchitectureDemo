@@ -37,7 +37,7 @@ object Config {
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:4.2.1"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.0"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
@@ -197,6 +197,7 @@ private object Libraries {
 
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/timber/releases
+    // TODO: Remove lint { disable "TIMBER-LINT-RULES" } from app AND data build.gradle.kts once Timber is updated past 4.7.1 to fix lint: https://github.com/JakeWharton/timber/issues/408
     const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
 
     // https://github.com/JakeWharton/ProcessPhoenix/blob/master/CHANGELOG.md

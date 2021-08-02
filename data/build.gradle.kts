@@ -16,26 +16,31 @@ jacoco {
 val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject)
 
 android {
-    compileSdkVersion(Config.AndroidSdkVersions.COMPILE_SDK)
+    compileSdk = Config.AndroidSdkVersions.COMPILE_SDK
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
 
     defaultConfig {
-        minSdkVersion(Config.AndroidSdkVersions.MIN_SDK)
-        targetSdkVersion(Config.AndroidSdkVersions.TARGET_SDK)
-        versionCode = BuildInfoManager.APP_VERSION.versionCode
-        versionName = BuildInfoManager.APP_VERSION.versionName
+        minSdk = Config.AndroidSdkVersions.MIN_SDK
+        targetSdk = Config.AndroidSdkVersions.TARGET_SDK
+        // As of AGP 7.0, versionName and versionCode have been removed from library modules: https://stackoverflow.com/a/67803541/201939
         buildConfigField("String", "BITBUCKET_KEY", apikey.key)
         buildConfigField("String", "BITBUCKET_SECRET", apikey.secret)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+    lint {
+        // TODO: Remove once Timber is updated past 4.7.1 with AGP 7.0.0 related lint fixes: https://github.com/JakeWharton/timber/issues/408
+        disable.addAll(
+            setOf("LogNotTimber", "StringFormatInTimber", "ThrowableNotAtBeginning", "BinaryOperationInTimber", "TimberArgCount", "TimberArgTypes", "TimberTagLength", "TimberExceptionLogging")
+        )
     }
 
     buildTypes {
@@ -82,12 +87,14 @@ private val internalDebugImplementation: Configuration by configurations.creatin
 private val internalDebugMiniImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
 private val internalReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
 val productionReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
+
 /** List of all buildable dev configurations */
 val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
 class ApiKeyProperties(pathToProperties: String, project: Project) {
     private val apikeyPropertiesFile = project.file(pathToProperties)
     private val apikeyProperties = Properties()
+
     init {
         apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
     }
