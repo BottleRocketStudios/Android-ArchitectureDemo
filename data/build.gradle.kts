@@ -13,7 +13,7 @@ jacoco {
     toolVersion = Config.JACOCO_VERSION
 }
 
-val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject)
+val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject) // TODO: TEMPLATE - Remove this value when creating a new project
 
 android {
     compileSdk = Config.AndroidSdkVersions.COMPILE_SDK
@@ -91,6 +91,7 @@ val productionReleaseImplementation: Configuration by configurations.creating { 
 /** List of all buildable dev configurations */
 val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
+// TODO: TEMPLATE - Remove this class (and all its usages) when creating a new project
 class ApiKeyProperties(pathToProperties: String, project: Project) {
     private val apikeyPropertiesFile = project.file(pathToProperties)
     private val apikeyProperties = Properties()

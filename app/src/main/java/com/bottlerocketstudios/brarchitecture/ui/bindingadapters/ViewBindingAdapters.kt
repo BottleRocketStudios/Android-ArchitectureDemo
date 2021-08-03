@@ -45,6 +45,7 @@ fun ImageView.setImageUrl(imageUrl: String?) {
     }
 }
 
+// TODO: TEMPLATE - Remove this extension function when creating a new project
 @BindingAdapter("fileType")
 fun AppCompatImageView.setFileType(fileType: String?) {
     Glide.with(this)

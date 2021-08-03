@@ -12,6 +12,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
+// TODO: TEMPLATE - Refactor this class's name when creating a new project.
 @Suppress("unused")
 class BitbucketApplication : Application() {
 
