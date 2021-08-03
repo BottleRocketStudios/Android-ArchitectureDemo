@@ -2,14 +2,7 @@ package com.bottlerocketstudios.brarchitecture
 
 import android.app.Application
 import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImpl
-import com.bottlerocketstudios.brarchitecture.data.di.Data
-import com.bottlerocketstudios.brarchitecture.data.di.NetworkObject
-import com.bottlerocketstudios.brarchitecture.data.di.TokenAuth
-import com.bottlerocketstudios.brarchitecture.di.AppModule
 import com.jakewharton.processphoenix.ProcessPhoenix
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
 import timber.log.Timber
 
 @Suppress("unused")
@@ -28,20 +21,6 @@ class BitbucketApplication : Application() {
             Timber.plant(Timber.DebugTree())
         }
         Timber.v("[onCreate]")
-        startKoin {
-            if (buildConfigProvider.isDebugOrInternalBuild) {
-                androidLogger()
-            }
-
-            androidContext(this@BitbucketApplication)
-            modules(
-                listOf(
-                    AppModule.appModule,
-                    Data.dataModule,
-                    TokenAuth.tokenAuthModule,
-                    NetworkObject.networkModule
-                )
-            )
-        }
+        // See startup.* classes for additional androidx app startup initializers
     }
 }

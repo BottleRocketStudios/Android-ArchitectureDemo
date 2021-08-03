@@ -118,6 +118,8 @@ private object Libraries {
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.3.0"
+    // https://developer.android.com/jetpack/androidx/releases/startup
+    const val STARTUP = "androidx.startup:startup-runtime:1.0.0"
 
     // https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.4"
@@ -293,6 +295,9 @@ fun DependencyHandler.moshiDependencies() {
 
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
+}
+fun DependencyHandler.androidxStartupDependencies() {
+    implementation(Libraries.STARTUP)
 }
 fun DependencyHandler.constraintLayoutDependencies() {
     implementation(Libraries.CONSTRAINT_LAYOUT)
