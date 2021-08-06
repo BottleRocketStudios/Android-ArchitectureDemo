@@ -96,6 +96,7 @@ object BuildInfoManager {
         }
     }
 
+    // TODO: TEMPLATE - Update CI debug and CI release brand name prefix values to match the updated BuildInfoInput.brandName value to show brand specific apk naming examples
     /**
      * Generates an apk filename with [BuildInfoInput.brandName], variant, build number, git sha, and date.
      *

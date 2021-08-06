@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: TEMPLATE - Refactor this packagename when creating a new project -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bottlerocketstudios.brarchitecture">
     <uses-permission android:name="android.permission.INTERNET" />
