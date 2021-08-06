@@ -150,6 +150,7 @@ dependencies {
 
     // AndroidX
     appCompatDependencies()
+    androidxStartupDependencies()
     constraintLayoutDependencies()
     materialDependencies()
     lifecycleDependencies()

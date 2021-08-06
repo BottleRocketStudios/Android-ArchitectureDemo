@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- TODO: TEMPLATE - Refactor this packagename when creating a new project -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.bottlerocketstudios.brarchitecture">
     <uses-permission android:name="android.permission.INTERNET" />
     <application android:allowBackup="true"
@@ -21,5 +22,14 @@
                 <category android:name="android.intent.category.DEFAULT"/><!-- DEFAULT is required for ProcessPhoenix to work properly -->
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="com.bottlerocketstudios.brarchitecture.startup.AppStartupInitializer"
+                android:value="androidx.startup" />
+        </provider>
     </application>
 </manifest>
