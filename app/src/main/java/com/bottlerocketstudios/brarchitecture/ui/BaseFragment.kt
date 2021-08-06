@@ -71,7 +71,7 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BINDING : ViewD
      */
     @CallSuper
     open fun setupBinding(binding: BINDING) {
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         // In all layouts, the variable name should be "viewModel" for the given FRAGMENT_VIEW_MODEL
         binding.setVariable(BR.viewModel, fragmentViewModel)
     }
