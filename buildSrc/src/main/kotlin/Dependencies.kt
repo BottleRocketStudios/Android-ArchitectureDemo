@@ -9,8 +9,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 // https://kotlinlang.org/docs/reference/whatsnew15.html
 // https://kotlinlang.org/docs/releases.html#release-details
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-private const val KOTLIN_VERSION = "1.5.10"
-private const val KOTLIN_COROUTINES_VERSION = "1.5.0"
+private const val KOTLIN_VERSION = "1.5.21"
+private const val KOTLIN_COROUTINES_VERSION = "1.5.1"
 private const val NAVIGATION_VERSION = "2.3.5"
 
 /**
@@ -64,7 +64,7 @@ object Config {
         // const val JACOCO_ANDROID = "jacoco-android"
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
         const val JACOCO_ANDROID = "com.hiya.jacoco-android"
-        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs.kotlin"
+        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs" // Note: not using safeargs.kotlin to prevent compile time failure: https://stackoverflow.com/a/68605639/201939
 
         const val PARCELIZE = "kotlin-parcelize"
         object Kotlin {
@@ -83,6 +83,10 @@ object Config {
 
         // https://developer.android.com/about/versions/11/behavior-changes-11
         const val TARGET_SDK = 30
+    }
+
+    object Compose {
+        const val COMPOSE_VERSION = "1.0.1"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
@@ -115,11 +119,33 @@ private object Libraries {
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
+    const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.3.0"
     // https://developer.android.com/jetpack/androidx/releases/startup
     const val STARTUP = "androidx.startup:startup-runtime:1.0.0"
+
+    // Compose
+    // https://developer.android.com/jetpack/androidx/releases/compose
+    private const val COMPOSE_VERSION = Config.Compose.COMPOSE_VERSION
+    const val COMPOSE_UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
+    // Tooling support (Previews, etc.)
+    const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION"
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
+    const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$COMPOSE_VERSION"
+    const val COMPOSE_ANIMATION = "androidx.compose.animation:animation:$COMPOSE_VERSION"
+    // Material Design
+    const val COMPOSE_MATERIAL = "androidx.compose.material:material:$COMPOSE_VERSION"
+    // Material design icons
+    const val COMPOSE_MATERIAL_ICONS_CORE = "androidx.compose.material:material-icons-core:$COMPOSE_VERSION"
+    const val COMPOSE_MATERIAL_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
+    // Integration with observables
+    const val COMPOSE_LIVE_DATA = "androidx.compose.runtime:runtime-livedata:$COMPOSE_VERSION"
+
+    // UI Tests
+    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
 
     // https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.4"
@@ -128,6 +154,7 @@ private object Libraries {
     // https://developer.android.com/jetpack/androidx/releases/navigation
     const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
+    const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:2.4.0-alpha06"
 
     // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
     // https://developer.android.com/topic/security/data
@@ -137,6 +164,8 @@ private object Libraries {
     //// Material
     // https://github.com/material-components/material-components-android/releases
     const val MATERIAL = "com.google.android.material:material:1.3.0"
+    // https://github.com/material-components/material-components-android-compose-theme-adapter/releases/
+    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:$COMPOSE_VERSION"
 
     //// Kotlin
     const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -293,6 +322,17 @@ fun DependencyHandler.moshiDependencies() {
     kapt(Libraries.MOSHI_KOTLIN_CODEGEN)
 }
 
+fun DependencyHandler.composeDependencies() {
+    implementation(Libraries.COMPOSE_UI)
+    implementation(Libraries.COMPOSE_UI_TOOLING)
+    implementation(Libraries.COMPOSE_FOUNDATION)
+    implementation(Libraries.COMPOSE_ACTIVITY)
+    implementation(Libraries.COMPOSE_ANIMATION)
+    implementation(Libraries.COMPOSE_MATERIAL)
+    implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
+    implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
+    implementation(Libraries.COMPOSE_LIVE_DATA)
+}
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
 }
@@ -307,14 +347,17 @@ fun DependencyHandler.lifecycleDependencies() {
     implementation(Libraries.LIFECYCLE_LIVEDATA_KTX)
     implementation(Libraries.LIFECYCLE_VIEWMODEL_KTX)
     implementation(Libraries.LIFECYCLE_COMMON_JAVA8)
+    implementation(Libraries.LIFECYCLE_COMPOSE)
 }
 fun DependencyHandler.navigationDependencies() {
     implementation(Libraries.NAVIGATION_FRAGMENT_KTX)
     implementation(Libraries.NAVIGATION_UI_KTX)
+    implementation(Libraries.NAVIGATION_COMPOSE)
 }
 
 fun DependencyHandler.materialDependencies() {
     implementation(Libraries.MATERIAL)
+    implementation(Libraries.MATERIAL_COMPOSE_THEME_ADAPTER)
 }
 
 fun DependencyHandler.coreKtxDependencies() {

@@ -46,6 +46,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
+    buildFeatures {
+        compose = true // Enables Jetpack Compose for this module
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Config.Compose.COMPOSE_VERSION
+    }
     lint {
         // TODO: Remove once Timber is updated past 4.7.1 with AGP 7.0.0 related lint fixes: https://github.com/JakeWharton/timber/issues/408
         disable.addAll(
@@ -149,6 +155,7 @@ dependencies {
     coroutineDependencies()
 
     // AndroidX
+    composeDependencies()
     appCompatDependencies()
     androidxStartupDependencies()
     constraintLayoutDependencies()
