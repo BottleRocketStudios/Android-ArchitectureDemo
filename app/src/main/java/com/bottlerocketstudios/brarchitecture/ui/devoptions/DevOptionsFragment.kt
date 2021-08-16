@@ -6,14 +6,14 @@ import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.databinding.DevOptionsFragmentBinding
-import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
+import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Screen that manages dev options (only accessible from internal or debug builds (aka non release production builds)
  */
-class DevOptionsFragment : BaseFragment<DevOptionsViewModel, DevOptionsFragmentBinding>() {
+class DevOptionsFragment : BaseDataBindingFragment<DevOptionsViewModel, DevOptionsFragmentBinding>() {
     override val fragmentViewModel: DevOptionsViewModel by viewModel()
     private val buildConfigProvider by inject<BuildConfigProvider>()
 

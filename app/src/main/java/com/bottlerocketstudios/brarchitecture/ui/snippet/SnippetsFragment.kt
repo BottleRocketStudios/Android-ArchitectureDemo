@@ -4,7 +4,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.SnippetsFragmentBinding
-import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
+import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepoFileViewModel
@@ -14,7 +14,7 @@ import com.xwray.groupie.GroupieViewHolder
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SnippetsFragment : BaseFragment<SnippetsFragmentViewModel, SnippetsFragmentBinding>() {
+class SnippetsFragment : BaseDataBindingFragment<SnippetsFragmentViewModel, SnippetsFragmentBinding>() {
     override val fragmentViewModel: SnippetsFragmentViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
 
