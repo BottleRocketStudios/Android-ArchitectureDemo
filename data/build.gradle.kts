@@ -26,6 +26,7 @@ android {
         buildConfigField("String", "BITBUCKET_KEY", apikey.key)
         buildConfigField("String", "BITBUCKET_SECRET", apikey.secret)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("proguard-rules.pro")
     }
 
     compileOptions {
@@ -44,9 +45,6 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
         getByName("debug") {
             // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
             // the jacocoTest...UnitTestReport tasks. Stopping and restarting build would allow compilation/installation to complete.
@@ -57,7 +55,6 @@ android {
         create("debugMini") {
             initWith(getByName("debug"))
             setMatchingFallbacks("debug")
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
     flavorDimensions("environment")
