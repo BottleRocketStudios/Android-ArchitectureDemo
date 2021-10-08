@@ -12,6 +12,7 @@ buildscript {
         classpath(Config.BuildScriptPlugins.GRADLE_VERSIONS)
         classpath(Config.BuildScriptPlugins.JACOCO_ANDROID)
         classpath(Config.BuildScriptPlugins.NAVIGATION_SAFE_ARGS_GRADLE)
+        classpath(Config.BuildScriptPlugins.DETEKT)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
@@ -40,6 +41,7 @@ subprojects {
     // Cannot use plugins {} here so using apply (compilation error)
     apply(plugin = Config.ApplyPlugins.KT_LINT)
     apply(plugin = Config.ApplyPlugins.GRADLE_VERSIONS)
+    apply(plugin = Config.ApplyPlugins.DETEKT)
 
     // See README.md for more info on ktlint as well as https://github.com/JLLeitschuh/ktlint-gradle#configuration
     ktlint {
