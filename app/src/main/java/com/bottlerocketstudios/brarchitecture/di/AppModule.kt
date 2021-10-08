@@ -20,7 +20,7 @@ import org.koin.dsl.module
 
 /** General app configuration (repositories/viewmodels/etc) */
 object AppModule {
-    val appModule = module {
+    val module = module {
         viewModel { MainActivityViewModel(app = get(), repo = get(), buildConfigProvider = get()) }
         viewModel { SplashFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { LoginViewModel(app = get(), repo = get(), buildConfigProvider = get(), toaster = get(), dispatcherProvider = get()) }
@@ -31,7 +31,7 @@ object AppModule {
         viewModel { SnippetsFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { CreateSnippetFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { UserFragmentViewModel(app = get(), repo = get()) }
-        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), buildConfigProvider = get(), dispatcherProvider = get()) }
+        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), buildConfigProvider = get()) }
 
         single<BuildConfigProvider> { BuildConfigProviderImpl() }
         single<Toaster> { ToasterImplementation(app = get()) }

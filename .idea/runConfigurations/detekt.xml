@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ci - internalDebug (minus clean) - dev build" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="detekt" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,12 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="assembleInternalDebug" />
-          <option value="ktlintCheck" />
           <option value="detekt" />
-          <option value="testInternalDebugUnitTest" />
-          <option value="lintInternalDebug" />
-          <option value="jacocoTestInternalDebugUnitTestReport" />
         </list>
       </option>
       <option name="vmOptions" value="" />

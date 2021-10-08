@@ -12,6 +12,7 @@
         <list>
           <option value="assembleProductionRelease" />
           <option value="ktlintCheck" />
+          <option value="detekt" />
           <option value="testProductionReleaseUnitTest" />
           <option value="lintProductionRelease" />
           <option value="jacocoTestProductionReleaseUnitTestReport" />
@@ -19,7 +20,9 @@
       </option>
       <option name="vmOptions" value="" />
     </ExternalSystemSettings>
-    <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+    <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+    <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+    <DebugAllEnabled>false</DebugAllEnabled>
     <method v="2" />
   </configuration>
 </component>

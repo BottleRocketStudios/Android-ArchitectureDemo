@@ -49,7 +49,19 @@ object Config {
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
         const val JACOCO_ANDROID = "com.hiya:jacoco-android:0.2"
         const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
-        // https://github.com/detekt/detekt/releases
+
+        // Website info: https://detekt.github.io/detekt/index.html
+        // Rules:
+        //   https://detekt.github.io/detekt/comments.html
+        //   https://detekt.github.io/detekt/complexity.html
+        //   https://detekt.github.io/detekt/coroutines.html
+        //   https://detekt.github.io/detekt/empty-blocks.html
+        //   https://detekt.github.io/detekt/exceptions.html
+        //   https://detekt.github.io/detekt/formatting.html
+        //   https://detekt.github.io/detekt/naming.html
+        //   https://detekt.github.io/detekt/performance.html
+        //   https://detekt.github.io/detekt/style.html
+        // Release info: https://github.com/detekt/detekt/releases
         const val DETEKT = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
     }
 

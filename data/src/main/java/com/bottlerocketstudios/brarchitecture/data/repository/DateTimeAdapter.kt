@@ -4,6 +4,7 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import timber.log.Timber
 import java.time.ZonedDateTime
+import java.time.format.DateTimeParseException
 
 class DateTimeAdapter {
     @ToJson
@@ -13,7 +14,7 @@ class DateTimeAdapter {
     fun fromJson(zonedDateTime: String): ZonedDateTime = run {
         try {
             ZonedDateTime.parse(zonedDateTime)
-        } catch (exception: Exception) {
+        } catch (exception: DateTimeParseException) {
             Timber.e(exception, "Failed to parse zonedDateTime")
             ZonedDateTime.now()
         }

@@ -23,7 +23,7 @@ object BuildInfoManager {
     /** Value set when calling [initialize] */
     private lateinit var input: BuildInfoInput
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    @Suppress("MemberVisibilityCanBePrivate") // no, it must be visible as it is used in the build.gradle.kts files
     /** Version of the app (version name and code derived from this value). */
     val APP_VERSION: AppVersion by lazy { input.appVersion }
 
@@ -38,7 +38,7 @@ object BuildInfoManager {
     /** True if version name should be overridden. Otherwise false */
     private fun shouldOverrideVersionName(variantName: String): Boolean = IS_CI && !isProductionReleaseVariant(variantName)
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    @Suppress("MemberVisibilityCanBePrivate") // no, it must be visible as it is used in the build.gradle.kts files
     /** Call prior to android block definition in app build gradle. */
     fun initialize(buildInfoInput: BuildInfoInput) {
         if (!::input.isInitialized) {

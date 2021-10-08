@@ -3,9 +3,9 @@ package com.bottlerocketstudios.brarchitecture.startup
 import android.content.Context
 import androidx.startup.Initializer
 import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImpl
-import com.bottlerocketstudios.brarchitecture.data.di.Data
-import com.bottlerocketstudios.brarchitecture.data.di.NetworkObject
-import com.bottlerocketstudios.brarchitecture.data.di.TokenAuth
+import com.bottlerocketstudios.brarchitecture.data.di.DataModule
+import com.bottlerocketstudios.brarchitecture.data.di.NetworkModule
+import com.bottlerocketstudios.brarchitecture.data.di.TokenAuthModule
 import com.bottlerocketstudios.brarchitecture.di.AppModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -27,10 +27,10 @@ class KoinStartupInitializer : Initializer<KoinApplication> {
             androidContext(context)
             modules(
                 listOf(
-                    AppModule.appModule,
-                    Data.dataModule,
-                    TokenAuth.tokenAuthModule,
-                    NetworkObject.networkModule
+                    AppModule.module,
+                    DataModule.module,
+                    TokenAuthModule.module,
+                    NetworkModule.module,
                 )
             )
         }

@@ -29,8 +29,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 /** General app configuration (repositories/viewmodels/etc) */
-object Data {
-    val dataModule = module {
+object DataModule {
+    val module = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(DateTimeAdapter()).build() }
         single<BitbucketRepository> { BitbucketRepositoryImplementation(bitbucketService = get(), bitbucketCredentialsRepository = get(), responseToApiResultMapper = get()) }
@@ -54,9 +54,9 @@ private enum class KoinNamedNetwork {
     Unauthenticated, Authenticated
 }
 
-/** General network configuration. Always include with either [BasicAuth] or [TokenAuth] */
-object NetworkObject {
-    val networkModule = module {
+/** General network configuration. Always include with either [BasicAuthModule] or [TokenAuthModule] */
+object NetworkModule {
+    val module = module {
         single<OkHttpClient>(named(KoinNamedNetwork.Unauthenticated)) {
             OkHttpClient.Builder()
                 .addInterceptor(ChuckerInterceptor.Builder(androidContext()).build())
@@ -85,9 +85,9 @@ object NetworkObject {
     }
 }
 
-/** Basic auth only configuration. Use this or [TokenAuth], never both. **/
-private object BasicAuth {
-    val basicAuthModule = module {
+/** Basic auth only configuration. Use this or [TokenAuthModule], never both. **/
+private object BasicAuthModule {
+    val module = module {
         single { BasicAuthInterceptor(credentialsRepo = get()) }
         single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {
             provideBasicAuthOkHttpClient(
@@ -104,9 +104,9 @@ private object BasicAuth {
     }
 }
 
-/** Token auth only configuration. Use this or [BasicAuth], never both. **/
-object TokenAuth {
-    val tokenAuthModule = module {
+/** Token auth only configuration. Use this or [BasicAuthModule], never both. **/
+object TokenAuthModule {
+    val module = module {
         single { TokenAuthInterceptor(tokenAuthService = get(), credentialsRepo = get()) }
         single<TokenAuthService> { provideTokenAuthService(okHttpClient = get(named(KoinNamedNetwork.Unauthenticated))) }
         single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {

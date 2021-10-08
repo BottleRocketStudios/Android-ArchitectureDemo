@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.detekt
+
 // Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:buildscript(groovy.lang.Closure)
 // See also https://docs.gradle.org/current/javadoc/org/gradle/api/initialization/dsl/ScriptHandler.html and associated links for children apis
 buildscript {
@@ -51,6 +53,17 @@ subprojects {
         android.set(true)
         outputToConsole.set(true)
         ignoreFailures.set(false)
+    }
+
+    // All detekt gradle plugin options: https://detekt.github.io/detekt/gradle.html#kotlin-dsl-3
+    detekt {
+        config = files("$rootDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+
+        reports {
+            html.enabled = true // observe findings in your browser with structure and code snippets
+            xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
+            txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+        }
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
