@@ -19,11 +19,11 @@ private const val NAVIGATION_VERSION = "2.3.5"
 object Config {
     // https://github.com/JLLeitschuh/ktlint-gradle/blob/master/CHANGELOG.md
     // https://github.com/JLLeitschuh/ktlint-gradle/releases
-    const val KTLINT_GRADLE_VERSION = "10.0.0"
+    const val KTLINT_GRADLE_VERSION = "10.2.0"
 
     // https://github.com/pinterest/ktlint/blob/master/CHANGELOG.md
     // https://github.com/pinterest/ktlint/releases
-    const val KTLINT_VERSION = "0.41.0"
+    const val KTLINT_VERSION = "0.42.1"
 
     // 1. Execute `./gradlew jacocoTestReport` OR `./gradlew jacocoTestInternalDebugUnitTestReport`
     // 2. Execute `open app/build/jacoco/jacocoHtml/index.html` or the `Open Jacoco Report` AS Run Configuration
