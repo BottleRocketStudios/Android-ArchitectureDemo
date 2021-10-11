@@ -13,6 +13,7 @@ import kotlin.reflect.full.cast
 import kotlin.reflect.full.createType
 import kotlin.reflect.full.isSubtypeOf
 
+@Suppress("ConstructorParameterNaming") // _layout seems better than layoutIn - cannot use layout unfortunately
 class ViewModelItem<T : BaseBindableViewModel>(val viewModel: T, @LayoutRes private val _layout: Int) : BindableItem<ViewDataBinding>() {
 
     override fun initializeViewBinding(view: View): ViewDataBinding {

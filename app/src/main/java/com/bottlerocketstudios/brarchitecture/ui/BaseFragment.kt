@@ -20,7 +20,7 @@ import com.bottlerocketstudios.brarchitecture.BR
  * 2. Override [fragmentViewModel] (using `by viewModel()`, `by sharedViewModel()`, or similar function) and [getLayoutRes] with the fragment's `R.layout.foo` resource identifier.
  * 3. Override [setupBinding] instead of [onCreateView] or [onViewCreated].
  */
-abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BINDING : ViewDataBinding>() : Fragment() {
+abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BINDING : ViewDataBinding> : Fragment() {
 
     /** Fragment scoped Android ViewModel. Primary ViewModel to interact with for the given Fragment. */
     protected abstract val fragmentViewModel: FRAGMENT_VIEW_MODEL

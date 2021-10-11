@@ -19,11 +19,11 @@ private const val NAVIGATION_VERSION = "2.3.5"
 object Config {
     // https://github.com/JLLeitschuh/ktlint-gradle/blob/master/CHANGELOG.md
     // https://github.com/JLLeitschuh/ktlint-gradle/releases
-    const val KTLINT_GRADLE_VERSION = "10.0.0"
+    const val KTLINT_GRADLE_VERSION = "10.2.0"
 
     // https://github.com/pinterest/ktlint/blob/master/CHANGELOG.md
     // https://github.com/pinterest/ktlint/releases
-    const val KTLINT_VERSION = "0.41.0"
+    const val KTLINT_VERSION = "0.42.1"
 
     // 1. Execute `./gradlew jacocoTestReport` OR `./gradlew jacocoTestInternalDebugUnitTestReport`
     // 2. Execute `open app/build/jacoco/jacocoHtml/index.html` or the `Open Jacoco Report` AS Run Configuration
@@ -49,6 +49,20 @@ object Config {
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
         const val JACOCO_ANDROID = "com.hiya:jacoco-android:0.2"
         const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
+
+        // Website info: https://detekt.github.io/detekt/index.html
+        // Rules:
+        //   https://detekt.github.io/detekt/comments.html
+        //   https://detekt.github.io/detekt/complexity.html
+        //   https://detekt.github.io/detekt/coroutines.html
+        //   https://detekt.github.io/detekt/empty-blocks.html
+        //   https://detekt.github.io/detekt/exceptions.html
+        //   https://detekt.github.io/detekt/formatting.html
+        //   https://detekt.github.io/detekt/naming.html
+        //   https://detekt.github.io/detekt/performance.html
+        //   https://detekt.github.io/detekt/style.html
+        // Release info: https://github.com/detekt/detekt/releases
+        const val DETEKT = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
     }
 
     /**
@@ -60,6 +74,7 @@ object Config {
         const val ANDROID_LIBRARY = "com.android.library"
         const val GRADLE_VERSIONS = "com.github.ben-manes.versions"
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
+        const val DETEKT = "io.gitlab.arturbosch.detekt"
 
         // const val JACOCO_ANDROID = "jacoco-android"
         // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643

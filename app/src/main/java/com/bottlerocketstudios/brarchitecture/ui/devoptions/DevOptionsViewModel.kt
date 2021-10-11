@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.hadilq.liveevent.LiveEvent
 import com.jakewharton.processphoenix.ProcessPhoenix
@@ -17,7 +16,6 @@ class DevOptionsViewModel(
     private val forceCrashLogicImpl: ForceCrashLogic,
     private val environmentRepository: EnvironmentRepository,
     buildConfigProvider: BuildConfigProvider,
-    private val dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(app) {
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //

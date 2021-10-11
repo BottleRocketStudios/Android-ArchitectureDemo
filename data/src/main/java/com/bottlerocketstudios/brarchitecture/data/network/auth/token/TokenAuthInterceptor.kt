@@ -36,6 +36,7 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
         }
     }
 
+    @Suppress("NestedBlockDepth") // not sure why detekt flags this as 4 blocks deep when it really is only 1-2 max
     private fun interceptWorker(chain: Interceptor.Chain): Response {
         val token = credentialsRepo.loadToken()
         val accessToken = token?.accessToken
@@ -53,7 +54,7 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
                 val failure =
                     Moshi.Builder().build().adapter(BitbucketFailure::class.java).fromJson(failureJson)
                 Timber.v("auth failure=$failure")
-                if (failure != null && failure.type == "error" && failure.error != null && (failure.error.message ?: "").contains("token expired")) {
+                if (failure?.type == "error" && failure.error?.message.orEmpty().contains("token expired")) {
                     val refreshResponse =
                         tokenAuthService.refreshToken(refreshToken ?: "")
                             .execute()
