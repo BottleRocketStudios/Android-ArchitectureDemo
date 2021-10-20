@@ -9,8 +9,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 // https://kotlinlang.org/docs/reference/whatsnew15.html
 // https://kotlinlang.org/docs/releases.html#release-details
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-private const val KOTLIN_VERSION = "1.5.10"
-private const val KOTLIN_COROUTINES_VERSION = "1.5.0"
+private const val KOTLIN_VERSION = "1.5.31"
+private const val KOTLIN_COROUTINES_VERSION = "1.5.2"
 private const val NAVIGATION_VERSION = "2.3.5"
 
 /**
@@ -37,7 +37,7 @@ object Config {
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.0"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.2"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
@@ -122,7 +122,7 @@ private object Libraries {
     // https://developer.android.com/kotlin/ktx
 
     // https://developer.android.com/jetpack/androidx/releases/core
-    const val CORE_KTX = "androidx.core:core-ktx:1.5.0"
+    const val CORE_KTX = "androidx.core:core-ktx:1.6.0"
 
     // Lifecycle
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
@@ -132,12 +132,12 @@ private object Libraries {
     const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
-    const val APP_COMPAT = "androidx.appcompat:appcompat:1.3.0"
+    const val APP_COMPAT = "androidx.appcompat:appcompat:1.3.1"
     // https://developer.android.com/jetpack/androidx/releases/startup
-    const val STARTUP = "androidx.startup:startup-runtime:1.0.0"
+    const val STARTUP = "androidx.startup:startup-runtime:1.1.0"
 
     // https://developer.android.com/jetpack/androidx/releases/constraintlayout
-    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.4"
+    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.1"
 
     // Navigation
     // https://developer.android.com/jetpack/androidx/releases/navigation
@@ -151,7 +151,7 @@ private object Libraries {
 
     //// Material
     // https://github.com/material-components/material-components-android/releases
-    const val MATERIAL = "com.google.android.material:material:1.3.0"
+    const val MATERIAL = "com.google.android.material:material:1.4.0"
 
     //// Kotlin
     const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -168,7 +168,7 @@ private object Libraries {
     //// Koin
     // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
     // https://github.com/InsertKoinIO/koin/releases
-    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.0.2"
+    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.1.2"
 
     //// Core Library Desugaring
     // https://developer.android.com/studio/write/java8-support#library-desugaring
@@ -198,7 +198,7 @@ private object Libraries {
     //// UI
     // NOTE: groupie-databinding is deprecated. groupie-viewbinding is the replacement and should be used with both viewbinding and databinding. See https://github.com/lisawray/groupie#note
     // https://github.com/lisawray/groupie/releases
-    private const val GROUPIE_VERSION = "2.9.0"
+    private const val GROUPIE_VERSION = "2.10.0"
     const val GROUPIE = "com.github.lisawray.groupie:groupie:$GROUPIE_VERSION"
     const val GROUPIE_VIEWBINDING = "com.github.lisawray.groupie:groupie-viewbinding:$GROUPIE_VERSION"
     
@@ -219,7 +219,7 @@ private object Libraries {
 
     // https://github.com/JakeWharton/ProcessPhoenix/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/ProcessPhoenix/releases
-    const val PROCESS_PHOENIX = "com.jakewharton:process-phoenix:2.0.0"
+    const val PROCESS_PHOENIX = "com.jakewharton:process-phoenix:2.1.2"
 
     // Commons codec - used for base64 operations (no android framework requirement)
     // https://github.com/apache/commons-codec/blob/master/RELEASE-NOTES.txt
@@ -238,7 +238,7 @@ private object Libraries {
     // https://medium.com/@cortinico/introducing-chucker-18f13a51b35d
     // https://github.com/ChuckerTeam/chucker/blob/develop/CHANGELOG.md
     // https://github.com/ChuckerTeam/chucker/releases
-    private const val CHUCKER_VERSION = "3.4.0"
+    private const val CHUCKER_VERSION = "3.5.2"
     const val CHUCKER = "com.github.ChuckerTeam.Chucker:library:$CHUCKER_VERSION"
     const val CHUCKER_NO_OP = "com.github.ChuckerTeam.Chucker:library-no-op:$CHUCKER_VERSION"
 
@@ -266,12 +266,12 @@ private object TestLibraries {
 
     // https://github.com/mockito/mockito-kotlin/wiki/Mocking-and-verifying
     // https://github.com/mockito/mockito-kotlin/releases
-    const val MOCKITO_KOTLIN = "org.mockito.kotlin:mockito-kotlin:3.2.0"
+    const val MOCKITO_KOTLIN = "org.mockito.kotlin:mockito-kotlin:4.0.0"
 
     //// AndroidX - testing
     // https://developer.android.com/jetpack/androidx/releases/arch
     const val ARCH_CORE_TESTING = "androidx.arch.core:core-testing:2.1.0"
-    const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.3.0"
+    const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
 
     //// Kotlinx Coroutine - Testing
     // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
