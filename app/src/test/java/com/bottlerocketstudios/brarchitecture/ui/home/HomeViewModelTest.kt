@@ -11,14 +11,12 @@ import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.bottlerocketstudios.brarchitecture.test.TestModule
 import com.google.common.truth.Truth.assertThat
 import org.mockito.kotlin.mock
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-@ExperimentalCoroutinesApi
 class HomeViewModelTest : BaseTest() {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()

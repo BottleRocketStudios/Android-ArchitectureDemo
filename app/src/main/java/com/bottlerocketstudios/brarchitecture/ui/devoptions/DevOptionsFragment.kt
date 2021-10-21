@@ -9,6 +9,7 @@ import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvid
 import com.bottlerocketstudios.brarchitecture.databinding.DevOptionsFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,7 +36,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel, DevOptionsFragmentB
     override fun setupBinding(binding: DevOptionsFragmentBinding) {
         super.setupBinding(binding)
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             fragmentViewModel.eventFlow.collect { event ->
                 when (event) {
                     is DevOptionsViewModel.DevOptionsEvent.MessageToUserEvent -> {

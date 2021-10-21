@@ -31,7 +31,7 @@ object AppModule {
         viewModel { SnippetsFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { CreateSnippetFragmentViewModel(app = get(), repo = get(), dispatcherProvider = get()) }
         viewModel { UserFragmentViewModel(app = get(), repo = get()) }
-        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), buildConfigProvider = get()) }
+        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), dispatcherProvider = get(), buildConfigProvider = get()) }
 
         single<BuildConfigProvider> { BuildConfigProviderImpl() }
         single<Toaster> { ToasterImplementation(app = get()) }

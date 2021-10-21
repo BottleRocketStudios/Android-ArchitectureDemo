@@ -15,7 +15,7 @@ import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -29,16 +29,15 @@ class LoginViewModel(
 ) :
     BaseViewModel(app) {
 
+    // Two way databinding
     val email = MutableStateFlow("")
     val password = MutableStateFlow("")
-    private val _loginEnabled = MutableStateFlow(false)
-    val loginEnabled: StateFlow<Boolean?> = _loginEnabled
-    val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
 
-    init {
-        emailInlineValidation()
-        passwordInlineValidation()
-    }
+    // One way databinding
+    val loginEnabled: StateFlow<Boolean> = combine(email, password) { (email, password) ->
+        CredentialModel(email, password).valid
+    }.groundState(false)
+    val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
 
     fun onLoginClicked() {
         Timber.v("[onLoginClicked]")
@@ -76,17 +75,4 @@ class LoginViewModel(
     fun onDevOptionsClicked() {
         navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_devOptionsFragment))
     }
-
-    private fun emailInlineValidation() = viewModelScope.launch {
-        email.collectLatest { email ->
-            _loginEnabled.value = (CredentialModel(email, password.value).valid)
-        }
-    }
-
-    private fun passwordInlineValidation() = viewModelScope.launch {
-        password.collectLatest { password ->
-            _loginEnabled.value = (CredentialModel(email.value, password).valid)
-        }
-    }
-
 }

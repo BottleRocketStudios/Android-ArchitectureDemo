@@ -73,6 +73,17 @@ subprojects {
             Config.isNonStable(candidate.version) && !Config.isNonStable(currentVersion)
         }
     }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            // Enable experimental coroutines APIs
+            @Suppress("SuspiciousCollectionReassignment")
+            freeCompilerArgs += listOf(
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xopt-in=kotlin.time.ExperimentalTime",
+            )
+        }
+    }
 }
 
 tasks.register("clean", Delete::class) {
