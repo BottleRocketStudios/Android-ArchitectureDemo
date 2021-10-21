@@ -17,7 +17,7 @@ interface Toaster {
     fun toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT)
 }
 
-class ToasterImplementation(app: Context) : Toaster {
+class ToasterImpl(app: Context) : Toaster {
     private val app = app.applicationContext
 
     override fun toast(message: String, duration: Int) {

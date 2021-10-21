@@ -38,7 +38,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.data.repo
     fun clear()
 }
 
-internal class BitbucketRepositoryImplementation(
+internal class BitbucketRepositoryImpl(
     private val bitbucketService: BitbucketService,
     private val bitbucketCredentialsRepository: BitbucketCredentialsRepository,
     private val responseToApiResultMapper: ResponseToApiResultMapper

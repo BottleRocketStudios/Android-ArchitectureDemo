@@ -13,7 +13,7 @@ interface ResponseToApiResultMapper {
     fun <T : Any> toEmptyResult(response: Response<T>): ApiResult<Unit>
 }
 
-class ResponseToApiResultMapperImplementation(moshi: Moshi) : ResponseToApiResultMapper {
+class ResponseToApiResultMapperImpl(moshi: Moshi) : ResponseToApiResultMapper {
 
     override fun <T : Any> toResult(response: Response<T>): ApiResult<T> {
         return when {
