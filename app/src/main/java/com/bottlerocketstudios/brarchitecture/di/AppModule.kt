@@ -3,7 +3,7 @@ package com.bottlerocketstudios.brarchitecture.di
 import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImpl
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
-import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImplementation
+import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImpl
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.LoginViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
@@ -34,6 +34,6 @@ object AppModule {
         viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), buildConfigProvider = get()) }
 
         single<BuildConfigProvider> { BuildConfigProviderImpl() }
-        single<Toaster> { ToasterImplementation(app = get()) }
+        single<Toaster> { ToasterImpl(app = get()) }
     }
 }

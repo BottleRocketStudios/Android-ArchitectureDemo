@@ -7,12 +7,12 @@ import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogi
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
-import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImplementation
+import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImpl
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImplementation
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
 import com.bottlerocketstudios.brarchitecture.data.repository.DateTimeAdapter
@@ -33,11 +33,11 @@ object DataModule {
     val module = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(DateTimeAdapter()).build() }
-        single<BitbucketRepository> { BitbucketRepositoryImplementation(bitbucketService = get(), bitbucketCredentialsRepository = get(), responseToApiResultMapper = get()) }
+        single<BitbucketRepository> { BitbucketRepositoryImpl(bitbucketService = get(), bitbucketCredentialsRepository = get(), responseToApiResultMapper = get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
         single { BitbucketCredentialsRepository(context = androidContext(), moshi = get()) }
-        single<ResponseToApiResultMapper> { ResponseToApiResultMapperImplementation(moshi = get()) }
+        single<ResponseToApiResultMapper> { ResponseToApiResultMapperImpl(moshi = get()) }
         single<SharedPreferences>(named(KoinNamedSharedPreferences.Environment)) {
             androidContext().getSharedPreferences("dev_options_prefs", Context.MODE_PRIVATE)
         }
