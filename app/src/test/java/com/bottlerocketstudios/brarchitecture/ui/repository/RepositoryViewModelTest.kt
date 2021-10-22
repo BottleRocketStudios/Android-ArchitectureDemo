@@ -16,7 +16,11 @@ class RepositoryViewModelTest : BaseTest() {
 
     @Test
     fun repositoryViewModel_shouldHaveMembers_whee() {
+        //Arrange
         val rvm = RepositoryViewModel(mock {})
+
+        //Act
+        //Assert
         assertThat(rvm.repository).isNotNull()
         assertThat(rvm.getItem(0)).isInstanceOf(ViewModelItem::class.java)
     }
