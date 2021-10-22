@@ -36,7 +36,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel, DevOptionsFragmentB
     override fun setupBinding(binding: DevOptionsFragmentBinding) {
         super.setupBinding(binding)
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             fragmentViewModel.eventFlow.collect { event ->
                 when (event) {
                     is DevOptionsViewModel.DevOptionsEvent.MessageToUserEvent -> {
