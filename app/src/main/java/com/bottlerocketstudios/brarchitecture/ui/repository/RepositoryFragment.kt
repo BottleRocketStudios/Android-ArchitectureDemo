@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bottlerocketstudios.brarchitecture.R
@@ -9,6 +10,8 @@ import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,10 +39,13 @@ class RepositoryFragment : BaseFragment<RepositoryFragmentViewModel, RepositoryF
                 }
             }
             fileList.layoutManager = LinearLayoutManager(this@RepositoryFragment.activity)
-            activityViewModel.selectedRepo.observe(viewLifecycleOwner) {
-                fragmentViewModel.selectRepository(it.name)
-                activityViewModel.setTitle(it.name ?: "")
-                activityViewModel.showToolbar(true)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                activityViewModel.selectedRepo.collect {
+                    fragmentViewModel.selectRepository(it.name)
+                    activityViewModel.setTitle(it.name ?: "")
+                    activityViewModel.showToolbar(true)
+                }
             }
         }
     }
