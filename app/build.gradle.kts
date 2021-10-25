@@ -162,6 +162,7 @@ dependencies {
     // UI
     groupieDependencies()
     glideDependencies()
+    lootieDependencies()
 
     // Utility
     liveEventDependencies()

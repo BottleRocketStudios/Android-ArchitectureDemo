@@ -207,6 +207,11 @@ private object Libraries {
     private const val GLIDE_VERSION = "4.12.0"
     const val GLIDE = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
+    //Lootie Animations
+    //https://github.com/airbnb/lottie-android
+    private const val LOOTIE_VERSION = "4.1.0"
+    const val LOOTIE = "com.airbnb.android:lottie:$LOOTIE_VERSION"
+
     //// Utility
     // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
     // https://github.com/hadilq/LiveEvent/releases
@@ -347,6 +352,10 @@ fun DependencyHandler.groupieDependencies() {
 
 fun DependencyHandler.glideDependencies() {
     implementation(Libraries.GLIDE)
+}
+
+fun DependencyHandler.lootieDependencies(){
+    implementation(Libraries.LOOTIE)
 }
 
 fun DependencyHandler.timberDependencies() {
