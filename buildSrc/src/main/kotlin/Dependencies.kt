@@ -209,8 +209,8 @@ private object Libraries {
 
     //Lootie Animations
     //https://github.com/airbnb/lottie-android
-    private const val LOOTIE_VERSION = "4.1.0"
-    const val LOOTIE = "com.airbnb.android:lottie:$LOOTIE_VERSION"
+    private const val LOTTIE_VERSION = "4.1.0"
+    const val LOTTIE = "com.airbnb.android:lottie:$LOTTIE_VERSION"
 
     //// Utility
     // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
@@ -354,8 +354,8 @@ fun DependencyHandler.glideDependencies() {
     implementation(Libraries.GLIDE)
 }
 
-fun DependencyHandler.lootieDependencies(){
-    implementation(Libraries.LOOTIE)
+fun DependencyHandler.lottieDependencies(){
+    implementation(Libraries.LOTTIE)
 }
 
 fun DependencyHandler.timberDependencies() {
