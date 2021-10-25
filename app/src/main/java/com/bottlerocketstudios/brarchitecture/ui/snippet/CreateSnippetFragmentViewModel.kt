@@ -29,18 +29,12 @@ class CreateSnippetFragmentViewModel(app: Application, private val repo: Bitbuck
 
     fun onCreateClick() {
         failed.set(false)
-        title.value.let { titleString ->
-            filename.value.let { filenameString ->
-                contents.value.let { contentsString ->
-                    viewModelScope.launch(dispatcherProvider.IO) {
-                        val result = repo.createSnippet(titleString, filenameString, contentsString, private.value)
-                        when (result) {
-                            is ApiResult.Success -> navigationEvent.postValue(NavigationEvent.Up)
-                            is ApiResult.Failure -> failed.set(true)
-                        }.exhaustive
-                    }
-                }
-            }
+        viewModelScope.launch(dispatcherProvider.IO) {
+            val result = repo.createSnippet(title.value, filename.value, contents.value, private.value)
+            when (result) {
+                is ApiResult.Success -> navigationEvent.postValue(NavigationEvent.Up)
+                is ApiResult.Failure -> failed.set(true)
+            }.exhaustive
         }
     }
 }

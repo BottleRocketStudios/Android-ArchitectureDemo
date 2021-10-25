@@ -20,6 +20,6 @@ class MainActivityViewModel(app: Application, val repo: BitbucketRepository, bui
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
 
     fun selectRepo(repo: Repository) = selectedRepo.set(repo)
-    fun showToolbar(show: Boolean) = showToolbar.setNullable(show)
+    fun showToolbar(show: Boolean) = showToolbar.set(show)
     fun setTitle(title: String) = this.title.set(title)
 }

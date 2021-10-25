@@ -18,16 +18,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RepositoryFolderFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val toaster: Toaster, val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
-    val srcFiles: StateFlow<List<RepoFile>?> = MutableStateFlow(emptyList())
+    val srcFiles: StateFlow<List<RepoFile>> = MutableStateFlow(emptyList())
     val filesGroup = Section()
     var path: String? = null
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.IO) {
             srcFiles.collect { files ->
-                filesGroup.setHeader(FolderHeaderViewModel(path ?: "", files?.size ?: 0))
-                val map = files?.map { RepoFileViewModel(it) }
-                map?.let {
+                val map = files.map { RepoFileViewModel(it) }
+                withContext(dispatcherProvider.Main) {
+                    filesGroup.setHeader(FolderHeaderViewModel(path ?: "", files.size))
                     filesGroup.update(map)
                 }
             }
@@ -39,7 +39,7 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
             val result = repo.getSourceFolder(workspaceSlug, repoId, hash, path)
             when (result) {
                 is ApiResult.Success -> {
-                    srcFiles.setNullable(result.data)
+                    srcFiles.set(result.data)
                     this@RepositoryFolderFragmentViewModel.path = path
                 }
                 is ApiResult.Failure -> {

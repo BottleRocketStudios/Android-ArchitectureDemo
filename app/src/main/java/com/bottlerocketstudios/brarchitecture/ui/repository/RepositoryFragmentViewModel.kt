@@ -21,8 +21,8 @@ import kotlinx.coroutines.withContext
 class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val toaster: Toaster, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
     val repos = repo.repos
     var selectedId: String? = null
-    val selectedRepository: StateFlow<Repository?> = MutableStateFlow(Repository())
-    val srcFiles: StateFlow<List<RepoFile>?> = MutableStateFlow(emptyList())
+    val selectedRepository: StateFlow<Repository?> = MutableStateFlow(null)
+    val srcFiles: StateFlow<List<RepoFile>> = MutableStateFlow(emptyList())
     val filesGroup = Section()
 
     init {
@@ -34,11 +34,11 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
         viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshMyRepos()
         }
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.IO) {
             srcFiles.collect { files ->
-                val map = files?.map { RepoFileViewModel(it) }
-                map?.let {
-                    filesGroup.setHeader(FolderHeaderViewModel(selectedRepository.value?.name ?: "", it.size))
+                val map = files.map { RepoFileViewModel(it) }
+                withContext(dispatcherProvider.Main) {
+                    filesGroup.setHeader(FolderHeaderViewModel(selectedRepository.value?.name ?: "", map.size))
                     filesGroup.update(map)
                 }
             }
@@ -54,7 +54,7 @@ class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketR
                     viewModelScope.launch(dispatcherProvider.IO) {
                         val result = repo.getSource(workspaceSlug, repoName)
                         when (result) {
-                            is ApiResult.Success -> srcFiles.setNullable(result.data)
+                            is ApiResult.Success -> srcFiles.set(result.data)
                             is ApiResult.Failure -> {
                                 // TODO: Improve error messaging
                                 withContext(dispatcherProvider.Main) {
