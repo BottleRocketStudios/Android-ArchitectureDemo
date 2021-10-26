@@ -43,7 +43,7 @@ class BaseBindableViewModelTest : BaseTest() {
     }
 
     @Test
-    fun baseBindableViewModel_shouldBeInstanceOf_ViewModelItem(){
+    fun baseBindableViewModel_shouldBeInstanceOf_viewModelItem(){
         //Arrange
         val tvm = TestBindableViewModel(TEST_DATA)
         //Act
@@ -54,7 +54,7 @@ class BaseBindableViewModelTest : BaseTest() {
     }
 
     @Test
-    fun baseBindableViewModel_shouldCreate_Subclass(){
+    fun baseBindableViewModel_shouldCreate_subclass(){
         //Arrange
         val tvm = TestBindableViewModel(TEST_DATA)
         //Act
@@ -66,7 +66,7 @@ class BaseBindableViewModelTest : BaseTest() {
     }
 
     @Test
-    fun subclass_ViewModelItem_shouldBe_added(){
+    fun subclass_viewModelItem_shouldBe_added(){
         //Arrange
         val tvm = TestBindableViewModel(TEST_DATA)
         val section = Section()
@@ -77,7 +77,7 @@ class BaseBindableViewModelTest : BaseTest() {
     }
 
     @Test
-    fun subclass_ViewModelItem_shouldBe_deleted(){
+    fun subclass_viewModelItem_shouldBe_deleted(){
         //Arrange
         val tvm = TestBindableViewModel(TEST_DATA)
         val section = Section()
