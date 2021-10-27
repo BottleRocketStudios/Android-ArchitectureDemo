@@ -45,22 +45,16 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() = runBlocking {
-        //Arrange
         val model = HomeViewModel(mock {}, repo, dispatcherProvider)
 
-        //Act
-        //Assert
         assertThat(model.repos.value).hasSize(1)
         assertThat(model.reposGroup.itemCount).isEqualTo(2)
     }
 
     @Test
     fun homeViewModel_shouldHaveUser_whenInitialized() = runBlocking {
-        //Arrange
         val model = HomeViewModel(mock {}, repo, dispatcherProvider)
 
-        //Act
-        //Assert
         assertThat(model.user).isNotNull()
         assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)
     }
