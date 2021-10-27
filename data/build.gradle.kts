@@ -143,4 +143,5 @@ dependencies {
     truthDependencies()
     archCoreTestingDependencies()
     kotlinxCoroutineTestingDependencies()
+    turbineDependencies()
 }

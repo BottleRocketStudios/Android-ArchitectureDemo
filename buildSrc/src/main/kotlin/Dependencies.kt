@@ -276,6 +276,11 @@ private object TestLibraries {
     //// Kotlinx Coroutine - Testing
     // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
     const val KOTLINX_COROUTINE_TESTING = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$KOTLIN_COROUTINES_VERSION"
+
+    // Turbine - small emission testing lib for flows (hot or cold)
+    // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
+    // https://github.com/cashapp/turbine/releases
+    const val TURBINE = "app.cash.turbine:turbine:0.6.1"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
@@ -407,4 +412,8 @@ fun DependencyHandler.espressoDependencies() {
 
 fun DependencyHandler.kotlinxCoroutineTestingDependencies() {
     testImplementation(TestLibraries.KOTLINX_COROUTINE_TESTING)
+}
+
+fun DependencyHandler.turbineDependencies() {
+    testImplementation(TestLibraries.TURBINE)
 }

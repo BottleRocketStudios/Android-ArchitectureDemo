@@ -176,6 +176,7 @@ dependencies {
     truthDependencies()
     archCoreTestingDependencies()
     kotlinxCoroutineTestingDependencies()
+    turbineDependencies()
     // Android Test
     espressoDependencies()
 }

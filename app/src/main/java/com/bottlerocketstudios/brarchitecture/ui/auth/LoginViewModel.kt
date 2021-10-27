@@ -3,9 +3,6 @@ package com.bottlerocketstudios.brarchitecture.ui.auth
 import android.app.Application
 import android.content.Intent
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
@@ -16,6 +13,9 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -28,20 +28,16 @@ class LoginViewModel(
     private val dispatcherProvider: DispatcherProvider
 ) :
     BaseViewModel(app) {
-    val textWatcher = Observer<String> { _ ->
-        loginEnabled.postValue(CredentialModel(email.value, password.value).valid)
-    }
 
-    val email = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
-    val loginEnabled: LiveData<Boolean> = MutableLiveData()
+    // Two way databinding
+    val email = MutableStateFlow("")
+    val password = MutableStateFlow("")
+
+    // One way databinding
+    val loginEnabled: StateFlow<Boolean> = combine(email, password) { (email, password) ->
+        CredentialModel(email, password).valid
+    }.groundState(false)
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
-
-    init {
-        loginEnabled.postValue(false)
-        email.observeForever(textWatcher)
-        password.observeForever(textWatcher)
-    }
 
     fun onLoginClicked() {
         Timber.v("[onLoginClicked]")
@@ -78,15 +74,5 @@ class LoginViewModel(
 
     fun onDevOptionsClicked() {
         navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_devOptionsFragment))
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        doClear()
-    }
-
-    fun doClear() {
-        email.removeObserver(textWatcher)
-        password.removeObserver(textWatcher)
     }
 }

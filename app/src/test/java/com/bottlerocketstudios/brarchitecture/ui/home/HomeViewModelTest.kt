@@ -11,14 +11,12 @@ import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.bottlerocketstudios.brarchitecture.test.TestModule
 import com.google.common.truth.Truth.assertThat
 import org.mockito.kotlin.mock
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-@ExperimentalCoroutinesApi
 class HomeViewModelTest : BaseTest() {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -48,6 +46,7 @@ class HomeViewModelTest : BaseTest() {
     @Test
     fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() = runBlocking {
         val model = HomeViewModel(mock {}, repo, dispatcherProvider)
+
         assertThat(model.repos.value).hasSize(1)
         assertThat(model.reposGroup.itemCount).isEqualTo(2)
     }
@@ -55,6 +54,7 @@ class HomeViewModelTest : BaseTest() {
     @Test
     fun homeViewModel_shouldHaveUser_whenInitialized() = runBlocking {
         val model = HomeViewModel(mock {}, repo, dispatcherProvider)
+
         assertThat(model.user).isNotNull()
         assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)
     }
