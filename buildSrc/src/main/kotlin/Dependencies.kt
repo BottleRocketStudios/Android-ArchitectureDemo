@@ -214,8 +214,7 @@ private object Libraries {
 
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/timber/releases
-    // TODO: Remove lint { disable "TIMBER-LINT-RULES" } from app AND data build.gradle.kts once Timber is updated past 4.7.1 to fix lint: https://github.com/JakeWharton/timber/issues/408
-    const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
+    const val TIMBER = "com.jakewharton.timber:timber:5.0.1"
 
     // https://github.com/JakeWharton/ProcessPhoenix/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/ProcessPhoenix/releases
@@ -280,7 +279,7 @@ private object TestLibraries {
     // Turbine - small emission testing lib for flows (hot or cold)
     // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
     // https://github.com/cashapp/turbine/releases
-    const val TURBINE = "app.cash.turbine:turbine:0.6.1"
+    const val TURBINE = "app.cash.turbine:turbine:0.7.0"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency

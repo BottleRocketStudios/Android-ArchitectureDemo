@@ -38,10 +38,7 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
     lint {
-        // TODO: Remove once Timber is updated past 4.7.1 with AGP 7.0.0 related lint fixes: https://github.com/JakeWharton/timber/issues/408
-        disable.addAll(
-            setOf("LogNotTimber", "StringFormatInTimber", "ThrowableNotAtBeginning", "BinaryOperationInTimber", "TimberArgCount", "TimberArgTypes", "TimberTagLength", "TimberExceptionLogging")
-        )
+
     }
 
     buildTypes {
