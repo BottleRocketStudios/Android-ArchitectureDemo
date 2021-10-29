@@ -33,6 +33,19 @@ BITBUCKET_SECRET="[oauth_consumer_secret]"
 4. Smoke test the app and ensure no regressions/crashes/unexpected behavior.
 5. Create PR!
 
+## Updating Dependencies
+The project is using the Gradle Versions plugin to do a lot of heavy lifting here!
+
+1. Execute the `dependencyUpdates` task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates.
+2. View the generated report that mentions any library dependency updates (as well as Gradle updates). 
+3. For each dependency update list:
+    1. View the release notes to see relevant bug fixes, breaking changes (api modification, removal or replacement), and deprecations
+    2. Update the version
+    3. Make any necessary changes to code, build files, and/or unit tests.
+    4. Follow steps in the Pre-PR Creation Checklist, especially ensuring the app still compiles and is smoke tested with the new changes.
+
+*Note that you'll still need to manually check for dependency updates on all buildscript plugins (see `Dependencies.kt` -> `Config.BuildScriptPlugins` properties), including the Gradle Versions plugin.*
+
 ## Future functionality
 *Note: Evaluate if the implementing something in this list is still best practice prior to coding it.*
 
