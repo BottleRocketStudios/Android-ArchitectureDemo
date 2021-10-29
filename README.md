@@ -31,35 +31,11 @@ BITBUCKET_SECRET="[oauth_consumer_secret]"
 *Made up example: If kotlin releases native date/time support (and becomes the go to date time solution for Android), don't implement java 8 date/time libs if it is still not implemented but in the list below*
 
 #### To Do List
-* Java 8 Date/Time support (all modules)
+* Android 12 Splash screen support (using androidx core-splashscreen lib at https://developer.android.com/jetpack/androidx/releases/core)
+* Rewrite DevOptions screen in Compose
 * Base/custom/generic dialogfragment support with:
     * title (visible/gone) - res id or string (see StringIdHelper below)
     * body - res id or string (see StringIdHelper below)
     * positive CTA text/click callback
     * (optional) negative CTA text/click callback
     * cancelOnTouchOutside (Boolean)
-
-##### Misc    
-```
-/**
- * Union type that represents either the int ID or the raw String.
- *
- * Calling getString resolves to a String from either type.
- */
-sealed class StringIdHelper : Serializable {
-    data class Id(@StringRes val idRes: Int) : StringIdHelper()
-
-    data class Raw(val rawString: String) : StringIdHelper()
-
-    fun getString(context: Context): String {
-        return when (this) {
-            is Id -> {
-                context.getString(idRes)
-            }
-            is Raw -> {
-                rawString
-            }
-        }
-    }
-}
-```

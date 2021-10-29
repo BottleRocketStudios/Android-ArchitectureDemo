@@ -45,9 +45,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
-    lint {
-
-    }
     signingConfigs {
         getByName("debug") {
             // Common debug keystore so all local builds can be shared between devs/QA

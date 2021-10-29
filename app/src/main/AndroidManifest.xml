@@ -15,7 +15,8 @@
         <!-- Note: window soft input mode adjusted per fragment in MainActivity -->
         <activity
             android:name=".ui.MainActivity"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

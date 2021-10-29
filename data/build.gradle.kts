@@ -37,9 +37,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
-    lint {
-
-    }
 
     buildTypes {
         getByName("debug") {
