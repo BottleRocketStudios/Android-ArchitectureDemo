@@ -37,7 +37,7 @@ object Config {
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.2"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.3"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
@@ -90,14 +90,14 @@ object Config {
 
     // What each version represents - https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
     object AndroidSdkVersions {
-        const val COMPILE_SDK = 30
+        const val COMPILE_SDK = 31
 
         // https://developer.android.com/studio/releases/build-tools
-        const val BUILD_TOOLS = "30.0.3"
+        const val BUILD_TOOLS = "31.0.0"
         const val MIN_SDK = 23 // TODO: TEMPLATE - Replace with appropriate project minSdkVersion
 
-        // https://developer.android.com/about/versions/11/behavior-changes-11
-        const val TARGET_SDK = 30
+        // https://developer.android.com/about/versions/12/behavior-changes-12
+        const val TARGET_SDK = 31
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
@@ -122,11 +122,11 @@ private object Libraries {
     // https://developer.android.com/kotlin/ktx
 
     // https://developer.android.com/jetpack/androidx/releases/core
-    const val CORE_KTX = "androidx.core:core-ktx:1.6.0"
+    const val CORE_KTX = "androidx.core:core-ktx:1.7.0"
 
     // Lifecycle
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
-    private const val LIFECYCLE_VERSION = "2.3.1"
+    private const val LIFECYCLE_VERSION = "2.4.0"
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
@@ -167,8 +167,8 @@ private object Libraries {
 
     //// Koin
     // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
-    // https://github.com/InsertKoinIO/koin/releases
-    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.1.2"
+    // https://github.com/InsertKoinIO/koin/tags
+    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.1.3"
 
     //// Core Library Desugaring
     // https://developer.android.com/studio/write/java8-support#library-desugaring
@@ -214,8 +214,7 @@ private object Libraries {
 
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/timber/releases
-    // TODO: Remove lint { disable "TIMBER-LINT-RULES" } from app AND data build.gradle.kts once Timber is updated past 4.7.1 to fix lint: https://github.com/JakeWharton/timber/issues/408
-    const val TIMBER = "com.jakewharton.timber:timber:4.7.1"
+    const val TIMBER = "com.jakewharton.timber:timber:5.0.1"
 
     // https://github.com/JakeWharton/ProcessPhoenix/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/ProcessPhoenix/releases
@@ -280,7 +279,7 @@ private object TestLibraries {
     // Turbine - small emission testing lib for flows (hot or cold)
     // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
     // https://github.com/cashapp/turbine/releases
-    const val TURBINE = "app.cash.turbine:turbine:0.6.1"
+    const val TURBINE = "app.cash.turbine:turbine:0.7.0"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
