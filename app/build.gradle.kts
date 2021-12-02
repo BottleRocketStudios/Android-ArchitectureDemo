@@ -3,16 +3,14 @@ import com.android.build.gradle.api.BaseVariantOutput
 
 plugins {
     id(Config.ApplyPlugins.ANDROID_APPLICATION)
-    id(Config.ApplyPlugins.JACOCO_ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
     id(Config.ApplyPlugins.PARCELIZE)
     id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
-jacoco {
-    toolVersion = Config.JACOCO_VERSION
-}
+extra.set("jacocoCoverageThreshold", 0.20.toBigDecimal()) // module specific code coverage verification threshold
+apply(from = "../jacocoModule.gradle")
 
 // Prep BuildInfoManager to use its functions/properties later throughout this build script
 BuildInfoManager.initialize(
@@ -73,7 +71,7 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
-            // the jacocoTest...UnitTestReport tasks. Stopping and restarting build would allow compilation/installation to complete.
+            // the test...UnitTestCoverage tasks. Stopping and restarting build would allow compilation/installation to complete.
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             isTestCoverageEnabled = false
         }

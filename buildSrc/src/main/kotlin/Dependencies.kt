@@ -25,11 +25,10 @@ object Config {
     // https://github.com/pinterest/ktlint/releases
     const val KTLINT_VERSION = "0.42.1"
 
-    // 1. Execute `./gradlew jacocoTestReport` OR `./gradlew jacocoTestInternalDebugUnitTestReport`
-    // 2. Execute `open app/build/jacoco/jacocoHtml/index.html` or the `Open Jacoco Report` AS Run Configuration
+    // View how to execute the coverage and verifcations gradle tasks as well as how to view coverage reports in the local jacocoSetup.gradle file
     // http://www.jacoco.org/jacoco/trunk/doc/
     // https://github.com/jacoco/jacoco/releases
-    const val JACOCO_VERSION = "0.8.7"
+    // const val JACOCO_VERSION = "0.8.7" - Helper jacoco gradle files manage the jacoco plugin version due to issues reading this value inside groovy gradle files
 
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
@@ -44,10 +43,6 @@ object Config {
         // https://github.com/ben-manes/gradle-versions-plugin/releases
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
 
-        // https://github.com/arturdm/jacoco-android-gradle-plugin/releases
-        // const val JACOCO_ANDROID = "com.dicedmelon.gradle:jacoco-android:0.1.4"
-        // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
-        const val JACOCO_ANDROID = "com.hiya:jacoco-android:0.2"
         const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
 
         // Website info: https://detekt.github.io/detekt/index.html
@@ -75,12 +70,8 @@ object Config {
         const val GRADLE_VERSIONS = "com.github.ben-manes.versions"
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
         const val DETEKT = "io.gitlab.arturbosch.detekt"
-
-        // const val JACOCO_ANDROID = "jacoco-android"
-        // As the dicedmelon plugin doesn't support gradle 6 yet, using the hiya ported plugin. See https://github.com/arturdm/jacoco-android-gradle-plugin/pull/75#issuecomment-565222643
-        const val JACOCO_ANDROID = "com.hiya.jacoco-android"
+        // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
         const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs.kotlin"
-
         const val PARCELIZE = "kotlin-parcelize"
         object Kotlin {
             const val ANDROID = "android"
