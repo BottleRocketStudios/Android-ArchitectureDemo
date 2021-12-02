@@ -21,7 +21,7 @@ class DevOptionsViewModel(
     private val environmentRepository: EnvironmentRepository,
     private val dispatcherProvider: DispatcherProvider,
     buildConfigProvider: BuildConfigProvider,
-) : BaseViewModel(app) {
+) : BaseViewModel() {
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //
     val environmentNames: StateFlow<List<String>> = MutableStateFlow(environmentRepository.environments.map { it.environmentType.shortName })

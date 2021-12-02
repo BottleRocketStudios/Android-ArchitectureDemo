@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class CreateSnippetFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
+class CreateSnippetFragmentViewModel(private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
 
     // Two way databinding
     val title = MutableStateFlow("")

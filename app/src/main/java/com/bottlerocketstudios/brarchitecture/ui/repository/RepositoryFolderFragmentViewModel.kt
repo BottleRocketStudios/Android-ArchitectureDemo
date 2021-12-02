@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
-import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
@@ -17,7 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RepositoryFolderFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val toaster: Toaster, val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
+class RepositoryFolderFragmentViewModel(private val repo: BitbucketRepository, private val toaster: Toaster, val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
     val srcFiles: StateFlow<List<RepoFile>> = MutableStateFlow(emptyList())
     val filesGroup = Section()
     var path: String? = null

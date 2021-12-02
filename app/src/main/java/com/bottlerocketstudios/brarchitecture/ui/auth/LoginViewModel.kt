@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.auth
 
-import android.app.Application
 import android.content.Intent
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
@@ -21,13 +20,12 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class LoginViewModel(
-    private val app: Application,
     private val repo: BitbucketRepository,
     buildConfigProvider: BuildConfigProvider,
     private val toaster: Toaster,
     private val dispatcherProvider: DispatcherProvider
 ) :
-    BaseViewModel(app) {
+    BaseViewModel() {
 
     // Two way databinding
     val email = MutableStateFlow("")
