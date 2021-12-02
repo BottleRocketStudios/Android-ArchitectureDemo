@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
-import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
@@ -18,7 +17,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RepositoryFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val toaster: Toaster, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
+class RepositoryFragmentViewModel(private val repo: BitbucketRepository, private val toaster: Toaster, private val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
     val repos = repo.repos
     var selectedId: String? = null
     val selectedRepository: StateFlow<Repository?> = MutableStateFlow(null)

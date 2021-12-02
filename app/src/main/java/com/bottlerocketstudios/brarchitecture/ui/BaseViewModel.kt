@@ -1,10 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
-import android.app.Application
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
@@ -22,7 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 
 /** Provides [LiveEvent]s for both navigation and external navigation and helper functionality to observe the [LiveData] from a [Fragment] */
-abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
+abstract class BaseViewModel : ViewModel() {
 
     /**
      * Use to send [NavigationEvent]s (from subclasses).

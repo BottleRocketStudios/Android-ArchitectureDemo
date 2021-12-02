@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
-import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel(app: Application, repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
+class HomeViewModel(repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
     val user = repo.user
     val repos = repo.repos
     val reposGroup = Section()
