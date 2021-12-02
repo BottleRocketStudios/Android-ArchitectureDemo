@@ -15,7 +15,8 @@
           <option value="detekt" />
           <option value="testInternalReleaseUnitTest" />
           <option value="lintInternalRelease" />
-          <option value="jacocoTestInternalReleaseUnitTestReport" />
+          <option value="testInternalReleaseCombinedUnitTestCoverage" />
+          <option value="testInternalReleaseUnitTestCoverageVerification" />
         </list>
       </option>
       <option name="vmOptions" value="" />

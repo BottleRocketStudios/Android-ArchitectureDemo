@@ -1,0 +1,184 @@
+apply plugin: 'jacoco'
+
+/** Inspiration from:
+ *
+ * * https://proandroiddev.com/unified-code-coverage-for-android-revisited-44789c9b722f
+ */
+
+def verboseLogging = false
+
+jacoco {
+    toolVersion = project.jacocoVersion
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*'] // https://stackoverflow.com/a/68139455/201939
+}
+
+/**
+ * # Setup:
+ * Apply to each module's build.gradle.kts
+ * Ex: apply(from = "jacocoModule.gradle")
+ *
+ * # To run jacoco reports:
+ *
+ * 1a. Execute the following gradle task in the Android Studio Gradle Tool Window:
+ *     :app -> reporting -> testVARIANTUnitTestCoverage
+ *     Ex: :app -> reporting -> testInternalDebugUnitTestCoverage
+ * OR 1b. Execute the following in Terminal from project root dir:
+ *     ./gradlew testVARIANTUnitTestCoverage
+ *     Ex: ./gradlew testInternalDebugUnitTestCoverage
+ *
+ *
+ * # To view jacoco reports:
+ *
+ * 1a. Upon successful completion of the testFLAVORUnitTestCoverage (ex: testInternalDebugUnitTestCoverage) task, open the report located in:
+ *     Ex :app -  PROJECT_ROOT_DIR/app/build/reports/jacoco/testInternalDebugUnitTestCoverage/html/index.html
+ *     Ex :data - PROJECT_ROOT_DIR/data/build/reports/jacoco/testInternalDebugUnitTestCoverage/html/index.html
+ * OR 1b. Execute the `Open Jacoco Report` project shell script to open both reports in the default browser on your machine.
+ *
+ *
+ * # To run the verification to fail builds when the threshold is not met:
+ *
+ * 1a. Execute the following gradle task in the Android Studio Gradle Tool Window:
+ *     :app -> reporting -> testFLAVORUnitTestCoverageVerification
+ *     Ex: :app -> reporting -> testInternalDebugUnitTestCoverageVerification
+ * OR 1b. Execute the following in Terminal from project root dir:
+ *     ./gradlew testFLAVORUnitTestCoverageVerification
+ *     Ex: ./gradlew testInternalDebugUnitTestCoverageVerification
+ * 2a. On success, the task executes successfully with no output
+ * 2b. On failure to meet verification threshold, the task fails with an error message similar to:
+ *     Execution failed for task ':data:testInternalDebugUnitTestCoverageVerification'.
+ *     > Rule violated for bundle data: instructions covered ratio is 0.4, but expected minimum is 0.8
+ */
+project.afterEvaluate {
+    // Grab all build types and product flavors
+    def buildTypes = android.buildTypes.collect { type ->
+        type.name
+    }
+
+    def productFlavors = android.productFlavors.collect { flavor ->
+        flavor.name
+    }
+
+    def threshold = project.hasProperty('jacocoCoverageThreshold')
+            ? project.jacocoCoverageThreshold
+            : project.jacocoCoverageThresholdDefault // value from jacocoConfig.gradle
+    if (verboseLogging) println("[jacocoSetup.gradle] threshold overrides default?=${project.hasProperty('jacocoCoverageThreshold')}, threshold=${threshold}")
+
+    // When no product flavors defined, use empty
+    if (!productFlavors) productFlavors.add('')
+    productFlavors.each { productFlavorName ->
+        buildTypes.each { buildTypeName ->
+            def sourceName, sourcePath, sourcePathKotlin
+
+            if (!productFlavorName) {
+                sourceName = sourcePath = sourcePathKotlin = "${buildTypeName}"
+            } else {
+                sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+                sourcePath = "${productFlavorName}/${buildTypeName}"
+                sourcePathKotlin = "${productFlavorName}${buildTypeName.capitalize()}"
+            }
+            if (verboseLogging) {
+                println("[jacocoSetup.gradle] productFlavorName=${productFlavorName}")
+                println("[jacocoSetup.gradle] buildTypeName=${buildTypeName}")
+                println("[jacocoSetup.gradle] sourceName=${sourceName}")
+                println("[jacocoSetup.gradle] sourcePath=${sourcePath}")
+                println("[jacocoSetup.gradle] sourcePathKotlin=${sourcePathKotlin}")
+            }
+
+            def testTaskName = "test${sourceName.capitalize()}UnitTest"
+            def coverageReportTaskName = "${testTaskName}Coverage"
+            def coverageVerificationTaskName = "${testTaskName}CoverageVerification"
+
+            // //// CONFIGURATION START
+            // TODO: TEMPLATE - Update this exclusion list to include any project dependencies that auto-generate code (ex: Dagger, etc)
+            def excludesArray = [
+                    '**/R.class',
+                    '**/R$*.class',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    '**/*Application.*', // filter custom Application class
+                    '**/*Activity.*', // filter Activities
+                    '**/*Fragment.*', // filter Fragments
+                    '**/*BindingAdapter*.*', // filter all BindingAdapter classes
+                    '**/*StartupInitializer*.*', // filter all StartupInitializer classes
+                    '**/*BuildConfigProvider*.*', // filter BuildConfigProvider class
+                    '**/*KeyboardUtils*.*', // filter KeyboardUtils class
+                    '**/*DevOptionsViewModel*.*', // filter dev/qa only ViewModel
+                    '**/*Module*.*', // filter koin app/data module classes
+                    '**/*Args*.*', // filtering Navigation Component generated classes
+                    '**/*Directions*.*', // filtering Navigation Component generated classes
+                    '**/*$Lambda$*.*', // Jacoco can not handle several "$" in class name.
+                    '**/*JsonAdapter.*', // Moshi auto-generated code
+                    '**/*GlideRequest.*', // Glide auto-generated code
+                    '**/*GlideRequests.*', // Glide auto-generated code
+                    '**/*GlideOptions.*', // Glide auto-generated code
+                    '**/*GlideApp.*', // Glide auto-generated code
+                    '**/*GeneratedRequestManagerFactory.*', // Glide auto-generated code
+                    '**/*GeneratedAppGlideModuleImpl.*', // Glide auto-generated code
+                    '**/*$*$*.*' // Anonymous classes generated by kotlin
+            ]
+
+            def debugTree = fileTree(
+                    dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
+                    excludes: excludesArray
+            )
+
+            def kotlinDebugTree = fileTree(
+                    dir: "${project.buildDir}/tmp/kotlin-classes/${sourcePathKotlin}",
+                    excludes: excludesArray
+            )
+
+            def coverageSourceDirs = [
+                    "src/main/java",
+                    "src/$sourceName/java",
+                    "src/$productFlavorName/java",
+                    "src/$buildTypeName/java"
+            ]
+
+            def executionDataFilePath = "${project.buildDir}/jacoco/${testTaskName}.exec"
+            // //// CONFIGURATION END
+
+            if (verboseLogging) println("[jacocoSetup.gradle] Creating jacoco tasks named '${coverageReportTaskName}' and '${coverageVerificationTaskName}'")
+            // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
+            // See https://docs.gradle.org/current/dsl/org.gradle.testing.jacoco.tasks.JacocoReport.html
+            task "${coverageReportTaskName}"(type: JacocoReport, dependsOn: "$testTaskName") {
+                group = "Reporting"
+                description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+
+                reports {
+                    xml.enabled = true
+                    html.enabled = true
+                }
+
+                classDirectories.from = files([debugTree], [kotlinDebugTree])
+                additionalSourceDirs.from = files(coverageSourceDirs)
+                sourceDirectories.from = files(coverageSourceDirs)
+                executionData.from = files("${executionDataFilePath}")
+            }
+
+            // Create coverage verification task of form 'testFlavorTypeCoverageVerification' depending on 'testFlavorTypeUnitTest'
+            // See https://docs.gradle.org/current/dsl/org.gradle.testing.jacoco.tasks.JacocoCoverageVerification.html
+            task "${coverageVerificationTaskName}"(type: JacocoCoverageVerification, dependsOn: "$testTaskName") {
+                group = "Reporting"
+                description = "Verify Jacoco coverage thresholds are met on the ${sourceName.capitalize()} build, failing the build when not."
+
+                violationRules {
+                    failOnViolation = true
+                    rule {
+                        limit {
+                            minimum = threshold
+                        }
+                    }
+                }
+
+                classDirectories.from = files([debugTree], [kotlinDebugTree])
+                additionalSourceDirs.from = files(coverageSourceDirs)
+                sourceDirectories.from = files(coverageSourceDirs)
+                executionData.from = files("${executionDataFilePath}")
+            }
+        }
+    }
+}

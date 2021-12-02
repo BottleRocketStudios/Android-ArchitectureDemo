@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ci - productionRelease (minus clean) - store build" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="testInternalDebugUnitTestCoverageVerification" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,13 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="assembleProductionRelease" />
-          <option value="ktlintCheck" />
-          <option value="detekt" />
-          <option value="testProductionReleaseUnitTest" />
-          <option value="lintProductionRelease" />
-          <option value="testProductionReleaseCombinedUnitTestCoverage" />
-          <option value="testProductionReleaseUnitTestCoverageVerification" />
+          <option value="testInternalDebugUnitTestCoverageVerification" />
         </list>
       </option>
       <option name="vmOptions" value="" />

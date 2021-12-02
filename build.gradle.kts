@@ -6,13 +6,11 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven(url = "https://plugins.gradle.org/m2/") // needed for hiya jacoco
     }
     dependencies {
         classpath(Config.BuildScriptPlugins.ANDROID_GRADLE)
         classpath(Config.BuildScriptPlugins.KOTLIN_GRADLE)
         classpath(Config.BuildScriptPlugins.GRADLE_VERSIONS)
-        classpath(Config.BuildScriptPlugins.JACOCO_ANDROID)
         classpath(Config.BuildScriptPlugins.NAVIGATION_SAFE_ARGS_GRADLE)
         classpath(Config.BuildScriptPlugins.DETEKT)
 
@@ -89,3 +87,6 @@ subprojects {
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
+
+apply(from = "jacocoConfig.gradle")
+apply(from = "jacocoRoot.gradle")
