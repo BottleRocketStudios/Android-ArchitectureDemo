@@ -19,7 +19,7 @@ BuildInfoManager.initialize(
     BuildInfoInput(
         appVersion = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true), // TODO: TEMPLATE - Replace with appropriate app version
         brandName = "BR_Architecture", // TODO: TEMPLATE - Replace with appropriate project brand name
-        productionReleaseVariantName = "release",
+        productionReleaseVariantName = "productionRelease",
         rootProjectDir = rootDir
     )
 )
