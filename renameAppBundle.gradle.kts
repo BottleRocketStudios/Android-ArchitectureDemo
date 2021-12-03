@@ -7,10 +7,10 @@ if (BuildInfoManager.shouldOverrideApkAndAabNames()) {
     tasks.whenTaskAdded {
         val verboseLogging = false
         // Skip some unnecessary tasks
-        if (name.startsWith("bundle")
-            && !name.contains("Classes")
-            && !name.contains("Resources")
-            && name != "bundle"
+        if (name.startsWith("bundle") &&
+            !name.contains("Classes") &&
+            !name.contains("Resources") &&
+            name != "bundle"
         ) {
             val deletePreviouslyRenamedAabTaskName = "deletePreviouslyRenamed${name.capitalize()}Aab"
             val renameAabTaskName = "rename${name.capitalize()}Aab"
@@ -23,7 +23,7 @@ if (BuildInfoManager.shouldOverrideApkAndAabNames()) {
             val flavor = indexOfFlavor?.let { variant.substring(0, it) }
             val buildType = indexOfFlavor?.let { variant.substring(it).decapitalize() }
 
-            val aabFolderPath = "${buildDir}/outputs/bundle/${variant}/"
+            val aabFolderPath = "$buildDir/outputs/bundle/$variant/"
             val originalAabFilename = "app-$flavor-$buildType.aab"
             val updatedAabFilename = BuildInfoManager.createAabFilename(variant)
 
