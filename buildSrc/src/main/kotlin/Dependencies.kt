@@ -86,7 +86,7 @@ object Config {
     }
 
     object Compose {
-        const val COMPOSE_VERSION = "1.0.1"
+        const val COMPOSE_VERSION = "1.0.5"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
