@@ -8,9 +8,38 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +48,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,7 +110,167 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
 
     @Composable
     fun ScreenContent(viewModel: DevOptionsViewModel) {
-        DropdownEnvMenu(viewModel)
+        Scaffold(floatingActionButton = { FabLayout(viewModel::onRestartCtaClick) }) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                DropdownEnvMenu(viewModel)
+                ScrollContent(viewModel)
+            }
+        }
+    }
+
+    @Composable
+    fun FabLayout(onClick: () -> Unit) {
+        FloatingActionButton(
+            onClick = { onClick() },
+            backgroundColor = Color(31, 173, 168),
+            content = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_restart_black_24dp),
+                    contentDescription = "Restart",
+                    tint = Color.White
+                )
+            })
+    }
+
+    @Composable
+    fun ScrollContent(viewModel: DevOptionsViewModel) {
+        Column {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(start = 12.dp, end = 12.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth()
+                    .weight(1F)
+            ) {
+                item {
+                    CardDivider(Color.Transparent)
+                    CardLayout { CardOne(viewModel = viewModel) }
+                    CardDivider(MaterialTheme.colors.primary)
+                }
+                item {
+                    CardLayout { CardTwo(viewModel = viewModel) }
+                    CardDivider(MaterialTheme.colors.primary)
+                }
+                item {
+                    CardLayout { CardThree() }
+                    CardDivider(Color.Transparent)
+                }
+            }
+            BottomButton(buttonText = "FORCE CRASH", viewModel::onForceCrashCtaClicked)
+        }
+    }
+
+    @Composable
+    fun BottomButton(buttonText: String, onClick: () -> Unit) {
+        Button(
+            onClick = { onClick() },
+            modifier = Modifier
+                .padding(start = 12.dp, end = 12.dp, bottom = 84.dp)
+                .wrapContentHeight()
+                .fillMaxWidth(),
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = MaterialTheme.colors.primary
+            ),
+            shape = RoundedCornerShape(7.dp),
+            contentPadding = PaddingValues(12.dp)
+        ) {
+            Text(
+                text = buttonText,
+                style = TextStyle(color = Color.White, fontSize = 14.sp)
+            )
+        }
+    }
+
+    @Composable
+    fun CardOne(viewModel: DevOptionsViewModel) {
+        CardTitle(cardTitle = "Selected Environment Info")
+        CardEntry(title = "Base URL", entryValue = viewModel.baseUrl.value ?: "")
+    }
+
+    @Composable
+    fun CardTwo(viewModel: DevOptionsViewModel) {
+        CardTitle(cardTitle = "App Info")
+        CardEntry(title = "Version Name", entryValue = viewModel.appVersionName.value ?: "")
+        CardEntry(title = "Version Code", entryValue = viewModel.appVersionCode.value ?: "")
+        CardEntry(title = "Application ID", entryValue = viewModel.appId.value ?: "")
+        CardEntry(title = "Build Identifier", entryValue = viewModel.buildIdentifier.value ?: "")
+    }
+
+    @Composable
+    fun CardThree() {
+        CardTitle(cardTitle = "Misc Functionality")
+    }
+
+    @Composable
+    fun CardDivider(dividerColor: Color) {
+        Divider(
+            color = dividerColor,
+            thickness = 2.dp,
+            modifier = Modifier.padding(top = 12.dp, bottom = 12.dp)
+        )
+    }
+
+    @Composable
+    fun CardTitle(cardTitle: String) {
+        Text(
+            cardTitle,
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Start,
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Normal
+            ),
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+    }
+
+    @Composable
+    fun CardEntry(title: String, entryValue: String) {
+        Text(
+            title,
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Start,
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier
+                .padding(top = 8.dp, bottom = 8.dp)
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+        Text(
+            entryValue,
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 14.sp,
+                textAlign = TextAlign.Start,
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Light
+            ),
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+    }
+
+    @Composable
+    fun CardLayout(content: @Composable () -> Unit) {
+        Card(elevation = 4.dp) {
+            Column(
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 8.dp, top = 12.dp, bottom = 12.dp)
+            ) {
+                content()
+            }
+        }
     }
 
     //TODO this needs to be update when the next stable release comes out. New Menus
