@@ -186,4 +186,7 @@ dependencies {
     kotlinxCoroutineTestingDependencies()
     // Android Test
     espressoDependencies()
+    extJunitRunnerDependencies()
+    androidxCoreDependencies()
+    fragmentTestingDependencies()
 }

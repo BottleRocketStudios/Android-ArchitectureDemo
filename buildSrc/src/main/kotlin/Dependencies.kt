@@ -285,7 +285,12 @@ private object TestLibraries {
     //// AndroidX - testing
     // https://developer.android.com/jetpack/androidx/releases/arch
     const val ARCH_CORE_TESTING = "androidx.arch.core:core-testing:2.1.0"
-    const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.3.0"
+    const val ANDROIDX_TEST_CORE = "androidx.test:core:1.4.0"
+    const val ANDROIDX_TEST_CORE_KTX = "androidx.test:core-ktx:1.4.0"
+    const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
+    const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.1"
+    const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
+    const val ANDROIDX_FRAGMENT_TEST = "androidx.fragment:fragment-testing:1.4.0"
 
     //// Kotlinx Coroutine - Testing
     // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
@@ -431,6 +436,20 @@ fun DependencyHandler.archCoreTestingDependencies() {
 
 fun DependencyHandler.espressoDependencies() {
     androidTestImplementation(TestLibraries.ESPRESSO_CORE)
+}
+
+fun DependencyHandler.androidxCoreDependencies() {
+    androidTestImplementation(TestLibraries.ANDROIDX_TEST_CORE)
+    androidTestImplementation(TestLibraries.ANDROIDX_TEST_CORE_KTX)
+}
+
+fun DependencyHandler.extJunitRunnerDependencies() {
+    androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER)
+    androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER_KTX)
+}
+
+fun DependencyHandler.fragmentTestingDependencies() {
+    androidTestImplementation(TestLibraries.ANDROIDX_FRAGMENT_TEST)
 }
 
 fun DependencyHandler.kotlinxCoroutineTestingDependencies() {

@@ -370,15 +370,22 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
                 },
                 environmentRepository = object : EnvironmentRepository {
                     override val selectedConfig: EnvironmentConfig
-                        get() = TODO("Not yet implemented")
+                        get() = EnvironmentConfig(EnvironmentType.PRODUCTION, "https://mock.com")
                     override val environments: List<EnvironmentConfig>
-                        get() = TODO("Not yet implemented")
+                        get() = listOf(EnvironmentConfig(EnvironmentType.PRODUCTION, "https://mock.com"), EnvironmentConfig(EnvironmentType.STG, "https://mock.com"))
 
                     override fun changeEnvironment(environmentType: EnvironmentType) {
                         TODO("Not yet implemented")
                     }
                 },
-                forceCrashLogicImpl = ForceCrashLogicImpl(buildConfigProvider)
+                forceCrashLogicImpl = ForceCrashLogicImpl(object: BuildConfigProvider {
+                    override val isDebugOrInternalBuild: Boolean
+                        get() = true
+                    override val isProductionReleaseBuild: Boolean
+                        get() = false
+                    override val buildIdentifier: String
+                        get() = "11111111"
+                })
             )
         )
     }
