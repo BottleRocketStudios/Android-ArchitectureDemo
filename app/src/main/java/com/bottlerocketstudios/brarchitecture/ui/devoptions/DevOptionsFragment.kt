@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -54,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
@@ -65,6 +66,7 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.compose.ArchitectureDemoTheme
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -86,6 +88,11 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
         } else {
             setAppPackageValues()
         }
+        lifecycleScope.launchWhenStarted {
+            fragmentViewModel.message.collect {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -102,10 +109,6 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
             setContent {
                 OuterScreenContent(viewModel = fragmentViewModel)
             }
-
-            // fragmentViewModel.messageToUser. .observe(viewLifecycleOwner) {
-            //     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            // }
         }
     }
 
