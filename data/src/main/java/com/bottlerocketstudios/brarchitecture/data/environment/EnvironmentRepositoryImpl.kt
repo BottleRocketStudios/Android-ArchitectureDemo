@@ -8,8 +8,11 @@ import timber.log.Timber
 
 class EnvironmentRepositoryImpl(private val sharedPrefs: SharedPreferences, private val buildConfigProvider: BuildConfigProvider) : EnvironmentRepository {
 
+    @Suppress("PrivatePropertyName", "VariableNaming") // constant
     private val ENVIRONMENT_STG = EnvironmentConfig(EnvironmentType.STG, STG_BASE_URL)
+    @Suppress("PrivatePropertyName", "VariableNaming") // constant
     private val ENVIRONMENT_PROD = EnvironmentConfig(EnvironmentType.PRODUCTION, PROD_BASE_URL)
+    @Suppress("PrivatePropertyName", "VariableNaming") // constant
     /** Represents environment to use as a fallback in case any issues (ex: sharedPref loading issue, selected environment no longer in environment list) */
     private val FALLBACK_ENVIRONMENT = ENVIRONMENT_STG
 

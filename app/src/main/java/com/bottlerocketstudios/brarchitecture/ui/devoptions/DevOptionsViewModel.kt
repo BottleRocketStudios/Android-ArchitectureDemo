@@ -9,6 +9,11 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.hadilq.liveevent.LiveEvent
 import com.jakewharton.processphoenix.ProcessPhoenix
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class DevOptionsViewModel(
@@ -20,24 +25,28 @@ class DevOptionsViewModel(
 ) : BaseViewModel(app) {
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //
-    val environmentNames: LiveData<List<String>> = MutableLiveData(environmentRepository.environments.map { it.environmentType.shortName })
+    val environmentNames: StateFlow<List<String>> = MutableStateFlow(environmentRepository.environments.map { it.environmentType.shortName })
     var environmentSpinnerPosition = environmentRepository.environments.indexOf(environmentRepository.selectedConfig)
         private set
 
-    val baseUrl: LiveData<String> = MutableLiveData()
+    val baseUrl: StateFlow<String> = MutableStateFlow("")
 
     // ////////////////// FEATURE FLAG SECTION ////////////////// //
     // add project specific things here
 
     // ////////////////// APP INFO SECTION ////////////////// //
-    val appVersionName = MutableLiveData("")
-    val appVersionCode = MutableLiveData("")
-    val appId = MutableLiveData("")
-    val buildIdentifier = MutableLiveData("")
+    val appVersionName: StateFlow<String> = MutableStateFlow("")
+    val appVersionCode: StateFlow<String> = MutableStateFlow("")
+    val appId: StateFlow<String> = MutableStateFlow("")
+    val buildIdentifier: StateFlow<String> = MutableStateFlow("")
 
-    // ////////////////// MISCELLANEOUS ////////////////// //
-    val messageToUser: LiveData<String> = LiveEvent()
-    val environmentDropdownDismissed: LiveData<Unit> = LiveEvent()
+    // ////////////////// EVENT OBJECTS ////////////////// //
+    val eventFlow: SharedFlow<DevOptionsEvent> = MutableSharedFlow()
+
+    sealed class DevOptionsEvent {
+        data class MessageToUserEvent(val message: String) : DevOptionsEvent()
+        data class EnvironmentDropdownDismissedEvent(val unit: Unit) : DevOptionsEvent()
+    }
 
     init {
         updateEnvironmentInfo()
@@ -51,14 +60,18 @@ class DevOptionsViewModel(
             environmentSpinnerPosition = newEnvironmentIndex
             environmentRepository.changeEnvironment(environmentRepository.environments[newEnvironmentIndex].environmentType)
             updateEnvironmentInfo()
-            messageToUser.set("!!! Restart required !!!")
+            sendMessageToUser("!!! Restart required !!!")
         } else {
             Timber.v("[onEnvironmentChanged] no changes needed as the same environment has been selected")
         }
     }
 
-    fun onEnvironmentDropdownDismissed() {
-        environmentDropdownDismissed.postValue(Unit)
+    fun onEnvironmentDropdownDismissed() = viewModelScope.launch(dispatcherProvider.IO) {
+        eventFlow.emitValue(DevOptionsEvent.EnvironmentDropdownDismissedEvent(Unit))
+    }
+
+    private fun sendMessageToUser(message: String) = viewModelScope.launch {
+        eventFlow.emitValue(DevOptionsEvent.MessageToUserEvent(message))
     }
 
     fun onRestartCtaClick() {

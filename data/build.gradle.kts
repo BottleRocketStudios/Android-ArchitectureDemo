@@ -3,15 +3,13 @@ import java.util.Properties
 
 plugins {
     id(Config.ApplyPlugins.ANDROID_LIBRARY)
-    id(Config.ApplyPlugins.JACOCO_ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
     id(Config.ApplyPlugins.PARCELIZE)
 }
 
-jacoco {
-    toolVersion = Config.JACOCO_VERSION
-}
+extra.set("jacocoCoverageThreshold", 0.40.toBigDecimal()) // module specific code coverage verification threshold
+apply(from = "../jacocoModule.gradle")
 
 val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject) // TODO: TEMPLATE - Remove this value when creating a new project
 
@@ -26,6 +24,7 @@ android {
         buildConfigField("String", "BITBUCKET_KEY", apikey.key)
         buildConfigField("String", "BITBUCKET_SECRET", apikey.secret)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("proguard-rules.pro")
     }
 
     compileOptions {
@@ -36,20 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
-    lint {
-        // TODO: Remove once Timber is updated past 4.7.1 with AGP 7.0.0 related lint fixes: https://github.com/JakeWharton/timber/issues/408
-        disable.addAll(
-            setOf("LogNotTimber", "StringFormatInTimber", "ThrowableNotAtBeginning", "BinaryOperationInTimber", "TimberArgCount", "TimberArgTypes", "TimberTagLength", "TimberExceptionLogging")
-        )
-    }
 
     buildTypes {
-        getByName("release") {
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
         getByName("debug") {
             // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
-            // the jacocoTest...UnitTestReport tasks. Stopping and restarting build would allow compilation/installation to complete.
+            // the test...UnitTestCoverage tasks. Stopping and restarting build would allow compilation/installation to complete.
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             isTestCoverageEnabled = false
         }
@@ -57,7 +47,6 @@ android {
         create("debugMini") {
             initWith(getByName("debug"))
             setMatchingFallbacks("debug")
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
     flavorDimensions("environment")
@@ -146,4 +135,5 @@ dependencies {
     truthDependencies()
     archCoreTestingDependencies()
     kotlinxCoroutineTestingDependencies()
+    turbineDependencies()
 }

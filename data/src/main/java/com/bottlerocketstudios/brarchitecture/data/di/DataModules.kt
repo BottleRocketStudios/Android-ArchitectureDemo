@@ -7,12 +7,12 @@ import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogi
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
-import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImplementation
+import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImpl
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImplementation
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
 import com.bottlerocketstudios.brarchitecture.data.repository.DateTimeAdapter
@@ -29,15 +29,15 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 /** General app configuration (repositories/viewmodels/etc) */
-object Data {
-    val dataModule = module {
+object DataModule {
+    val module = module {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(DateTimeAdapter()).build() }
-        single<BitbucketRepository> { BitbucketRepositoryImplementation(bitbucketService = get(), bitbucketCredentialsRepository = get(), responseToApiResultMapper = get()) }
+        single<BitbucketRepository> { BitbucketRepositoryImpl(bitbucketService = get(), bitbucketCredentialsRepository = get(), responseToApiResultMapper = get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
         single { BitbucketCredentialsRepository(context = androidContext(), moshi = get()) }
-        single<ResponseToApiResultMapper> { ResponseToApiResultMapperImplementation(moshi = get()) }
+        single<ResponseToApiResultMapper> { ResponseToApiResultMapperImpl(moshi = get()) }
         single<SharedPreferences>(named(KoinNamedSharedPreferences.Environment)) {
             androidContext().getSharedPreferences("dev_options_prefs", Context.MODE_PRIVATE)
         }
@@ -54,9 +54,9 @@ private enum class KoinNamedNetwork {
     Unauthenticated, Authenticated
 }
 
-/** General network configuration. Always include with either [BasicAuth] or [TokenAuth] */
-object NetworkObject {
-    val networkModule = module {
+/** General network configuration. Always include with either [BasicAuthModule] or [TokenAuthModule] */
+object NetworkModule {
+    val module = module {
         single<OkHttpClient>(named(KoinNamedNetwork.Unauthenticated)) {
             OkHttpClient.Builder()
                 .addInterceptor(ChuckerInterceptor.Builder(androidContext()).build())
@@ -85,9 +85,9 @@ object NetworkObject {
     }
 }
 
-/** Basic auth only configuration. Use this or [TokenAuth], never both. **/
-private object BasicAuth {
-    val basicAuthModule = module {
+/** Basic auth only configuration. Use this or [TokenAuthModule], never both. **/
+private object BasicAuthModule {
+    val module = module {
         single { BasicAuthInterceptor(credentialsRepo = get()) }
         single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {
             provideBasicAuthOkHttpClient(
@@ -104,9 +104,9 @@ private object BasicAuth {
     }
 }
 
-/** Token auth only configuration. Use this or [BasicAuth], never both. **/
-object TokenAuth {
-    val tokenAuthModule = module {
+/** Token auth only configuration. Use this or [BasicAuthModule], never both. **/
+object TokenAuthModule {
+    val module = module {
         single { TokenAuthInterceptor(tokenAuthService = get(), credentialsRepo = get()) }
         single<TokenAuthService> { provideTokenAuthService(okHttpClient = get(named(KoinNamedNetwork.Unauthenticated))) }
         single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {

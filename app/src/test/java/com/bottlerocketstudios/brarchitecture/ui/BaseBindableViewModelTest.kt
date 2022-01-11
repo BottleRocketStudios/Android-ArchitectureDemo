@@ -43,71 +43,108 @@ class BaseBindableViewModelTest : BaseTest() {
     }
 
     @Test
-    fun baseBindableViewModel_shouldImplementGroupieFunctions_forSubclasses() {
+    fun baseBindableViewModel_shouldBeInstanceOf_viewModelItem() {
         val tvm = TestBindableViewModel(TEST_DATA)
+
+        assertThat(tvm.itemCount).isGreaterThan(0)
+        assertThat(tvm.getItem(0)).isInstanceOf(ViewModelItem::class.java)
+    }
+
+    @Test
+    fun baseBindableViewModel_shouldCreate_subclass() {
+        val tvm = TestBindableViewModel(TEST_DATA)
+
         assertThat(tvm.itemCount).isGreaterThan(0)
         assertThat(tvm.getItem(0)).isInstanceOf(ViewModelItem::class.java)
         assertThat(tvm.getPosition(tvm.getItem(0))).isEqualTo(0)
+    }
+
+    @Test
+    fun groupieSection_addBaseBindableViewModel_oneItemInSection() {
+        val tvm = TestBindableViewModel(TEST_DATA)
         val section = Section()
+
         section.add(tvm)
+
         assertThat(section.itemCount).isEqualTo(1)
+    }
+
+    @Test
+    fun groupieSection_addAndRemoveBaseBindableViewModel_zeroItemsInSection() {
+        val tvm = TestBindableViewModel(TEST_DATA)
+        val section = Section()
+
+        section.add(tvm)
         section.remove(tvm)
+
         assertThat(section.itemCount).isEqualTo(0)
     }
 
     @Test
-    fun viewModelItem_shouldBeSameAsItself_whee() {
+    fun viewModelItem_shouldBeSameAsItself_returnsTrue() {
         val tvm = TestBindableViewModel(TEST_DATA)
+
         val vmi = tvm.getItem(0)
+
         assertThat(vmi.isSameAs(vmi)).isTrue()
     }
 
     @Test
-    fun viewModelItem_shouldBeSameAsAnotherViewModelItem_fromSameData() {
+    fun viewModelItem_fromSameData_shouldBeSameAsAnotherViewModelItem() {
         val tvm = TestBindableViewModel(TEST_DATA)
-        val vmi = tvm.getItem(0)
         val tvm2 = TestBindableViewModel(TEST_DATA)
+
+        val vmi = tvm.getItem(0)
         val vmi2 = tvm2.getItem(0)
+
         assertThat(vmi.isSameAs(vmi2)).isTrue()
         assertThat(vmi.equals(vmi2)).isTrue()
     }
 
     @Test
-    fun viewModelItem_shouldNotBeSameAs_anotherViewModelItemFromDifferentData() {
+    fun viewModelItem_anotherViewModelItemFromDifferentData_shouldNotBeTheSame() {
         val tvm = TestBindableViewModel(TEST_DATA)
-        val vmi = tvm.getItem(0)
         val tvm2 = TestBindableViewModel(TEST_DATA.reversed())
+
+        val vmi = tvm.getItem(0)
         val vmi2 = tvm2.getItem(0)
+
         assertThat(vmi.isSameAs(vmi2)).isFalse()
     }
 
     @Test
-    fun viewModelItem_shouldNotBeSameAs_anotherViewModelItemOfAnotherType() {
+    fun viewModelItem_anotherViewModelItemOfAnotherType_shouldNotBeTheSame() {
         val tvm = TestBindableViewModel(TEST_DATA)
-        val vmi = tvm.getItem(0)
         val rvm = RepositoryViewModel(mock {})
+
+        val vmi = tvm.getItem(0)
         val rvmi = rvm.getItem(0)
+
         assertThat(vmi.isSameAs(rvmi)).isFalse()
     }
 
     @Test
-    fun viewModelItem_shouldNotBeSameAs_anotherItemOfAnotherType() {
+    fun viewModelItem_anotherItemOfAnotherType_shouldNotBeTheSame() {
         val tvm = TestBindableViewModel(TEST_DATA)
-        val vmi = tvm.getItem(0)
         val ti = TestItem()
+
+        val vmi = tvm.getItem(0)
+
         assertThat(vmi.isSameAs(ti)).isFalse()
         assertThat(vmi.equals(ti)).isFalse()
     }
 
     @Test
-    fun viewModelItem_shouldNotEqual_String() {
+    fun viewModelItem_differentString_returnsFalse() {
         val tvm = TestBindableViewModel(TEST_DATA)
+
         val vmi = tvm.getItem(0)
+
         assertThat(vmi.equals("")).isFalse()
     }
 
     @Test
-    fun viewModelItem_shouldBind_toAThing() {
+    fun viewModelItemBind_validBindable_isBindable() {
         val tvm = TestBindableViewModel(TEST_DATA)
         // We shouldn't ever need to do this
         // Only doing it here to directly test the bind method on ViewModelItem
@@ -122,8 +159,10 @@ class BaseBindableViewModelTest : BaseTest() {
         val bindable: ViewDataBinding = mock {
             on { root } doReturn mockView
         }
+
         // Nothing we can really test here. So turn off the error and let's get one more line of coverage!
         Timber.uprootAll()
+
         vmi.bind(bindable, 0)
     }
 }

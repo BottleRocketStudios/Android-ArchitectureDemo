@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SnippetsFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
+class SnippetsFragmentViewModel(private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
     val snippets = repo.snippets
     val snippetGroup = Section()
 

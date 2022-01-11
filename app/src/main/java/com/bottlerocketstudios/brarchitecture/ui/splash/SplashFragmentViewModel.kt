@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.splash
 
-import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
@@ -9,7 +8,7 @@ import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.launch
 
-class SplashFragmentViewModel(app: Application, repo: BitbucketRepository, dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
+class SplashFragmentViewModel(repo: BitbucketRepository, dispatcherProvider: DispatcherProvider) : BaseViewModel() {
     init {
         viewModelScope.launch(dispatcherProvider.IO) {
             if (repo.authenticate()) {

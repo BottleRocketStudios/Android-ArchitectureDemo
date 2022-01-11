@@ -11,7 +11,9 @@ fun ZonedDateTime?.formattedUpdateTime(context: Context): String {
     val daysAgo = wasUpdated.until(ZonedDateTime.now(), ChronoUnit.DAYS).toInt()
     return when {
         daysAgo == 0 -> context.getString(R.string.today)
-        daysAgo < 7 -> context.resources.getQuantityString(R.plurals.days_ago_plural, daysAgo, daysAgo)
+        daysAgo < ONE_WEEK_IN_DAYS -> context.resources.getQuantityString(R.plurals.days_ago_plural, daysAgo, daysAgo)
         else -> wasUpdated.format(DateTimeFormatter.ISO_DATE)
     }
 }
+
+private const val ONE_WEEK_IN_DAYS = 7

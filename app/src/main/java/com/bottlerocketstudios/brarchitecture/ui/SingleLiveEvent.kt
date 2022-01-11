@@ -19,4 +19,5 @@ package com.bottlerocketstudios.brarchitecture.ui
 /**
  * Note that [com.hadilq.liveevent.LiveEvent] is used instead of SingleLiveEvent as a better implementation (supports multiple observers). See more info in Dependencies.kt links.
  */
+@Suppress("unused")
 private const val KDOC = ""

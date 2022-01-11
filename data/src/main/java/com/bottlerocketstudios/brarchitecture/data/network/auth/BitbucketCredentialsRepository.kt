@@ -18,8 +18,8 @@ internal class BitbucketCredentialsRepository(context: Context, private val mosh
         private const val BITBUCKET_TOKEN = "BitbucketToken"
     }
 
-    private val CREDENTIAL_ADAPTER: JsonAdapter<ValidCredentialModel> by lazy { moshi.adapter(ValidCredentialModel::class.java) }
-    private val TOKEN_ADAPTER: JsonAdapter<AccessToken> by lazy { moshi.adapter(AccessToken::class.java) }
+    private val credentialAdapter: JsonAdapter<ValidCredentialModel> by lazy { moshi.adapter(ValidCredentialModel::class.java) }
+    private val tokenAdapter: JsonAdapter<AccessToken> by lazy { moshi.adapter(AccessToken::class.java) }
     private val encryptedSharedPrefs: SharedPreferences = EncryptedSharedPreferences.create(
         SECURE_PREF_FILE_NAME,
         MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
@@ -33,13 +33,13 @@ internal class BitbucketCredentialsRepository(context: Context, private val mosh
     }
 
     fun storeCredentials(credentials: ValidCredentialModel) {
-        encryptedSharedPrefs.edit().putString(BITBUCKET_CREDENTIALS, CREDENTIAL_ADAPTER.toJson(credentials)).apply()
+        encryptedSharedPrefs.edit().putString(BITBUCKET_CREDENTIALS, credentialAdapter.toJson(credentials)).apply()
     }
 
     fun loadCredentials(): ValidCredentialModel? {
         val credentialsJson = encryptedSharedPrefs.getString(BITBUCKET_CREDENTIALS, null)
         return if (!credentialsJson.isNullOrEmpty()) {
-            CREDENTIAL_ADAPTER.fromJson(credentialsJson)
+            credentialAdapter.fromJson(credentialsJson)
         } else {
             Timber.e("Credentials repository could not load credentials")
             null
@@ -47,13 +47,13 @@ internal class BitbucketCredentialsRepository(context: Context, private val mosh
     }
 
     fun storeToken(token: AccessToken) {
-        encryptedSharedPrefs.edit().putString(BITBUCKET_TOKEN, TOKEN_ADAPTER.toJson(token)).apply()
+        encryptedSharedPrefs.edit().putString(BITBUCKET_TOKEN, tokenAdapter.toJson(token)).apply()
     }
 
     fun loadToken(): AccessToken? {
         val credentialsJson = encryptedSharedPrefs.getString(BITBUCKET_TOKEN, null)
         return if (!credentialsJson.isNullOrEmpty()) {
-            TOKEN_ADAPTER.fromJson(credentialsJson)
+            tokenAdapter.fromJson(credentialsJson)
         } else {
             Timber.e("Credentials repository could not load credentials")
             null

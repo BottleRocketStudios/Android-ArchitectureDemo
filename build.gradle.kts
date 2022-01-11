@@ -1,17 +1,18 @@
+import io.gitlab.arturbosch.detekt.detekt
+
 // Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:buildscript(groovy.lang.Closure)
 // See also https://docs.gradle.org/current/javadoc/org/gradle/api/initialization/dsl/ScriptHandler.html and associated links for children apis
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven(url = "https://plugins.gradle.org/m2/") // needed for hiya jacoco
     }
     dependencies {
         classpath(Config.BuildScriptPlugins.ANDROID_GRADLE)
         classpath(Config.BuildScriptPlugins.KOTLIN_GRADLE)
         classpath(Config.BuildScriptPlugins.GRADLE_VERSIONS)
-        classpath(Config.BuildScriptPlugins.JACOCO_ANDROID)
         classpath(Config.BuildScriptPlugins.NAVIGATION_SAFE_ARGS_GRADLE)
+        classpath(Config.BuildScriptPlugins.DETEKT)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
@@ -40,6 +41,7 @@ subprojects {
     // Cannot use plugins {} here so using apply (compilation error)
     apply(plugin = Config.ApplyPlugins.KT_LINT)
     apply(plugin = Config.ApplyPlugins.GRADLE_VERSIONS)
+    apply(plugin = Config.ApplyPlugins.DETEKT)
 
     // See README.md for more info on ktlint as well as https://github.com/JLLeitschuh/ktlint-gradle#configuration
     ktlint {
@@ -51,6 +53,17 @@ subprojects {
         ignoreFailures.set(false)
     }
 
+    // All detekt gradle plugin options: https://detekt.github.io/detekt/gradle.html#kotlin-dsl-3
+    detekt {
+        config = files("$rootDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+
+        reports {
+            html.enabled = true // observe findings in your browser with structure and code snippets
+            xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
+            txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+        }
+    }
+
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
     tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
         // Only show stable version updates for a dependency unless the dependency itself is on a non-stable version. Comment out lines below locally to see all stable/non-stable dependency updates
@@ -58,8 +71,22 @@ subprojects {
             Config.isNonStable(candidate.version) && !Config.isNonStable(currentVersion)
         }
     }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            // Enable experimental coroutines APIs
+            @Suppress("SuspiciousCollectionReassignment")
+            freeCompilerArgs += listOf(
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xopt-in=kotlin.time.ExperimentalTime",
+            )
+        }
+    }
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
+
+apply(from = "jacocoConfig.gradle")
+apply(from = "jacocoRoot.gradle")

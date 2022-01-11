@@ -84,6 +84,7 @@ fun Exception.asAppropriateFailure(): ApiResult.Failure {
  *
  */
 suspend fun <T : Any> wrapExceptions(className: String, methodName: String, block: suspend () -> ApiResult<T>): ApiResult<T> {
+    @Suppress("TooGenericExceptionCaught") // this might be overly broad (catching NPEs isn't ideal) but not worth it yet to check for all other possible types (IO..., Json..., others)
     return try {
         Timber.tag(className).v("[$methodName]")
         block().also { Timber.tag(className).v("[$methodName] result=$it") }

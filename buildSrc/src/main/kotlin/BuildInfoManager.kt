@@ -23,26 +23,32 @@ object BuildInfoManager {
     /** Value set when calling [initialize] */
     private lateinit var input: BuildInfoInput
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    @Suppress("MemberVisibilityCanBePrivate") // no, it must be visible as it is used in the build.gradle.kts files
     /** Version of the app (version name and code derived from this value). */
     val APP_VERSION: AppVersion by lazy { input.appVersion }
 
     /** Build number set as an environment variable on the build server (or empty string for local builds) */
-    private val BUILD_NUMBER: String = System.getenv("BUILD_NUMBER").orEmpty()
+    private val BUILD_NUMBER: String
+        get() = System.getenv("BUILD_NUMBER").orEmpty() // using get() to allow value to be read dynamically if it was to change (primarily during local machine task execution testing)
 
     /** True if this build is running an a continuous integration server (ie, Jenkins). False if running on a local dev machine. */
-    private val IS_CI: Boolean = determineIfCi()
+    private val IS_CI: Boolean
+        get() = determineIfCi() // using get() to allow value to be read dynamically if it was to change (primarily during local machine task execution testing)
 
-    /** True if apk name should be overridden. Otherwise false */
-    private fun shouldOverrideApkName(): Boolean = IS_CI
+    /** True if apk/aab names should be overridden. Otherwise false */
+    fun shouldOverrideApkAndAabNames(): Boolean = IS_CI
     /** True if version name should be overridden. Otherwise false */
     private fun shouldOverrideVersionName(variantName: String): Boolean = IS_CI && !isProductionReleaseVariant(variantName)
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    @Suppress("MemberVisibilityCanBePrivate") // no, it must be visible as it is used in the build.gradle.kts files
     /** Call prior to android block definition in app build gradle. */
     fun initialize(buildInfoInput: BuildInfoInput) {
         if (!::input.isInitialized) {
             this.input = buildInfoInput
+            logBuildInfo()
+        } else {
+            // Likely occurs due to gradle buildCache causing this object to already be initialized
+            println("[initialize] already initialized")
             logBuildInfo()
         }
     }
@@ -65,7 +71,7 @@ object BuildInfoManager {
 
         // Don't change apk name for non-ci builds to prevent dynamic build configuration values slowing down dev machine builds.
         // See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
-        if (shouldOverrideApkName()) {
+        if (shouldOverrideApkAndAabNames()) {
             apkVariantOutput.outputFileName = createApkFilename(variant.name)
         }
         // Don't change version name for prod release builds or local prod release builds
@@ -110,7 +116,28 @@ object BuildInfoManager {
      * * local release: app-release.apk
      */
     private fun createApkFilename(variantName: String): String {
-        return "${input.brandName}-$variantName-${gitBranchBuildNumberGitShaDateString()}.apk"
+        return createAppArtifactFilename(variantName, AppArtifact.Apk)
+    }
+
+    // TODO: TEMPLATE - Update CI debug and CI release brand name prefix values to match the updated BuildInfoInput.brandName value to show brand specific apk naming examples
+    /**
+     * Generates an aab filename with [BuildInfoInput.brandName], variant, build number, git sha, and date.
+     *
+     * **Intended to only be called for CI builds**. Using a dynamic value for aab name on dev builds slows down build time.
+     * See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
+     *
+     * #### Examples
+     * * CI debug:      BR_Architecture-debug-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.aab
+     * * CI release:    BR_Architecture-release-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.aab
+     * * local debug:   app-debug.aab
+     * * local release: app-release.aab
+     */
+    fun createAabFilename(variantName: String): String {
+        return createAppArtifactFilename(variantName, AppArtifact.Aab)
+    }
+
+    private fun createAppArtifactFilename(variantName: String, appArtifact: AppArtifact): String {
+        return "${input.brandName}-$variantName-${gitBranchBuildNumberGitShaDateString()}${appArtifact.fileExtension}"
     }
 
     /**
@@ -180,5 +207,11 @@ object BuildInfoManager {
         } catch (e: IOException) {
             "<empty>"
         }
+    }
+
+    /** Post build app artifact generated from a successful build. */
+    private enum class AppArtifact(val fileExtension: String) {
+        Apk(".apk"),
+        Aab(".aab")
     }
 }

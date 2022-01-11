@@ -26,6 +26,5 @@ when (number) {
  *
  * See https://medium.com/androiddevelopers/sealed-with-a-class-a906f28ab7b5
  */
-@Suppress("unused")
 val <T> T.exhaustive: T
     get() = this

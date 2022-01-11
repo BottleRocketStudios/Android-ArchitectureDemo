@@ -12,14 +12,18 @@
         <list>
           <option value="assembleInternalDebug" />
           <option value="ktlintCheck" />
+          <option value="detekt" />
           <option value="testInternalDebugUnitTest" />
           <option value="lintInternalDebug" />
-          <option value="jacocoTestInternalDebugUnitTestReport" />
+          <option value="testInternalDebugCombinedUnitTestCoverage" />
+          <option value="testInternalDebugUnitTestCoverageVerification" />
         </list>
       </option>
       <option name="vmOptions" value="" />
     </ExternalSystemSettings>
-    <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+    <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+    <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+    <DebugAllEnabled>false</DebugAllEnabled>
     <method v="2" />
   </configuration>
 </component>

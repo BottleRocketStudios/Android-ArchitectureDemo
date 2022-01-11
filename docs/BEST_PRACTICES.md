@@ -131,6 +131,12 @@ It is a good practice to add the appropriate Time Unit suffix to methods, parame
 
 If using a type that abstracts the need for a unit such as `org.threeten.bp.Duration`, then you don't need to specify a suffix on that object. If you pull out the ms value of the duration as a variable, then add the suffix.
 
+## Jacoco
+1. **Generate a combined jacoco report of all modules (as well as a report per module)** by executing the `testInternalDebugCombinedUnitTestCoverage` gradle task (or included Android Studio Run Configuration). More info in [jacocoRoot.gradle](../jacocoRoot.gradle)
+    * **View the generated reports** by executing the `Open Jacoco Report - internalDebug` Android Studio Run configuration, manually executing `open_jacoco_report_internalDebug.sh`, or manually opening the index.html files from the reports directories.
+    * You can also just generate the report per module (without the combined report) by executing `testInternalDebugUnitTestCoverage` (or included Android Studio Run Configuration). More info in [jacocoModule.gradle](../jacocoModule.gradle)
+2. **Fail builds that don't meet the minimum code coverage thresholds per module** by executing the `testInternalDebugUnitTestCoverageVerification` gradle task (or included Android Studio Run Configuration). More info in [jacocoModule.gradle](../jacocoModule.gradle)
+
 ## Modularization
 Currently the app is broken into two modules: `app` and `data`
 

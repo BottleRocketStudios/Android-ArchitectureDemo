@@ -1,9 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
-import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
@@ -14,24 +10,27 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RepositoryFolderFragmentViewModel(app: Application, private val repo: BitbucketRepository, private val toaster: Toaster, val dispatcherProvider: DispatcherProvider) : BaseViewModel(app) {
-    val srcFiles: LiveData<List<RepoFile>?> = MutableLiveData()
+class RepositoryFolderFragmentViewModel(private val repo: BitbucketRepository, private val toaster: Toaster, val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
+    val srcFiles: StateFlow<List<RepoFile>> = MutableStateFlow(emptyList())
     val filesGroup = Section()
     var path: String? = null
 
-    private val filesObserver = Observer<List<RepoFile>?> { files ->
-        filesGroup.setHeader(FolderHeaderViewModel(path ?: "", files?.size ?: 0))
-        val map = files?.map { RepoFileViewModel(it) }
-        map?.let {
-            filesGroup.update(map)
-        }
-    }
-
     init {
-        srcFiles.observeForever(filesObserver)
+        viewModelScope.launch(dispatcherProvider.IO) {
+            srcFiles.collect { files ->
+                val map = files.map { RepoFileViewModel(it) }
+                withContext(dispatcherProvider.Main) {
+                    filesGroup.setHeader(FolderHeaderViewModel(path ?: "", files.size))
+                    filesGroup.update(map)
+                }
+            }
+        }
     }
 
     fun loadRepo(workspaceSlug: String, repoId: String, hash: String, path: String) {
@@ -39,7 +38,7 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
             val result = repo.getSourceFolder(workspaceSlug, repoId, hash, path)
             when (result) {
                 is ApiResult.Success -> {
-                    srcFiles.postValue(result.data)
+                    srcFiles.set(result.data)
                     this@RepositoryFolderFragmentViewModel.path = path
                 }
                 is ApiResult.Failure -> {
@@ -50,10 +49,5 @@ class RepositoryFolderFragmentViewModel(app: Application, private val repo: Bitb
                 }
             }.exhaustive
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        srcFiles.removeObserver(filesObserver)
     }
 }
