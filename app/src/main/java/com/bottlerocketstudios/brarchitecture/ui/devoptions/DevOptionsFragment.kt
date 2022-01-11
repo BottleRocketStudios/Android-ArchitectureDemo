@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -103,16 +103,16 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
                 OuterScreenContent(viewModel = fragmentViewModel)
             }
 
-            fragmentViewModel.messageToUser.observe(viewLifecycleOwner) {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
+            // fragmentViewModel.messageToUser. .observe(viewLifecycleOwner) {
+            //     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            // }
         }
     }
 
     private fun setAppPackageValues() {
-        fragmentViewModel.appVersionName.value = activity?.packageManager?.getPackageInfo(activity?.packageName ?: "", 0)?.versionName ?: ""
+        fragmentViewModel.appVersionName.value = activity?.packageManager?.getPackageInfo(activity?.packageName ?: "", 0)?.versionName.orEmpty()
         fragmentViewModel.appVersionCode.value = activity?.packageManager?.getPackageInfo(activity?.packageName ?: "", 0)?.versionCode.toString()
-        fragmentViewModel.appId.value = activity?.packageName
+        fragmentViewModel.appId.value = activity?.packageName.orEmpty()
         fragmentViewModel.buildIdentifier.value = buildConfigProvider.buildIdentifier
     }
 
@@ -194,16 +194,16 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     @Composable
     fun CardOne(viewModel: DevOptionsViewModel) {
         CardTitle(cardTitle = "Selected Environment Info")
-        CardEntry(title = "Base URL", entryValue = viewModel.baseUrl.value ?: "")
+        CardEntry(title = "Base URL", entryValue = viewModel.baseUrl.value)
     }
 
     @Composable
     fun CardTwo(viewModel: DevOptionsViewModel) {
         CardTitle(cardTitle = "App Info")
-        CardEntry(title = "Version Name", entryValue = viewModel.appVersionName.value ?: "")
-        CardEntry(title = "Version Code", entryValue = viewModel.appVersionCode.value ?: "")
-        CardEntry(title = "Application ID", entryValue = viewModel.appId.value ?: "")
-        CardEntry(title = "Build Identifier", entryValue = viewModel.buildIdentifier.value ?: "")
+        CardEntry(title = "Version Name", entryValue = viewModel.appVersionName.value)
+        CardEntry(title = "Version Code", entryValue = viewModel.appVersionCode.value)
+        CardEntry(title = "Application ID", entryValue = viewModel.appId.value)
+        CardEntry(title = "Build Identifier", entryValue = viewModel.buildIdentifier.value)
     }
 
     @Composable
@@ -292,7 +292,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.TopStart)
         ) {
-            items?.get(selectedIndex)?.let {
+            items[selectedIndex].let {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -336,7 +336,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
                         Color.White
                     )
             ) {
-                items?.forEachIndexed { index, s ->
+                items.forEachIndexed { index, s ->
                     DropdownMenuItem(onClick = {
                         selectedIndex = index
                         expanded = false

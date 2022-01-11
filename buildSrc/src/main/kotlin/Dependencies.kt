@@ -71,7 +71,7 @@ object Config {
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
         const val DETEKT = "io.gitlab.arturbosch.detekt"
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
-        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs.kotlin"
+        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs" // Note: not using safeargs.kotlin to prevent compile time failure: https://stackoverflow.com/a/68605639/201939
         const val PARCELIZE = "kotlin-parcelize"
         object Kotlin {
             const val ANDROID = "android"

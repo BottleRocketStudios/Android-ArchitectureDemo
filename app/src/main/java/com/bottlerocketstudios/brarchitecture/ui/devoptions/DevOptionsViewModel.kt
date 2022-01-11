@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.ui.devoptions
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
@@ -21,8 +22,7 @@ class DevOptionsViewModel(
     private val forceCrashLogicImpl: ForceCrashLogic,
     private val environmentRepository: EnvironmentRepository,
     private val dispatcherProvider: DispatcherProvider
-
-) : BaseViewModel(app) {
+) : BaseViewModel() {
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //
     val environmentNames: StateFlow<List<String>> = MutableStateFlow(environmentRepository.environments.map { it.environmentType.shortName })
@@ -35,10 +35,10 @@ class DevOptionsViewModel(
     // add project specific things here
 
     // ////////////////// APP INFO SECTION ////////////////// //
-    val appVersionName: StateFlow<String> = MutableStateFlow("")
-    val appVersionCode: StateFlow<String> = MutableStateFlow("")
-    val appId: StateFlow<String> = MutableStateFlow("")
-    val buildIdentifier: StateFlow<String> = MutableStateFlow("")
+    val appVersionName: MutableStateFlow<String> = MutableStateFlow("")
+    val appVersionCode: MutableStateFlow<String> = MutableStateFlow("")
+    val appId: MutableStateFlow<String> = MutableStateFlow("")
+    val buildIdentifier: MutableStateFlow<String> = MutableStateFlow("")
 
     // ////////////////// EVENT OBJECTS ////////////////// //
     val eventFlow: SharedFlow<DevOptionsEvent> = MutableSharedFlow()
