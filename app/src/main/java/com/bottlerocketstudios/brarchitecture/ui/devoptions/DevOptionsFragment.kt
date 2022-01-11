@@ -56,7 +56,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImpl
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogicImpl
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
@@ -84,6 +83,8 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
             // NOTE: Special case usage of findNavController
             findNavController().popBackStack()
             return
+        } else {
+            setAppPackageValues()
         }
     }
 
@@ -106,6 +107,13 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun setAppPackageValues() {
+        fragmentViewModel.appVersionName.value = activity?.packageManager?.getPackageInfo(activity?.packageName ?: "", 0)?.versionName ?: ""
+        fragmentViewModel.appVersionCode.value = activity?.packageManager?.getPackageInfo(activity?.packageName ?: "", 0)?.versionCode.toString()
+        fragmentViewModel.appId.value = activity?.packageName
+        fragmentViewModel.buildIdentifier.value = buildConfigProvider.buildIdentifier
     }
 
     @Composable
@@ -357,7 +365,6 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
             // TODO: Find a better way to do this (might be using Koin field injection in the ViewModel rather than constructor injection)
             viewModel = DevOptionsViewModel(
                 app = Application(),
-                buildConfigProvider = BuildConfigProviderImpl(),
                 dispatcherProvider = object : DispatcherProvider {
                     override val Default: CoroutineDispatcher
                         get() = TODO("Not yet implemented")
@@ -378,7 +385,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
                         TODO("Not yet implemented")
                     }
                 },
-                forceCrashLogicImpl = ForceCrashLogicImpl(object: BuildConfigProvider {
+                forceCrashLogicImpl = ForceCrashLogicImpl(object : BuildConfigProvider {
                     override val isDebugOrInternalBuild: Boolean
                         get() = true
                     override val isProductionReleaseBuild: Boolean

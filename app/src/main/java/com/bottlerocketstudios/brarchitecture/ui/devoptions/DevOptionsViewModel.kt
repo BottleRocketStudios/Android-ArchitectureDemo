@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.ui.devoptions
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
@@ -16,8 +15,8 @@ class DevOptionsViewModel(
     private val app: Application,
     private val forceCrashLogicImpl: ForceCrashLogic,
     private val environmentRepository: EnvironmentRepository,
-    buildConfigProvider: BuildConfigProvider,
     private val dispatcherProvider: DispatcherProvider
+
 ) : BaseViewModel(app) {
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //
@@ -31,10 +30,10 @@ class DevOptionsViewModel(
     // add project specific things here
 
     // ////////////////// APP INFO SECTION ////////////////// //
-    val appVersionName: LiveData<String>
-    val appVersionCode: LiveData<String>
-    val appId: LiveData<String>
-    val buildIdentifier: LiveData<String>
+    val appVersionName = MutableLiveData("")
+    val appVersionCode = MutableLiveData("")
+    val appId = MutableLiveData("")
+    val buildIdentifier = MutableLiveData("")
 
     // ////////////////// MISCELLANEOUS ////////////////// //
     val messageToUser: LiveData<String> = LiveEvent()
@@ -42,10 +41,6 @@ class DevOptionsViewModel(
 
     init {
         updateEnvironmentInfo()
-        appVersionName = MutableLiveData(app.packageManager!!.getPackageInfo(app.packageName, 0).versionName)
-        appVersionCode = MutableLiveData(app.packageManager!!.getPackageInfo(app.packageName, 0).versionCode.toString())
-        appId = MutableLiveData(app.packageName)
-        buildIdentifier = MutableLiveData(buildConfigProvider.buildIdentifier)
     }
 
     fun onEnvironmentChanged(newEnvironmentIndex: Int) {
