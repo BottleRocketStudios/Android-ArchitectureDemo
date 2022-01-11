@@ -148,7 +148,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
             LazyColumn(
                 modifier = Modifier
                     .padding(start = 12.dp, end = 12.dp)
-                    .wrapContentHeight()
+                    .fillMaxHeight()
                     .fillMaxWidth()
                     .weight(1F)
             ) {
