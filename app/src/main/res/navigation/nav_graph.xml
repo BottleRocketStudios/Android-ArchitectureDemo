@@ -115,8 +115,7 @@
     <fragment
         android:id="@+id/devOptionsFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsFragment"
-        android:label="@string/dev_options_button"
-        tools:layout="@layout/dev_options_fragment"/>
+        android:label="@string/dev_options_button"/>
     <fragment
         android:id="@+id/createSnippetFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragment"
