@@ -142,7 +142,8 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
                     contentDescription = "Restart",
                     tint = Color.White
                 )
-            })
+            }
+        )
     }
 
     @Composable
@@ -284,7 +285,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
         }
     }
 
-    //TODO this needs to be update when the next stable release comes out. New Menus
+    // TODO this needs to be update when the next stable release comes out. New Menus
     @Composable
     fun DropdownEnvMenu(viewModel: DevOptionsViewModel) {
         var expanded by remember { mutableStateOf(false) }
