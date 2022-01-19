@@ -1,5 +1,3 @@
-import io.gitlab.arturbosch.detekt.detekt
-
 // Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:buildscript(groovy.lang.Closure)
 // See also https://docs.gradle.org/current/javadoc/org/gradle/api/initialization/dsl/ScriptHandler.html and associated links for children apis
 buildscript {
@@ -12,7 +10,6 @@ buildscript {
         classpath(Config.BuildScriptPlugins.KOTLIN_GRADLE)
         classpath(Config.BuildScriptPlugins.GRADLE_VERSIONS)
         classpath(Config.BuildScriptPlugins.NAVIGATION_SAFE_ARGS_GRADLE)
-        classpath(Config.BuildScriptPlugins.DETEKT)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
@@ -23,6 +20,7 @@ buildscript {
 // Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.plugin.use.PluginDependenciesSpec.html
 plugins {
     id(Config.ApplyPlugins.KT_LINT) version Config.KTLINT_GRADLE_VERSION
+    id(Config.ApplyPlugins.DETEKT) version Config.DETEKT_VERSION
 }
 
 // Configuration below applies to this project file and all other modules (specified in settings.gradle.kts).
@@ -53,14 +51,15 @@ subprojects {
         ignoreFailures.set(false)
     }
 
-    // All detekt gradle plugin options: https://detekt.github.io/detekt/gradle.html#kotlin-dsl-3
     detekt {
         config = files("$rootDir/config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+    }
 
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         reports {
-            html.enabled = true // observe findings in your browser with structure and code snippets
-            xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-            txt.enabled = true // similar to the console output, contains issue signature to manually edit baseline files
+            html.required.set(true) // observe findings in your browser with structure and code snippets
+            xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+            txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
         }
     }
 

@@ -30,13 +30,27 @@ object Config {
     // https://github.com/jacoco/jacoco/releases
     // const val JACOCO_VERSION = "0.8.7" - Helper jacoco gradle files manage the jacoco plugin version due to issues reading this value inside groovy gradle files
 
+    // Website info: https://detekt.github.io/detekt/index.html
+    // Rules:
+    //   https://detekt.github.io/detekt/comments.html
+    //   https://detekt.github.io/detekt/complexity.html
+    //   https://detekt.github.io/detekt/coroutines.html
+    //   https://detekt.github.io/detekt/empty-blocks.html
+    //   https://detekt.github.io/detekt/exceptions.html
+    //   https://detekt.github.io/detekt/formatting.html
+    //   https://detekt.github.io/detekt/naming.html
+    //   https://detekt.github.io/detekt/performance.html
+    //   https://detekt.github.io/detekt/style.html
+    // Release info: https://github.com/detekt/detekt/releases
+    const val DETEKT_VERSION = "1.19.0"
+
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
      */
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.3"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.4"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
@@ -44,20 +58,6 @@ object Config {
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
 
         const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
-
-        // Website info: https://detekt.github.io/detekt/index.html
-        // Rules:
-        //   https://detekt.github.io/detekt/comments.html
-        //   https://detekt.github.io/detekt/complexity.html
-        //   https://detekt.github.io/detekt/coroutines.html
-        //   https://detekt.github.io/detekt/empty-blocks.html
-        //   https://detekt.github.io/detekt/exceptions.html
-        //   https://detekt.github.io/detekt/formatting.html
-        //   https://detekt.github.io/detekt/naming.html
-        //   https://detekt.github.io/detekt/performance.html
-        //   https://detekt.github.io/detekt/style.html
-        // Release info: https://github.com/detekt/detekt/releases
-        const val DETEKT = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
     }
 
     /**
@@ -160,7 +160,7 @@ private object Libraries {
     // https://developer.android.com/jetpack/androidx/releases/navigation
     const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
-    const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:2.4.0-alpha06"
+    const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:2.4.0-rc01"
 
     // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
     // https://developer.android.com/topic/security/data

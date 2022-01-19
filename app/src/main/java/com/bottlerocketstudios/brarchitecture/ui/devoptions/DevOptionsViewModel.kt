@@ -3,7 +3,7 @@ package com.bottlerocketstudios.brarchitecture.ui.devoptions
 import android.app.Application
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.jakewharton.processphoenix.ProcessPhoenix
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +13,9 @@ import timber.log.Timber
 class DevOptionsViewModel(
     private val app: Application,
     private val forceCrashLogicImpl: ForceCrashLogic,
+    private val applicationInfoManager: ApplicationInfoManager,
     private val environmentRepository: EnvironmentRepository,
-    private val dispatcherProvider: DispatcherProvider
+    private val toaster: Toaster,
 ) : BaseViewModel() {
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //
@@ -23,16 +24,12 @@ class DevOptionsViewModel(
         private set
 
     val baseUrl: StateFlow<String> = MutableStateFlow("")
-    val message: StateFlow<String> = MutableStateFlow("")
 
     // ////////////////// FEATURE FLAG SECTION ////////////////// //
     // add project specific things here
 
     // ////////////////// APP INFO SECTION ////////////////// //
-    val appVersionName: MutableStateFlow<String> = MutableStateFlow("")
-    val appVersionCode: MutableStateFlow<String> = MutableStateFlow("")
-    val appId: MutableStateFlow<String> = MutableStateFlow("")
-    val buildIdentifier: MutableStateFlow<String> = MutableStateFlow("")
+    val applicationInfo = applicationInfoManager.getApplicationInfo()
 
     init {
         updateEnvironmentInfo()
@@ -46,7 +43,7 @@ class DevOptionsViewModel(
             environmentSpinnerPosition = newEnvironmentIndex
             environmentRepository.changeEnvironment(environmentRepository.environments[newEnvironmentIndex].environmentType)
             updateEnvironmentInfo()
-            message.set("!!! Restart required !!!")
+            toaster.toast("!!! Restart required !!!")
         } else {
             Timber.v("[onEnvironmentChanged] no changes needed as the same environment has been selected")
         }

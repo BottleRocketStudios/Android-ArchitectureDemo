@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -36,6 +35,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -54,25 +55,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
-import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogicImpl
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentType
 import com.bottlerocketstudios.brarchitecture.data.model.EnvironmentConfig
-import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
-import com.bottlerocketstudios.brarchitecture.ui.compose.ArchitectureDemoTheme
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
+import com.bottlerocketstudios.brarchitecture.ui.compose.fakes.ForceCrashLogicNoOp
+import com.bottlerocketstudios.brarchitecture.ui.compose.fakes.ToasterNoOp
+import com.google.android.material.composethemeadapter.MdcTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Screen that manages dev options (only accessible from internal or debug builds (aka non release production builds)
+ *
+ * As this is a non production screen, note that user facing strings are hardcoded and text styles are manually built up vs using/referencing xml styles.
  */
+@Suppress("TooManyFunctions")
 class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     override val fragmentViewModel: DevOptionsViewModel by viewModel()
     private val buildConfigProvider by inject<BuildConfigProvider>()
@@ -85,13 +86,6 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
             // NOTE: Special case usage of findNavController
             findNavController().popBackStack()
             return
-        } else {
-            setAppPackageValues()
-        }
-        lifecycleScope.launchWhenStarted {
-            fragmentViewModel.message.collect {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
         }
     }
 
@@ -112,15 +106,8 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
         }
     }
 
-    private fun setAppPackageValues() {
-        fragmentViewModel.appVersionName.value = activity?.packageManager?.getPackageInfo(activity?.packageName ?: "", 0)?.versionName.orEmpty()
-        fragmentViewModel.appVersionCode.value = activity?.packageManager?.getPackageInfo(activity?.packageName ?: "", 0)?.versionCode.toString()
-        fragmentViewModel.appId.value = activity?.packageName.orEmpty()
-        fragmentViewModel.buildIdentifier.value = buildConfigProvider.buildIdentifier
-    }
-
     @Composable
-    fun ScreenContent(viewModel: DevOptionsViewModel) {
+    private fun ScreenContent(viewModel: DevOptionsViewModel) {
         Scaffold(floatingActionButton = { FabLayout(viewModel::onRestartCtaClick) }) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -132,10 +119,10 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     }
 
     @Composable
-    fun FabLayout(onClick: () -> Unit) {
+    private fun FabLayout(onFabClick: () -> Unit) {
         FloatingActionButton(
-            onClick = { onClick() },
-            backgroundColor = Color(31, 173, 168),
+            onClick = { onFabClick() },
+            backgroundColor = colorResource(R.color.colorAccent),
             content = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_restart_black_24dp),
@@ -147,7 +134,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     }
 
     @Composable
-    fun ScrollContent(viewModel: DevOptionsViewModel) {
+    private fun ScrollContent(viewModel: DevOptionsViewModel) {
         Column {
             LazyColumn(
                 modifier = Modifier
@@ -158,28 +145,27 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
             ) {
                 item {
                     CardDivider(Color.Transparent)
-                    CardLayout { CardOne(viewModel = viewModel) }
+                    CardLayout { EnvironmentCard(baseUrl = viewModel.baseUrl.collectAsState().value) }
                     CardDivider(MaterialTheme.colors.primary)
                 }
                 item {
-                    CardLayout { CardTwo(viewModel = viewModel) }
+                    CardLayout { AppInfoCard(applicationInfo = viewModel.applicationInfo) }
                     CardDivider(MaterialTheme.colors.primary)
                 }
                 item {
-                    CardLayout { CardThree() }
+                    CardLayout { MiscFunctionalityCard(onForceCrashCtaClick = viewModel::onForceCrashCtaClicked) }
                     CardDivider(Color.Transparent)
                 }
             }
-            BottomButton(buttonText = "FORCE CRASH", viewModel::onForceCrashCtaClicked)
         }
     }
 
     @Composable
-    fun BottomButton(buttonText: String, onClick: () -> Unit) {
+    private fun BottomButton(buttonText: String, onClick: () -> Unit) {
         Button(
             onClick = { onClick() },
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, bottom = 84.dp)
+                .padding(8.dp)
                 .wrapContentHeight()
                 .fillMaxWidth(),
             colors = ButtonDefaults.textButtonColors(
@@ -196,27 +182,28 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     }
 
     @Composable
-    fun CardOne(viewModel: DevOptionsViewModel) {
+    private fun EnvironmentCard(baseUrl: String) {
         CardTitle(cardTitle = "Selected Environment Info")
-        CardEntry(title = "Base URL", entryValue = viewModel.baseUrl.value)
+        TitleValueRow(title = "Base URL", entryValue = baseUrl)
     }
 
     @Composable
-    fun CardTwo(viewModel: DevOptionsViewModel) {
+    private fun AppInfoCard(applicationInfo: ApplicationInfo) {
         CardTitle(cardTitle = "App Info")
-        CardEntry(title = "Version Name", entryValue = viewModel.appVersionName.value)
-        CardEntry(title = "Version Code", entryValue = viewModel.appVersionCode.value)
-        CardEntry(title = "Application ID", entryValue = viewModel.appId.value)
-        CardEntry(title = "Build Identifier", entryValue = viewModel.buildIdentifier.value)
+        TitleValueRow(title = "Version Name", entryValue = applicationInfo.appVersionName)
+        TitleValueRow(title = "Version Code", entryValue = applicationInfo.appVersionCode)
+        TitleValueRow(title = "Application ID", entryValue = applicationInfo.appId)
+        TitleValueRow(title = "Build Identifier", entryValue = applicationInfo.buildIdentifier)
     }
 
     @Composable
-    fun CardThree() {
+    private fun MiscFunctionalityCard(onForceCrashCtaClick: () -> Unit) {
         CardTitle(cardTitle = "Misc Functionality")
+        BottomButton(buttonText = "FORCE CRASH", onForceCrashCtaClick)
     }
 
     @Composable
-    fun CardDivider(dividerColor: Color) {
+    private fun CardDivider(dividerColor: Color) {
         Divider(
             color = dividerColor,
             thickness = 2.dp,
@@ -225,7 +212,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     }
 
     @Composable
-    fun CardTitle(cardTitle: String) {
+    private fun CardTitle(cardTitle: String) {
         Text(
             cardTitle,
             style = TextStyle(
@@ -243,7 +230,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     }
 
     @Composable
-    fun CardEntry(title: String, entryValue: String) {
+    private fun TitleValueRow(title: String, entryValue: String) {
         Text(
             title,
             style = TextStyle(
@@ -274,7 +261,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     }
 
     @Composable
-    fun CardLayout(content: @Composable () -> Unit) {
+    private fun CardLayout(content: @Composable () -> Unit) {
         Card(elevation = 4.dp) {
             Column(
                 modifier = Modifier
@@ -287,7 +274,8 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
 
     // TODO this needs to be update when the next stable release comes out. New Menus
     @Composable
-    fun DropdownEnvMenu(viewModel: DevOptionsViewModel) {
+    @Suppress("LongMethod")
+    private fun DropdownEnvMenu(viewModel: DevOptionsViewModel) {
         var expanded by remember { mutableStateOf(false) }
         val items = viewModel.environmentNames.value
         var selectedIndex by remember { mutableStateOf(viewModel.environmentSpinnerPosition) }
@@ -355,7 +343,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
 
     @Composable
     private fun OuterScreenContent(viewModel: DevOptionsViewModel) {
-        ArchitectureDemoTheme {
+        MdcTheme {
             Surface {
                 ScreenContent(viewModel = viewModel)
             }
@@ -363,40 +351,25 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     }
 
     @Preview(showBackground = true)
+    @Suppress("EmptyFunctionBlock")
     @Composable
     private fun PreviewOuterScreenContent() {
         OuterScreenContent(
-            // TODO: Find a better way to do this (might be using Koin field injection in the ViewModel rather than constructor injection)
+            // TODO: Find a better way to do this
             viewModel = DevOptionsViewModel(
                 app = Application(),
-                dispatcherProvider = object : DispatcherProvider {
-                    override val Default: CoroutineDispatcher
-                        get() = TODO("Not yet implemented")
-                    override val IO: CoroutineDispatcher
-                        get() = TODO("Not yet implemented")
-                    override val Main: CoroutineDispatcher
-                        get() = TODO("Not yet implemented")
-                    override val Unconfined: CoroutineDispatcher
-                        get() = TODO("Not yet implemented")
-                },
                 environmentRepository = object : EnvironmentRepository {
-                    override val selectedConfig: EnvironmentConfig
-                        get() = EnvironmentConfig(EnvironmentType.PRODUCTION, "https://mock.com")
-                    override val environments: List<EnvironmentConfig>
-                        get() = listOf(EnvironmentConfig(EnvironmentType.PRODUCTION, "https://mock.com"), EnvironmentConfig(EnvironmentType.STG, "https://mock.com"))
+                    override val selectedConfig: EnvironmentConfig = EnvironmentConfig(EnvironmentType.PRODUCTION, "https://mock.com")
+                    override val environments: List<EnvironmentConfig> =
+                        listOf(EnvironmentConfig(EnvironmentType.PRODUCTION, "https://mock.com"), EnvironmentConfig(EnvironmentType.STG, "https://mock.com"))
 
-                    override fun changeEnvironment(environmentType: EnvironmentType) {
-                        TODO("Not yet implemented")
-                    }
+                    override fun changeEnvironment(environmentType: EnvironmentType) {}
                 },
-                forceCrashLogicImpl = ForceCrashLogicImpl(object : BuildConfigProvider {
-                    override val isDebugOrInternalBuild: Boolean
-                        get() = true
-                    override val isProductionReleaseBuild: Boolean
-                        get() = false
-                    override val buildIdentifier: String
-                        get() = "11111111"
-                })
+                applicationInfoManager = object : ApplicationInfoManager {
+                    override fun getApplicationInfo(): ApplicationInfo = ApplicationInfo("10.1.3", "1001030", "com.example.foo", "171")
+                },
+                forceCrashLogicImpl = ForceCrashLogicNoOp(),
+                toaster = ToasterNoOp(),
             )
         )
     }

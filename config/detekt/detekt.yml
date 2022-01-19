@@ -1,11 +1,13 @@
+# For each detekt update, copy/paste the config for that released tag (ex: https://raw.githubusercontent.com/detekt/detekt/v1.19.0/detekt-core/src/main/resources/default-detekt-config.yml)
+# and keep modified rule values that still make sense.
 build:
   maxIssues: 0
   excludeCorrectable: false
   weights:
-    # complexity: 2
-    # LongParameterList: 1
-    # style: 1
-    # comments: 1
+  # complexity: 2
+  # LongParameterList: 1
+  # style: 1
+  # comments: 1
 
 config:
   validation: true
@@ -33,11 +35,12 @@ processors:
 console-reports:
   active: true
   exclude:
-     - 'ProjectStatisticsReport'
-     - 'ComplexityReport'
-     - 'NotificationReport'
-  #  - 'FindingsReport'
-     - 'FileBasedFindingsReport'
+    - 'ProjectStatisticsReport'
+    - 'ComplexityReport'
+    - 'NotificationReport'
+    #  - 'FindingsReport'
+    - 'FileBasedFindingsReport'
+    - 'LiteFindingsReport'
 
 output-reports:
   active: true
@@ -61,6 +64,10 @@ comments:
   EndOfSentenceFormat:
     active: false
     endOfSentenceFormat: '([.?!][ \t\n\r\f<])|([.?!:]$)'
+  OutdatedDocumentation:
+    active: false
+    matchTypeParameters: true
+    matchDeclarationsOrder: true
   UndocumentedPublicClass:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
@@ -110,14 +117,13 @@ complexity:
   LongMethod:
     active: true
     threshold: 60
-    ignoreAnnotated: []
   LongParameterList:
     active: true
     functionThreshold: 6
     constructorThreshold: 7
     ignoreDefaultParameters: false
     ignoreDataClasses: true
-    ignoreAnnotated: []
+    ignoreAnnotatedParameter: []
   MethodOverloading:
     active: false
     threshold: 6
@@ -152,6 +158,12 @@ coroutines:
   active: true
   GlobalCoroutineUsage:
     active: false
+  InjectDispatcher:
+    active: false
+    dispatcherNames:
+      - 'IO'
+      - 'Default'
+      - 'Unconfined'
   RedundantSuspendModifier:
     active: false
   SleepInsteadOfDelay:
@@ -179,7 +191,7 @@ empty-blocks:
   EmptyFunctionBlock:
     active: true
     ignoreOverridden: false
-    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**'] # Line was added to exclude tests which occasionally use empty function blocks for no-ops
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**'] # Added to allow empty function blocks in tests
   EmptyIfBlock:
     active: true
   EmptyInitBlock:
@@ -297,23 +309,23 @@ formatting:
     autoCorrect: true
     insertFinalNewLine: true
   ImportOrdering:
-    active: false
+    active: true
     autoCorrect: true
     layout: '*,java.**,javax.**,kotlin.**,^'
   Indentation:
-    active: false
+    active: true
     autoCorrect: true
     indentSize: 4
     continuationIndentSize: 4
   MaximumLineLength:
-    active: false # disabled because ktlint manages maximum line length checks right now
+    active: true
     maxLineLength: 120
     ignoreBackTickedIdentifier: false
   ModifierOrdering:
     active: true
     autoCorrect: true
   MultiLineIfElse:
-    active: true
+    active: false
     autoCorrect: true
   NoBlankLineBeforeRbrace:
     active: true
@@ -351,7 +363,7 @@ formatting:
   NoWildcardImports:
     active: true
   PackageName:
-    active: true
+    active: false
     autoCorrect: true
   ParameterListWrapping:
     active: true
@@ -441,7 +453,7 @@ naming:
     excludeClassPattern: '$^'
     ignoreOverridden: true
     ignoreAnnotated:
-      - 'Composable'
+      - 'Composable' # Ignore composable function naming: https://detekt.github.io/detekt/compose.html#functionnaming
   FunctionParameterNaming:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
@@ -450,8 +462,11 @@ naming:
     ignoreOverridden: true
   InvalidPackageDeclaration:
     active: false
-    excludes: ['**/*.kts']
     rootPackage: ''
+  LambdaParameterNaming:
+    active: false
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
+    parameterPattern: '[a-z][A-Za-z0-9]*|_'
   MatchingDeclarationName:
     active: true
     mustBeFirst: true
@@ -556,10 +571,12 @@ potential-bugs:
   LateinitUsage:
     active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
-    excludeAnnotatedProperties: []
     ignoreOnClassesPattern: ''
   MapGetWithNotNullAssertionOperator:
     active: false
+  MissingPackageDeclaration:
+    active: false
+    excludes: ['**/*.kts']
   MissingWhenCase:
     active: true
     allowElseExpression: true
@@ -579,6 +596,7 @@ potential-bugs:
     active: true
   UnsafeCallOnNullableType:
     active: true
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
   UnsafeCast:
     active: true
   UnusedUnaryOperator:
@@ -620,6 +638,7 @@ style:
       - 'STOPSHIP:'
       - 'TODO:'
     allowedPatterns: ''
+    customMessage: ''
   ForbiddenImport:
     active: false
     imports: []
@@ -644,8 +663,6 @@ style:
     ignoreOverridableFunction: true
     ignoreActualFunction: true
     excludedFunctions: ''
-    excludeAnnotatedFunction:
-      - 'dagger.Provides'
   LibraryCodeMustSpecifyReturnType:
     active: true
     excludes: ['**']
@@ -734,11 +751,9 @@ style:
     active: false
   UnderscoresInNumericLiterals:
     active: false
-    acceptableDecimalLength: 5
+    acceptableLength: 4
   UnnecessaryAbstractClass:
     active: true
-    excludeAnnotatedClasses:
-      - 'dagger.Module'
   UnnecessaryAnnotationUseSiteTarget:
     active: false
   UnnecessaryApply:
@@ -760,6 +775,10 @@ style:
   UnusedPrivateMember:
     active: true
     allowedNames: '(_|ignored|expected|serialVersionUID)'
+    ignoreAnnotated:
+      - 'Preview' # https://detekt.github.io/detekt/compose.html#unusedprivatemember
+  UseAnyOrNoneInsteadOfFind:
+    active: false
   UseArrayLiteralsInAnnotations:
     active: false
   UseCheckNotNull:
@@ -768,7 +787,6 @@ style:
     active: false
   UseDataClass:
     active: false
-    excludeAnnotatedClasses: []
     allowVars: false
   UseEmptyCounterpart:
     active: false
@@ -795,4 +813,3 @@ style:
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     excludeImports:
       - 'java.util.*'
-      - 'kotlinx.android.synthetic.*'
