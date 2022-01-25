@@ -11,6 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import timber.log.Timber
 
 /** AndroidX Startup Koin initializer */
@@ -21,7 +22,9 @@ class KoinStartupInitializer : Initializer<KoinApplication> {
         val buildConfigProvider = BuildConfigProviderImpl()
         return startKoin {
             if (buildConfigProvider.isDebugOrInternalBuild) {
-                androidLogger()
+                androidLogger(Level.ERROR) // FIXME: Change to back to INFO when koin 3.2.0 is released: https://github.com/InsertKoinIO/koin/issues/1188
+            } else {
+                androidLogger(Level.NONE)
             }
 
             androidContext(context)

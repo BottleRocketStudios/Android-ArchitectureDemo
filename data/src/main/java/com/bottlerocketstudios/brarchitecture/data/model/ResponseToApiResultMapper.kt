@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
-import com.squareup.moshi.Moshi
 import retrofit2.Response
 import timber.log.Timber
 
@@ -13,7 +12,7 @@ interface ResponseToApiResultMapper {
     fun <T : Any> toEmptyResult(response: Response<T>): ApiResult<Unit>
 }
 
-class ResponseToApiResultMapperImpl(moshi: Moshi) : ResponseToApiResultMapper {
+class ResponseToApiResultMapperImpl : ResponseToApiResultMapper {
 
     override fun <T : Any> toResult(response: Response<T>): ApiResult<T> {
         return when {
