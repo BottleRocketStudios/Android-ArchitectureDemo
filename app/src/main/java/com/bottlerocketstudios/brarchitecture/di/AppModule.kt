@@ -6,6 +6,8 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImpl
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.LoginViewModel
+import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManager
+import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
@@ -31,8 +33,9 @@ object AppModule {
         viewModel { SnippetsFragmentViewModel(repo = get(), dispatcherProvider = get()) }
         viewModel { CreateSnippetFragmentViewModel(repo = get(), dispatcherProvider = get()) }
         viewModel { UserFragmentViewModel(repo = get()) }
-        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), environmentRepository = get(), dispatcherProvider = get(), buildConfigProvider = get()) }
+        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get(), toaster = get()) }
 
+        single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
         single<BuildConfigProvider> { BuildConfigProviderImpl() }
         single<Toaster> { ToasterImpl(app = get()) }
     }

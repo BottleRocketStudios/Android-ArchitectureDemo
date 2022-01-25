@@ -30,13 +30,27 @@ object Config {
     // https://github.com/jacoco/jacoco/releases
     // const val JACOCO_VERSION = "0.8.7" - Helper jacoco gradle files manage the jacoco plugin version due to issues reading this value inside groovy gradle files
 
+    // Website info: https://detekt.github.io/detekt/index.html
+    // Rules:
+    //   https://detekt.github.io/detekt/comments.html
+    //   https://detekt.github.io/detekt/complexity.html
+    //   https://detekt.github.io/detekt/coroutines.html
+    //   https://detekt.github.io/detekt/empty-blocks.html
+    //   https://detekt.github.io/detekt/exceptions.html
+    //   https://detekt.github.io/detekt/formatting.html
+    //   https://detekt.github.io/detekt/naming.html
+    //   https://detekt.github.io/detekt/performance.html
+    //   https://detekt.github.io/detekt/style.html
+    // Release info: https://github.com/detekt/detekt/releases
+    const val DETEKT_VERSION = "1.19.0"
+
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
      */
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.3"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.4"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
@@ -44,20 +58,6 @@ object Config {
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
 
         const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
-
-        // Website info: https://detekt.github.io/detekt/index.html
-        // Rules:
-        //   https://detekt.github.io/detekt/comments.html
-        //   https://detekt.github.io/detekt/complexity.html
-        //   https://detekt.github.io/detekt/coroutines.html
-        //   https://detekt.github.io/detekt/empty-blocks.html
-        //   https://detekt.github.io/detekt/exceptions.html
-        //   https://detekt.github.io/detekt/formatting.html
-        //   https://detekt.github.io/detekt/naming.html
-        //   https://detekt.github.io/detekt/performance.html
-        //   https://detekt.github.io/detekt/style.html
-        // Release info: https://github.com/detekt/detekt/releases
-        const val DETEKT = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
     }
 
     /**
@@ -71,7 +71,7 @@ object Config {
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
         const val DETEKT = "io.gitlab.arturbosch.detekt"
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
-        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs.kotlin"
+        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs" // Note: not using safeargs.kotlin to prevent compile time failure: https://stackoverflow.com/a/68605639/201939
         const val PARCELIZE = "kotlin-parcelize"
         object Kotlin {
             const val ANDROID = "android"
@@ -89,6 +89,10 @@ object Config {
 
         // https://developer.android.com/about/versions/12/behavior-changes-12
         const val TARGET_SDK = 31
+    }
+
+    object Compose {
+        const val COMPOSE_VERSION = "1.0.5"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
@@ -121,11 +125,33 @@ private object Libraries {
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
+    const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.3.1"
     // https://developer.android.com/jetpack/androidx/releases/startup
     const val STARTUP = "androidx.startup:startup-runtime:1.1.0"
+
+    // Compose
+    // https://developer.android.com/jetpack/androidx/releases/compose
+    private const val COMPOSE_VERSION = Config.Compose.COMPOSE_VERSION
+    const val COMPOSE_UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
+    // Tooling support (Previews, etc.)
+    const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION"
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
+    const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$COMPOSE_VERSION"
+    const val COMPOSE_ANIMATION = "androidx.compose.animation:animation:$COMPOSE_VERSION"
+    // Material Design
+    const val COMPOSE_MATERIAL = "androidx.compose.material:material:$COMPOSE_VERSION"
+    // Material design icons
+    const val COMPOSE_MATERIAL_ICONS_CORE = "androidx.compose.material:material-icons-core:$COMPOSE_VERSION"
+    const val COMPOSE_MATERIAL_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
+    // Integration with observables
+    const val COMPOSE_LIVE_DATA = "androidx.compose.runtime:runtime-livedata:$COMPOSE_VERSION"
+
+    // UI Tests
+    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
 
     // https://developer.android.com/jetpack/androidx/releases/constraintlayout
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.1"
@@ -134,6 +160,7 @@ private object Libraries {
     // https://developer.android.com/jetpack/androidx/releases/navigation
     const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
+    const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:2.4.0-rc01"
 
     // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
     // https://developer.android.com/topic/security/data
@@ -143,6 +170,8 @@ private object Libraries {
     //// Material
     // https://github.com/material-components/material-components-android/releases
     const val MATERIAL = "com.google.android.material:material:1.4.0"
+    // https://github.com/material-components/material-components-android-compose-theme-adapter/releases/
+    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:$COMPOSE_VERSION"
 
     //// Kotlin
     const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -261,7 +290,12 @@ private object TestLibraries {
     //// AndroidX - testing
     // https://developer.android.com/jetpack/androidx/releases/arch
     const val ARCH_CORE_TESTING = "androidx.arch.core:core-testing:2.1.0"
+    const val ANDROIDX_TEST_CORE = "androidx.test:core:1.4.0"
+    const val ANDROIDX_TEST_CORE_KTX = "androidx.test:core-ktx:1.4.0"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
+    const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.1"
+    const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
+    const val ANDROIDX_FRAGMENT_TEST = "androidx.fragment:fragment-testing:1.4.0"
 
     //// Kotlinx Coroutine - Testing
     // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
@@ -303,6 +337,17 @@ fun DependencyHandler.moshiDependencies() {
     kapt(Libraries.MOSHI_KOTLIN_CODEGEN)
 }
 
+fun DependencyHandler.composeDependencies() {
+    implementation(Libraries.COMPOSE_UI)
+    implementation(Libraries.COMPOSE_UI_TOOLING)
+    implementation(Libraries.COMPOSE_FOUNDATION)
+    implementation(Libraries.COMPOSE_ACTIVITY)
+    implementation(Libraries.COMPOSE_ANIMATION)
+    implementation(Libraries.COMPOSE_MATERIAL)
+    implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
+    implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
+    implementation(Libraries.COMPOSE_LIVE_DATA)
+}
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
 }
@@ -317,14 +362,17 @@ fun DependencyHandler.lifecycleDependencies() {
     implementation(Libraries.LIFECYCLE_LIVEDATA_KTX)
     implementation(Libraries.LIFECYCLE_VIEWMODEL_KTX)
     implementation(Libraries.LIFECYCLE_COMMON_JAVA8)
+    implementation(Libraries.LIFECYCLE_COMPOSE)
 }
 fun DependencyHandler.navigationDependencies() {
     implementation(Libraries.NAVIGATION_FRAGMENT_KTX)
     implementation(Libraries.NAVIGATION_UI_KTX)
+    implementation(Libraries.NAVIGATION_COMPOSE)
 }
 
 fun DependencyHandler.materialDependencies() {
     implementation(Libraries.MATERIAL)
+    implementation(Libraries.MATERIAL_COMPOSE_THEME_ADAPTER)
 }
 
 fun DependencyHandler.coreKtxDependencies() {
@@ -398,6 +446,20 @@ fun DependencyHandler.archCoreTestingDependencies() {
 
 fun DependencyHandler.espressoDependencies() {
     androidTestImplementation(TestLibraries.ESPRESSO_CORE)
+}
+
+fun DependencyHandler.androidxCoreDependencies() {
+    androidTestImplementation(TestLibraries.ANDROIDX_TEST_CORE)
+    androidTestImplementation(TestLibraries.ANDROIDX_TEST_CORE_KTX)
+}
+
+fun DependencyHandler.extJunitRunnerDependencies() {
+    androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER)
+    androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER_KTX)
+}
+
+fun DependencyHandler.fragmentTestingDependencies() {
+    androidTestImplementation(TestLibraries.ANDROIDX_FRAGMENT_TEST)
 }
 
 fun DependencyHandler.kotlinxCoroutineTestingDependencies() {

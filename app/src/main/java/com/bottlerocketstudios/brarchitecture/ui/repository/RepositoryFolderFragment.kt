@@ -6,14 +6,14 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.databinding.RepositoryFolderFragmentBinding
-import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
+import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoryFolderFragment : BaseFragment<RepositoryFolderFragmentViewModel, RepositoryFolderFragmentBinding>() {
+class RepositoryFolderFragment : BaseDataBindingFragment<RepositoryFolderFragmentViewModel, RepositoryFolderFragmentBinding>() {
     override val fragmentViewModel: RepositoryFolderFragmentViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
     val args: RepositoryFolderFragmentArgs by navArgs()

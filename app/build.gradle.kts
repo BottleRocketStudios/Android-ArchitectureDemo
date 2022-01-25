@@ -45,6 +45,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
+    buildFeatures {
+        compose = true // Enables Jetpack Compose for this module
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Config.Compose.COMPOSE_VERSION
+    }
     signingConfigs {
         getByName("debug") {
             // Common debug keystore so all local builds can be shared between devs/QA
@@ -142,6 +148,7 @@ dependencies {
     coroutineDependencies()
 
     // AndroidX
+    composeDependencies()
     appCompatDependencies()
     androidxStartupDependencies()
     constraintLayoutDependencies()
@@ -173,4 +180,7 @@ dependencies {
     turbineDependencies()
     // Android Test
     espressoDependencies()
+    extJunitRunnerDependencies()
+    androidxCoreDependencies()
+    fragmentTestingDependencies()
 }

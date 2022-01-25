@@ -11,7 +11,6 @@ import com.bottlerocketstudios.brarchitecture.ui.util.formattedUpdateTime
 import com.xwray.groupie.viewbinding.BindableItem
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.java.KoinJavaComponent.inject
 
 data class RepositoryViewModel(val repository: Repository) : DbViewModel, KoinComponent, BaseBindableViewModel() {
     private val context by inject<Context>()

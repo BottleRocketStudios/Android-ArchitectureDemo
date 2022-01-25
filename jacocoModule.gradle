@@ -149,8 +149,8 @@ project.afterEvaluate {
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
                 reports {
-                    xml.enabled = true
-                    html.enabled = true
+                    xml.required.set(true)
+                    html.required.set(true)
                 }
 
                 classDirectories.from = files([debugTree], [kotlinDebugTree])

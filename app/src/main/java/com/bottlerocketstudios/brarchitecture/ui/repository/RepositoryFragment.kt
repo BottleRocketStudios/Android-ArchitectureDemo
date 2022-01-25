@@ -5,7 +5,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.RepositoryFragmentBinding
-import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
+import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
 import com.xwray.groupie.GroupAdapter
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoryFragment : BaseFragment<RepositoryFragmentViewModel, RepositoryFragmentBinding>() {
+class RepositoryFragment : BaseDataBindingFragment<RepositoryFragmentViewModel, RepositoryFragmentBinding>() {
     override val fragmentViewModel: RepositoryFragmentViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
 
