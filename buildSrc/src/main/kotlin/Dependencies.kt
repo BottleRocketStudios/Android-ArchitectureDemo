@@ -9,8 +9,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 // https://kotlinlang.org/docs/reference/whatsnew15.html
 // https://kotlinlang.org/docs/releases.html#release-details
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-private const val KOTLIN_VERSION = "1.5.31"
-private const val KOTLIN_COROUTINES_VERSION = "1.5.2"
+private const val KOTLIN_VERSION = "1.6.10"
+private const val KOTLIN_COROUTINES_VERSION = "1.6.0"
 private const val NAVIGATION_VERSION = "2.3.5"
 
 /**
@@ -19,11 +19,11 @@ private const val NAVIGATION_VERSION = "2.3.5"
 object Config {
     // https://github.com/JLLeitschuh/ktlint-gradle/blob/master/CHANGELOG.md
     // https://github.com/JLLeitschuh/ktlint-gradle/releases
-    const val KTLINT_GRADLE_VERSION = "10.2.0"
+    const val KTLINT_GRADLE_VERSION = "10.2.1"
 
     // https://github.com/pinterest/ktlint/blob/master/CHANGELOG.md
     // https://github.com/pinterest/ktlint/releases
-    const val KTLINT_VERSION = "0.42.1"
+    const val KTLINT_VERSION = "0.43.2"
 
     // View how to execute the coverage and verifcations gradle tasks as well as how to view coverage reports in the local jacocoSetup.gradle file
     // http://www.jacoco.org/jacoco/trunk/doc/
@@ -43,6 +43,11 @@ object Config {
     //   https://detekt.github.io/detekt/style.html
     // Release info: https://github.com/detekt/detekt/releases
     const val DETEKT_VERSION = "1.19.0"
+    // https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
+    // https://github.com/google/ksp/blob/main/docs/quickstart.md
+    // https://github.com/google/ksp/releases
+    // TODO: First part of version should match version of kotlin - see https://github.com/google/ksp/blob/main/docs/faq.md
+    const val KSP_VERSION = "1.6.10-1.0.2"
 
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
@@ -55,7 +60,7 @@ object Config {
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
-        const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.39.0"
+        const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
 
         const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     }
@@ -73,8 +78,10 @@ object Config {
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
         const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs" // Note: not using safeargs.kotlin to prevent compile time failure: https://stackoverflow.com/a/68605639/201939
         const val PARCELIZE = "kotlin-parcelize"
+        const val KSP = "com.google.devtools.ksp"
         object Kotlin {
             const val ANDROID = "android"
+            // Android DataBinding still requires kapt and will not migrate to use ksp: https://twitter.com/yigitboyar/status/1447408905240264704
             const val KAPT = "kapt"
         }
     }
@@ -92,7 +99,8 @@ object Config {
     }
 
     object Compose {
-        const val COMPOSE_VERSION = "1.0.5"
+        const val COMPOSE_VERSION = "1.1.0-rc01"
+        const val COMPOSE_COMPILER_VERSION = "1.1.0-rc02"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
@@ -125,22 +133,28 @@ private object Libraries {
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
-    const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+    const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:$LIFECYCLE_VERSION"
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
-    const val APP_COMPAT = "androidx.appcompat:appcompat:1.3.1"
+    const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
     // https://developer.android.com/jetpack/androidx/releases/startup
     const val STARTUP = "androidx.startup:startup-runtime:1.1.0"
+
+    private const val ACTIVITY_VERSION = "1.4.0"
+    // https://developer.android.com/jetpack/androidx/releases/activity
+    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:$ACTIVITY_VERSION"
+    const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$ACTIVITY_VERSION"
 
     // Compose
     // https://developer.android.com/jetpack/androidx/releases/compose
     private const val COMPOSE_VERSION = Config.Compose.COMPOSE_VERSION
+    private const val COMPOSE_COMPILER_VERSION = Config.Compose.COMPOSE_COMPILER_VERSION
+    const val COMPOSE_COMPILER = "androidx.compose.compiler:compiler:$COMPOSE_COMPILER_VERSION"
     const val COMPOSE_UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
     // Tooling support (Previews, etc.)
     const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION"
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
-    const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$COMPOSE_VERSION"
     const val COMPOSE_ANIMATION = "androidx.compose.animation:animation:$COMPOSE_VERSION"
     // Material Design
     const val COMPOSE_MATERIAL = "androidx.compose.material:material:$COMPOSE_VERSION"
@@ -154,7 +168,7 @@ private object Libraries {
     const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
 
     // https://developer.android.com/jetpack/androidx/releases/constraintlayout
-    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.1"
+    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.3"
 
     // Navigation
     // https://developer.android.com/jetpack/androidx/releases/navigation
@@ -169,9 +183,10 @@ private object Libraries {
 
     //// Material
     // https://github.com/material-components/material-components-android/releases
-    const val MATERIAL = "com.google.android.material:material:1.4.0"
+    const val MATERIAL = "com.google.android.material:material:1.5.0"
     // https://github.com/material-components/material-components-android-compose-theme-adapter/releases/
-    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:$COMPOSE_VERSION"
+    // Navigate to above link, search for latest material-vX.Y.Z that supports a matching version of Compose, and just use the X.Y.Z in the dependency version below
+    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.1.2"
 
     //// Kotlin
     const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -188,7 +203,7 @@ private object Libraries {
     //// Koin
     // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
     // https://github.com/InsertKoinIO/koin/tags
-    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.1.3"
+    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.1.5"
 
     //// Core Library Desugaring
     // https://developer.android.com/studio/write/java8-support#library-desugaring
@@ -210,7 +225,7 @@ private object Libraries {
     //// Moshi
     // https://github.com/square/moshi/blob/master/CHANGELOG.md
     // https://github.com/square/moshi/releases
-    private const val MOSHI_VERSION = "1.12.0"
+    private const val MOSHI_VERSION = "1.13.0"
     // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the kapt `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
     const val MOSHI = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
@@ -247,9 +262,10 @@ private object Libraries {
 
     // https://square.github.io/leakcanary/changelog/
     // https://github.com/square/leakcanary/releases
-    private const val LEAK_CANARY_VERSION = "2.7"
+    private const val LEAK_CANARY_VERSION = "2.8.1"
     /** Use only on debugImplementation builds */
-    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERSION"
+    // Using leakcanary-android-startup since we're using the androidx startup lib: https://square.github.io/leakcanary/changelog/#androidx-app-startup
+    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android-startup:$LEAK_CANARY_VERSION"
     /** Use on all builds (via implementation) */
     const val LEAK_CANARY_PLUMBER = "com.squareup.leakcanary:plumber-android:$LEAK_CANARY_VERSION"
 
@@ -293,7 +309,7 @@ private object TestLibraries {
     const val ANDROIDX_TEST_CORE = "androidx.test:core:1.4.0"
     const val ANDROIDX_TEST_CORE_KTX = "androidx.test:core-ktx:1.4.0"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
-    const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.1"
+    const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.3"
     const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
     const val ANDROIDX_FRAGMENT_TEST = "androidx.fragment:fragment-testing:1.4.0"
 
@@ -334,14 +350,15 @@ fun DependencyHandler.retrofitDependencies() {
 
 fun DependencyHandler.moshiDependencies() {
     api(Libraries.MOSHI)
-    kapt(Libraries.MOSHI_KOTLIN_CODEGEN)
+    ksp(Libraries.MOSHI_KOTLIN_CODEGEN)
 }
 
 fun DependencyHandler.composeDependencies() {
+    implementation(Libraries.COMPOSE_COMPILER)
     implementation(Libraries.COMPOSE_UI)
     implementation(Libraries.COMPOSE_UI_TOOLING)
     implementation(Libraries.COMPOSE_FOUNDATION)
-    implementation(Libraries.COMPOSE_ACTIVITY)
+
     implementation(Libraries.COMPOSE_ANIMATION)
     implementation(Libraries.COMPOSE_MATERIAL)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
@@ -350,6 +367,10 @@ fun DependencyHandler.composeDependencies() {
 }
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
+}
+fun DependencyHandler.activityDependencies() {
+    implementation(Libraries.ACTIVITY_KTX)
+    implementation(Libraries.COMPOSE_ACTIVITY)
 }
 fun DependencyHandler.androidxStartupDependencies() {
     implementation(Libraries.STARTUP)

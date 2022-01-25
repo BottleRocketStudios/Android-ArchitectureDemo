@@ -37,7 +37,7 @@ object DataModule {
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
         single { BitbucketCredentialsRepository(context = androidContext(), moshi = get()) }
-        single<ResponseToApiResultMapper> { ResponseToApiResultMapperImpl(moshi = get()) }
+        single<ResponseToApiResultMapper> { ResponseToApiResultMapperImpl() }
         single<SharedPreferences>(named(KoinNamedSharedPreferences.Environment)) {
             androidContext().getSharedPreferences("dev_options_prefs", Context.MODE_PRIVATE)
         }

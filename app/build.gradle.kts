@@ -5,6 +5,7 @@ plugins {
     id(Config.ApplyPlugins.ANDROID_APPLICATION)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
+    id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
     id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
@@ -49,7 +50,7 @@ android {
         compose = true // Enables Jetpack Compose for this module
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Config.Compose.COMPOSE_VERSION
+        kotlinCompilerExtensionVersion = Config.Compose.COMPOSE_COMPILER_VERSION
     }
     signingConfigs {
         getByName("debug") {
@@ -150,6 +151,7 @@ dependencies {
     // AndroidX
     composeDependencies()
     appCompatDependencies()
+    activityDependencies()
     androidxStartupDependencies()
     constraintLayoutDependencies()
     materialDependencies()

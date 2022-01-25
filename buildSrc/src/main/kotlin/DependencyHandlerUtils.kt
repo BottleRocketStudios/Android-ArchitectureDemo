@@ -29,6 +29,16 @@ internal fun DependencyHandler.`implementation`(dependencyNotation: Any): Depend
 internal fun DependencyHandler.`kapt`(dependencyNotation: Any): Dependency? = add("kapt", dependencyNotation)
 
 /**
+ * Adds a dependency to the 'ksp' configuration.
+ *
+ * @param dependencyNotation notation for the dependency to be added.
+ * @return The dependency.
+ *
+ * @see [DependencyHandler.add]
+ */
+internal fun DependencyHandler.`ksp`(dependencyNotation: Any): Dependency? = add("ksp", dependencyNotation)
+
+/**
  * Adds a dependency to the 'debugImplementation' configuration.
  *
  * @param dependencyNotation notation for the dependency to be added.
