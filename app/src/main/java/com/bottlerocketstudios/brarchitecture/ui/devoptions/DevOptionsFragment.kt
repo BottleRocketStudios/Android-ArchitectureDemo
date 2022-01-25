@@ -277,7 +277,7 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
     @Suppress("LongMethod")
     private fun DropdownEnvMenu(viewModel: DevOptionsViewModel) {
         var expanded by remember { mutableStateOf(false) }
-        val items = viewModel.environmentNames.value
+        val items = viewModel.environmentNames.collectAsState().value
         var selectedIndex by remember { mutableStateOf(viewModel.environmentSpinnerPosition) }
         Box(
             modifier = Modifier
