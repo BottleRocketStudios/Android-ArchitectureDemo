@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginStart="8dp"
-            android:text="@{dbViewModel.text}"
+            app:textByStringIdHelper="@{dbViewModel.text}"
             tools:text="REPOSITORIES"
             />
 

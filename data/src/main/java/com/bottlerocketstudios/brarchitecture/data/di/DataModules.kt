@@ -27,12 +27,15 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.time.Clock
 
 /** General app configuration (repositories/viewmodels/etc) */
 object DataModule {
     val module = module {
+        // Clock for injectable time that can be replaced in tests
+        single<Clock> { Clock.systemDefaultZone() }
         single<DispatcherProvider> { DispatcherProviderImpl() }
-        single<Moshi> { Moshi.Builder().add(DateTimeAdapter()).build() }
+        single<Moshi> { Moshi.Builder().add(DateTimeAdapter(clock = get())).build() }
         single<BitbucketRepository> { BitbucketRepositoryImpl(bitbucketService = get(), bitbucketCredentialsRepository = get(), responseToApiResultMapper = get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
