@@ -131,13 +131,7 @@ android {
     }
 }
 
-// Declare configurations per variant to use in the dependencies block below. More info: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/#custom_configurations_and_dependencies
-private val internalDebugImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalDebugMiniImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
-val productionReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
-/** List of all buildable dev configurations */
-val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
+// Declare configurations per variant to use in the dependencies block below. See :data module for examples if needed here in the :app module.
 
 dependencies {
     implementation(project(mapOf("path" to ":data")))
@@ -171,7 +165,6 @@ dependencies {
     timberDependencies()
     processPhoenixDependencies()
     leakCanaryDependencies()
-    debugDatabaseDependencies(devConfigurations = devConfigurations)
 
     // Test
     junitDependencies()
