@@ -22,8 +22,8 @@ BITBUCKET_SECRET="[oauth_consumer_secret]"
 ```
 
 ## Primary Docs
-* **Required reading** - [NEW_PROJECT_STARTER.md](./docs/NEW_PROJECT_STARTER.md) for information on how to use this repository as a new project starter.
-* **Required reading** - [BEST_PRACTICES.md](./docs/BEST_PRACTICES.md) for Android engineering team norms for the project.
+* **Required reading** - [`NEW_PROJECT_STARTER.md`](./docs/NEW_PROJECT_STARTER.md) for information on how to use this repository as a new project starter.
+* **Required reading** - [`BEST_PRACTICES.md`](./docs/BEST_PRACTICES.md) for Android engineering team norms for the project.
 
 ## Pre-PR Creation Checklist
 1. Create 1+ commits locally until work is completed.
@@ -53,7 +53,6 @@ The project is using the Gradle Versions plugin to do a lot of heavy lifting her
 
 #### To Do List
 * Android 12 Splash screen support (using androidx core-splashscreen lib at https://developer.android.com/jetpack/androidx/releases/core)
-* Rewrite DevOptions screen in Compose
 * Base/custom/generic dialogfragment support with:
     * title (visible/gone) - res id or string (see StringIdHelper below)
     * body - res id or string (see StringIdHelper below)

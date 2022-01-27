@@ -24,7 +24,9 @@ Things you should have prior to starting the new project setup. These can be cha
 **Note: You can search for `TODO: TEMPLATE` comments to see areas of the project that need to be addressed when kicking off a new project. As the areas are addressed in the new project, remove the comments.**
 
 ### Copy architecture demo source to an empty git repository
-Copy the existing files/folders (with the exception of the `.git` folder) into a new, empty git repository
+1. Copy the existing files/folders (with the exception of the `.git` folder) into a new, empty git repository.
+2. **NOTE 1:** Make sure to copy the `.idea/codeStyles/*` and `.idea/runConfigurations/*` folders into the .idea folder to ensure a consistent project code style is used by the whole dev team as well as the Shared Run Configurations are brought over and shared with the whole dev team.
+3. **NOTE 2:** Make sure to copy the `.gitignore` files for the root project and each module (`:app` and `:data`) to ensure that important parts of the .idea folder are checked into the git repository and shared with the whole team.
 
 ### Delete architecture demo specific data (classes, Android resources)
 * In general, remove all unused Architecture Demo specific Fragments, ViewModels, Repositories, and Android resources(layouts, colors, drawables, color drawables, menus, styles, strings, etc). Keep `BaseFragment`, `BaseViewModel`, and `Repository (interface)`.

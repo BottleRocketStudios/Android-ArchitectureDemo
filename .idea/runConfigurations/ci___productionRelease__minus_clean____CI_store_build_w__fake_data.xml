@@ -1,6 +1,16 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ci - productionRelease (minus clean) - store build" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="ci - productionRelease (minus clean) - CI store build w/ fake data" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
+      <option name="env">
+        <map>
+          <entry key="BUILD_NUMBER" value="44332211" />
+          <entry key="IS_CI" value="true" />
+          <entry key="_KEYSTORE" value="../keystore/debug.keystore" />
+          <entry key="_KEYSTORE_PASSWORD" value="android" />
+          <entry key="_KEY_ALIAS" value="androiddebugkey" />
+          <entry key="_KEY_PASSWORD" value="android" />
+        </map>
+      </option>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
@@ -11,6 +21,7 @@
       <option name="taskNames">
         <list>
           <option value="assembleProductionRelease" />
+          <option value="bundleProductionRelease" />
           <option value="ktlintCheck" />
           <option value="detekt" />
           <option value="testProductionReleaseUnitTest" />
