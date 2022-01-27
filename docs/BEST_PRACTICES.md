@@ -120,6 +120,8 @@ sealed class Foo {
 * Use `FIXME` comments to leave "breadcrumbs" in cases where some specific code or condition needs to be revisited **before the next release**. You might leave a FIXME when using a placeholder value that needs to be updated with the real one later on down the road when it is created/obtained. During dev signoff, all FIXME entries should be evaluated and handled appropriately.
     * `// FIXME: Replace with production value from client before release!`
     * `// FIXME: Set to BuildConfig.DEBUG before release!`
+* Use `FIXME - VALIDATE EVERY DEV SIGNOFF` to validate the condition before every dev signoff. These comments should likely never be removed as long as the commented scenario is still valid to check every dev signoff.
+    * `FIXME - VALIDATE EVERY DEV SIGNOFF: Verify that the play store build is NOT proxyable on 24+ devices.`
 * Use `TODO` comments to leave "breadcrumbs" of ideas to improve the codebase. You might call out code that you write that could be done in a more optimal way in the future. Or you could leave a TODO for some code that you see that could be improved but you aren't able to immediately act on it right then.
     * `// TODO: TODO: Consider breaking this up into smaller mappers if the scope becomes too large`
     * `// TODO: Remove this if able after simplifying search results logic`

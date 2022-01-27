@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- FIXME: DEV SIGNOFF - Verify that the play store build is NOT proxyable on 24+ devices. -->
+<!-- FIXME - VALIDATE EVERY DEV SIGNOFF: Verify that the play store build is NOT proxyable on 24+ devices. -->
 <!-- NOTE: This configuration is present to allow proxying of 24+ devices on all internal flavor builds, including internalRelease builds (for QA purposes) -->
 <!-- More info at https://developer.android.com/training/articles/security-config.html -->
 <network-security-config xmlns:tools="http://schemas.android.com/tools">
