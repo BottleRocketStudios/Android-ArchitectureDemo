@@ -276,11 +276,6 @@ private object Libraries {
     private const val CHUCKER_VERSION = "3.5.2"
     const val CHUCKER = "com.github.ChuckerTeam.Chucker:library:$CHUCKER_VERSION"
     const val CHUCKER_NO_OP = "com.github.ChuckerTeam.Chucker:library-no-op:$CHUCKER_VERSION"
-
-    // https://github.com/amitshekhariitbhu/Android-Debug-Database/blob/master/CHANGELOG.md
-    // https://github.com/amitshekhariitbhu/Android-Debug-Database/releases
-    // Using jitpack: https://github.com/amitshekhariitbhu/Android-Debug-Database/issues/208
-    const val DEBUG_DATABASE = "com.github.amitshekhariitbhu.Android-Debug-Database:debug-db:v1.0.6"
 }
 
 /**
@@ -441,12 +436,6 @@ fun DependencyHandler.chuckerDependencies(devConfigurations: List<Configuration>
     add(productionConfiguration.name, Libraries.CHUCKER_NO_OP) // note the releaseImplementation no-op
 }
 
-fun DependencyHandler.debugDatabaseDependencies(devConfigurations: List<Configuration>) {
-    // Only add dependency for dev configurations in the list
-    devConfigurations.forEach { devConfiguration: Configuration ->
-        add(devConfiguration.name, Libraries.DEBUG_DATABASE)
-    }
-}
 
 // Test specific dependency groups
 fun DependencyHandler.junitDependencies() {
