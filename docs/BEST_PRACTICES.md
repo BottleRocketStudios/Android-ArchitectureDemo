@@ -131,6 +131,12 @@ It is a good practice to add the appropriate Time Unit suffix to methods, parame
 
 If using a type that abstracts the need for a unit such as `org.threeten.bp.Duration`, then you don't need to specify a suffix on that object. If you pull out the ms value of the duration as a variable, then add the suffix.
 
+## Use `StringIdHelper` to avoid depending on `Context` 
+Use `StringIdHelper.*` types (representing string resources, format strings, and plurals as well as raw strings) in `ViewModel`s (or other classes) to avoid needing a `Context`. This allows for **simpler unit testing** and **prevents the need for `Context` in places it shouldn't be used** by pushing the resolution of the final String to the view layer (using the `textByStringIdHelper` DataBinding custom BindingAdapter function that takes in a `Context`).
+
+## Inject `Clock`
+Pass the `java.time.Clock` instance from Koin to any java 8 date/time apis that can use it in order **to allow control of the clock in unit tests**. This will typically be the `.now(clock: Clock)` api on `Instant`, `ZonedDateTime`, `LocalDateTime`, `LocalDate`, `LocalTime`, and so on.
+
 ## Jacoco
 1. **Generate a combined jacoco report of all modules (as well as a report per module)** by executing the `testInternalDebugCombinedUnitTestCoverage` gradle task (or included Android Studio Run Configuration). More info in [jacocoRoot.gradle](../jacocoRoot.gradle)
     * **View the generated reports** by executing the `Open Jacoco Report - internalDebug` Android Studio Run configuration, manually executing `open_jacoco_report_internalDebug.sh`, or manually opening the index.html files from the reports directories.

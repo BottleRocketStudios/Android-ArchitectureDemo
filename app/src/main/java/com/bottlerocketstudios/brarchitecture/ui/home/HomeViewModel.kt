@@ -7,6 +7,7 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.brarchitecture.ui.HeaderViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
+import com.bottlerocketstudios.brarchitecture.ui.util.StringIdHelper
 import com.xwray.groupie.Section
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class HomeViewModel(repo: BitbucketRepository, private val dispatcherProvider: D
             repos.collect { repoList ->
                 val map = repoList.map { RepositoryViewModel(it) }
                 withContext(dispatcherProvider.Main) {
-                    reposGroup.setHeader(HeaderViewModel(R.string.home_repositories))
+                    reposGroup.setHeader(HeaderViewModel(StringIdHelper.Id(R.string.home_repositories)))
                     reposGroup.update(map)
                 }
             }

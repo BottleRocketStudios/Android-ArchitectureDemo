@@ -67,7 +67,7 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/name"
-                android:text="@{dbViewModel.formattedUpdateTime}"
+                app:textByStringIdHelper="@{dbViewModel.formattedUpdateTime}"
                 tools:text="5 days ago"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

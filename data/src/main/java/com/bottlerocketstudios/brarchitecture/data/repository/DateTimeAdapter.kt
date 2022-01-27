@@ -3,10 +3,11 @@ package com.bottlerocketstudios.brarchitecture.data.repository
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import timber.log.Timber
+import java.time.Clock
 import java.time.ZonedDateTime
 import java.time.format.DateTimeParseException
 
-class DateTimeAdapter {
+class DateTimeAdapter(private val clock: Clock) {
     @ToJson
     fun toJson(zonedDateTime: ZonedDateTime) = zonedDateTime.toString()
 
@@ -16,7 +17,7 @@ class DateTimeAdapter {
             ZonedDateTime.parse(zonedDateTime)
         } catch (exception: DateTimeParseException) {
             Timber.e(exception, "Failed to parse zonedDateTime")
-            ZonedDateTime.now()
+            ZonedDateTime.now(clock)
         }
     }
 }

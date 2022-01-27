@@ -104,7 +104,7 @@ class BitbucketServiceTest : BaseTest() {
             .baseUrl("https://api.bitbucket.org")
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(DateTimeAdapter()).build()))
+            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(DateTimeAdapter(mock())).build()))
             .build()
 
         return retrofit.create(BitbucketService::class.java)
