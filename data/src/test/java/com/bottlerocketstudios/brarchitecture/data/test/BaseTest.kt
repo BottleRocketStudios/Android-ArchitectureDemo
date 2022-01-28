@@ -6,6 +6,23 @@ import org.koin.core.scope.Scope
 import org.koin.dsl.module
 import timber.log.Timber
 
+/**
+ * Common setup/initialization all JUnit tests should inherit from.
+ *
+ * ### Test Function Naming
+ * All test methods names should follow the template below:
+ *
+ * `methodNameUnderTest_conditionBeingTested_expectedResult`
+ *
+ * ### Test Function Body
+ * 1. Use the **Arrange, Act, Assert** pattern.
+ * 2. Blank lines should indicate the different steps in the pattern (comments denoting each section should not be used).
+ *
+ * Additional resources:
+ * * https://wiki.c2.com/?ArrangeActAssert
+ * * https://xp123.com/articles/3a-arrange-act-assert/
+ * * https://medium.com/swlh/an-experience-of-unit-testing-with-the-arrange-act-assert-aaa-pattern-part-i-53babd01c52b
+ */
 open class BaseTest {
     @Before
     fun plantTimber() {
