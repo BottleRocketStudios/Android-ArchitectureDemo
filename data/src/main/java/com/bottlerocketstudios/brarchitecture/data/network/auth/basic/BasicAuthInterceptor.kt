@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth.basic
 
+import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.getBasicAuthHeader
 import okhttp3.Interceptor
@@ -13,8 +14,8 @@ internal class BasicAuthInterceptor(private val credentialsRepo: BitbucketCreden
             .header(
                 "Authorization",
                 getBasicAuthHeader(
-                    credentials?.id ?: "",
-                    credentials?.password ?: ""
+                    credentials?.id ?: "".toProtectedProperty(),
+                    credentials?.password ?: "".toProtectedProperty()
                 )
             )
             .build()

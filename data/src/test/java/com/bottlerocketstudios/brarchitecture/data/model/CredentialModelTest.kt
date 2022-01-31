@@ -7,14 +7,14 @@ import org.junit.Test
 class CredentialModelTest : BaseTest() {
     @Test
     fun credentialModel_shouldHaveFields_whenConstructed() {
-        val cm = CredentialModel("id", "password")
-        assertThat(cm.id).isEqualTo("id")
-        assertThat(cm.password).isEqualTo("password")
+        val cm = CredentialModel(ProtectedProperty("id"), ProtectedProperty("password"))
+        assertThat(cm.id.value).isEqualTo("id")
+        assertThat(cm.password.value).isEqualTo("password")
     }
 
     @Test
     fun getValidCredentialModel_shouldReturnNull_whenCredentialsInvalid() {
-        val cm = CredentialModel(null, null)
+        val cm = CredentialModel(ProtectedProperty(""), ProtectedProperty(""))
         assertThat(cm.validCredentials).isNull()
     }
 }

@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth
 
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.network.HeaderInterceptorMock
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
@@ -24,20 +25,20 @@ class TokenAuthInterceptorTest : BaseTest() {
     @Test
     fun authInterceptor() {
         var accessToken: AccessToken? = null
-        val response: Response<*> = mock() {
+        val response: Response<*> = mock {
             on { body() }.then { accessToken }
         }
-        val call: Call<AccessToken> = mock() {
+        val call: Call<AccessToken> = mock {
             on { execute() }.then { response }
         }
-        val service: TokenAuthService = mock() {
+        val service: TokenAuthService = mock {
             on { getToken(any(), any(), any(), any()) }.doAnswer { invocation ->
-                accessToken = AccessToken(accessToken = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}")
+                accessToken = AccessToken(accessToken = "${invocation.getArgument<String>(0)} + ${invocation.getArgument<String>(1)}".toProtectedProperty())
                 call
             }
         }
         val bitbucketCredentialsRepository = mock<BitbucketCredentialsRepository> {
-            on { loadCredentials() } doReturn ValidCredentialModel("test@example.com", "password1")
+            on { loadCredentials() } doReturn ValidCredentialModel("test@example.com".toProtectedProperty(), "password1".toProtectedProperty())
             on { loadToken() } doAnswer { accessToken }
         }
         val interceptor = TokenAuthInterceptor(service, bitbucketCredentialsRepository)
