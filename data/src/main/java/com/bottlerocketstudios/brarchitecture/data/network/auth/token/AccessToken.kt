@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth.token
 
+import com.bottlerocketstudios.brarchitecture.data.model.ProtectedProperty
+import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -8,9 +10,9 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 internal data class AccessToken(
-    @Json(name = "access_token") val accessToken: String? = "",
+    @Json(name = "access_token") val accessToken: ProtectedProperty<String>? = "".toProtectedProperty(),
     @Json(name = "scopes") val scopes: String? = "",
     @Json(name = "expires_in") val expiresInSeconds: Int? = 0,
-    @Json(name = "refresh_token") val refreshToken: String? = "",
+    @Json(name = "refresh_token") val refreshToken: ProtectedProperty<String>? = "".toProtectedProperty(),
     @Json(name = "token_type") val tokenType: String? = ""
 )

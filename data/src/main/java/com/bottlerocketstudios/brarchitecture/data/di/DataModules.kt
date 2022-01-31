@@ -15,7 +15,8 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
-import com.bottlerocketstudios.brarchitecture.data.repository.DateTimeAdapter
+import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
+import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -35,7 +36,7 @@ object DataModule {
         // Clock for injectable time that can be replaced in tests
         single<Clock> { Clock.systemDefaultZone() }
         single<DispatcherProvider> { DispatcherProviderImpl() }
-        single<Moshi> { Moshi.Builder().add(DateTimeAdapter(clock = get())).build() }
+        single<Moshi> { Moshi.Builder().add(DateTimeAdapter(clock = get())).add(ProtectedPropertyAdapter()).build() }
         single<BitbucketRepository> { BitbucketRepositoryImpl(bitbucketService = get(), bitbucketCredentialsRepository = get(), responseToApiResultMapper = get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
@@ -111,7 +112,7 @@ private object BasicAuthModule {
 object TokenAuthModule {
     val module = module {
         single { TokenAuthInterceptor(tokenAuthService = get(), credentialsRepo = get()) }
-        single<TokenAuthService> { provideTokenAuthService(okHttpClient = get(named(KoinNamedNetwork.Unauthenticated))) }
+        single<TokenAuthService> { provideTokenAuthService(okHttpClient = get(named(KoinNamedNetwork.Unauthenticated)), moshi = get()) }
         single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {
             provideTokenAuthOkHttpClient(
                 okHttpClient = get(named(KoinNamedNetwork.Unauthenticated)),
@@ -120,11 +121,11 @@ object TokenAuthModule {
         }
     }
 
-    private fun provideTokenAuthService(okHttpClient: OkHttpClient): TokenAuthService {
+    private fun provideTokenAuthService(okHttpClient: OkHttpClient, moshi: Moshi): TokenAuthService {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://bitbucket.org/    ")
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
         return retrofit.create(TokenAuthService::class.java)
     }

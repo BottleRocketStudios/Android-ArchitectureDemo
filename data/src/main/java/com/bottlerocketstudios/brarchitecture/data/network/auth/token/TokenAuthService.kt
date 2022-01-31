@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth.token
 
 import com.bottlerocketstudios.brarchitecture.data.BuildConfig
+import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.network.auth.getBasicAuthHeader
 import retrofit2.Call
 import retrofit2.http.Field
@@ -17,8 +18,8 @@ internal interface TokenAuthService {
         @Field("password") password: String,
         @Field("grant_type") grantType: String? = "password",
         @Header("Authorization") header: String = getBasicAuthHeader(
-            BuildConfig.BITBUCKET_KEY,
-            BuildConfig.BITBUCKET_SECRET
+            BuildConfig.BITBUCKET_KEY.toProtectedProperty(),
+            BuildConfig.BITBUCKET_SECRET.toProtectedProperty(),
         )
     ): Call<AccessToken>
 
@@ -28,8 +29,8 @@ internal interface TokenAuthService {
         @Field("refresh_token") username: String,
         @Field("grant_type") grantType: String? = "refresh_token",
         @Header("Authorization") header: String = getBasicAuthHeader(
-            BuildConfig.BITBUCKET_KEY,
-            BuildConfig.BITBUCKET_SECRET
+            BuildConfig.BITBUCKET_KEY.toProtectedProperty(),
+            BuildConfig.BITBUCKET_SECRET.toProtectedProperty(),
         )
     ): Call<AccessToken>
 }

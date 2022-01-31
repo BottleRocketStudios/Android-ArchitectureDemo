@@ -22,7 +22,7 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
         val token = credentialsRepo.loadToken()
         val credentials = credentialsRepo.loadCredentials()
         if (token == null) {
-            val call = tokenAuthService.getToken(credentials?.id ?: "", credentials?.password ?: "")
+            val call = tokenAuthService.getToken(credentials?.id?.value.orEmpty(), credentials?.password?.value.orEmpty())
             val response = call.execute()
             val newToken = response.body()
             // Uncomment this line, and the authInterceptor will always start out with an expired token
@@ -41,12 +41,12 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
         val token = credentialsRepo.loadToken()
         val accessToken = token?.accessToken
         val refreshToken = token?.refreshToken
-        return if (accessToken.isNullOrEmpty()) {
+        return if (accessToken?.value.isNullOrEmpty()) {
             chain.proceed(chain.request())
         } else {
             val request = chain.request()
             val newRequest = request.newBuilder()
-                .header("Authorization", getTokenAuthHeader(accessToken))
+                .header("Authorization", getTokenAuthHeader(accessToken!!.value))
                 .build()
             var chainResult = chain.proceed(newRequest)
             if (chainResult.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
@@ -56,7 +56,7 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
                 Timber.v("auth failure=$failure")
                 if (failure?.type == "error" && failure.error?.message.orEmpty().contains("token expired")) {
                     val refreshResponse =
-                        tokenAuthService.refreshToken(refreshToken ?: "")
+                        tokenAuthService.refreshToken(refreshToken?.value.orEmpty())
                             .execute()
                     val newToken = refreshResponse.body()
 
@@ -67,7 +67,7 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
                     }
 
                     val newestRequest = request.newBuilder()
-                        .header("Authorization", getTokenAuthHeader(newToken?.accessToken ?: ""))
+                        .header("Authorization", getTokenAuthHeader(newToken?.accessToken?.value.orEmpty()))
                         .build()
                     chainResult = chain.proceed(newestRequest)
                 }
@@ -77,6 +77,4 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
     }
 }
 
-private fun getTokenAuthHeader(token: String): String {
-    return "Bearer " + token
-}
+private fun getTokenAuthHeader(token: String): String = "Bearer $token"

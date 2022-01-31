@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.model.CredentialModel
+import com.bottlerocketstudios.brarchitecture.data.model.ProtectedProperty
+import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
@@ -15,6 +17,7 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -28,11 +31,16 @@ class LoginViewModel(
     BaseViewModel() {
 
     // Two way databinding
+    /** Prefer using [protectedEmail]. This StateFlow exists to back the raw value used for two way databinding. */
     val email = MutableStateFlow("")
+    /** Prefer using [protectedPassword]. This StateFlow exists to back the raw value used for two way databinding. */
     val password = MutableStateFlow("")
 
+    private val protectedEmail: StateFlow<ProtectedProperty<String>> = email.map { it.toProtectedProperty() }.groundState("".toProtectedProperty())
+    private val protectedPassword: StateFlow<ProtectedProperty<String>> = password.map { it.toProtectedProperty() }.groundState("".toProtectedProperty())
+
     // One way databinding
-    val loginEnabled: StateFlow<Boolean> = combine(email, password) { (email, password) ->
+    val loginEnabled: StateFlow<Boolean> = combine(protectedEmail, protectedPassword) { (email, password) ->
         CredentialModel(email, password).valid
     }.groundState(false)
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
@@ -40,7 +48,7 @@ class LoginViewModel(
     fun onLoginClicked() {
         Timber.v("[onLoginClicked]")
         viewModelScope.launch(dispatcherProvider.IO) {
-            val creds = CredentialModel(email.value, password.value)
+            val creds = CredentialModel(protectedEmail.value, protectedPassword.value)
             creds.validCredentials?.let {
 
                 val authenticated = repo.authenticate(it)
