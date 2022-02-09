@@ -72,7 +72,7 @@ fun EditText.onEditorEnterAction(enterCallback: GeneralCallback?) {
     if (enterCallback == null) {
         setOnEditorActionListener(null)
     } else {
-        setOnEditorActionListener { v, actionId, event ->
+        setOnEditorActionListener { _, actionId, event ->
             val validImeAction = when (actionId) {
                 EditorInfo.IME_ACTION_DONE,
                 EditorInfo.IME_ACTION_SEND,

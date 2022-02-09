@@ -1,5 +1,6 @@
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import java.util.Locale
 
 // Provides dependencies that can be used throughout the project build.gradle files
 
@@ -106,7 +107,7 @@ object Config {
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
     fun isNonStable(version: String): Boolean {
-        val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+        val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase(Locale.ENGLISH).contains(it) }
         val regex = "^[0-9,.v-]+(-r)?$".toRegex()
         val isStable = stableKeyword || regex.matches(version)
         return isStable.not()

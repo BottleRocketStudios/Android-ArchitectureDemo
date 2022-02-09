@@ -2,7 +2,7 @@ package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /** Represents data from an error response. Can be modified to model data from a normalized error response for custom error UI/logic as needed. */
 @JsonClass(generateAdapter = true)

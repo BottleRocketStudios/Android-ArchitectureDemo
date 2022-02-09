@@ -19,7 +19,7 @@ class RepositoryFileFragment : BaseDataBindingFragment<RepositoryFileFragmentVie
 
     override fun setupBinding(binding: RepositoryFileFragmentBinding) {
         super.setupBinding(binding)
-        val repo: Repository = activityViewModel.selectedRepo.value ?: return
+        val repo: Repository = activityViewModel.selectedRepo.value
         val file: RepoFile = args.file
         activityViewModel.setTitle(file.path ?: "")
         activityViewModel.showToolbar(true)
