@@ -12,6 +12,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 private const val KOTLIN_VERSION = "1.6.10"
 private const val KOTLIN_COROUTINES_VERSION = "1.6.0"
 private const val NAVIGATION_VERSION = "2.3.5"
+private const val FRAGMENT_VERSION = "1.4.1"
 
 /**
  * Provides the source of truth for version/configuration information to any gradle build file (project and app module build.gradle.kts)
@@ -55,7 +56,7 @@ object Config {
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.0.4"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.1.1"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
@@ -99,8 +100,8 @@ object Config {
     }
 
     object Compose {
-        const val COMPOSE_VERSION = "1.1.0-rc01"
-        const val COMPOSE_COMPILER_VERSION = "1.1.0-rc02"
+        const val COMPOSE_VERSION = "1.1.0"
+        const val COMPOSE_COMPILER_VERSION = "1.1.0"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
@@ -144,8 +145,11 @@ private object Libraries {
     // https://developer.android.com/jetpack/androidx/releases/activity
     const val ACTIVITY_KTX = "androidx.activity:activity-ktx:$ACTIVITY_VERSION"
     const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$ACTIVITY_VERSION"
+    // https://developer.android.com/jetpack/androidx/releases/fragment
+    const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:$FRAGMENT_VERSION"
 
     // Compose
+    // Compose-Kotlin version compatibility matrix: https://developer.android.com/jetpack/androidx/releases/compose-kotlin
     // https://developer.android.com/jetpack/androidx/releases/compose
     private const val COMPOSE_VERSION = Config.Compose.COMPOSE_VERSION
     private const val COMPOSE_COMPILER_VERSION = Config.Compose.COMPOSE_COMPILER_VERSION
@@ -186,7 +190,7 @@ private object Libraries {
     const val MATERIAL = "com.google.android.material:material:1.5.0"
     // https://github.com/material-components/material-components-android-compose-theme-adapter/releases/
     // Navigate to above link, search for latest material-vX.Y.Z that supports a matching version of Compose, and just use the X.Y.Z in the dependency version below
-    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.1.2"
+    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.1.3"
 
     //// Kotlin
     const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -239,7 +243,7 @@ private object Libraries {
     
     // Glide
     // https://github.com/bumptech/glide/releases
-    private const val GLIDE_VERSION = "4.12.0"
+    private const val GLIDE_VERSION = "4.13.0"
     const val GLIDE = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
     //// Utility
@@ -306,7 +310,7 @@ private object TestLibraries {
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
     const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.3"
     const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
-    const val ANDROIDX_FRAGMENT_TEST = "androidx.fragment:fragment-testing:1.4.0"
+    const val ANDROIDX_FRAGMENT_TEST = "androidx.fragment:fragment-testing:$FRAGMENT_VERSION"
 
     //// Kotlinx Coroutine - Testing
     // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
@@ -366,6 +370,9 @@ fun DependencyHandler.appCompatDependencies() {
 fun DependencyHandler.activityDependencies() {
     implementation(Libraries.ACTIVITY_KTX)
     implementation(Libraries.COMPOSE_ACTIVITY)
+}
+fun DependencyHandler.fragmentDependencies() {
+    implementation(Libraries.FRAGMENT_KTX)
 }
 fun DependencyHandler.androidxStartupDependencies() {
     implementation(Libraries.STARTUP)
