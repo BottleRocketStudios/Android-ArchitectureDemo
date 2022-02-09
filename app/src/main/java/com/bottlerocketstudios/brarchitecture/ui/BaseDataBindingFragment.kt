@@ -50,7 +50,7 @@ abstract class BaseDataBindingFragment<FRAGMENT_VIEW_MODEL : BaseViewModel, BIND
         setupBinding(binding)
     }
 
-    /** Use onDestroy(binding) if need access to [binding]. Otherwise, override this function and call super. */
+    /** Use onDestroyView(binding) if need access to [binding]. Otherwise, override this function and call super. */
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()

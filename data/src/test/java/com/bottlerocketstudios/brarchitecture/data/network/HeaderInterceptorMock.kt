@@ -12,7 +12,7 @@ class HeaderInterceptorMock {
     lateinit var requestBuilder: Request.Builder
     fun getMockedChain(): Interceptor.Chain {
         requestBuilder = mock { requestBuilder ->
-            on { header(any(), any()) } doAnswer { invocation ->
+            on { header(any(), any()) } doAnswer { _ ->
                 requestBuilder
             }
         }

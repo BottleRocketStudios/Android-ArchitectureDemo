@@ -74,11 +74,12 @@ subprojects {
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
-            // Enable experimental coroutines APIs
+            // Enable experimental coroutines APIs. Use `-opt-in` instead of `-Xuse-experimental` or `-Xopt-in`
+            // https://github.com/Kotlin/kotlinx.coroutines/issues/976#issuecomment-657102010 and https://kotlinlang.org/docs/opt-in-requirements.html#module-wide-opt-in
             @Suppress("SuspiciousCollectionReassignment")
             freeCompilerArgs += listOf(
-                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xopt-in=kotlin.time.ExperimentalTime",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlin.time.ExperimentalTime",
             )
         }
     }

@@ -24,7 +24,7 @@ class RepositoryFolderFragment : BaseDataBindingFragment<RepositoryFolderFragmen
         super.setupBinding(binding)
 
         binding.apply {
-            val repo: Repository = activityViewModel.selectedRepo.value ?: return
+            val repo: Repository = activityViewModel.selectedRepo.value
             val folder: RepoFile = args.file
             activityViewModel.setTitle(folder.path ?: "")
             activityViewModel.showToolbar(true)
