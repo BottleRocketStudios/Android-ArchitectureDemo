@@ -146,6 +146,7 @@ dependencies {
     composeDependencies()
     appCompatDependencies()
     activityDependencies()
+    fragmentDependencies()
     androidxStartupDependencies()
     constraintLayoutDependencies()
     materialDependencies()
