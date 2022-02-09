@@ -28,6 +28,9 @@ class KoinStartupInitializer : Initializer<KoinApplication> {
             }
 
             androidContext(context)
+            // Turn definition override off (it is on by default) so Koin throws a `DefinitionOverrideException` when a definition is provided in multiple locations of the graph.
+            // See https://insert-koin.io/docs/reference/koin-core/modules/#overriding-definition-or-module-310
+            allowOverride(override = false)
             modules(
                 listOf(
                     AppModule.module,

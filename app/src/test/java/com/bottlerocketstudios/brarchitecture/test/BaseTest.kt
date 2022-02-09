@@ -29,8 +29,8 @@ open class BaseTest {
         Timber.plant(SystemOutPrintlnTree())
     }
 
-    /** Used to declare a Koin single within a module and load immediately */
-    inline fun <reified T> inlineKoinSingle(override: Boolean = false, crossinline block: Scope.() -> T) {
-        loadKoinModules(module(override = override) { single { block() } })
+    /** Used to declare a Koin single within a module and load immediately, overriding any definitions previously set. */
+    inline fun <reified T> inlineKoinSingle(crossinline block: Scope.() -> T) {
+        loadKoinModules(module { single { block() } })
     }
 }
