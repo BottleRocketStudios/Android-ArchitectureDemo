@@ -248,6 +248,9 @@ private object Libraries {
     const val GLIDE = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
     //// Utility
+    // https://github.com/BottleRocketStudios/Android-CustomLintRules/releases
+    const val BR_CUSTOM_ANDROID_LINT_RULES = "com.github.BottleRocketStudios:Android-CustomLintRules:1.0.0"
+
     // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
     // https://github.com/hadilq/LiveEvent/releases
     const val LIVE_EVENT = "com.github.hadilq.liveevent:liveevent:1.2.0"
@@ -424,6 +427,9 @@ fun DependencyHandler.processPhoenixDependencies() {
 }
 fun DependencyHandler.liveEventDependencies() {
     implementation(Libraries.LIVE_EVENT)
+}
+fun DependencyHandler.brCustomAndroidLintRules() {
+    implementation(Libraries.BR_CUSTOM_ANDROID_LINT_RULES)
 }
 
 fun DependencyHandler.commonsCodecDependencies() {

@@ -125,6 +125,7 @@ dependencies {
     moshiDependencies()
 
     // Utility
+    brCustomAndroidLintRules()
     liveEventDependencies()
     timberDependencies()
     commonsCodecDependencies()

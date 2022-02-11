@@ -162,6 +162,7 @@ dependencies {
     glideDependencies()
 
     // Utility
+    brCustomAndroidLintRules()
     liveEventDependencies()
     timberDependencies()
     processPhoenixDependencies()
