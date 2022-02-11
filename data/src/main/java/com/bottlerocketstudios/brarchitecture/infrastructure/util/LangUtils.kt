@@ -16,7 +16,7 @@ when (number) {
 }
 
 // by calling `exhaustive`, we turn `when` from a statement
-// to an expression 👍
+// to an expression
 when (number) {
  is Numbers.One -> println("This is One")
  is Numbers.Two -> println("This is Two")
