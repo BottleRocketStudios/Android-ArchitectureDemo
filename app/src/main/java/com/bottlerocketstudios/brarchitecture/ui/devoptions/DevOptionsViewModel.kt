@@ -20,8 +20,7 @@ class DevOptionsViewModel(
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //
     val environmentNames: StateFlow<List<String>> = MutableStateFlow(environmentRepository.environments.map { it.environmentType.shortName })
-    var environmentSpinnerPosition = environmentRepository.environments.indexOf(environmentRepository.selectedConfig)
-        private set
+    val environmentSpinnerPosition: StateFlow<Int> = MutableStateFlow(environmentRepository.environments.indexOf(environmentRepository.selectedConfig))
 
     val baseUrl: StateFlow<String> = MutableStateFlow("")
 
@@ -40,7 +39,7 @@ class DevOptionsViewModel(
         val oldEnvironment = environmentRepository.selectedConfig
         Timber.v("[onEnvironmentChanged] newEnvironment=$newEnvironment, oldEnvironment=$oldEnvironment")
         if (newEnvironment != oldEnvironment) {
-            environmentSpinnerPosition = newEnvironmentIndex
+            environmentSpinnerPosition.set(newEnvironmentIndex)
             environmentRepository.changeEnvironment(environmentRepository.environments[newEnvironmentIndex].environmentType)
             updateEnvironmentInfo()
             toaster.toast("!!! Restart required !!!")
