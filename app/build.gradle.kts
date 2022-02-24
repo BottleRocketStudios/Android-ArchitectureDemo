@@ -135,6 +135,7 @@ android {
 
 dependencies {
     implementation(project(mapOf("path" to ":data")))
+    implementation(project(mapOf("path" to ":compose")))
     // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
