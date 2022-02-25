@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -12,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
-import com.google.android.material.composethemeadapter.MdcTheme
+import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -56,11 +55,9 @@ class DevOptionsFragment : BaseFragment<DevOptionsViewModel>() {
 
     @Composable
     private fun OuterScreenContent(viewModel: DevOptionsViewModel) {
-        MdcTheme {
-            Surface {
-                val state = viewModel.toState()
-                DevOptionsScreen(state = state)
-            }
+        ArchitectureDemoTheme {
+            val state = viewModel.toState()
+            DevOptionsScreen(state = state)
         }
     }
 }
