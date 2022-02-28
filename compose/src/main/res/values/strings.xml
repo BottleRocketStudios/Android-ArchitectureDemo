@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Splash -->
+    <string name="splash_image_content_description">Bottle Rocket Architecture Demo</string>
+
+</resources>
