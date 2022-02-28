@@ -13,5 +13,4 @@ data class RepositoryBrowserScreenState(
 
 @Composable
 fun RepositoryBrowserScreen(state: RepositoryBrowserScreenState) {
-
 }

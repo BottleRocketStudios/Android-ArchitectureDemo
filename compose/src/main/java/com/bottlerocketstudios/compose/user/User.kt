@@ -13,5 +13,4 @@ data class UserScreenState(
 
 @Composable
 fun UserScreen(state: UserScreenState) {
-
 }

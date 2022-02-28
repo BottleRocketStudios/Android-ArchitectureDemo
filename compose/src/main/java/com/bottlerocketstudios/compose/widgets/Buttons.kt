@@ -3,7 +3,6 @@ package com.bottlerocketstudios.compose.widgets
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -37,7 +36,7 @@ private fun PreviewPrimaryButton() {
     ArchitectureDemoTheme {
         PrimaryButton(
             buttonText = "Hello World",
-            onClick = {  },
+            onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
         )

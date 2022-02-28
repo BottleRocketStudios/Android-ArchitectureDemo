@@ -1,11 +1,6 @@
 package com.bottlerocketstudios.compose.resources
 
-import androidx.compose.material.Colors
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val br_red = Color(0xffe2231a)

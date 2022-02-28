@@ -40,6 +40,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
+import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.black
 import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.light
@@ -104,13 +105,13 @@ private fun ScrollContent(state: DevOptionsState) {
         LazyColumn(
             modifier = Modifier
                 .padding(
-                    start = ArchitectureDemoTheme.dimens.grid_1_5,
-                    end = ArchitectureDemoTheme.dimens.grid_1_5
+                    start = Dimens.grid_1_5,
+                    end = Dimens.grid_1_5
                 )
                 .fillMaxSize()
         ) {
             item {
-                Spacer(Modifier.height(ArchitectureDemoTheme.dimens.grid_3))
+                Spacer(Modifier.height(Dimens.grid_3))
                 CardLayout { EnvironmentCard(baseUrl = state.baseUrl.value) }
                 CardDivider(ArchitectureDemoTheme.colors.primary)
             }
@@ -122,7 +123,7 @@ private fun ScrollContent(state: DevOptionsState) {
 
             item {
                 CardLayout { MiscFunctionalityCard(onForceCrashCtaClick = state.onForceCrashCtaClicked) }
-                Spacer(Modifier.height(ArchitectureDemoTheme.dimens.grid_3))
+                Spacer(Modifier.height(Dimens.grid_3))
             }
         }
     }
@@ -157,10 +158,10 @@ private fun MiscFunctionalityCard(onForceCrashCtaClick: () -> Unit) {
 private fun CardDivider(dividerColor: Color) {
     Divider(
         color = dividerColor,
-        thickness = ArchitectureDemoTheme.dimens.grid_0_25,
+        thickness = Dimens.grid_0_25,
         modifier = Modifier.padding(
-            top = ArchitectureDemoTheme.dimens.grid_1_5,
-            bottom = ArchitectureDemoTheme.dimens.grid_1_5
+            top = Dimens.grid_1_5,
+            bottom = Dimens.grid_1_5
         )
     )
 }
@@ -171,7 +172,7 @@ private fun CardTitle(cardTitle: String) {
         cardTitle,
         style = MaterialTheme.typography.h3.normal(),
         modifier = Modifier
-            .padding(bottom = ArchitectureDemoTheme.dimens.grid_1)
+            .padding(bottom = Dimens.grid_1)
             .fillMaxWidth()
     )
 }
@@ -183,8 +184,8 @@ private fun TitleValueRow(title: String, entryValue: String) {
         style = MaterialTheme.typography.h3.bold(),
         modifier = Modifier
             .padding(
-                top = ArchitectureDemoTheme.dimens.grid_1,
-                bottom = ArchitectureDemoTheme.dimens.grid_1
+                top = Dimens.grid_1,
+                bottom = Dimens.grid_1
             )
             .wrapContentHeight()
             .fillMaxWidth()
@@ -200,14 +201,14 @@ private fun TitleValueRow(title: String, entryValue: String) {
 
 @Composable
 private fun CardLayout(content: @Composable () -> Unit) {
-    Card(elevation = ArchitectureDemoTheme.dimens.plane_3) {
+    Card(elevation = Dimens.plane_3) {
         Column(
             modifier = Modifier
                 .padding(
-                    start = ArchitectureDemoTheme.dimens.grid_1,
-                    end = ArchitectureDemoTheme.dimens.grid_1,
-                    top = ArchitectureDemoTheme.dimens.grid_1_5,
-                    bottom = ArchitectureDemoTheme.dimens.grid_1_5
+                    start = Dimens.grid_1,
+                    end = Dimens.grid_1,
+                    top = Dimens.grid_1_5,
+                    bottom = Dimens.grid_1_5
                 )
         ) {
             content()
@@ -217,7 +218,6 @@ private fun CardLayout(content: @Composable () -> Unit) {
 
 // TODO this needs to be update when the next stable release comes out. New Menus
 @Composable
-@Suppress("LongMethod")
 private fun DropdownEnvMenu(state: DevOptionsState) {
     var expanded by remember { mutableStateOf(false) }
     val items = state.environmentNames.value
@@ -226,44 +226,11 @@ private fun DropdownEnvMenu(state: DevOptionsState) {
             .fillMaxWidth()
             .wrapContentSize(Alignment.TopStart)
     ) {
-        items[state.environmentSpinnerPosition.value].let {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = { expanded = true })
-                    .height(IntrinsicSize.Min)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(Alignment.CenterVertically)
-                        .weight(1.0F)
-                        .padding(ArchitectureDemoTheme.dimens.grid_1_5)
-                ) {
-                    Text(
-                        text = "Environment Switcher",
-                        style = MaterialTheme.typography.h5.normal(),
-                        color = if (expanded) MaterialTheme.colors.primary else Color.Unspecified
-                    )
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.h4.normal()
-                    )
-                }
-
-                val displayIcon: Painter = painterResource(
-                    id = R.drawable.ic_arrow_drop_down_24
-                )
-                Icon(
-                    painter = displayIcon,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .wrapContentWidth(Alignment.CenterHorizontally)
-                        .fillMaxHeight()
-                        .padding(end = ArchitectureDemoTheme.dimens.grid_1_5),
-                    tint = if (expanded) MaterialTheme.colors.primary else Color.DarkGray
-                )
-            }
+        EnvironmentList(
+            text = items[state.environmentSpinnerPosition.value],
+            expanded = expanded
+        ) {
+            expanded = true
         }
         DropdownMenu(
             expanded = expanded,
@@ -280,6 +247,47 @@ private fun DropdownEnvMenu(state: DevOptionsState) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun EnvironmentList(text: String, expanded: Boolean, onClick: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .height(IntrinsicSize.Min)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(Alignment.CenterVertically)
+                .weight(1.0F)
+                .padding(Dimens.grid_1_5)
+        ) {
+            Text(
+                text = "Environment Switcher",
+                style = MaterialTheme.typography.h5.normal(),
+                color = if (expanded) MaterialTheme.colors.primary else Color.Unspecified
+            )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.h4.normal()
+            )
+        }
+
+        val displayIcon: Painter = painterResource(
+            id = R.drawable.ic_arrow_drop_down_24
+        )
+        Icon(
+            painter = displayIcon,
+            contentDescription = null,
+            modifier = Modifier
+                .wrapContentWidth(Alignment.CenterHorizontally)
+                .fillMaxHeight()
+                .padding(end = Dimens.grid_1_5),
+            tint = if (expanded) MaterialTheme.colors.primary else Color.DarkGray
+        )
     }
 }
 

@@ -10,5 +10,4 @@ data class FileBrowserScreenState(
 
 @Composable
 fun FileBrowserScreen(state: FileBrowserScreenState) {
-
 }
