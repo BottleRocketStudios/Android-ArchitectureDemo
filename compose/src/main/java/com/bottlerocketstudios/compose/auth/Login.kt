@@ -13,5 +13,4 @@ data class LoginScreenState(
 
 @Composable
 fun LoginScreen(state: LoginScreenState) {
-
 }

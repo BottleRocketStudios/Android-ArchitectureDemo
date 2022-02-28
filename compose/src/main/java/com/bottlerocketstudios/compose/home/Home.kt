@@ -10,5 +10,4 @@ data class HomeScreenState(
 
 @Composable
 fun HomeScreen(state: HomeScreenState) {
-
 }

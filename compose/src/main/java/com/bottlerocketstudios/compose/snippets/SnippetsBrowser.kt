@@ -10,5 +10,4 @@ data class SnippetsBrowserScreenState(
 
 @Composable
 fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
-
 }

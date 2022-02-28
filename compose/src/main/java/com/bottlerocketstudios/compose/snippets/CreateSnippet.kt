@@ -19,5 +19,4 @@ data class CreateSnippetScreenState(
 
 @Composable
 fun CreateSnippetScreen(state: CreateSnippetScreenState) {
-
 }
