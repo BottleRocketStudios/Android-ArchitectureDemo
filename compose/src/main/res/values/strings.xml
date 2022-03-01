@@ -4,4 +4,18 @@
     <!-- Splash -->
     <string name="splash_image_content_description">Bottle Rocket Architecture Demo</string>
 
+    <!-- Login -->
+    <string name="login_id_hint">Username</string>
+    <string name="login_id_accessibility">Login ID</string>
+    <string name="login_clear_accessibility">Clear</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_password_accessibility">Password</string>
+    <string name="login_show_password_accessibility">Show Password</string>
+    <string name="login_hide_password_accessibility">Hide Password</string>
+    <string name="login_forgot">Forgot ID or Password?</string>
+    <string name="login_button">Login</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="login_error">Login Error</string>
+    <string name="dev_options_button">Dev Options</string>
+
 </resources>

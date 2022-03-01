@@ -3,6 +3,17 @@ package com.bottlerocketstudios.compose.resources
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+// https://proandroiddev.com/supporting-different-screen-sizes-on-android-with-jetpack-compose-f215c13081bd
+/**
+ * This Dimensions class is intended to provide a logical breakdown of the system that Material
+ * design uses for spacing and elevation. The "grid" properties represent multiples of a base grid size
+ * that can be used for spacing elements in the xy plane (ex. padding, margins, etc). The "plane"
+ * properties are similar but intended for the z plane (ex. elevation). By using this system for
+ * all composable elements, it allows for the dimen class to be replaced if the width of the screen
+ * changes. This means that smaller values can be substituted for smaller screens, allowing more screen
+ * space to be reclaimed for content. For larger screens, such as tablets, it is still recommended to
+ * create composables specifically to take advantage of the extra space more efficiently.
+ */
 class Dimensions(
     val grid_0_25: Dp,
     val grid_0_5: Dp,
