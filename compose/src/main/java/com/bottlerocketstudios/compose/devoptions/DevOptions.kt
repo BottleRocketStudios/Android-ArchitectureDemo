@@ -41,7 +41,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.black
 import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.light
 import com.bottlerocketstudios.compose.resources.normal
@@ -64,7 +63,7 @@ data class DevOptionsState(
 fun DevOptionsScreenTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colors = MaterialTheme.colors.copy(
-            onSurface = black,
+            onSurface = MaterialTheme.colors.onBackground,
         )
     ) {
         content()
@@ -150,7 +149,9 @@ private fun MiscFunctionalityCard(onForceCrashCtaClick: () -> Unit) {
     PrimaryButton(
         buttonText = "FORCE CRASH",
         onClick = onForceCrashCtaClick,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .padding(Dimens.grid_1)
+            .fillMaxWidth()
     )
 }
 
