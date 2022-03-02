@@ -45,7 +45,7 @@
                     android:id="@+id/id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_nav_grey_profile"
+                    android:drawableStart="@drawable/ic_nav_profile"
                     android:drawablePadding="5dp"
                     android:contentDescription="@string/login_id_accessibility"
                     android:inputType="textEmailAddress"

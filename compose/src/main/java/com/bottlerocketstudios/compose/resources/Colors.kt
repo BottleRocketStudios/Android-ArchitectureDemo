@@ -23,6 +23,6 @@ val lightColors = lightColors(
     surface = white,
     onPrimary = white,
     onSecondary = white,
-    onBackground = greyish_brown,
+    onBackground = black,
     onSurface = greyish_brown,
 )
