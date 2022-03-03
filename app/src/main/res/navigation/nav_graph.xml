@@ -20,31 +20,15 @@
         tools:layout="@layout/splash_fragment">
         <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
-            android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true"/>
-    </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.bottlerocketstudios.brarchitecture.ui.auth.LoginFragment"
-        android:label="@string/empty_label" 
-        tools:layout="@layout/login_fragment">
-        <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"/>
-
-        <action
-            android:id="@+id/action_loginFragment_to_devOptionsFragment"
-            app:destination="@id/devOptionsFragment"/>
+            android:id="@+id/action_splashFragment_to_authCodeFragment"
+            app:destination="@id/authCodeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -86,13 +70,7 @@
         android:id="@+id/userFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
         android:label="@string/profile_title" 
-        tools:layout="@layout/user_fragment">
-        <action
-            android:id="@+id/action_userFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
+        tools:layout="@layout/user_fragment"/>
     <fragment
         android:id="@+id/repositoryFileFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"
@@ -121,4 +99,20 @@
         android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragment"
         android:label="@string/create_snippets_title"
         tools:layout="@layout/create_snippet_fragment"/>
+    <fragment
+        android:id="@+id/authCodeFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeFragment" >
+        <action
+            android:id="@+id/action_authCodeFragment_to_devOptionsFragment"
+            app:destination="@id/devOptionsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_authCodeFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

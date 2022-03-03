@@ -4,6 +4,7 @@ import com.bottlerocketstudios.brarchitecture.data.BuildConfig
 import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.network.auth.getBasicAuthHeader
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
@@ -33,4 +34,16 @@ internal interface TokenAuthService {
             BuildConfig.BITBUCKET_SECRET.toProtectedProperty(),
         )
     ): Call<AccessToken>
+
+    @FormUrlEncoded
+    @POST("site/oauth2/access_token")
+    suspend fun getAuthCodeToken(
+        @Field("code") code: String,
+        @Field("grant_type") grantType: String? = "authorization_code",
+        @Header("Authorization") header: String = getBasicAuthHeader(
+            BuildConfig.BITBUCKET_KEY.toProtectedProperty(),
+            BuildConfig.BITBUCKET_SECRET.toProtectedProperty(),
+        )
+    ): Response<AccessToken>
+
 }

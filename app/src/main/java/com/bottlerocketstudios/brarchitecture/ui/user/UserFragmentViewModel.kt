@@ -23,6 +23,7 @@ class UserFragmentViewModel(val repo: BitbucketRepository) : BaseViewModel() {
 
     fun onLogoutClicked() {
         repo.clear()
-        navigationEvent.postValue(NavigationEvent.Action(R.id.action_userFragment_to_loginFragment))
+        // Back Nav to auth code entry, if in stack.
+        navigationEvent.postValue(NavigationEvent.Back(R.id.authCodeFragment))
     }
 }

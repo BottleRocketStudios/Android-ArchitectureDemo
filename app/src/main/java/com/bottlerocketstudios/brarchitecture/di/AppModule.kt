@@ -5,6 +5,7 @@ import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvid
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImpl
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
+import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.LoginViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManager
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
@@ -26,6 +27,7 @@ object AppModule {
         viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
         viewModel { SplashFragmentViewModel(repo = get(), dispatcherProvider = get()) }
         viewModel { LoginViewModel(repo = get(), buildConfigProvider = get(), toaster = get(), dispatcherProvider = get()) }
+        viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get(), toaster = get(), dispatcherProvider = get()) }
         viewModel { HomeViewModel(repo = get(), dispatcherProvider = get()) }
         viewModel { RepositoryFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
         viewModel { RepositoryFileFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }

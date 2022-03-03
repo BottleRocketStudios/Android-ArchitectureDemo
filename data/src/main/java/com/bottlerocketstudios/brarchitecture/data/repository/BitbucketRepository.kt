@@ -13,11 +13,14 @@ import com.bottlerocketstudios.brarchitecture.data.model.map
 import com.bottlerocketstudios.brarchitecture.data.model.wrapExceptions
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
+import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import retrofit2.Response
 import timber.log.Timber
 
@@ -26,6 +29,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.data.repo
     val repos: StateFlow<List<Repository>>
     val snippets: StateFlow<List<Snippet>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
+    suspend fun authenticate(authCode: String): Boolean
     suspend fun refreshUser(): ApiResult<Unit>
     suspend fun refreshMyRepos(): ApiResult<Unit>
     suspend fun refreshMySnippets(): ApiResult<Unit>
@@ -42,7 +46,10 @@ internal class BitbucketRepositoryImpl(
     private val bitbucketService: BitbucketService,
     private val bitbucketCredentialsRepository: BitbucketCredentialsRepository,
     private val responseToApiResultMapper: ResponseToApiResultMapper
-) : BitbucketRepository {
+) : BitbucketRepository, KoinComponent {
+    // DI
+    private val tokenService: TokenAuthService by inject()
+
     // TODO: Move user specific logic to a separate UserRepository
     private val _user = MutableStateFlow<User?>(null)
     private val _repos = MutableStateFlow<List<Repository>>(emptyList())
@@ -53,6 +60,18 @@ internal class BitbucketRepositoryImpl(
     override val user: StateFlow<User?> = _user
     override val repos: StateFlow<List<Repository>> = _repos
     override val snippets: StateFlow<List<Snippet>> = _snippets
+
+    override suspend fun authenticate(authCode: String): Boolean {
+        Timber.v("[authenticate]")
+
+        val resp = tokenService.getAuthCodeToken(authCode)
+        authenticated = resp.isSuccessful
+        resp.body()?.let {
+            bitbucketCredentialsRepository.storeToken(it)
+        }
+
+        return authenticated
+    }
 
     override suspend fun authenticate(creds: ValidCredentialModel?): Boolean {
         Timber.v("[authenticate]")
