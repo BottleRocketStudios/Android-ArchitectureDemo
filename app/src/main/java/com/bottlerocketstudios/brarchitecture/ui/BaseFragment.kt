@@ -7,8 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.bottlerocketstudios.brarchitecture.ui.auth.toState
-import com.bottlerocketstudios.compose.auth.AuthCodeScreen
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 
 /**
@@ -43,9 +41,9 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel> : Fragment() {
         fragmentViewModel.observeNavigationEvents(this)
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Compose Helpers
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     @Suppress("FunctionName")
     fun ComposeScreen(content: @Composable () -> Unit) =
         ComposeView(requireContext()).apply {

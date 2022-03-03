@@ -45,5 +45,4 @@ internal interface TokenAuthService {
             BuildConfig.BITBUCKET_SECRET.toProtectedProperty(),
         )
     ): Response<AccessToken>
-
 }

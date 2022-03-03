@@ -45,14 +45,16 @@ data class AuthCodeState(
 @Composable
 fun AuthCodePreview() {
     Preview {
-        AuthCodeScreen(state = AuthCodeState(
-            requestUrl = "".asState(),
-            devOptionsEnabled = true,
-            onAuthCode = {},
-            onLoginClicked = {},
-            onSignupClicked = {},
-            onDevOptionsClicked = {},
-        ))
+        AuthCodeScreen(
+            state = AuthCodeState(
+                requestUrl = "".asState(),
+                devOptionsEnabled = true,
+                onAuthCode = {},
+                onLoginClicked = {},
+                onSignupClicked = {},
+                onDevOptionsClicked = {},
+            )
+        )
     }
 }
 
@@ -76,7 +78,6 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
         }
     })
 }
-
 
 @Composable
 fun AuthCodeScreen(state: AuthCodeState) {

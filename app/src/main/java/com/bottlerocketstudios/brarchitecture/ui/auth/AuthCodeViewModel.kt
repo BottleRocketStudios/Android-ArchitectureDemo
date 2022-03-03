@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AuthCodeViewModel (
+class AuthCodeViewModel(
     private val repo: BitbucketRepository,
     buildConfigProvider: BuildConfigProvider,
     private val toaster: Toaster,
@@ -33,11 +33,11 @@ class AuthCodeViewModel (
     val requestUrl = MutableStateFlow("")
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Callbacks
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     fun onLoginClicked() {
-        requestUrl.value = "https://bitbucket.org/site/oauth2/authorize?client_id=${BITBUCKET_KEY}&response_type=code"
+        requestUrl.value = "https://bitbucket.org/site/oauth2/authorize?client_id=$BITBUCKET_KEY&response_type=code"
     }
 
     fun onDevOptionsClicked() {
