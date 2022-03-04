@@ -2,14 +2,12 @@ package com.bottlerocketstudios.brarchitecture.ui.auth
 
 import android.content.Intent
 import androidx.core.net.toUri
-import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.model.CredentialModel
 import com.bottlerocketstudios.brarchitecture.data.model.ProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
@@ -17,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -25,7 +22,6 @@ class LoginViewModel(
     private val repo: BitbucketRepository,
     buildConfigProvider: BuildConfigProvider,
     private val toaster: Toaster,
-    private val dispatcherProvider: DispatcherProvider
 ) :
     BaseViewModel() {
 
@@ -46,7 +42,7 @@ class LoginViewModel(
 
     fun onLoginClicked() {
         Timber.v("[onLoginClicked]")
-        viewModelScope.launch(dispatcherProvider.IO) {
+        launchIO {
             val creds = CredentialModel(protectedEmail.value, protectedPassword.value)
             creds.validCredentials?.let {
 
