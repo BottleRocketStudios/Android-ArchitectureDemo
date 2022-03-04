@@ -12,7 +12,6 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -59,7 +58,7 @@ class LoginViewModel(
                             toaster.toast(R.string.login_error)
                         }
                     }
-                    else -> navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_homeFragment))
+                    // else -> navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_homeFragment))
                 }
             } ?: run {
                 // TODO: Need to represent invalid credential format error here to differentiate from an actual invalid login attempt
@@ -79,6 +78,6 @@ class LoginViewModel(
     }
 
     fun onDevOptionsClicked() {
-        navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_devOptionsFragment))
+        // navigationEvent.postValue(NavigationEvent.Action(R.id.action_loginFragment_to_devOptionsFragment))
     }
 }

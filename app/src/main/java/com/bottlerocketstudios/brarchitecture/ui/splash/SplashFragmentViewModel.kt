@@ -14,7 +14,7 @@ class SplashFragmentViewModel(repo: BitbucketRepository, dispatcherProvider: Dis
             if (repo.authenticate()) {
                 navigationEvent.postValue(NavigationEvent.Action(R.id.action_splashFragment_to_homeFragment))
             } else {
-                navigationEvent.postValue(NavigationEvent.Action(R.id.action_splashFragment_to_loginFragment))
+                navigationEvent.postValue(NavigationEvent.Action(R.id.action_splashFragment_to_authCodeFragment))
             }
         }
     }

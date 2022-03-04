@@ -3,7 +3,11 @@ package com.bottlerocketstudios.brarchitecture.ui
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 
 /**
  * Manages navigation observer setup
@@ -36,4 +40,20 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel> : Fragment() {
     protected open fun setupNavigationObservers() {
         fragmentViewModel.observeNavigationEvents(this)
     }
+
+    // /////////////////////////////////////////////////////////////////////////
+    // Compose Helpers
+    // /////////////////////////////////////////////////////////////////////////
+    @Suppress("FunctionName")
+    fun ComposeScreen(content: @Composable () -> Unit) =
+        ComposeView(requireContext()).apply {
+            // Dispose the Composition when viewLifecycleOwner is destroyed
+            setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner)
+            )
+
+            setContent {
+                ArchitectureDemoTheme(content = content)
+            }
+        }
 }
