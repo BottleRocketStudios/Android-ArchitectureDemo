@@ -6,11 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationObserver
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationObserver
 import com.hadilq.liveevent.LiveEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +21,20 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import timber.log.Timber
 
 /** Provides [LiveEvent]s for both navigation and external navigation and helper functionality to observe the [LiveData] from a [Fragment] */
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel(), KoinComponent {
+    protected val dispatcherProvider: DispatcherProvider by inject()
+
+    /**
+     * Helper to launch to IO thread quickly
+     */
+    fun launchIO(block: suspend CoroutineScope.() -> Unit): Job =
+        viewModelScope.launch(dispatcherProvider.IO, block = block)
 
     /**
      * Use to send [NavigationEvent]s (from subclasses).

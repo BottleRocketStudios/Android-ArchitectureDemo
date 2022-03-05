@@ -25,15 +25,15 @@ import org.koin.dsl.module
 object AppModule {
     val module = module {
         viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
-        viewModel { SplashFragmentViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { LoginViewModel(repo = get(), buildConfigProvider = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { HomeViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFileFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFolderFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { SnippetsFragmentViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { CreateSnippetFragmentViewModel(repo = get(), dispatcherProvider = get()) }
+        viewModel { SplashFragmentViewModel(repo = get()) }
+        viewModel { LoginViewModel(repo = get(), buildConfigProvider = get(), toaster = get()) }
+        viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get(), toaster = get()) }
+        viewModel { HomeViewModel(repo = get()) }
+        viewModel { RepositoryFragmentViewModel(repo = get(), toaster = get()) }
+        viewModel { RepositoryFileFragmentViewModel(repo = get(), toaster = get()) }
+        viewModel { RepositoryFolderFragmentViewModel(repo = get(), toaster = get()) }
+        viewModel { SnippetsFragmentViewModel(repo = get()) }
+        viewModel { CreateSnippetFragmentViewModel(repo = get()) }
         viewModel { UserFragmentViewModel(repo = get()) }
         viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get(), toaster = get()) }
 

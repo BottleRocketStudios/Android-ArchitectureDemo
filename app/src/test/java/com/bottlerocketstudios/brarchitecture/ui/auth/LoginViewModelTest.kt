@@ -23,7 +23,7 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldEnableLogin_withValidCredentials() = runBlockingTest {
-        val sut = LoginViewModel(mock {}, mock {}, mock {}, dispatcherProvider)
+        val sut = LoginViewModel(mock {}, mock {}, mock {})
         sut.email.value = "test@example.com"
         sut.password.value = "Password1!"
 
@@ -35,7 +35,7 @@ class LoginViewModelTest : BaseTest() {
 
     @Test
     fun loginViewModel_shouldDisableLogin_withInvalidCredentials() = runBlockingTest {
-        val sut = LoginViewModel(mock {}, mock {}, mock {}, dispatcherProvider)
+        val sut = LoginViewModel(mock {}, mock {}, mock {})
         sut.email.value = "t"
         sut.password.value = "P"
 
