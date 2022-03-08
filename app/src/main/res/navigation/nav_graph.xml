@@ -42,7 +42,7 @@
             android:id="@+id/action_homeFragment_to_snippetsFragment"
             app:destination="@id/snippetsFragment" />
         <action
-            android:id="@+id/actionnHomeToRepositoryBrowserFragment"
+            android:id="@+id/actionHomeToRepositoryBrowserFragment"
             app:destination="@id/repositoryBrowserFragment" />
     </fragment>
     <fragment

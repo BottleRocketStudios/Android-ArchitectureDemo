@@ -2,8 +2,11 @@ package com.bottlerocketstudios.compose.widgets
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,6 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
+import com.bottlerocketstudios.compose.resources.Colors
+import com.bottlerocketstudios.compose.resources.Dimens
 
 @Composable
 fun IconText(
@@ -32,6 +40,23 @@ fun IconText(
         Text(
             text = text,
             style = style
+        )
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewPrimaryButton() {
+    ArchitectureDemoTheme {
+        IconText(
+            modifier = Modifier
+                .padding(Dimens.grid_1)
+                .fillMaxWidth(),
+            iconRes = R.drawable.ic_folders,
+            iconColor = Colors.tertiary,
+            text = "Hello World",
+            style = MaterialTheme.typography.h4,
         )
     }
 }
