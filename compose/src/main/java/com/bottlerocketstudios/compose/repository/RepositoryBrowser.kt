@@ -30,7 +30,6 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.pluralResource
 import com.bottlerocketstudios.compose.widgets.IconText
 
-// TODO update code so this can be used for both top level repo and folder views
 data class RepositoryBrowserScreenState(
     val path: State<String>,
     val itemCount: State<Int>,

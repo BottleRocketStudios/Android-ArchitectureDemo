@@ -31,15 +31,8 @@ class RepositoryBrowserFragment : BaseFragment<RepositoryBrowserViewModel>() {
         activityViewModel.showToolbar(true)
         fragmentViewModel.getFiles(data)
 
-        return ComposeView(requireContext()).apply {
-            // Dispose the Composition when viewLifecycleOwner is destroyed
-            setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner)
-            )
-
-            setContent {
-                OuterScreenContent(viewModel = fragmentViewModel)
-            }
+        return ComposeScreen {
+            OuterScreenContent(viewModel = fragmentViewModel)
         }
     }
 
