@@ -36,26 +36,14 @@
         android:label="@string/home_title"
         tools:layout="@layout/home_fragment">
         <action
-            android:id="@+id/action_homeFragment_to_repositoryFragment"
-            app:destination="@id/repositoryFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
         <action
             android:id="@+id/action_homeFragment_to_snippetsFragment"
             app:destination="@id/snippetsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/repositoryFragment"
-        android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragment"
-        android:label="@string/empty_label"
-        tools:layout="@layout/repository_fragment">
         <action
-            android:id="@+id/action_repositoryFragment_to_repositoryFileFragment"
-            app:destination="@id/repositoryFileFragment" />
-        <action
-            android:id="@+id/action_repositoryFragment_to_repositoryFolderFragment"
-            app:destination="@id/repositoryFolderFragment" />
+            android:id="@+id/actionnHomeToRepositoryBrowserFragment"
+            app:destination="@id/repositoryBrowserFragment" />
     </fragment>
     <fragment
         android:id="@+id/snippetsFragment"
@@ -77,17 +65,8 @@
         android:label="@string/empty_label"
         tools:layout="@layout/repository_file_fragment">
         <argument
-            android:name="file"
-            app:argType="com.bottlerocketstudios.brarchitecture.data.model.RepoFile" />
-    </fragment>
-    <fragment
-        android:id="@+id/repositoryFolderFragment"
-        android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragment"
-        android:label="@string/empty_label" 
-        tools:layout="@layout/repository_folder_fragment">
-        <argument
-            android:name="file"
-            app:argType="com.bottlerocketstudios.brarchitecture.data.model.RepoFile" />
+            android:name="data"
+            app:argType="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData" />
     </fragment>
 
     <fragment
@@ -114,5 +93,19 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryBrowserFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserFragment"
+        android:label="@string/empty_label">
+        <argument
+            android:name="data"
+            app:argType="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData" />
+        <action
+            android:id="@+id/action_repositoryBrowserFragment_self"
+            app:destination="@id/repositoryBrowserFragment" />
+        <action
+            android:id="@+id/action_repositoryBrowserFragment_to_repositoryFileFragment"
+            app:destination="@id/repositoryFileFragment" />
     </fragment>
 </navigation>

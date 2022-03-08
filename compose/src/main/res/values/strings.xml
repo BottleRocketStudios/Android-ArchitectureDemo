@@ -18,4 +18,9 @@
     <string name="login_error">Login Error</string>
     <string name="dev_options_button">Dev Options</string>
 
+    <plurals name="folder_items_plural">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+
 </resources>
