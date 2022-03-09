@@ -44,7 +44,6 @@ fun IconText(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun PreviewPrimaryButton() {
