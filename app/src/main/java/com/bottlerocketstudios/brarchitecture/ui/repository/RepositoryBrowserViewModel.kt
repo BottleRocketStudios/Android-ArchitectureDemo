@@ -1,9 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
@@ -49,8 +49,8 @@ class RepositoryBrowserViewModel(private val repo: BitbucketRepository, private 
                     repo.getSource(slug, name)
                 }
                 when (result) {
-                    is ApiResult.Success -> srcFiles.set(result.data)
-                    is ApiResult.Failure -> {
+                    is Status.Success -> srcFiles.set(result.data)
+                    is Status.Failure -> {
                         // TODO: Improve error messaging
                         withContext(dispatcherProvider.Main) {
                             toaster.toast(R.string.error_loading_repository)

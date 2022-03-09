@@ -31,7 +31,7 @@ class HomeFragment : BaseDataBindingFragment<HomeViewModel, HomeFragmentBinding>
                         Toast.makeText(activity, item.viewModel.repository.name as CharSequence, Toast.LENGTH_SHORT).show()
                         activityViewModel.selectRepo(item.viewModel.repository)
 
-                        val action = HomeFragmentDirections.actionnHomeToRepositoryBrowserFragment(
+                        val action = HomeFragmentDirections.actionHomeToRepositoryBrowserFragment(
                             RepositoryBrowserData(
                                 repoName = item.viewModel.repository.name ?: ""
                             )
