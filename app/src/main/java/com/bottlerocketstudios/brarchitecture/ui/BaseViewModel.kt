@@ -43,7 +43,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     /**
      * Utility function to switch coroutine context to Main.
-     *   Useful for making UI updates from IO
+     * Useful for making UI updates from IO
      */
     suspend fun runOnMain(block: suspend CoroutineScope.() -> Unit) =
         withContext(dispatcherProvider.Main, block)
