@@ -7,6 +7,7 @@ import com.bottlerocketstudios.brarchitecture.databinding.HomeFragmentBinding
 import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.ViewModelItem
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -29,7 +30,13 @@ class HomeFragment : BaseDataBindingFragment<HomeViewModel, HomeFragmentBinding>
                     if (item is ViewModelItem<*> && item.viewModel is RepositoryViewModel) {
                         Toast.makeText(activity, item.viewModel.repository.name as CharSequence, Toast.LENGTH_SHORT).show()
                         activityViewModel.selectRepo(item.viewModel.repository)
-                        findNavController(this@HomeFragment).navigate(R.id.action_homeFragment_to_repositoryFragment)
+
+                        val action = HomeFragmentDirections.actionHomeToRepositoryBrowserFragment(
+                            RepositoryBrowserData(
+                                repoName = item.viewModel.repository.name ?: ""
+                            )
+                        )
+                        findNavController(this@HomeFragment).navigate(action)
                     }
                 }
             }

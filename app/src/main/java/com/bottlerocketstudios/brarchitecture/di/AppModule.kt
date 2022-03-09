@@ -11,9 +11,8 @@ import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManag
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel
@@ -29,9 +28,8 @@ object AppModule {
         viewModel { LoginViewModel(repo = get(), buildConfigProvider = get(), toaster = get()) }
         viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get(), toaster = get()) }
         viewModel { HomeViewModel(repo = get()) }
-        viewModel { RepositoryFragmentViewModel(repo = get(), toaster = get()) }
+        viewModel { RepositoryBrowserViewModel(repo = get(), toaster = get()) }
         viewModel { RepositoryFileFragmentViewModel(repo = get(), toaster = get()) }
-        viewModel { RepositoryFolderFragmentViewModel(repo = get(), toaster = get()) }
         viewModel { SnippetsFragmentViewModel(repo = get()) }
         viewModel { CreateSnippetFragmentViewModel(repo = get()) }
         viewModel { UserFragmentViewModel(repo = get()) }
