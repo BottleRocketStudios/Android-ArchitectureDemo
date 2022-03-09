@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
@@ -26,10 +26,9 @@ class CreateSnippetFragmentViewModel(private val repo: BitbucketRepository) : Ba
     fun onCreateClick() {
         failed.set(false)
         launchIO {
-            val result = repo.createSnippet(title.value, filename.value, contents.value, private.value)
-            when (result) {
-                is ApiResult.Success -> navigationEvent.postValue(NavigationEvent.Up)
-                is ApiResult.Failure -> failed.set(true)
+            when (repo.createSnippet(title.value, filename.value, contents.value, private.value)) {
+                is Status.Success -> navigationEvent.postValue(NavigationEvent.Up)
+                is Status.Failure -> failed.set(true)
             }.exhaustive
         }
     }

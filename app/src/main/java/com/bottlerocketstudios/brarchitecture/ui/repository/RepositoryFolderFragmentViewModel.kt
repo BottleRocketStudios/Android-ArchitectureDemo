@@ -1,9 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
@@ -36,11 +36,11 @@ class RepositoryFolderFragmentViewModel(
         launchIO {
             val result = repo.getSourceFolder(workspaceSlug, repoId, hash, path)
             when (result) {
-                is ApiResult.Success -> {
+                is Status.Success -> {
                     srcFiles.set(result.data)
                     this@RepositoryFolderFragmentViewModel.path = path
                 }
-                is ApiResult.Failure -> {
+                is Status.Failure -> {
                     // TODO: Improve error messaging
                     withContext(dispatcherProvider.Main) {
                         toaster.toast(R.string.error_loading_folder)
