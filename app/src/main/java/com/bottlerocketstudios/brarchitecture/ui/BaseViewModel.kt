@@ -61,7 +61,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     }
 
     /**
-     * Used to apply default error when handling Status, and process a success block.
+     * Used to apply default error when handling Status and process a success block.
      */
     suspend inline fun <T : Any> Status<T>.handlingErrors(@StringRes messageId: Int, onSuccess: (T) -> Unit): Status<T> {
         if (this is Status.Success) {
