@@ -48,17 +48,6 @@ class RepositoryFragmentViewModel(
             it.workspace?.slug?.let { workspaceSlug ->
                 it.name?.let { repoName ->
                     launchIO {
-                        // val result = repo.getSource(workspaceSlug, repoName)
-                        // when (result) {
-                        //     is ApiResult.Success -> srcFiles.set(result.data)
-                        //     is ApiResult.Failure -> {
-                        //         TODO: Improve error messaging
-                        // withContext(dispatcherProvider.Main) {
-                        //     toaster.toast(R.string.error_loading_repository)
-                        // }
-                        // }
-                        // }.exhaustive
-
                         repo.getSource(workspaceSlug, repoName).handlingErrors(R.string.error_loading_repository) {
                             srcFiles.set(it)
                         }

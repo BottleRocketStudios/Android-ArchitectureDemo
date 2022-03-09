@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,23 +41,33 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     fun launchIO(block: suspend CoroutineScope.() -> Unit): Job =
         viewModelScope.launch(dispatcherProvider.IO, block = block)
 
+    /**
+     * Utility function to switch coroutine context to Main.
+     *   Useful for making UI updates from IO
+     */
     suspend fun runOnMain(block: suspend CoroutineScope.() -> Unit) =
         withContext(dispatcherProvider.Main, block)
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Error handling
-    ///////////////////////////////////////////////////////////////////////////
-    suspend fun handleError(messageId: Int) {
+    // /////////////////////////////////////////////////////////////////////////
+    /**
+     * Used to display error message with standard UI pattern
+     */
+    suspend fun handleError(@StringRes messageId: Int) {
         runOnMain {
             toaster.toast(messageId)
         }
     }
 
-    suspend inline fun <T : Any> Status<T>.handlingErrors(messageID: Int , onSuccess: (T) -> Unit): Status<T> {
+    /**
+     * Used to apply default error when handling Status, and process a success block.
+     */
+    suspend inline fun <T : Any> Status<T>.handlingErrors(@StringRes messageId: Int, onSuccess: (T) -> Unit): Status<T> {
         if (this is Status.Success) {
             onSuccess(this.data)
         } else {
-            handleError(messageId = messageID)
+            handleError(messageId = messageId)
         }
         return this
     }
