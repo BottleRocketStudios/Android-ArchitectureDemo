@@ -3,3 +3,4 @@ rootProject.name = "ArchitectureDemo" // TODO: TEMPLATE - Replace with appropria
 include(":data")
 include(":app")
 include(":compose")
+include(":domain")

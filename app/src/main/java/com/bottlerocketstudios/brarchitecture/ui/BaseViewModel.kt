@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationObserver
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
@@ -22,6 +24,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -29,12 +32,34 @@ import timber.log.Timber
 /** Provides [LiveEvent]s for both navigation and external navigation and helper functionality to observe the [LiveData] from a [Fragment] */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected val dispatcherProvider: DispatcherProvider by inject()
+    private val toaster: Toaster by inject()
 
     /**
      * Helper to launch to IO thread quickly
      */
     fun launchIO(block: suspend CoroutineScope.() -> Unit): Job =
         viewModelScope.launch(dispatcherProvider.IO, block = block)
+
+    suspend fun runOnMain(block: suspend CoroutineScope.() -> Unit) =
+        withContext(dispatcherProvider.Main, block)
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Error handling
+    ///////////////////////////////////////////////////////////////////////////
+    suspend fun handleError(messageId: Int) {
+        runOnMain {
+            toaster.toast(messageId)
+        }
+    }
+
+    suspend inline fun <T : Any> ApiResult<T>.handlingErrors(messageID: Int , onSuccess: (T) -> Unit): ApiResult<T> {
+        if (this is ApiResult.Success) {
+            onSuccess(this.data)
+        } else {
+            handleError(messageId = messageID)
+        }
+        return this
+    }
 
     /**
      * Use to send [NavigationEvent]s (from subclasses).

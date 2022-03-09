@@ -1,12 +1,10 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
-import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,16 +48,21 @@ class RepositoryFragmentViewModel(
             it.workspace?.slug?.let { workspaceSlug ->
                 it.name?.let { repoName ->
                     launchIO {
-                        val result = repo.getSource(workspaceSlug, repoName)
-                        when (result) {
-                            is ApiResult.Success -> srcFiles.set(result.data)
-                            is ApiResult.Failure -> {
-                                // TODO: Improve error messaging
-                                withContext(dispatcherProvider.Main) {
-                                    toaster.toast(R.string.error_loading_repository)
-                                }
-                            }
-                        }.exhaustive
+                        // val result = repo.getSource(workspaceSlug, repoName)
+                        // when (result) {
+                        //     is ApiResult.Success -> srcFiles.set(result.data)
+                        //     is ApiResult.Failure -> {
+                        //         TODO: Improve error messaging
+                                // withContext(dispatcherProvider.Main) {
+                                //     toaster.toast(R.string.error_loading_repository)
+                                // }
+                            // }
+                        // }.exhaustive
+
+                        repo.getSource(workspaceSlug, repoName).handlingErrors(R.string.error_loading_repository) {
+                            srcFiles.set(it)
+                        }
+
                     }
                 }
             }
