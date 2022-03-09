@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
+import com.bottlerocketstudios.brarchitecture.domain.models.ApiResult
+import com.bottlerocketstudios.brarchitecture.domain.models.ServerError
 import retrofit2.Response
 import timber.log.Timber
 

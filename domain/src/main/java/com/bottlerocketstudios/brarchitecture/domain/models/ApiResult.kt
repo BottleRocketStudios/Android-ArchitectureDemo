@@ -1,6 +1,5 @@
-package com.bottlerocketstudios.brarchitecture.data.model
+package com.bottlerocketstudios.brarchitecture.domain.models
 
-import timber.log.Timber
 import java.io.InterruptedIOException
 import java.net.SocketException
 
@@ -27,6 +26,13 @@ sealed class ApiResult<out SUCCESS_TYPE : Any> {
     }
 }
 
+data class ServerError(
+    /** Note that this value is set by the network response rather than being parsed from the backend */
+    val httpErrorCode: Int? = null,
+    /** Note that this value is set by the work response rather than being parsed from the backend */
+    val status: String? = null,
+)
+
 /**
  * Executes the [transform] block only when receiver [ApiResult.Success] to modify the wrapped value, similar to Collection/List map function.
  *
@@ -36,19 +42,15 @@ sealed class ApiResult<out SUCCESS_TYPE : Any> {
  *
  * Note that failure has not been thoroughly tested yet but _should_ work.
  */
-fun <T : Any, R : Any> ApiResult<T>.map(transform: (T) -> ApiResult<R>): ApiResult<R> {
-    return when (this) {
-        is ApiResult.Success -> transform(data)
-        is ApiResult.Failure -> this
-    }
+fun <T : Any, R : Any> ApiResult<T>.map(transform: (T) -> ApiResult<R>): ApiResult<R> = when (this) {
+    is ApiResult.Success -> transform(data)
+    is ApiResult.Failure -> this
 }
 
 /** Converts ApiResult<T> into ApiResult<Unit> to be used when the success return type doesn't matter */
-fun <T : Any> ApiResult<T>.asEmptyResult(): ApiResult<Unit> {
-    return when (this) {
-        is ApiResult.Success -> ApiResult.Success(Unit)
-        is ApiResult.Failure -> this
-    }
+fun <T : Any> ApiResult<T>.asEmptyResult(): ApiResult<Unit> = when (this) {
+    is ApiResult.Success -> ApiResult.Success(Unit)
+    is ApiResult.Failure -> this
 }
 
 /** Syntax sugar to execute [onSuccessBlock] when this is ApiResult.Success */
@@ -63,16 +65,10 @@ inline fun <T : Any> ApiResult<T>.alsoOnSuccess(onSuccessBlock: (T) -> Unit): Ap
 fun <T : Any> T.asSuccess(): ApiResult.Success<T> = ApiResult.Success(this)
 
 /** Resolves exceptions to an appropriate ApiResult.Failure subtype */
-fun Exception.asAppropriateFailure(): ApiResult.Failure {
-    return when {
-        // covers SocketTimeoutException and ConnectTimeoutException
-        this is InterruptedIOException ||
-            // covers multiple applicable exceptions including ConnectException
-            this is SocketException -> {
-            ApiResult.Failure.NetworkTimeoutFailure(this)
-        }
-        else -> ApiResult.Failure.GeneralFailure(localizedMessage.orEmpty())
-    }
+fun Exception.asAppropriateFailure(): ApiResult.Failure = when (this) {
+    // covers SocketTimeoutException and ConnectTimeoutException
+    is InterruptedIOException, is SocketException -> ApiResult.Failure.NetworkTimeoutFailure(this)
+    else -> ApiResult.Failure.GeneralFailure(localizedMessage.orEmpty())
 }
 
 /**
@@ -83,12 +79,23 @@ fun Exception.asAppropriateFailure(): ApiResult.Failure {
  * @param block Lambda with logic that returns the appropriate [ApiResult] response
  *
  */
+// FIXME- make logger interface for domain
 suspend fun <T : Any> wrapExceptions(className: String, methodName: String, block: suspend () -> ApiResult<T>): ApiResult<T> {
     @Suppress("TooGenericExceptionCaught") // this might be overly broad (catching NPEs isn't ideal) but not worth it yet to check for all other possible types (IO..., Json..., others)
     return try {
-        Timber.tag(className).v("[$methodName]")
-        block().also { Timber.tag(className).v("[$methodName] result=$it") }
+        // Timber.tag(className).v("[$methodName]")
+        block().also {
+            // Timber.tag(className).v("[$methodName] result=$it")
+        }
     } catch (e: Exception) {
-        e.asAppropriateFailure().also { Timber.tag(className).w(e, "[$methodName wrapExceptions] exception caught and converted to failure: $it") }
+        e.asAppropriateFailure().also {
+            // Timber.tag(className).w(e, "[$methodName wrapExceptions] exception caught and converted to failure: $it")
+        }
     }
 }
+
+// Simple version of wrap exceptions; with no logging.
+suspend fun <T: Any> wrapExceptions(block: suspend () -> ApiResult<T>): ApiResult<T> =
+    try { block() } catch (e: Exception) { e.asAppropriateFailure() }
+
+
