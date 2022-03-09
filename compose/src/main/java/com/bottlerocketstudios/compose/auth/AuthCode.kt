@@ -104,7 +104,7 @@ private fun AuthCodeContent(state: AuthCodeState) {
             modifier = Modifier
                 .padding(top = Dimens.grid_2)
                 .padding(start = Dimens.grid_2, end = Dimens.grid_2),
-            text = "BitBucket now uses an auth code to login.",
+            text = stringResource(R.string.auth_code_subtitle),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h2,
         )
@@ -113,7 +113,7 @@ private fun AuthCodeContent(state: AuthCodeState) {
             modifier = Modifier
                 .padding(top = Dimens.grid_2)
                 .padding(start = Dimens.grid_2, end = Dimens.grid_2),
-            text = "Tapping Login below will take you to a web view to authenticate",
+            text = stringResource(R.string.auth_code_description),
             style = MaterialTheme.typography.h3,
             textAlign = TextAlign.Center,
         )

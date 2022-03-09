@@ -18,6 +18,10 @@
     <string name="login_error">Login Error</string>
     <string name="dev_options_button">Dev Options</string>
 
+    <!--  Auth Code  -->
+    <string name="auth_code_subtitle">BitBucket now uses an auth code to login.</string>
+    <string name="auth_code_description">Tapping Login below will take you to a web view to authenticate</string>
+
     <plurals name="folder_items_plural">
         <item quantity="one">%1$d item</item>
         <item quantity="other">%1$d items</item>

@@ -9,7 +9,7 @@ Bottle Rocket Android Architecture Guidelines
 
 ## OAuth consumer key creation and setup steps
 * Generate a Bitbucket OAuth consumer key at https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api
-    * You must specify a callback url. The value isn't important, so go ahead and use https://www.bottlerocketstudios.com/
+    * You must specify a callback url with the following value for auth code login to work: https://www.bottlerocketstudios.com/
     * You must enable the following permissions (at a minimum) to ensure proper functioning of the app:
         * **Account** read
         * **Snippets** read/write
