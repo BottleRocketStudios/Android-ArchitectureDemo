@@ -1,13 +1,15 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.models.ServerError
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import retrofit2.Response
 
-class ResponseToApiResultMapperImplTest : BaseTest() {
+class ResponseToStatusMapperImplTest : BaseTest() {
 
     @Test
     fun toResult_failureResponse_returnsServerFailure() {
@@ -20,7 +22,7 @@ class ResponseToApiResultMapperImplTest : BaseTest() {
 
         val result = sut.toResult(mockResponse)
 
-        assertThat(result).isEqualTo(ApiResult.Failure.Server(ServerError(123, "foo")))
+        assertThat(result).isEqualTo(Status.Failure.Server(ServerError(123, "foo")))
     }
 
     @Test
@@ -33,7 +35,7 @@ class ResponseToApiResultMapperImplTest : BaseTest() {
 
         val result = sut.toResult(mockResponse)
 
-        assertThat(result).isEqualTo(ApiResult.Failure.GeneralFailure("null response body"))
+        assertThat(result).isEqualTo(Status.Failure.GeneralFailure("null response body"))
     }
 
     @Test
@@ -46,7 +48,7 @@ class ResponseToApiResultMapperImplTest : BaseTest() {
 
         val result = sut.toResult(mockResponse)
 
-        assertThat(result).isEqualTo(ApiResult.Success("foo"))
+        assertThat(result).isEqualTo(Status.Success("foo"))
     }
 
     @Test
@@ -60,7 +62,7 @@ class ResponseToApiResultMapperImplTest : BaseTest() {
 
         val result = sut.toEmptyResult(mockResponse)
 
-        assertThat(result).isEqualTo(ApiResult.Failure.Server(ServerError(123, "foo")))
+        assertThat(result).isEqualTo(Status.Failure.Server(ServerError(123, "foo")))
     }
 
     @Test
@@ -73,7 +75,7 @@ class ResponseToApiResultMapperImplTest : BaseTest() {
 
         val result = sut.toEmptyResult(mockResponse)
 
-        assertThat(result).isEqualTo(ApiResult.Success(Unit))
+        assertThat(result).isEqualTo(Status.Success(Unit))
     }
 
     @Test
@@ -86,6 +88,6 @@ class ResponseToApiResultMapperImplTest : BaseTest() {
 
         val result = sut.toEmptyResult(mockResponse)
 
-        assertThat(result).isEqualTo(ApiResult.Success(Unit))
+        assertThat(result).isEqualTo(Status.Success(Unit))
     }
 }

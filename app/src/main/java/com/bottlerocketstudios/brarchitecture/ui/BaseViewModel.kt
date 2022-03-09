@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
-import com.bottlerocketstudios.brarchitecture.domain.models.ApiResult
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
@@ -52,8 +52,8 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    suspend inline fun <T : Any> ApiResult<T>.handlingErrors(messageID: Int , onSuccess: (T) -> Unit): ApiResult<T> {
-        if (this is ApiResult.Success) {
+    suspend inline fun <T : Any> Status<T>.handlingErrors(messageID: Int , onSuccess: (T) -> Unit): Status<T> {
+        if (this is Status.Success) {
             onSuccess(this.data)
         } else {
             handleError(messageId = messageID)

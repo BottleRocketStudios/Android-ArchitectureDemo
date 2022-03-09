@@ -1,45 +1,45 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
-import com.bottlerocketstudios.brarchitecture.domain.models.ApiResult
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.ServerError
 import retrofit2.Response
 import timber.log.Timber
 
-/** Converts a retrofit response to a wrapped [ApiResult] response */
+/** Converts a retrofit response to a wrapped [Status] response */
 interface ResponseToApiResultMapper {
-    /** Convert from response to [ApiResult] of the response */
-    fun <T : Any> toResult(response: Response<T>): ApiResult<T>
+    /** Convert from response to [Status] of the response */
+    fun <T : Any> toResult(response: Response<T>): Status<T>
 
-    /** Convert from response to [ApiResult] of Unit of the response. Use when you don't care about the actual success type. */
-    fun <T : Any> toEmptyResult(response: Response<T>): ApiResult<Unit>
+    /** Convert from response to [Status] of Unit of the response. Use when you don't care about the actual success type. */
+    fun <T : Any> toEmptyResult(response: Response<T>): Status<Unit>
 }
 
 class ResponseToApiResultMapperImpl : ResponseToApiResultMapper {
 
-    override fun <T : Any> toResult(response: Response<T>): ApiResult<T> {
+    override fun <T : Any> toResult(response: Response<T>): Status<T> {
         return when {
             response.isSuccessful -> {
                 val body = response.body()
                 if (body != null) {
-                    ApiResult.Success(body)
+                    Status.Success(body)
                 } else {
                     Timber.w("[toResult] Response body null")
-                    ApiResult.Failure.GeneralFailure("null response body")
+                    Status.Failure.GeneralFailure("null response body")
                 }
             }
             else -> {
                 Timber.w("[toResult] Api not successful: message ${response.message()} code: ${response.code()}")
-                ApiResult.Failure.Server(generateServerError(response))
+                Status.Failure.Server(generateServerError(response))
             }
         }
     }
 
-    override fun <T : Any> toEmptyResult(response: Response<T>): ApiResult<Unit> {
+    override fun <T : Any> toEmptyResult(response: Response<T>): Status<Unit> {
         return when {
-            response.isSuccessful -> ApiResult.Success(Unit)
+            response.isSuccessful -> Status.Success(Unit)
             else -> {
                 Timber.w("[toEmptyResult] Api not successful: message ${response.message()} code: ${response.code()}")
-                ApiResult.Failure.Server(generateServerError(response))
+                Status.Failure.Server(generateServerError(response))
             }
         }
     }

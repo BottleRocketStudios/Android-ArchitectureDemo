@@ -7,5 +7,3 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_7
 }
 // TODO - update with dependencies
-
-

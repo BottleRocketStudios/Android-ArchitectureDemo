@@ -53,16 +53,15 @@ class RepositoryFragmentViewModel(
                         //     is ApiResult.Success -> srcFiles.set(result.data)
                         //     is ApiResult.Failure -> {
                         //         TODO: Improve error messaging
-                                // withContext(dispatcherProvider.Main) {
-                                //     toaster.toast(R.string.error_loading_repository)
-                                // }
-                            // }
+                        // withContext(dispatcherProvider.Main) {
+                        //     toaster.toast(R.string.error_loading_repository)
+                        // }
+                        // }
                         // }.exhaustive
 
                         repo.getSource(workspaceSlug, repoName).handlingErrors(R.string.error_loading_repository) {
                             srcFiles.set(it)
                         }
-
                     }
                 }
             }
