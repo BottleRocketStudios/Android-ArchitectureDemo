@@ -8,7 +8,6 @@ import com.bottlerocketstudios.brarchitecture.data.model.CredentialModel
 import com.bottlerocketstudios.brarchitecture.data.model.ProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +20,6 @@ import timber.log.Timber
 class LoginViewModel(
     private val repo: BitbucketRepository,
     buildConfigProvider: BuildConfigProvider,
-    private val toaster: Toaster,
 ) :
     BaseViewModel() {
 

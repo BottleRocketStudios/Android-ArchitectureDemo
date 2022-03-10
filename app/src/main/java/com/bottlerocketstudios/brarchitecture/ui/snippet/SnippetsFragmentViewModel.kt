@@ -5,7 +5,6 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.xwray.groupie.Section
-import kotlinx.coroutines.withContext
 
 class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseViewModel() {
     private val snippets = repo.snippets
@@ -15,7 +14,7 @@ class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseVie
         launchIO {
             snippets.collect { snippetList ->
                 val map = snippetList.map { SnippetViewModel(it) }
-                withContext(dispatcherProvider.Main) {
+                runOnMain {
                     snippetGroup.update(map)
                 }
             }

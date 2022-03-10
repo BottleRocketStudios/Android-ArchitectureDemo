@@ -33,7 +33,7 @@ import timber.log.Timber
 /** Provides [LiveEvent]s for both navigation and external navigation and helper functionality to observe the [LiveData] from a [Fragment] */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected val dispatcherProvider: DispatcherProvider by inject()
-    private val toaster: Toaster by inject()
+    protected val toaster: Toaster by inject()
 
     /**
      * Helper to launch to IO thread quickly

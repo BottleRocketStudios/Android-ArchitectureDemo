@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.ui.devoptions
 import android.app.Application
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.jakewharton.processphoenix.ProcessPhoenix
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,6 @@ class DevOptionsViewModel(
     private val forceCrashLogicImpl: ForceCrashLogic,
     private val applicationInfoManager: ApplicationInfoManager,
     private val environmentRepository: EnvironmentRepository,
-    private val toaster: Toaster,
 ) : BaseViewModel() {
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //

@@ -25,15 +25,15 @@ object AppModule {
     val module = module {
         viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
         viewModel { SplashFragmentViewModel(repo = get()) }
-        viewModel { LoginViewModel(repo = get(), buildConfigProvider = get(), toaster = get()) }
-        viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get(), toaster = get()) }
+        viewModel { LoginViewModel(repo = get(), buildConfigProvider = get()) }
+        viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get()) }
         viewModel { HomeViewModel(repo = get()) }
-        viewModel { RepositoryBrowserViewModel(repo = get(), toaster = get()) }
-        viewModel { RepositoryFileFragmentViewModel(repo = get(), toaster = get()) }
+        viewModel { RepositoryBrowserViewModel(repo = get()) }
+        viewModel { RepositoryFileFragmentViewModel(repo = get()) }
         viewModel { SnippetsFragmentViewModel(repo = get()) }
         viewModel { CreateSnippetFragmentViewModel(repo = get()) }
         viewModel { UserFragmentViewModel(repo = get()) }
-        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get(), toaster = get()) }
+        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get()) }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
         single<BuildConfigProvider> { BuildConfigProviderImpl() }
