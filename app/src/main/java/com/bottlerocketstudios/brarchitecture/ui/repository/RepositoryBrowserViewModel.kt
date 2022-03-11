@@ -4,7 +4,6 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
-import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
@@ -12,9 +11,8 @@ import com.bottlerocketstudios.compose.repository.RepositoryItemUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 
-class RepositoryBrowserViewModel(private val repo: BitbucketRepository, private val toaster: Toaster) : BaseViewModel() {
+class RepositoryBrowserViewModel(private val repo: BitbucketRepository) : BaseViewModel() {
 
     private val srcFiles: StateFlow<List<RepoFile>> = MutableStateFlow(emptyList())
     private var currentRepoName: String = ""
@@ -50,12 +48,7 @@ class RepositoryBrowserViewModel(private val repo: BitbucketRepository, private 
                 }
                 when (result) {
                     is Status.Success -> srcFiles.set(result.data)
-                    is Status.Failure -> {
-                        // TODO: Improve error messaging
-                        withContext(dispatcherProvider.Main) {
-                            toaster.toast(R.string.error_loading_repository)
-                        }
-                    }
+                    is Status.Failure -> handleError(R.string.error_loading_repository)
                 }.exhaustive
             }
         }
