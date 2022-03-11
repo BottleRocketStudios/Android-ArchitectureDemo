@@ -77,6 +77,8 @@ val productionReleaseImplementation: Configuration by configurations.creating { 
 val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
 dependencies {
+    // TODO - Update this when published on jitpack
+    compileOnly(files("libs/launchpad-compose-release.aar"))
 
     // AndroidX
     composeDependencies()

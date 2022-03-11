@@ -52,6 +52,6 @@ val typography = Typography(
     )
 )
 
-fun TextStyle.light() = this.copy(fontWeight = FontWeight.Light)
-fun TextStyle.normal() = this.copy(fontWeight = FontWeight.Normal)
-fun TextStyle.bold() = this.copy(fontWeight = FontWeight.Bold)
+// fun TextStyle.light() = this.copy(fontWeight = FontWeight.Light)
+// fun TextStyle.normal() = this.copy(fontWeight = FontWeight.Normal)
+// fun TextStyle.bold() = this.copy(fontWeight = FontWeight.Bold)
