@@ -1,22 +1,23 @@
 package com.bottlerocketstudios.compose.resources
 
-import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
 fun ProvideColors(
-    colors: Colors,
+    colors: ArchitectureDemoColors,
     content: @Composable () -> Unit
 ) {
     val colorPalette = remember { colors }
     CompositionLocalProvider(LocalAppColors provides colorPalette, content = content)
 }
 
+// TODO update this to use compositionLocalOf when a set of dark mode colors has been added
 private val LocalAppColors = staticCompositionLocalOf {
     lightColors
 }
@@ -30,15 +31,15 @@ fun ProvideDimens(
     CompositionLocalProvider(LocalAppDimens provides dimensionSet, content = content)
 }
 
-private val LocalAppDimens = staticCompositionLocalOf {
-    smallDimensions
+private val LocalAppDimens = compositionLocalOf {
+    sw360Dimensions
 }
 
 @Composable
 fun ArchitectureDemoTheme(
     content: @Composable () -> Unit
 ) {
-    // This can be updated later to support a dark mode check
+    // TODO This should be updated later to support a dark mode check
     val colors = lightColors
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
@@ -46,7 +47,7 @@ fun ArchitectureDemoTheme(
     ProvideDimens(dimensions = dimensions) {
         ProvideColors(colors = colors) {
             MaterialTheme(
-                colors = lightColors,
+                colors = colors.materialColors,
                 typography = typography
             ) {
                 content()
@@ -56,7 +57,7 @@ fun ArchitectureDemoTheme(
 }
 
 object ArchitectureDemoTheme {
-    val colors: Colors
+    val colors: ArchitectureDemoColors
         @Composable
         get() = LocalAppColors.current
 
@@ -68,3 +69,7 @@ object ArchitectureDemoTheme {
 val Dimens: Dimensions
     @Composable
     get() = ArchitectureDemoTheme.dimens
+
+val Colors: ArchitectureDemoColors
+    @Composable
+    get() = ArchitectureDemoTheme.colors

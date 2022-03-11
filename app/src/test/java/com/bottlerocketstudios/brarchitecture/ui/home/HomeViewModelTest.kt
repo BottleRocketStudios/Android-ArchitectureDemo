@@ -1,10 +1,10 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.model.Repository
 import com.bottlerocketstudios.brarchitecture.data.model.User
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.KoinTestRule
 import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
@@ -34,18 +34,18 @@ class HomeViewModelTest : BaseTest() {
         onBlocking { refreshUser() }.then {
             val user = User(username = TEST_USER_NAME)
             _user.value = user
-            ApiResult.Success(Unit)
+            Status.Success(Unit)
         }
         onBlocking { refreshMyRepos() }.then {
             val repos = listOf(Repository(name = "testRepo"))
             _repos.value = repos
-            ApiResult.Success(Unit)
+            Status.Success(Unit)
         }
     }
 
     @Test
     fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() = runBlocking {
-        val model = HomeViewModel(repo, dispatcherProvider)
+        val model = HomeViewModel(repo)
 
         assertThat(model.repos.value).hasSize(1)
         assertThat(model.reposGroup.itemCount).isEqualTo(2)
@@ -53,7 +53,7 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun homeViewModel_shouldHaveUser_whenInitialized() = runBlocking {
-        val model = HomeViewModel(repo, dispatcherProvider)
+        val model = HomeViewModel(repo)
 
         assertThat(model.user).isNotNull()
         assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)

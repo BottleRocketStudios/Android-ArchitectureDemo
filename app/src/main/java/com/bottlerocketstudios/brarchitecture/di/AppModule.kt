@@ -5,14 +5,14 @@ import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvid
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImpl
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
+import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.LoginViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManager
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel
@@ -24,16 +24,16 @@ import org.koin.dsl.module
 object AppModule {
     val module = module {
         viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
-        viewModel { SplashFragmentViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { LoginViewModel(repo = get(), buildConfigProvider = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { HomeViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFileFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFolderFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { SnippetsFragmentViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { CreateSnippetFragmentViewModel(repo = get(), dispatcherProvider = get()) }
+        viewModel { SplashFragmentViewModel(repo = get()) }
+        viewModel { LoginViewModel(repo = get(), buildConfigProvider = get()) }
+        viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get()) }
+        viewModel { HomeViewModel(repo = get()) }
+        viewModel { RepositoryBrowserViewModel(repo = get()) }
+        viewModel { RepositoryFileFragmentViewModel(repo = get()) }
+        viewModel { SnippetsFragmentViewModel(repo = get()) }
+        viewModel { CreateSnippetFragmentViewModel(repo = get()) }
         viewModel { UserFragmentViewModel(repo = get()) }
-        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get(), toaster = get()) }
+        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get()) }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
         single<BuildConfigProvider> { BuildConfigProviderImpl() }

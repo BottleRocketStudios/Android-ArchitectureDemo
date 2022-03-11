@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.compose.resources
 
+import androidx.compose.material.Colors
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
@@ -15,14 +16,61 @@ val tertiary = Color(0xff1fada8)
 val brown_grey_two = Color(0xff797979)
 val brown_grey_three = Color(0xff9e9e9e)
 
-val lightColors = lightColors(
-    primary = br_red,
-    primaryVariant = br_dark_red,
-    secondary = br_light_red,
-    background = background_black,
-    surface = white,
-    onPrimary = white,
-    onSecondary = white,
-    onBackground = greyish_brown,
-    onSurface = greyish_brown,
+val lightColors = ArchitectureDemoColors(
+    tertiary = tertiary,
+    materialColors = lightColors(
+        primary = br_red,
+        primaryVariant = br_dark_red,
+        secondary = br_light_red,
+        background = background_black,
+        surface = white,
+        onPrimary = white,
+        onSecondary = white,
+        onBackground = black,
+        onSurface = greyish_brown,
+    )
 )
+
+data class ArchitectureDemoColors(
+    val tertiary: Color,
+    val materialColors: Colors
+) {
+    val primary: Color
+        get() = materialColors.primary
+
+    val primaryVariant: Color
+        get() = materialColors.primaryVariant
+
+    val secondary: Color
+        get() = materialColors.secondary
+
+    val secondaryVariant: Color
+        get() = materialColors.secondaryVariant
+
+    val background: Color
+        get() = materialColors.background
+
+    val surface: Color
+        get() = materialColors.surface
+
+    val error: Color
+        get() = materialColors.error
+
+    val onPrimary: Color
+        get() = materialColors.onPrimary
+
+    val onSecondary: Color
+        get() = materialColors.onSecondary
+
+    val onBackground: Color
+        get() = materialColors.onBackground
+
+    val onSurface: Color
+        get() = materialColors.onSurface
+
+    val onError: Color
+        get() = materialColors.onError
+
+    val isLight: Boolean
+        get() = materialColors.isLight
+}

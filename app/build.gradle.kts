@@ -134,10 +134,11 @@ android {
 // Declare configurations per variant to use in the dependencies block below. See :data module for examples if needed here in the :app module.
 
 dependencies {
+    implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":compose")))
-    // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    // TODO: List out each jar/aar explicitly to help avoid the danger of someone "slipping" a dangerous lib into the directory
+    // implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // Kotlin/coroutines
     kotlinDependencies()

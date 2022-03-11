@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             window.setSoftInputMode(
                 when (destination.id) {
-                    R.id.loginFragment -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+                    // R.id.loginFragment -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                     else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING
                 }
             )

@@ -1,18 +1,15 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import androidx.lifecycle.viewModelScope
-import com.bottlerocketstudios.brarchitecture.data.model.ApiResult
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
 
-class CreateSnippetFragmentViewModel(private val repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
+class CreateSnippetFragmentViewModel(private val repo: BitbucketRepository) : BaseViewModel() {
 
     // Two way databinding
     val title = MutableStateFlow("")
@@ -28,11 +25,10 @@ class CreateSnippetFragmentViewModel(private val repo: BitbucketRepository, priv
 
     fun onCreateClick() {
         failed.set(false)
-        viewModelScope.launch(dispatcherProvider.IO) {
-            val result = repo.createSnippet(title.value, filename.value, contents.value, private.value)
-            when (result) {
-                is ApiResult.Success -> navigationEvent.postValue(NavigationEvent.Up)
-                is ApiResult.Failure -> failed.set(true)
+        launchIO {
+            when (repo.createSnippet(title.value, filename.value, contents.value, private.value)) {
+                is Status.Success -> navigationEvent.postValue(NavigationEvent.Up)
+                is Status.Failure -> failed.set(true)
             }.exhaustive
         }
     }

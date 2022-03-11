@@ -29,8 +29,10 @@
                 app:fileType="@{dbViewModel.file.type}"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
+                android:tint="@color/tertiary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_file"
                 />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/name"
