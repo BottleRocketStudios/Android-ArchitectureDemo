@@ -1,30 +1,21 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
-import com.bottlerocketstudios.brarchitecture.R
+import androidx.lifecycle.viewModelScope
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import com.bottlerocketstudios.brarchitecture.ui.HeaderViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
-import com.bottlerocketstudios.brarchitecture.ui.util.StringIdHelper
-import com.xwray.groupie.Section
+import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class HomeViewModel(repo: BitbucketRepository) : BaseViewModel() {
     val user = repo.user
     val repos = repo.repos
-    val reposGroup = Section()
+    val userRepositoryState: Flow<List<UserRepositoryUiModel>> = repos.map { it.map { UserRepositoryUiModel(repo = it.convertToRepository()) } }
 
     init {
-        launchIO {
-            repos.collect { repoList ->
-                val map = repoList.map { RepositoryViewModel(it) }
-                runOnMain {
-                    reposGroup.setHeader(HeaderViewModel(StringIdHelper.Id(R.string.home_repositories)))
-                    reposGroup.update(map)
-                }
-            }
-        }
-
-        launchIO {
+        viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshUser()
             repo.refreshMyRepos()
         }

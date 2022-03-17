@@ -7,7 +7,7 @@ import org.junit.Test
 class RepositoryTest : BaseTest() {
     @Test
     fun repository_shouldHaveFields_whenConstructed() {
-        val repository = Repository("scm", "name", null, null, true)
+        val repository = RepositoryDto("scm", "name", null, null, true)
         assertThat(repository.scm).isEqualTo("scm")
         assertThat(repository.name).isEqualTo("name")
         assertThat(repository.isPrivate).isTrue()

@@ -6,12 +6,12 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
-import com.bottlerocketstudios.brarchitecture.data.repository.Repository
+import com.bottlerocketstudios.brarchitecture.domain.models.RepositoryInterface
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import timber.log.Timber
 
-internal class BitbucketCredentialsRepository(context: Context, private val moshi: Moshi) : Repository {
+internal class BitbucketCredentialsRepository(context: Context, private val moshi: Moshi) : RepositoryInterface {
     companion object {
         private const val SECURE_PREF_FILE_NAME = "secureBbCredentials"
         private const val BITBUCKET_CREDENTIALS = "BitbucketCredentials"
