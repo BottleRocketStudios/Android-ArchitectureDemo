@@ -30,7 +30,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private fun selectItem(userRepositoryUiModel: UserRepositoryUiModel) {
         Toast.makeText(activity, userRepositoryUiModel.repo.name as CharSequence, Toast.LENGTH_SHORT).show()
-        activityViewModel.selectRepo(userRepositoryUiModel.repo)
+        activityViewModel.selectedRepo.value = userRepositoryUiModel.repo
         val action = HomeFragmentDirections.actionHomeToRepositoryBrowserFragment(
             RepositoryBrowserData(
                 repoName = userRepositoryUiModel.repo.name ?: ""

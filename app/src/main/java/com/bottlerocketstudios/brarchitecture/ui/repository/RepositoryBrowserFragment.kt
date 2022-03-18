@@ -23,8 +23,8 @@ class RepositoryBrowserFragment : BaseFragment<RepositoryBrowserViewModel>() {
     ): View {
         val data = args.data
 
-        activityViewModel.setTitle(data.folderPath ?: data.repoName)
-        activityViewModel.showToolbar(true)
+        activityViewModel.title.value = data.folderPath ?: data.repoName
+        activityViewModel.showToolbar.value = true
         fragmentViewModel.getFiles(data)
 
         return ComposeScreen {

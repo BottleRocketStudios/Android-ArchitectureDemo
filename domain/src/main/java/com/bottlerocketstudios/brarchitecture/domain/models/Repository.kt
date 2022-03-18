@@ -7,7 +7,7 @@ data class Repository(
     val name: String?,
     val owner: User?,
     val workspace: Workspace?,
-    val isPrivate: Boolean? = true,
+    val isPrivate: Boolean?,
     val description: String?,
     val updated: ZonedDateTime?
 )
