@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.bold
-import com.bottlerocketstudios.compose.resources.lightColors
+import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asState
 
@@ -50,7 +50,7 @@ fun HomeScreen(state: HomeScreenState, selectItem: (userRepositoryUiModel: UserR
                 )
                 .height(Dimens.plane_1)
                 .fillMaxWidth()
-                .background(color = lightColors.brownGrey)
+                .background(color = brown_grey)
         )
         if (state.repositories.value.isNotEmpty()) {
             LazyColumn(

@@ -18,7 +18,6 @@ val brown_grey_three = Color(0xff9e9e9e)
 
 val lightColors = ArchitectureDemoColors(
     tertiary = tertiary,
-    brownGrey = brown_grey,
     materialColors = lightColors(
         primary = br_red,
         primaryVariant = br_dark_red,
@@ -34,7 +33,6 @@ val lightColors = ArchitectureDemoColors(
 
 data class ArchitectureDemoColors(
     val tertiary: Color,
-    val brownGrey: Color,
     val materialColors: Colors
 ) {
     val primary: Color

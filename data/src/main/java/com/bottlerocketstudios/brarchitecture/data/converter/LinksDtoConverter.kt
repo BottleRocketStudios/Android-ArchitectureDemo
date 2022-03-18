@@ -5,10 +5,6 @@ import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
 import com.bottlerocketstudios.brarchitecture.domain.models.Link
 import com.bottlerocketstudios.brarchitecture.domain.models.Links
 
-fun LinksDto.convertToLinks(): Links {
-    return Links(avatar = avatar?.convertToLink())
-}
+fun LinksDto.convertToLinks() = Links(avatar = avatar?.convertToLink())
 
-fun LinkDto.convertToLink(): Link {
-    return Link(href = href)
-}
+fun LinkDto.convertToLink() = Link(href = href)
