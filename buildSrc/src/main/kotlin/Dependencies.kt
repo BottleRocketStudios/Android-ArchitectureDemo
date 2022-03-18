@@ -169,6 +169,11 @@ private object Libraries {
     // Integration with observables
     const val COMPOSE_LIVE_DATA = "androidx.compose.runtime:runtime-livedata:$COMPOSE_VERSION"
 
+
+    // LaunchPad
+    private const val LAUNCHPAD_VERSION = "0.1.0"
+    const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:$LAUNCHPAD_VERSION"
+
     // UI Tests
     const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
 
@@ -368,6 +373,11 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
     implementation(Libraries.COMPOSE_LIVE_DATA)
 }
+
+fun DependencyHandler.launchPadDependencies() {
+    implementation(Libraries.LAUNCHPAD_COMPOSE)
+}
+
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
 }
