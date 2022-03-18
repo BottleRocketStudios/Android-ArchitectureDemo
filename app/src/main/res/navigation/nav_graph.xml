@@ -33,8 +33,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
-        android:label="@string/home_title"
-        tools:layout="@layout/home_fragment">
+        android:label="@string/home_title">
         <action
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
