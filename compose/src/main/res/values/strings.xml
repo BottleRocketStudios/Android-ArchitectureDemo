@@ -27,4 +27,7 @@
         <item quantity="other">%1$d items</item>
     </plurals>
 
+    <!-- Home -->
+    <string name="no_repositories">No Repositories</string>
+    <string name="home_repositories">Repositories</string>
 </resources>
