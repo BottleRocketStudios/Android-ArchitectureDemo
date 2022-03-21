@@ -21,7 +21,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.asState
+import com.bottlerocketstudios.compose.util.asMutableState
 
 data class HomeScreenState(
     val repositories: State<List<UserRepositoryUiModel>>
@@ -80,7 +80,7 @@ fun HomeScreenPreview() {
     Preview {
         HomeScreen(
             state = HomeScreenState(
-                listOf(testCard1, testCard2).asState()
+                listOf(testCard1, testCard2).asMutableState()
             )
         ) {}
     }

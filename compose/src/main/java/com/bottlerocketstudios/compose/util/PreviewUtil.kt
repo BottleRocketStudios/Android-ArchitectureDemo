@@ -10,4 +10,4 @@ fun Preview(content: @Composable () -> Unit) = ArchitectureDemoTheme(content = c
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun <T> T.asState() = mutableStateOf(this)
+fun <T> T.asMutableState() = mutableStateOf(this)
