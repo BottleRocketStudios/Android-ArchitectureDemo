@@ -1,12 +1,12 @@
 package com.bottlerocketstudios.brarchitecture.data.environment
 
 import com.bottlerocketstudios.brarchitecture.data.model.EnvironmentConfig
-import com.bottlerocketstudios.brarchitecture.domain.models.RepositoryInterface
+import com.bottlerocketstudios.brarchitecture.domain.models.Repository
 
 /**
  * Provides client environment related values.
  */
-interface EnvironmentRepository : RepositoryInterface {
+interface EnvironmentRepository : Repository {
     /** Currently selected environment. Always production data on production release build. */
     val selectedConfig: EnvironmentConfig
 

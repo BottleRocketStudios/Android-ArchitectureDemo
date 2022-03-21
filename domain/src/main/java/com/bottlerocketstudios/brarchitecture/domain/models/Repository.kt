@@ -1,13 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.domain.models
 
-import java.time.ZonedDateTime
-
-data class Repository(
-    val scm: String?,
-    val name: String?,
-    val owner: User?,
-    val workspace: Workspace?,
-    val isPrivate: Boolean?,
-    val description: String?,
-    val updated: ZonedDateTime?
-)
+/**
+ * [Marker interface](https://en.wikipedia.org/wiki/Marker_interface_pattern) for all [Repositories](Repository) used in the app to quickly/easily find them.
+ */
+interface Repository

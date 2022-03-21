@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
-import com.bottlerocketstudios.brarchitecture.data.model.RepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.Snippet
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import okhttp3.MultipartBody
@@ -22,14 +22,14 @@ internal interface BitbucketService {
     @GET(value = "2.0/repositories/{workspace}")
     suspend fun getRepositories(
         @Path(value = "workspace") workspace: String
-    ): Response<BitbucketPagedResponse<List<RepositoryDto>>>
+    ): Response<BitbucketPagedResponse<List<GitRepositoryDto>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D */
     @GET(value = "2.0/repositories/{workspace}/{repo}")
     suspend fun getRepository(
         @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String
-    ): Response<RepositoryDto>
+    ): Response<GitRepositoryDto>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src */
     @GET(value = "2.0/repositories/{workspace}/{repo}/src")

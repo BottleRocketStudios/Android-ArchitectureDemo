@@ -15,4 +15,4 @@ data class UserDto(
     @Json(name = "created_on") val createdOn: String? = null,
     @Json(name = "uuid") val uuid: String? = "",
     @Json(name = "links") val linksDto: LinksDto? = null
-) : Parcelable
+) : Parcelable, Dto
