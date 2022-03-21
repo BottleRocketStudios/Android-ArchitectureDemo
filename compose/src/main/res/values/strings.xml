@@ -30,4 +30,9 @@
     <!-- Home -->
     <string name="no_repositories">No Repositories</string>
     <string name="home_repositories">Repositories</string>
+
+    <!-- Profile -->
+    <string name="profile_edit">Edit</string>
+    <string name="profile_logout">Logout</string>
+    <string name="profile_image_description">Profile Image</string>
 </resources>

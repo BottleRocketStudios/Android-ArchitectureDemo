@@ -35,8 +35,8 @@
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
         android:label="@string/home_title">
         <action
-            android:id="@+id/action_homeFragment_to_userFragment"
-            app:destination="@id/userFragment" />
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_homeFragment_to_snippetsFragment"
             app:destination="@id/snippetsFragment" />
@@ -54,10 +54,9 @@
             app:destination="@id/createSnippetFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userFragment"
-        android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
-        android:label="@string/profile_title" 
-        tools:layout="@layout/user_fragment"/>
+        android:id="@+id/profileFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.profile.ProfileFragment"
+        android:label="@string/profile_title"/>
     <fragment
         android:id="@+id/repositoryFileFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"

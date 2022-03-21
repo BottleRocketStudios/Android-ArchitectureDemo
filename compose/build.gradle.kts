@@ -82,6 +82,9 @@ dependencies {
     // AndroidX
     composeDependencies()
 
+    // Coil
+    coilDependencies()
+
     // Utility
     timberDependencies()
 

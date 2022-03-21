@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.bottlerocketstudios.brarchitecture.ui.user.UserFragmentViewModel" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +11,6 @@
         <ImageView
             android:layout_width="74dp"
             android:layout_height="74dp"
-            app:imageUrl="@{viewModel.avatarUrl}"
             android:layout_marginTop="142dp"
             android:layout_gravity="center"
             android:contentDescription="@string/user_profile_image_accessibility"
@@ -29,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_gravity="center"
-            android:text="@{viewModel.displayName}"
+            android:text=""
             tools:text="Matt Smith"
             android:fontFamily="sans-serif-medium"
             android:textStyle="normal"
@@ -47,7 +40,7 @@
             android:textColor="@color/greyish_brown"
             android:letterSpacing="0.03"
             android:layout_gravity="center_horizontal"
-            android:text="@{viewModel.nickname}"
+            android:text=""
             tools:text="Matt234"
             />
         
@@ -58,9 +51,7 @@
             android:layout_marginTop="32dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:strokeColor="@color/b_r__red"
-            android:text="@string/edit"
-            android:onClick="@{() -> viewModel.onEditClicked()}"
-            />
+            android:text="@string/edit" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
@@ -70,7 +61,6 @@
             android:layout_gravity="center"
             android:textColor="@color/brown_grey_two"
             android:id="@+id/logout"
-            android:text="@string/logout"
-            android:onClick="@{() -> viewModel.onLogoutClicked()}"/>
+            android:text="@string/logout"/>
     </LinearLayout>
 </layout>

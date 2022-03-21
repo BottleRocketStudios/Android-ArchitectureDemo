@@ -11,12 +11,12 @@ import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManag
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
+import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.user.UserFragmentViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -32,7 +32,7 @@ object AppModule {
         viewModel { RepositoryFileFragmentViewModel(repo = get()) }
         viewModel { SnippetsFragmentViewModel(repo = get()) }
         viewModel { CreateSnippetFragmentViewModel(repo = get()) }
-        viewModel { UserFragmentViewModel(repo = get()) }
+        viewModel { ProfileViewModel(repo = get()) }
         viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get()) }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }

@@ -169,6 +169,13 @@ private object Libraries {
     // Integration with observables
     const val COMPOSE_LIVE_DATA = "androidx.compose.runtime:runtime-livedata:$COMPOSE_VERSION"
 
+    // Coil
+    // https://coil-kt.github.io/coil/
+    // https://coil-kt.github.io/coil/changelog/#full-release-notes
+    private const val COIL_VERSION = "2.0.0-rc02"
+    const val COIL = "io.coil-kt:coil:$COIL_VERSION"
+    const val COIL_COMPOSE_EXT =  "io.coil-kt:coil-compose:$COIL_VERSION"
+
     // UI Tests
     const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
 
@@ -368,6 +375,12 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
     implementation(Libraries.COMPOSE_LIVE_DATA)
 }
+
+fun DependencyHandler.coilDependencies() {
+    implementation(Libraries.COIL)
+    implementation(Libraries.COIL_COMPOSE_EXT)
+}
+
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
 }
