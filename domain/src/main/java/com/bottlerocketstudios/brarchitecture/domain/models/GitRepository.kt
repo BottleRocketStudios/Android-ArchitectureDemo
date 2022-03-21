@@ -9,5 +9,5 @@ data class GitRepository(
     val workspace: Workspace?,
     val isPrivate: Boolean?,
     val description: String?,
-    val updated: ZonedDateTime?
+    val updated: ZonedDateTime?,
 )

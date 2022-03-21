@@ -8,5 +8,5 @@ data class User(
     val createdOn: String?,
     val uuid: String?,
     val links: Links?,
-    val avatarUrl: String?
+    val avatarUrl: String?,
 )
