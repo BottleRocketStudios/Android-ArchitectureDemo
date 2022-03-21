@@ -96,7 +96,7 @@ fun ProfileScreen(state: ProfileScreenState) {
             )
         }
         OutlinedButton(
-            onClick = { state.onLogoutClicked },
+            onClick = { state.onLogoutClicked() },
             border = BorderStroke(1.dp, Color.Transparent),
             shape = RoundedCornerShape(Dimens.grid_1_5),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = greyish_brown),
