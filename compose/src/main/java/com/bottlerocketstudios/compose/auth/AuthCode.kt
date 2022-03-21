@@ -27,7 +27,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.asState
+import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
@@ -47,7 +47,7 @@ fun AuthCodePreview() {
     Preview {
         AuthCodeScreen(
             state = AuthCodeState(
-                requestUrl = "".asState(),
+                requestUrl = "".asMutableState(),
                 devOptionsEnabled = true,
                 onAuthCode = {},
                 onLoginClicked = {},
