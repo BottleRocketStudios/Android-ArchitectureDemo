@@ -1,9 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.data.converter
 
-import com.bottlerocketstudios.brarchitecture.data.model.RepositoryDto
-import com.bottlerocketstudios.brarchitecture.domain.models.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
+import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 
-fun RepositoryDto.convertToRepository() = Repository(
+fun GitRepositoryDto.convertToGitRepository() = GitRepository(
     scm = scm,
     name = name,
     owner = owner?.convertToUser(),

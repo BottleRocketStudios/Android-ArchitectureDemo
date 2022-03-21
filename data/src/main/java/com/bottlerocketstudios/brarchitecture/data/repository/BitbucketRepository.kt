@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
-import com.bottlerocketstudios.brarchitecture.data.model.RepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.Snippet
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
@@ -24,17 +24,17 @@ import org.koin.core.component.inject
 import retrofit2.Response
 import timber.log.Timber
 
-interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.models.RepositoryInterface {
+interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.models.Repository {
     val user: StateFlow<UserDto?>
-    val repos: StateFlow<List<RepositoryDto>>
+    val repos: StateFlow<List<GitRepositoryDto>>
     val snippets: StateFlow<List<Snippet>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
     suspend fun authenticate(authCode: String): Boolean
     suspend fun refreshUser(): Status<Unit>
     suspend fun refreshMyRepos(): Status<Unit>
     suspend fun refreshMySnippets(): Status<Unit>
-    suspend fun getRepositories(workspaceSlug: String): Status<List<RepositoryDto>>
-    suspend fun getRepository(workspaceSlug: String, repo: String): Status<RepositoryDto>
+    suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>>
+    suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepositoryDto>
     suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<String>
@@ -52,13 +52,13 @@ internal class BitbucketRepositoryImpl(
 
     // TODO: Move user specific logic to a separate UserRepository
     private val _user = MutableStateFlow<UserDto?>(null)
-    private val _repos = MutableStateFlow<List<RepositoryDto>>(emptyList())
+    private val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val _snippets = MutableStateFlow<List<Snippet>>(emptyList())
     var authenticated = false
         private set
 
     override val user: StateFlow<UserDto?> = _user
-    override val repos: StateFlow<List<RepositoryDto>> = _repos
+    override val repos: StateFlow<List<GitRepositoryDto>> = _repos
     override val snippets: StateFlow<List<Snippet>> = _snippets
 
     override suspend fun authenticate(authCode: String): Boolean {
@@ -113,13 +113,13 @@ internal class BitbucketRepositoryImpl(
         }
     }
 
-    override suspend fun getRepositories(workspaceSlug: String): Status<List<RepositoryDto>> {
+    override suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>> {
         return wrapRepoExceptions("getRepositories") {
             bitbucketService.getRepositories(workspaceSlug).toResult().map { it.values.orEmpty().asSuccess() }
         }
     }
 
-    override suspend fun getRepository(workspaceSlug: String, repo: String): Status<RepositoryDto> {
+    override suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepositoryDto> {
         return wrapRepoExceptions("getRepository") {
             bitbucketService.getRepository(workspaceSlug, repo).toResult()
         }

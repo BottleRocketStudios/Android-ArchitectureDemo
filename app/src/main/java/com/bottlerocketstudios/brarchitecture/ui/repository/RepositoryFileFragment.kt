@@ -3,7 +3,7 @@ package com.bottlerocketstudios.brarchitecture.ui.repository
 import androidx.navigation.fragment.navArgs
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.databinding.RepositoryFileFragmentBinding
-import com.bottlerocketstudios.brarchitecture.domain.models.Repository
+import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -18,7 +18,7 @@ class RepositoryFileFragment : BaseDataBindingFragment<RepositoryFileFragmentVie
 
     override fun setupBinding(binding: RepositoryFileFragmentBinding) {
         super.setupBinding(binding)
-        val repo: Repository = activityViewModel.selectedRepo.value
+        val repo: GitRepository = activityViewModel.selectedRepo.value
         val data: RepositoryFileData = args.data
 
         activityViewModel.title.value = data.path

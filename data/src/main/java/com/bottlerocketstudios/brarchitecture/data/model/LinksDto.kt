@@ -15,4 +15,4 @@ data class LinksDto(
 @Parcelize
 data class LinkDto(
     @Json(name = "href") val href: String? = null
-) : Parcelable
+) : Parcelable, Dto

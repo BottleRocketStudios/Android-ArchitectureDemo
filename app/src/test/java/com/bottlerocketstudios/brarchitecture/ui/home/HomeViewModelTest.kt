@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bottlerocketstudios.brarchitecture.data.model.RepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
@@ -25,7 +25,7 @@ class HomeViewModelTest : BaseTest() {
     val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
 
     val _user = MutableStateFlow<UserDto?>(null)
-    val _repos = MutableStateFlow<List<RepositoryDto>>(emptyList())
+    val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val TEST_USER_NAME = "testuser"
     private val dispatcherProvider = TestDispatcherProvider()
     val repo: BitbucketRepository = mock {
@@ -37,7 +37,7 @@ class HomeViewModelTest : BaseTest() {
             Status.Success(Unit)
         }
         onBlocking { refreshMyRepos() }.then {
-            val repos = listOf(RepositoryDto(name = "testRepo"))
+            val repos = listOf(GitRepositoryDto(name = "testRepo"))
             _repos.value = repos
             Status.Success(Unit)
         }

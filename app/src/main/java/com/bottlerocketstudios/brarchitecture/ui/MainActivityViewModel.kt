@@ -3,12 +3,12 @@ package com.bottlerocketstudios.brarchitecture.ui
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.converter.convertToUser
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.domain.models.Repository
+import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class MainActivityViewModel(val repo: BitbucketRepository, buildConfigProvider: BuildConfigProvider) : BaseViewModel() {
-    val selectedRepo = MutableStateFlow(Repository(null, null, null, null, null, null, null))
+    val selectedRepo = MutableStateFlow(GitRepository(null, null, null, null, null, null, null))
     val showToolbar = MutableStateFlow(false)
     val title = MutableStateFlow("")
 

@@ -30,4 +30,5 @@
     <!-- Home -->
     <string name="no_repositories">No Repositories</string>
     <string name="home_repositories">Repositories</string>
+    <string name="home_repository_icon">Repository Icon</string>
 </resources>

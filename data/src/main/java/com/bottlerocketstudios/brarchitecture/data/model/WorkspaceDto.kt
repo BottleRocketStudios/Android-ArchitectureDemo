@@ -11,4 +11,4 @@ data class WorkspaceDto(
     @Json(name = "slug") val slug: String? = "",
     @Json(name = "name") val name: String? = "",
     @Json(name = "uuid") val uuid: String? = ""
-) : Parcelable
+) : Parcelable, Dto

@@ -2,13 +2,13 @@ package com.bottlerocketstudios.compose.home
 
 import com.bottlerocketstudios.brarchitecture.domain.models.Link
 import com.bottlerocketstudios.brarchitecture.domain.models.Links
-import com.bottlerocketstudios.brarchitecture.domain.models.Repository
+import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.models.Workspace
 import java.time.ZonedDateTime
 
-val testCard1 = UserRepositoryUiModel(
-    Repository(
+internal val testCard1 = UserRepositoryUiModel(
+    GitRepository(
         scm = "scm1",
         name = "name1",
         owner = User(
@@ -36,8 +36,8 @@ val testCard1 = UserRepositoryUiModel(
     ),
     updatedTimeString = "2022 02 01"
 )
-val testCard2 = UserRepositoryUiModel(
-    Repository(
+internal val testCard2 = UserRepositoryUiModel(
+    GitRepository(
         scm = "scm2",
         name = "name2",
         owner = User(

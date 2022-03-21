@@ -8,7 +8,7 @@ import java.time.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class RepositoryDto(
+data class GitRepositoryDto(
     @Json(name = "scm") val scm: String? = "",
     @Json(name = "name") val name: String? = "",
     @Json(name = "owner") val owner: UserDto? = null,
@@ -16,4 +16,4 @@ data class RepositoryDto(
     @Json(name = "is_private") val isPrivate: Boolean? = true,
     @Json(name = "description") val description: String? = "",
     @Json(name = "updated_on") val updated: ZonedDateTime? = null
-) : Parcelable
+) : Parcelable, Dto
