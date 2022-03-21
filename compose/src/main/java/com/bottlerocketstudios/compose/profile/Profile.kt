@@ -124,7 +124,7 @@ fun ProfileScreen(state: ProfileScreenState) {
 fun ProfileScreenPreview() {
     Preview {
         ProfileScreen(
-            state = ProfileMockData
+            state = profileMockData
         )
     }
 }

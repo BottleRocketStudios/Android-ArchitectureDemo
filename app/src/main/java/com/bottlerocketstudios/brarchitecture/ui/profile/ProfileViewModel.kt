@@ -15,15 +15,17 @@ class ProfileViewModel(val repo: BitbucketRepository) : BaseViewModel() {
     val avatarUrl: Flow<String> = repo.user.map { it?.convertToUser()?.avatarUrl.orEmpty() }
     val displayName: Flow<String> = repo.user.map { it?.displayName.orEmpty() }
     val nickname: Flow<String> = repo.user.map { it?.nickname.orEmpty() }
-    private val bitBucketSettingUrl: String = "https://bitbucket.org/account/settings/"
 
     fun onEditClicked() {
-        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, bitBucketSettingUrl.toUri())))
+        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri())))
     }
 
     fun onLogoutClicked() {
         repo.clear()
-        // Back Nav to auth code entry, if in stack.
-        navigationEvent.postValue(NavigationEvent.Back(R.id.authCodeFragment))
+        navigationEvent.postValue(NavigationEvent.Action(R.id.action_global_to_authCodeFragment))
+    }
+
+    companion object {
+        private const val BIT_BUCKET_SETTING_URL = "https://bitbucket.org/account/settings/"
     }
 }

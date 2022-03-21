@@ -13,6 +13,11 @@
         android:id="@+id/action_global_to_devOptionsFragment"
         app:destination="@id/devOptionsFragment" />
 
+    <action
+        android:id="@+id/action_global_to_authCodeFragment"
+        app:popUpTo="@id/nav_graph"
+        app:destination="@id/authCodeFragment" />
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
