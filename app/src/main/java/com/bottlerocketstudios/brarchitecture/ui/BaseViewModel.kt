@@ -101,6 +101,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         }
     }
     /** Helper function to avoid needing downcast declarations for public MutableStateFlow. [value] only set when it is non-nullable */
+    //TODO This is not Type safe.
     protected fun <T : Any> StateFlow<T>?.set(value: T?) {
         if (this is MutableStateFlow<T> && value != null) {
             this.value = value

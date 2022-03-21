@@ -6,7 +6,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
-import com.bottlerocketstudios.brarchitecture.data.repository.Repository
+import com.bottlerocketstudios.brarchitecture.domain.models.Repository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import timber.log.Timber

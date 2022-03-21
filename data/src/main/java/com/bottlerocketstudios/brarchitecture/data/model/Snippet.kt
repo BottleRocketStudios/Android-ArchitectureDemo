@@ -12,6 +12,6 @@ data class Snippet(
     @Json(name = "id") val id: String? = null,
     @Json(name = "title") val title: String? = null,
     @Json(name = "is_private") val isPrivate: Boolean? = null,
-    @Json(name = "owner") val owner: User? = null,
+    @Json(name = "owner") val owner: UserDto? = null,
     @Json(name = "updated_on") val updated: ZonedDateTime? = null
 ) : Parcelable

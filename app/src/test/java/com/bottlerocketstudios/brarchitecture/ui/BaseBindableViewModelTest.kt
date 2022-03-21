@@ -6,7 +6,6 @@ import androidx.databinding.ViewDataBinding
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.KoinTestRule
 import com.bottlerocketstudios.brarchitecture.test.TestModule
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
 import com.google.common.truth.Truth.assertThat
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -110,17 +109,6 @@ class BaseBindableViewModelTest : BaseTest() {
         val vmi2 = tvm2.getItem(0)
 
         assertThat(vmi.isSameAs(vmi2)).isFalse()
-    }
-
-    @Test
-    fun viewModelItem_anotherViewModelItemOfAnotherType_shouldNotBeTheSame() {
-        val tvm = TestBindableViewModel(TEST_DATA)
-        val rvm = RepositoryViewModel(mock {})
-
-        val vmi = tvm.getItem(0)
-        val rvmi = rvm.getItem(0)
-
-        assertThat(vmi.isSameAs(rvmi)).isFalse()
     }
 
     @Test

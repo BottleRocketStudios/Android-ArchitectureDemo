@@ -17,7 +17,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,8 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import com.bottlerocketstudios.compose.R
-import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
@@ -47,7 +47,7 @@ fun AuthCodePreview() {
     Preview {
         AuthCodeScreen(
             state = AuthCodeState(
-                requestUrl = "".asState(),
+                requestUrl = "".asMutableState(),
                 devOptionsEnabled = true,
                 onAuthCode = {},
                 onLoginClicked = {},
@@ -149,10 +149,3 @@ private fun AuthCodeContent(state: AuthCodeState) {
         }
     }
 }
-
-@Composable
-fun Preview(content: @Composable () -> Unit) = ArchitectureDemoTheme(content = content)
-
-@SuppressLint("UnrememberedMutableState")
-@Composable
-fun <T> T.asState() = mutableStateOf(this)

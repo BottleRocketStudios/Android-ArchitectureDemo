@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         }
         navController.addOnDestinationChangedListener { _, destination, _ ->
             this@MainActivity.hideKeyboard() // hide keyboard for every destination change - prevents need to manually hide keyboard per fragment just prior to navigating away
-            activityViewModel.showToolbar(destination.label?.isNotEmpty() ?: false)
-            activityViewModel.setTitle(destination.label.toString())
+            activityViewModel.showToolbar.value = destination.label?.isNotEmpty() ?: false
+            activityViewModel.title.value = destination.label.toString()
             binding.viewToolbar.toolbar.title = ""
             invalidateOptionsMenu()
 

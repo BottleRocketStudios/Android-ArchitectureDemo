@@ -7,7 +7,7 @@ import org.junit.Test
 class UserTest : BaseTest() {
     @Test
     fun user_shouldHaveFields_whenConstructed() {
-        val user = User("username", "nickname", "account_status", "display_name", "created_on", "uuid")
+        val user = UserDto("username", "nickname", "account_status", "display_name", "created_on", "uuid")
         assertThat(user.username).isEqualTo("username")
         assertThat(user.nickname).isEqualTo("nickname")
         assertThat(user.accountStatus).isEqualTo("account_status")

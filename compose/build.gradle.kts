@@ -78,6 +78,7 @@ val devConfigurations: List<Configuration> = listOf(internalDebugImplementation,
 
 dependencies {
 
+    implementation(project(mapOf("path" to ":domain")))
     // AndroidX
     composeDependencies()
 
