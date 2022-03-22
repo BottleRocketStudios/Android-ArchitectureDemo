@@ -13,6 +13,7 @@ class RepositoryFileFragmentViewModel(
 ) : BaseViewModel() {
     val srcFile: StateFlow<String> = MutableStateFlow("")
     val path: StateFlow<String> = MutableStateFlow("")
+
     fun loadFile(workspaceSlug: String, repoId: String, @Suppress("UNUSED_PARAMETER") mimetype: String, hash: String, path: String) {
         launchIO {
             val result = repo.getSourceFile(workspaceSlug, repoId, hash, path)
