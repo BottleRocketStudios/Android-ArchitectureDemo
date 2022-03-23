@@ -23,7 +23,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.light
 import com.bottlerocketstudios.compose.resources.normal
-import com.bottlerocketstudios.compose.resources.tertiary
+import com.bottlerocketstudios.compose.resources.sea_foam
 import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
@@ -55,7 +55,7 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                 Icon(
                     painter = painterResource(id = R.drawable.ic_repository),
                     contentDescription = stringResource(id = R.string.home_repository_icon),
-                    tint = tertiary,
+                    tint = sea_foam,
                     modifier = Modifier
                         .padding(
                             all = Dimens.grid_2
@@ -72,7 +72,7 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                 ) {
                     Text(
                         userRepositoryUiModel.repo.name ?: "",
-                        color = tertiary,
+                        color = sea_foam,
                         style = MaterialTheme.typography.h3.bold(),
                         modifier = Modifier
                             .padding(

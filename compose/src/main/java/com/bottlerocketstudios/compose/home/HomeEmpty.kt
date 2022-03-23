@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.bold
-import com.bottlerocketstudios.compose.resources.tertiary
+import com.bottlerocketstudios.compose.resources.sea_foam
 import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
@@ -25,7 +25,7 @@ fun HomeEmptyLayout() {
     ){
         Text(
             text = stringResource(R.string.no_repositories),
-            color = tertiary,
+            color = sea_foam,
             style = MaterialTheme.typography.h1.bold()
         )
     }

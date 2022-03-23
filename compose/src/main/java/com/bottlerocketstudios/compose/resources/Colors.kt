@@ -12,12 +12,12 @@ val greyish_brown = Color(0xff515151)
 val white = Color(0xffffffff)
 val background_black = Color(0x05000000)
 val black = Color(0xff000000)
-val tertiary = Color(0xff1fada8)
+val sea_foam = Color(0xff1fada8)
 val brown_grey_two = Color(0xff797979)
 val brown_grey_three = Color(0xff9e9e9e)
 
 val lightColors = ArchitectureDemoColors(
-    tertiary = tertiary,
+    tertiary = sea_foam,
     materialColors = lightColors(
         primary = br_red,
         primaryVariant = br_dark_red,

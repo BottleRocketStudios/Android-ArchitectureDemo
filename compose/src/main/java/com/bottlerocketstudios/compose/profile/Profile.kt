@@ -12,22 +12,22 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.br_red
 import com.bottlerocketstudios.compose.resources.greyish_brown
 import com.bottlerocketstudios.compose.resources.normal
-import com.bottlerocketstudios.compose.resources.tertiary
 import com.bottlerocketstudios.compose.util.Preview
 
 data class ProfileScreenState(
@@ -56,7 +56,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         )
         Text(
             state.displayName.value,
-            color = tertiary,
+            color = ArchitectureDemoTheme.colors.tertiary,
             style = MaterialTheme.typography.h3.bold(),
             modifier = Modifier
                 .padding(
@@ -66,7 +66,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         )
         Text(
             state.nickname.value,
-            color = greyish_brown,
+            color = ArchitectureDemoTheme.colors.onSurface,
             style = MaterialTheme.typography.h4.normal(),
             modifier = Modifier
                 .padding(
@@ -89,17 +89,14 @@ fun ProfileScreen(state: ProfileScreenState) {
         ) {
             Text(
                 stringResource(id = R.string.profile_edit).uppercase(),
-                color = br_red,
                 style = MaterialTheme.typography.h3.bold(),
                 modifier = Modifier
                     .wrapContentSize()
             )
         }
-        OutlinedButton(
+        TextButton(
             onClick = { state.onLogoutClicked() },
-            border = BorderStroke(1.dp, Color.Transparent),
-            shape = RoundedCornerShape(Dimens.grid_1_5),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = greyish_brown),
+            colors = ButtonDefaults.textButtonColors(contentColor = ArchitectureDemoTheme.colors.onSurface),
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_0_5
@@ -111,9 +108,7 @@ fun ProfileScreen(state: ProfileScreenState) {
             Text(
                 stringResource(id = R.string.profile_logout),
                 color = greyish_brown,
-                style = MaterialTheme.typography.h3.bold(),
-                modifier = Modifier
-                    .wrapContentSize()
+                style = MaterialTheme.typography.h3.bold()
             )
         }
     }
