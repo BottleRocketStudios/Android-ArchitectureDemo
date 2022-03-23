@@ -28,7 +28,7 @@ import com.bottlerocketstudios.compose.util.convertToImageBitmap
 
 data class FileBrowserScreenState(
     val path: State<String>,
-    val content: State<ByteArray?>
+    val content: State<ByteArray?>,
 )
 
 @Composable
