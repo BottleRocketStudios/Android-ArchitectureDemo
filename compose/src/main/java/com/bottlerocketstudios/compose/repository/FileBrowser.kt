@@ -1,6 +1,8 @@
 package com.bottlerocketstudios.compose.repository
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -12,22 +14,25 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
-import com.bottlerocketstudios.compose.resources.greyish_brown
 import com.bottlerocketstudios.compose.resources.light
 import com.bottlerocketstudios.compose.resources.normal
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.convertToImageBitmap
 
 data class FileBrowserScreenState(
     val path: State<String>,
-    val content: State<String>
+    val content: State<ByteArray?>
 )
 
 @Composable
 fun FileBrowserScreen(state: FileBrowserScreenState) {
-    val scroll = rememberScrollState(0)
     Column(
         modifier = Modifier
             .padding(
@@ -38,7 +43,7 @@ fun FileBrowserScreen(state: FileBrowserScreenState) {
         Text(
             text = state.path.value,
             style = MaterialTheme.typography.h5.normal(),
-            color = greyish_brown,
+            color = Colors.onSurface,
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_1
@@ -48,7 +53,6 @@ fun FileBrowserScreen(state: FileBrowserScreenState) {
         )
         Divider(
             color = brown_grey,
-            thickness = Dimens.plane_1,
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_1
@@ -56,17 +60,45 @@ fun FileBrowserScreen(state: FileBrowserScreenState) {
                 .wrapContentHeight()
                 .fillMaxWidth()
         )
-        Text(
-            text = state.content.value,
-            style = MaterialTheme.typography.h5.light(),
-            modifier = Modifier
-                .padding(
-                    top = Dimens.grid_1
-                )
-                .fillMaxWidth()
-                .verticalScroll(scroll)
-        )
+        RawFileData(byteArray = state.content.value)
     }
+}
+
+@Composable
+fun RawFileData(byteArray: ByteArray?) {
+    byteArray?.let {
+        val imageBitmap = byteArray.convertToImageBitmap()
+        if (imageBitmap != null) {
+            ImageFileLayout(imageBitmap)
+        } else {
+            TextFileLayout(byteArray.decodeToString())
+        }
+    }
+}
+
+@Composable
+fun ImageFileLayout(imageBitmap: ImageBitmap) {
+    Image(
+        imageBitmap,
+        contentDescription = stringResource(id = R.string.file_image_description),
+        modifier = Modifier
+            .fillMaxSize()
+    )
+}
+
+@Composable
+fun TextFileLayout(rawString: String) {
+    val scroll = rememberScrollState(0)
+    Text(
+        text = rawString,
+        style = MaterialTheme.typography.h5.light(),
+        modifier = Modifier
+            .padding(
+                top = Dimens.grid_1
+            )
+            .fillMaxWidth()
+            .verticalScroll(scroll)
+    )
 }
 
 @Preview(showSystemUi = true)
