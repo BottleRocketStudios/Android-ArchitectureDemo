@@ -53,4 +53,10 @@
     <string name="snippet_creation_failed">Snippet Creation Failed</string>
     <string name="create_snippet_button">Create</string>
 
+    <plurals name="days_ago_plural">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <string name="today">Today</string>
+
 </resources>

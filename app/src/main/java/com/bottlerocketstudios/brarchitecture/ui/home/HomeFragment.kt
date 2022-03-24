@@ -8,7 +8,7 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
-import com.bottlerocketstudios.brarchitecture.ui.util.formattedUpdateTime
+import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import org.koin.android.ext.android.inject

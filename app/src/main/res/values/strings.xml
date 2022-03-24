@@ -55,11 +55,7 @@
     <string name="dev_options_button">Dev Options</string>
     <string name="empty_label" />
 
-    <plurals name="days_ago_plural">
-        <item quantity="one">%1$d day ago</item>
-        <item quantity="other">%1$d days ago</item>
-    </plurals>
-    <string name="today">Today</string>
+
 
     <!-- Values added to exercise unit tests -->
     <string name="sample_format">Sample %1$s</string>

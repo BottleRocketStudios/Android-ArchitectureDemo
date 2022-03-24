@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
-import com.bottlerocketstudios.brarchitecture.ui.util.formattedUpdateTime
+import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import org.koin.android.ext.android.inject

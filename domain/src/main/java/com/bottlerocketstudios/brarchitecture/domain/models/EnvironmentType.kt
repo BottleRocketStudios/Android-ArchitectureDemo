@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.data.environment
+package com.bottlerocketstudios.brarchitecture.domain.models
 
 // FIXME: Adjust environment list/naming to match actual client environments.
 /** Represents available client environments */

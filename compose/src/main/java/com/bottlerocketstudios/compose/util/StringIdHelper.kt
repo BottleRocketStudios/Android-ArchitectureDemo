@@ -1,9 +1,9 @@
-package com.bottlerocketstudios.brarchitecture.ui.util
+package com.bottlerocketstudios.compose.util
 
 import android.content.Context
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
-import com.bottlerocketstudios.brarchitecture.data.model.DomainModel
+import com.bottlerocketstudios.brarchitecture.domain.models.DomainModel
 import java.io.Serializable
 
 /**

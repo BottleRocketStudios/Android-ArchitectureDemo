@@ -21,8 +21,7 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
-        android:label="@string/empty_label"
-        tools:layout="@layout/splash_fragment">
+        android:label="@string/empty_label">
         <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
@@ -52,8 +51,7 @@
     <fragment
         android:id="@+id/snippetsFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragment"
-        android:label="@string/snippets_title"
-        tools:layout="@layout/snippets_fragment">
+        android:label="@string/snippets_title">
         <action
             android:id="@+id/action_snippetsFragment_to_createSnippetFragment"
             app:destination="@id/createSnippetFragment" />
@@ -78,8 +76,7 @@
     <fragment
         android:id="@+id/createSnippetFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragment"
-        android:label="@string/create_snippets_title"
-        tools:layout="@layout/create_snippet_fragment"/>
+        android:label="@string/create_snippets_title"/>
     <fragment
         android:id="@+id/authCodeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeFragment" >
