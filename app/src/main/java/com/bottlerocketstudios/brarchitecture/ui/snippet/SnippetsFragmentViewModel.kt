@@ -1,34 +1,26 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
+import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import com.xwray.groupie.Section
+import com.bottlerocketstudios.compose.snippets.SnippetUiModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
-class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseViewModel() {
-    private val snippets = repo.snippets
-    val snippetGroup = Section()
+class SnippetsFragmentViewModel(repo: BitbucketRepository) : BaseViewModel() {
+    val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { it ->
+        it.map { SnippetUiModel(title = it.title ?: "", userName = it.owner?.displayName ?: "", it.updated) } }
 
     init {
-        launchIO {
-            snippets.collect { snippetList ->
-                val map = snippetList.map { SnippetViewModel(it) }
-                runOnMain {
-                    snippetGroup.update(map)
-                }
-            }
+        viewModelScope.launch(dispatcherProvider.IO) {
+            repo.refreshMySnippets()
         }
-        refreshSnippets()
     }
 
     fun onCreateClick() {
         navigationEvent.postValue(NavigationEvent.Action(R.id.action_snippetsFragment_to_createSnippetFragment))
-    }
-
-    fun refreshSnippets() {
-        launchIO {
-            repo.refreshMySnippets()
-        }
     }
 }

@@ -40,4 +40,9 @@
     <!-- FileBrowser -->
     <string name="file_image_description">File Image</string>
 
+    <!-- Snippets -->
+    <string name="snippet_icon">Snippet Icon</string>
+    <string name="no_snippets">No Snippets</string>
+    <string name="new_snippet">New Snippet</string>
+
 </resources>
