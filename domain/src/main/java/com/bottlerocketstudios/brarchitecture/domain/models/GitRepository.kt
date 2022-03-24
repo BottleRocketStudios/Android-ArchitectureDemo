@@ -10,4 +10,4 @@ data class GitRepository(
     val isPrivate: Boolean?,
     val description: String?,
     val updated: ZonedDateTime?,
-)
+) : DomainModel

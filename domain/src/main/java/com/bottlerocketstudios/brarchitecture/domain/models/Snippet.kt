@@ -8,4 +8,4 @@ data class Snippet(
     val isPrivate: Boolean? = null,
     val owner: User? = null,
     val updated: ZonedDateTime? = null,
-)
+) : DomainModel

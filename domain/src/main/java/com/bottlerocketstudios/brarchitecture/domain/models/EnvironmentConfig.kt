@@ -6,5 +6,5 @@ import com.bottlerocketstudios.brarchitecture.domain.models.EnvironmentType
 data class EnvironmentConfig(
     val environmentType: EnvironmentType,
     /** Base url for the environment */
-    val baseUrl: String
+    val baseUrl: String,
 ) : DomainModel
