@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -68,20 +70,18 @@ fun CreateSnippetScreen(state: CreateSnippetScreenState) {
             text = uiState.title.value,
             onChanged = uiState.onTitleChanged,
             hint = stringResource(id = R.string.create_snippet_title_hint),
-            numOfLines = 1,
             topPadding = Dimens.grid_2
         )
         TextInputBox(
             text = uiState.filename.value,
             onChanged = uiState.onFilenameChanged,
             hint = stringResource(id = R.string.create_snippet_filename_hint),
-            numOfLines = 1
         )
         TextInputBox(
             text = uiState.contents.value,
             onChanged = uiState.onContentsChanged,
             hint = stringResource(id = R.string.create_snippet_contents_hint),
-            numOfLines = 4,
+            minLines = 5,
             imeAction = ImeAction.Done
         )
         LabelledCheckbox(uiState = uiState)
@@ -171,12 +171,14 @@ fun TextInputBox(
     text: String,
     onChanged: (String) -> Unit,
     hint: String,
-    numOfLines: Int,
+    minLines: Int = 1,
     topPadding: Dp = Dimens.grid_1,
     bottomPadding: Dp = Dimens.grid_1,
     imeAction: ImeAction = ImeAction.Next
 ) {
     val focusManager = LocalFocusManager.current
+    val lineHeight = MaterialTheme.typography.h2.fontSize * 4/3
+
     OutlinedTextField(
         value = text,
         onValueChange = { onChanged(it) },
@@ -188,7 +190,7 @@ fun TextInputBox(
         textStyle = TextStyle(
             color = ArchitectureDemoTheme.colors.onBackground
         ),
-        maxLines = numOfLines,
+        maxLines = minLines,
         singleLine = false,
         keyboardOptions = KeyboardOptions.Default.copy(
             capitalization = KeyboardCapitalization.Sentences,
@@ -208,7 +210,9 @@ fun TextInputBox(
                 bottom = bottomPadding
             )
             .fillMaxWidth()
-            .wrapContentHeight()
+            .sizeIn(minHeight = with(LocalDensity.current) {
+                (lineHeight * minLines).toDp()
+            })
     )
 }
 
