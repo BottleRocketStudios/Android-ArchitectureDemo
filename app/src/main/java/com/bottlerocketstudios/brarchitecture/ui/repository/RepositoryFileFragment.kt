@@ -1,23 +1,28 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
-import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.databinding.RepositoryFileFragmentBinding
 import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
-import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
+import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
+import com.bottlerocketstudios.compose.repository.FileBrowserScreen
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoryFileFragment : BaseDataBindingFragment<RepositoryFileFragmentViewModel, RepositoryFileFragmentBinding>() {
+class RepositoryFileFragment : BaseFragment<RepositoryFileFragmentViewModel>() {
     override val fragmentViewModel: RepositoryFileFragmentViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
-    val args: RepositoryFileFragmentArgs by navArgs()
+    private val args: RepositoryFileFragmentArgs by navArgs()
 
-    override fun getLayoutRes(): Int = R.layout.repository_file_fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        ComposeScreen {
+            loadFileContent()
+            FileBrowserScreen(state = fragmentViewModel.toState())
+        }
 
-    override fun setupBinding(binding: RepositoryFileFragmentBinding) {
-        super.setupBinding(binding)
+    private fun loadFileContent() {
         val repo: GitRepository = activityViewModel.selectedRepo.value
         val data: RepositoryFileData = args.data
 

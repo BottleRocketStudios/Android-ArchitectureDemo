@@ -65,8 +65,7 @@
     <fragment
         android:id="@+id/repositoryFileFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"
-        android:label="@string/empty_label"
-        tools:layout="@layout/repository_file_fragment">
+        android:label="@string/empty_label">
         <argument
             android:name="data"
             app:argType="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData" />

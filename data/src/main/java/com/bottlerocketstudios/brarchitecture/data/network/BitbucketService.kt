@@ -5,6 +5,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.Snippet
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -54,7 +55,7 @@ internal interface BitbucketService {
         @Path(value = "repo") repo: String,
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
-    ): Response<String>
+    ): Response<ResponseBody>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
     @GET(value = "2.0/snippets?role=owner")

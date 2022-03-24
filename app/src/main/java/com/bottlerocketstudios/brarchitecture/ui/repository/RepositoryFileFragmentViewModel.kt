@@ -11,13 +11,14 @@ import kotlinx.coroutines.flow.StateFlow
 class RepositoryFileFragmentViewModel(
     private val repo: BitbucketRepository,
 ) : BaseViewModel() {
-    val srcFile: StateFlow<String> = MutableStateFlow("")
+    val srcFile: MutableStateFlow<ByteArray?> = MutableStateFlow(null)
     val path: StateFlow<String> = MutableStateFlow("")
+
     fun loadFile(workspaceSlug: String, repoId: String, @Suppress("UNUSED_PARAMETER") mimetype: String, hash: String, path: String) {
         launchIO {
             val result = repo.getSourceFile(workspaceSlug, repoId, hash, path)
             when (result) {
-                is Status.Success -> srcFile.set(result.data) // TODO: Differentiate UI per type of content (ex: image/text/etc)
+                is Status.Success -> srcFile.value = result.data
                 is Status.Failure -> handleError(R.string.error_loading_file)
             }.exhaustive
 

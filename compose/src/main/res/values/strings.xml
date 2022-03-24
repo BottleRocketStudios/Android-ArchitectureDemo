@@ -37,4 +37,7 @@
     <string name="profile_logout">Logout</string>
     <string name="profile_image_description">Profile Image</string>
 
+    <!-- FileBrowser -->
+    <string name="file_image_description">File Image</string>
+
 </resources>

@@ -26,6 +26,7 @@ import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.br_red
+import com.bottlerocketstudios.compose.resources.greyish_brown
 import com.bottlerocketstudios.compose.resources.normal
 import com.bottlerocketstudios.compose.util.Preview
 
@@ -88,7 +89,9 @@ fun ProfileScreen(state: ProfileScreenState) {
         ) {
             Text(
                 stringResource(id = R.string.profile_edit).uppercase(),
-                style = MaterialTheme.typography.h3.bold()
+                style = MaterialTheme.typography.h3.bold(),
+                modifier = Modifier
+                    .wrapContentSize()
             )
         }
         TextButton(
@@ -104,6 +107,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         ) {
             Text(
                 stringResource(id = R.string.profile_logout),
+                color = greyish_brown,
                 style = MaterialTheme.typography.h3.bold()
             )
         }
