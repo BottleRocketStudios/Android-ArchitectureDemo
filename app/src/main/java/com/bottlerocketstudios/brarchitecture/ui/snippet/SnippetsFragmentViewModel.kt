@@ -10,17 +10,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class SnippetsFragmentViewModel(repo: BitbucketRepository) : BaseViewModel() {
+class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseViewModel() {
     val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { it ->
         it.map { SnippetUiModel(title = it.title ?: "", userName = it.owner?.displayName ?: "", it.updated) } }
 
-    init {
+    fun onCreateClick() {
+        navigationEvent.postValue(NavigationEvent.Action(R.id.action_snippetsFragment_to_createSnippetFragment))
+    }
+
+    fun refreshSnippets() {
         viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshMySnippets()
         }
-    }
-
-    fun onCreateClick() {
-        navigationEvent.postValue(NavigationEvent.Action(R.id.action_snippetsFragment_to_createSnippetFragment))
     }
 }

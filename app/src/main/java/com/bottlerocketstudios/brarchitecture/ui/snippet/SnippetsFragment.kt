@@ -29,4 +29,9 @@ class SnippetsFragment : BaseFragment<SnippetsFragmentViewModel>() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        fragmentViewModel.refreshSnippets()
+    }
 }

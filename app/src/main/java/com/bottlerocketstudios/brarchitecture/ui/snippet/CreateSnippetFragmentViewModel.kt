@@ -21,6 +21,22 @@ class CreateSnippetFragmentViewModel(private val repo: BitbucketRepository) : Ba
         !(title.isEmpty() || filename.isEmpty() || contents.isEmpty())
     }.groundState(false)
 
+    fun onTitleChanged(newTitle: String) {
+        title.value = newTitle
+    }
+
+    fun onFilenameChanged(newFilename: String) {
+        filename.value = newFilename
+    }
+
+    fun onContentsChanged(newContents: String) {
+        contents.value = newContents
+    }
+
+    fun onPrivateChanged(newPrivate: Boolean) {
+        private.value = newPrivate
+    }
+
     fun onCreateClick() {
         failed.set(false)
         launchIO {

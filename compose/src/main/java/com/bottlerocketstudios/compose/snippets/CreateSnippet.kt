@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
@@ -19,11 +22,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -42,6 +49,10 @@ data class CreateSnippetScreenState(
     val private: State<Boolean>,
     val failed: State<Boolean>,
     val createEnabled: State<Boolean>,
+    val onTitleChanged: (String) -> Unit,
+    val onFilenameChanged: (String) -> Unit,
+    val onContentsChanged: (String) -> Unit,
+    val onPrivateChanged: (Boolean) -> Unit,
     val onCreateClicked: () -> Unit,
 )
 
@@ -49,18 +60,39 @@ data class CreateSnippetScreenState(
 fun CreateSnippetScreen(state: CreateSnippetScreenState) {
     val uiState by remember { mutableStateOf(state) }
 
-    Column() {
-        TextInputBox(text = uiState.title.value, stringResource(id = R.string.create_snippet_title_hint), 1, topPadding = Dimens.grid_2)
-        TextInputBox(text = uiState.filename.value, stringResource(id = R.string.create_snippet_filename_hint), 1)
-        TextInputBox(text = uiState.contents.value, stringResource(id = R.string.create_snippet_contents_hint), 4)
-        LabelledCheckbox(enabled = uiState.private.value)
-        FailedText(failed = uiState.failed.value)
-        CreateSnippetButton { uiState.onCreateClicked() }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        TextInputBox(
+            text = uiState.title.value,
+            onChanged = uiState.onTitleChanged,
+            hint = stringResource(id = R.string.create_snippet_title_hint),
+            numOfLines = 1,
+            topPadding = Dimens.grid_2
+        )
+        TextInputBox(
+            text = uiState.filename.value,
+            onChanged = uiState.onFilenameChanged,
+            hint = stringResource(id = R.string.create_snippet_filename_hint),
+            numOfLines = 1
+        )
+        TextInputBox(
+            text = uiState.contents.value,
+            onChanged = uiState.onContentsChanged,
+            hint = stringResource(id = R.string.create_snippet_contents_hint),
+            numOfLines = 4,
+            imeAction = ImeAction.Done
+        )
+        LabelledCheckbox(uiState = uiState)
+        FailedText(uiState = uiState)
+        CreateSnippetButton(uiState = uiState)
     }
 }
 
 @Composable
-fun CreateSnippetButton(onCreateClicked: () -> Unit) {
+fun CreateSnippetButton(uiState: CreateSnippetScreenState) {
+    val enabled = uiState.createEnabled.value
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -69,8 +101,11 @@ fun CreateSnippetButton(onCreateClicked: () -> Unit) {
             .wrapContentHeight()
     ) {
         TextButton(
-            onClick = { onCreateClicked() },
-            colors = ButtonDefaults.textButtonColors(backgroundColor = ArchitectureDemoTheme.colors.primary),
+            onClick = { uiState.onCreateClicked() },
+            enabled = enabled,
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = ArchitectureDemoTheme.colors.primary
+            ),
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_0_5
@@ -88,10 +123,9 @@ fun CreateSnippetButton(onCreateClicked: () -> Unit) {
     }
 }
 
-
 @Composable
-fun FailedText(failed: Boolean) {
-    val text = if (failed) {
+fun FailedText(uiState: CreateSnippetScreenState) {
+    val text = if (uiState.failed.value) {
         stringResource(id = R.string.snippet_creation_failed)
     } else {
         ""
@@ -99,17 +133,21 @@ fun FailedText(failed: Boolean) {
     Text(
         text = text,
         textAlign = TextAlign.Center,
-        style =  MaterialTheme.typography.h4.normal(),
+        style = MaterialTheme.typography.h4.normal(),
         modifier = Modifier
             .padding(
                 start = Dimens.grid_7,
                 end = Dimens.grid_7,
+                top = Dimens.grid_1,
+                bottom = Dimens.grid_1
             )
+            .fillMaxWidth()
+            .wrapContentHeight()
     )
 }
 
 @Composable
-fun LabelledCheckbox(enabled: Boolean) {
+fun LabelledCheckbox(uiState: CreateSnippetScreenState) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -118,11 +156,9 @@ fun LabelledCheckbox(enabled: Boolean) {
                 end = Dimens.grid_5,
             )
     ) {
-        val isChecked = remember { mutableStateOf(enabled) }
-
         Checkbox(
-            checked = isChecked.value,
-            onCheckedChange = { isChecked.value = it },
+            checked = uiState.private.value,
+            onCheckedChange = { uiState.onPrivateChanged(it) },
             enabled = true,
             colors = CheckboxDefaults.colors(ArchitectureDemoTheme.colors.tertiary)
         )
@@ -131,13 +167,19 @@ fun LabelledCheckbox(enabled: Boolean) {
 }
 
 @Composable
-fun TextInputBox(text: String, hint: String, numOfLines: Int, topPadding: Dp = Dimens.grid_1, bottomPadding: Dp = Dimens.grid_1) {
-
-    var value by remember { mutableStateOf(text) }
-
+fun TextInputBox(
+    text: String,
+    onChanged: (String) -> Unit,
+    hint: String,
+    numOfLines: Int,
+    topPadding: Dp = Dimens.grid_1,
+    bottomPadding: Dp = Dimens.grid_1,
+    imeAction: ImeAction = ImeAction.Next
+) {
+    val focusManager = LocalFocusManager.current
     OutlinedTextField(
-        value = value,
-        onValueChange = { value = it },
+        value = text,
+        onValueChange = { onChanged(it) },
         label = {
             Text(
                 text = hint
@@ -147,6 +189,17 @@ fun TextInputBox(text: String, hint: String, numOfLines: Int, topPadding: Dp = D
             color = ArchitectureDemoTheme.colors.onBackground
         ),
         maxLines = numOfLines,
+        singleLine = false,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            capitalization = KeyboardCapitalization.Sentences,
+            autoCorrect = false,
+            keyboardType = KeyboardType.Text,
+            imeAction = imeAction
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { focusManager.clearFocus() },
+            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+        ),
         modifier = Modifier
             .padding(
                 start = Dimens.grid_7,
@@ -171,7 +224,11 @@ fun CreateSnippetScreenPreview() {
                 private = true.asMutableState(),
                 failed = false.asMutableState(),
                 createEnabled = true.asMutableState(),
-                onCreateClicked = {}
+                onCreateClicked = {},
+                onTitleChanged = {},
+                onFilenameChanged = {},
+                onContentsChanged = {},
+                onPrivateChanged = {}
             )
         )
     }
