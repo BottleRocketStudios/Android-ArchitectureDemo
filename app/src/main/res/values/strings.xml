@@ -55,8 +55,6 @@
     <string name="dev_options_button">Dev Options</string>
     <string name="empty_label" />
 
-
-
     <!-- Values added to exercise unit tests -->
     <string name="sample_format">Sample %1$s</string>
     <plurals name="sample_plural_format">

@@ -2,7 +2,9 @@ package com.bottlerocketstudios.brarchitecture.ui.util
 
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
+import com.bottlerocketstudios.compose.util.StringIdHelper
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
+import com.bottlerocketstudios.compose.util.toStringIdHelper
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.Clock
