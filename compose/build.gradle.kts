@@ -77,12 +77,16 @@ val productionReleaseImplementation: Configuration by configurations.creating { 
 val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
 dependencies {
+    implementation(project(mapOf("path" to ":domain")))
 
     // LaunchPad - Starting Assets
     launchPadDependencies()
 
     // AndroidX
     composeDependencies()
+
+    // Coil
+    coilDependencies()
 
     // Utility
     timberDependencies()

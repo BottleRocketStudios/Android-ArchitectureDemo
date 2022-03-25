@@ -13,6 +13,11 @@
         android:id="@+id/action_global_to_devOptionsFragment"
         app:destination="@id/devOptionsFragment" />
 
+    <action
+        android:id="@+id/action_global_to_authCodeFragment"
+        app:popUpTo="@id/nav_graph"
+        app:destination="@id/authCodeFragment" />
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
@@ -33,11 +38,10 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
-        android:label="@string/home_title"
-        tools:layout="@layout/home_fragment">
+        android:label="@string/home_title">
         <action
-            android:id="@+id/action_homeFragment_to_userFragment"
-            app:destination="@id/userFragment" />
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_homeFragment_to_snippetsFragment"
             app:destination="@id/snippetsFragment" />
@@ -55,15 +59,13 @@
             app:destination="@id/createSnippetFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userFragment"
-        android:name="com.bottlerocketstudios.brarchitecture.ui.user.UserFragment"
-        android:label="@string/profile_title" 
-        tools:layout="@layout/user_fragment"/>
+        android:id="@+id/profileFragment"
+        android:name="com.bottlerocketstudios.brarchitecture.ui.profile.ProfileFragment"
+        android:label="@string/profile_title"/>
     <fragment
         android:id="@+id/repositoryFileFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragment"
-        android:label="@string/empty_label"
-        tools:layout="@layout/repository_file_fragment">
+        android:label="@string/empty_label">
         <argument
             android:name="data"
             app:argType="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData" />

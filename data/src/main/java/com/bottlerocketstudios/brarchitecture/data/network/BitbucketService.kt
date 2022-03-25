@@ -1,10 +1,11 @@
 package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
-import com.bottlerocketstudios.brarchitecture.data.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.Snippet
-import com.bottlerocketstudios.brarchitecture.data.model.User
+import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -16,20 +17,20 @@ import retrofit2.http.Path
 internal interface BitbucketService {
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/user */
     @GET(value = "2.0/user")
-    suspend fun getUser(): Response<User>
+    suspend fun getUser(): Response<UserDto>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D */
     @GET(value = "2.0/repositories/{workspace}")
     suspend fun getRepositories(
         @Path(value = "workspace") workspace: String
-    ): Response<BitbucketPagedResponse<List<Repository>>>
+    ): Response<BitbucketPagedResponse<List<GitRepositoryDto>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D */
     @GET(value = "2.0/repositories/{workspace}/{repo}")
     suspend fun getRepository(
         @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String
-    ): Response<Repository>
+    ): Response<GitRepositoryDto>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src */
     @GET(value = "2.0/repositories/{workspace}/{repo}/src")
@@ -54,7 +55,7 @@ internal interface BitbucketService {
         @Path(value = "repo") repo: String,
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
-    ): Response<String>
+    ): Response<ResponseBody>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
     @GET(value = "2.0/snippets?role=owner")

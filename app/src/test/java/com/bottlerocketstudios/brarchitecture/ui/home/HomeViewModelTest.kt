@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bottlerocketstudios.brarchitecture.data.model.Repository
-import com.bottlerocketstudios.brarchitecture.data.model.User
+import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
@@ -10,12 +10,12 @@ import com.bottlerocketstudios.brarchitecture.test.KoinTestRule
 import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
 import com.bottlerocketstudios.brarchitecture.test.TestModule
 import com.google.common.truth.Truth.assertThat
-import org.mockito.kotlin.mock
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.mockito.kotlin.mock
 
 class HomeViewModelTest : BaseTest() {
     @get:Rule
@@ -24,20 +24,20 @@ class HomeViewModelTest : BaseTest() {
     @get:Rule
     val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
 
-    val _user = MutableStateFlow<User?>(null)
-    val _repos = MutableStateFlow<List<Repository>>(emptyList())
+    val _user = MutableStateFlow<UserDto?>(null)
+    val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val TEST_USER_NAME = "testuser"
     private val dispatcherProvider = TestDispatcherProvider()
     val repo: BitbucketRepository = mock {
         on { user }.then { _user }
         on { repos }.then { _repos }
         onBlocking { refreshUser() }.then {
-            val user = User(username = TEST_USER_NAME)
+            val user = UserDto(username = TEST_USER_NAME)
             _user.value = user
             Status.Success(Unit)
         }
         onBlocking { refreshMyRepos() }.then {
-            val repos = listOf(Repository(name = "testRepo"))
+            val repos = listOf(GitRepositoryDto(name = "testRepo"))
             _repos.value = repos
             Status.Success(Unit)
         }
@@ -48,7 +48,6 @@ class HomeViewModelTest : BaseTest() {
         val model = HomeViewModel(repo)
 
         assertThat(model.repos.value).hasSize(1)
-        assertThat(model.reposGroup.itemCount).isEqualTo(2)
     }
 
     @Test

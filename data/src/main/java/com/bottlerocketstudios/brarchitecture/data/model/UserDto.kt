@@ -7,15 +7,12 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class User(
+data class UserDto(
     @Json(name = "username") val username: String? = "",
     @Json(name = "nickname") val nickname: String? = "",
     @Json(name = "account_status") val accountStatus: String? = "",
     @Json(name = "display_name") val displayName: String? = "",
     @Json(name = "created_on") val createdOn: String? = null,
     @Json(name = "uuid") val uuid: String? = "",
-    @Json(name = "links") val links: Links? = null
-) : Parcelable {
-    val avatarUrl: String?
-        get() = links?.avatar?.href
-}
+    @Json(name = "links") val linksDto: LinksDto? = null
+) : Parcelable, Dto

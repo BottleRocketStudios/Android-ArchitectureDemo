@@ -1,6 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.data.network
 
-import com.bottlerocketstudios.brarchitecture.data.model.Repository
+import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
@@ -41,7 +41,7 @@ class BitbucketServiceTest : BaseTest() {
             val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY")
             val body = response.body()
             assertThat(body).isNotNull()
-            body?.let { privateRepo: Repository ->
+            body?.let { privateRepo: GitRepositoryDto ->
                 assertThat(privateRepo.isPrivate).isNotNull()
                 assertThat(privateRepo.isPrivate).isTrue()
             }

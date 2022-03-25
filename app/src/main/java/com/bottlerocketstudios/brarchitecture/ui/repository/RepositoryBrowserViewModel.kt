@@ -38,7 +38,7 @@ class RepositoryBrowserViewModel(private val repo: BitbucketRepository) : BaseVi
         path.set(data.folderPath ?: data.repoName)
         val selectedRepo = repo.repos.value.firstOrNull { it.name?.equals(data.repoName) ?: false }
         selectedRepo?.let {
-            val slug = it.workspace?.slug ?: ""
+            val slug = it.workspaceDto?.slug ?: ""
             val name = it.name ?: ""
             launchIO {
                 val result = if (data.folderHash != null && data.folderPath != null) {
