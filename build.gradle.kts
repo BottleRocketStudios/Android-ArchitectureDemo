@@ -30,7 +30,7 @@ allprojects {
     repositories {
         // Uncomment mavenLocal to use local versions of libraries.
         // This is used for library development of LaunchPad
-        mavenLocal()
+        // mavenLocal()
         google()
         mavenCentral()
         maven(url = "https://jitpack.io")

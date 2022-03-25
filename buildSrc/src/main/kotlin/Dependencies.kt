@@ -171,7 +171,7 @@ private object Libraries {
 
 
     // LaunchPad
-    private const val LAUNCHPAD_VERSION = "0.1.0"
+    private const val LAUNCHPAD_VERSION = "0.2.0"
     const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:$LAUNCHPAD_VERSION"
 
     // UI Tests
