@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -73,7 +74,7 @@ fun SnippetItem(snippet: SnippetUiModel) {
                         .padding(top = Dimens.grid_2_5)
                 ) {
                     Text(
-                        snippet.updatedTimeString ?: "",
+                        snippet.formattedTime.getString(LocalContext.current),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.h6.light(),
                         modifier = Modifier

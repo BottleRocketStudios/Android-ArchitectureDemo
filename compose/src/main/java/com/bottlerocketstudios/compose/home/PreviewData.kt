@@ -5,6 +5,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.Links
 import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.models.Workspace
+import com.bottlerocketstudios.compose.util.StringIdHelper
 import java.time.ZonedDateTime
 
 internal val testCard1 = UserRepositoryUiModel(
@@ -34,7 +35,7 @@ internal val testCard1 = UserRepositoryUiModel(
         description = "description1",
         updated = ZonedDateTime.now()
     ),
-    updatedTimeString = "2022 02 01"
+    formattedTime = StringIdHelper.Raw("")
 )
 internal val testCard2 = UserRepositoryUiModel(
     GitRepository(
@@ -63,5 +64,5 @@ internal val testCard2 = UserRepositoryUiModel(
         description = "description2",
         updated = ZonedDateTime.now()
     ),
-    updatedTimeString = "2022 02 02"
+    formattedTime = StringIdHelper.Raw("")
 )
