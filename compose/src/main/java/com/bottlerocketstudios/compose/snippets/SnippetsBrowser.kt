@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -36,16 +37,13 @@ fun SnippetsListLayout(state: SnippetsBrowserScreenState) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Dimens.grid_1_5),
             modifier = Modifier
-                .padding(
-                    all = Dimens.grid_1_5
-                )
+                .padding(all = Dimens.grid_1_5)
                 .fillMaxSize()
         ) {
-            state.snippets.value.forEach {
-                item {
-                    SnippetItem(it)
-                }
-            }
+            items(
+                items = state.snippets.value,
+                itemContent = { item ->SnippetItem(item) }
+            )
         }
     } else {
         SnippetsEmptyLayout()
@@ -72,6 +70,19 @@ fun SnippetsBrowserScreenPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = listOfMockSnippets.asMutableState(),
+                {}
+            )
+        )
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun SnippetsBrowserScreenEmptyPreview() {
+    Preview {
+        SnippetsBrowserScreen(
+            state = SnippetsBrowserScreenState(
+                snippets = emptyList<SnippetUiModel>().asMutableState(),
                 {}
             )
         )

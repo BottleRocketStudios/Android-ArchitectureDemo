@@ -28,14 +28,11 @@ import com.bottlerocketstudios.compose.util.Preview
 fun SnippetItem(snippet: SnippetUiModel) {
     Card(
         elevation = Dimens.plane_3,
-        modifier = Modifier
-            .wrapContentHeight()
+        modifier = Modifier.wrapContentHeight()
     ) {
         Row(
             modifier = Modifier
-                .padding(
-                    all = Dimens.grid_1
-                )
+                .padding(all = Dimens.grid_1)
                 .wrapContentHeight(align = Alignment.CenterVertically)
                 .fillMaxWidth()
         ) {
@@ -44,26 +41,20 @@ fun SnippetItem(snippet: SnippetUiModel) {
                 contentDescription = stringResource(id = R.string.snippet_icon),
                 tint = ArchitectureDemoTheme.colors.tertiary,
                 modifier = Modifier
-                    .padding(
-                        all = Dimens.grid_2
-                    )
+                    .padding(all = Dimens.grid_2)
             )
             Row(
-                modifier = Modifier
-                    .wrapContentHeight(align = Alignment.Top)
+                modifier = Modifier.wrapContentHeight(align = Alignment.Top)
             ) {
                 Column(
-                    modifier = Modifier
-                        .weight(2f)
+                    modifier = Modifier.weight(2f)
                 ) {
                     Text(
                         snippet.title,
                         color = ArchitectureDemoTheme.colors.tertiary,
                         style = MaterialTheme.typography.h3.bold(),
                         modifier = Modifier
-                            .padding(
-                                top = Dimens.grid_1
-                            )
+                            .padding(top = Dimens.grid_1)
                             .wrapContentHeight()
                             .fillMaxWidth()
                     )
@@ -71,9 +62,7 @@ fun SnippetItem(snippet: SnippetUiModel) {
                         snippet.userName,
                         style = MaterialTheme.typography.h5.normal(),
                         modifier = Modifier
-                            .padding(
-                                top = Dimens.grid_0_5
-                            )
+                            .padding(top = Dimens.grid_0_5)
                             .wrapContentHeight()
                             .fillMaxWidth()
                     )
@@ -81,9 +70,7 @@ fun SnippetItem(snippet: SnippetUiModel) {
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(
-                            top = Dimens.grid_2_5
-                        )
+                        .padding(top = Dimens.grid_2_5)
                 ) {
                     Text(
                         snippet.updatedTimeString ?: "",
@@ -103,8 +90,6 @@ fun SnippetItem(snippet: SnippetUiModel) {
 @Composable
 fun SnippetItemPreview() {
     Preview {
-        SnippetItem(
-            snippet = snippet1
-        )
+        SnippetItem(snippet = snippet1)
     }
 }

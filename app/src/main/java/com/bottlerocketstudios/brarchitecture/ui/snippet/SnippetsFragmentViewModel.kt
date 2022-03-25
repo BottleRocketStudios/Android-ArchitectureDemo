@@ -19,7 +19,7 @@ class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseVie
     }
 
     fun refreshSnippets() {
-        viewModelScope.launch(dispatcherProvider.IO) {
+        launchIO {
             repo.refreshMySnippets()
         }
     }

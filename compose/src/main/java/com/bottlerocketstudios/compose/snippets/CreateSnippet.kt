@@ -103,16 +103,10 @@ fun CreateSnippetButton(uiState: CreateSnippetScreenState) {
         TextButton(
             onClick = { uiState.onCreateClicked() },
             enabled = enabled,
-            colors = ButtonDefaults.textButtonColors(
-                backgroundColor = ArchitectureDemoTheme.colors.primary
-            ),
+            colors = ButtonDefaults.textButtonColors(backgroundColor = ArchitectureDemoTheme.colors.primary),
             modifier = Modifier
-                .padding(
-                    top = Dimens.grid_0_5
-                )
-                .defaultMinSize(
-                    minWidth = Dimens.grid_12_5
-                )
+                .padding(top = Dimens.grid_0_5)
+                .defaultMinSize(minWidth = Dimens.grid_12_5)
         ) {
             Text(
                 stringResource(id = R.string.create_snippet_button).uppercase(),
@@ -177,19 +171,13 @@ fun TextInputBox(
     imeAction: ImeAction = ImeAction.Next
 ) {
     val focusManager = LocalFocusManager.current
-    val lineHeight = MaterialTheme.typography.h2.fontSize * 4/3
+    val lineHeight = MaterialTheme.typography.h2.fontSize * 4 / 3
 
     OutlinedTextField(
         value = text,
         onValueChange = { onChanged(it) },
-        label = {
-            Text(
-                text = hint
-            )
-        },
-        textStyle = TextStyle(
-            color = ArchitectureDemoTheme.colors.onBackground
-        ),
+        label = { Text(text = hint) },
+        textStyle = TextStyle(color = ArchitectureDemoTheme.colors.onBackground),
         maxLines = minLines,
         singleLine = false,
         keyboardOptions = KeyboardOptions.Default.copy(
