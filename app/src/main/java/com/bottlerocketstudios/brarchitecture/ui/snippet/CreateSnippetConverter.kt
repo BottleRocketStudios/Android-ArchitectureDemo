@@ -12,9 +12,9 @@ fun CreateSnippetFragmentViewModel.toState() = CreateSnippetScreenState(
     private = private.collectAsState(),
     failed = failed.collectAsState(),
     createEnabled = createEnabled.collectAsState(),
-    onTitleChanged = ::onTitleChanged,
-    onFilenameChanged = ::onFilenameChanged,
-    onContentsChanged = ::onContentsChanged,
-    onPrivateChanged = ::onPrivateChanged,
+    onTitleChanged = { title.value = it },
+    onFilenameChanged = { filename.value = it },
+    onContentsChanged = { contents.value = it },
+    onPrivateChanged = { private.value = it },
     onCreateClicked = ::onCreateClick,
 )
