@@ -24,11 +24,11 @@ import coil.compose.AsyncImage
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.br_red
 import com.bottlerocketstudios.compose.resources.greyish_brown
-import com.bottlerocketstudios.compose.resources.normal
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.launchpad.compose.bold
+import com.bottlerocketstudios.launchpad.compose.normal
 
 data class ProfileScreenState(
     val avatarUrl: State<String>,

@@ -21,10 +21,10 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
-import com.bottlerocketstudios.compose.resources.light
-import com.bottlerocketstudios.compose.resources.normal
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
+import com.bottlerocketstudios.launchpad.compose.light
+import com.bottlerocketstudios.launchpad.compose.normal
 
 data class FileBrowserScreenState(
     val path: State<String>,

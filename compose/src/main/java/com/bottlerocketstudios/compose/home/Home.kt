@@ -18,10 +18,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asMutableState
+import com.bottlerocketstudios.launchpad.compose.bold
 
 data class HomeScreenState(
     val repositories: State<List<UserRepositoryUiModel>>
