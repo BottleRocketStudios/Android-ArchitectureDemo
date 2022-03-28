@@ -139,13 +139,16 @@ private object Libraries {
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
+
     // https://developer.android.com/jetpack/androidx/releases/startup
     const val STARTUP = "androidx.startup:startup-runtime:1.1.0"
 
     private const val ACTIVITY_VERSION = "1.4.0"
+
     // https://developer.android.com/jetpack/androidx/releases/activity
     const val ACTIVITY_KTX = "androidx.activity:activity-ktx:$ACTIVITY_VERSION"
     const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$ACTIVITY_VERSION"
+
     // https://developer.android.com/jetpack/androidx/releases/fragment
     const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:$FRAGMENT_VERSION"
 
@@ -156,25 +159,32 @@ private object Libraries {
     private const val COMPOSE_COMPILER_VERSION = Config.Compose.COMPOSE_COMPILER_VERSION
     const val COMPOSE_COMPILER = "androidx.compose.compiler:compiler:$COMPOSE_COMPILER_VERSION"
     const val COMPOSE_UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
+
     // Tooling support (Previews, etc.)
     const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION"
+
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
     const val COMPOSE_ANIMATION = "androidx.compose.animation:animation:$COMPOSE_VERSION"
+
     // Material Design
     const val COMPOSE_MATERIAL = "androidx.compose.material:material:$COMPOSE_VERSION"
+
     // Material design icons
     const val COMPOSE_MATERIAL_ICONS_CORE = "androidx.compose.material:material-icons-core:$COMPOSE_VERSION"
     const val COMPOSE_MATERIAL_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
+
     // Integration with observables
     const val COMPOSE_LIVE_DATA = "androidx.compose.runtime:runtime-livedata:$COMPOSE_VERSION"
+
+    const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:0.2.0"
 
     // Coil
     // https://coil-kt.github.io/coil/
     // https://coil-kt.github.io/coil/changelog/#full-release-notes
     private const val COIL_VERSION = "2.0.0-rc02"
     const val COIL = "io.coil-kt:coil:$COIL_VERSION"
-    const val COIL_COMPOSE_EXT =  "io.coil-kt:coil-compose:$COIL_VERSION"
+    const val COIL_COMPOSE_EXT = "io.coil-kt:coil-compose:$COIL_VERSION"
 
     // UI Tests
     const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
@@ -196,6 +206,7 @@ private object Libraries {
     //// Material
     // https://github.com/material-components/material-components-android/releases
     const val MATERIAL = "com.google.android.material:material:1.5.0"
+
     // https://github.com/material-components/material-components-android-compose-theme-adapter/releases/
     // Navigate to above link, search for latest material-vX.Y.Z that supports a matching version of Compose, and just use the X.Y.Z in the dependency version below
     const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.1.3"
@@ -238,6 +249,7 @@ private object Libraries {
     // https://github.com/square/moshi/blob/master/CHANGELOG.md
     // https://github.com/square/moshi/releases
     private const val MOSHI_VERSION = "1.13.0"
+
     // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the kapt `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
     const val MOSHI = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
@@ -248,7 +260,7 @@ private object Libraries {
     private const val GROUPIE_VERSION = "2.10.0"
     const val GROUPIE = "com.github.lisawray.groupie:groupie:$GROUPIE_VERSION"
     const val GROUPIE_VIEWBINDING = "com.github.lisawray.groupie:groupie-viewbinding:$GROUPIE_VERSION"
-    
+
     // Glide
     // https://github.com/bumptech/glide/releases
     private const val GLIDE_VERSION = "4.13.0"
@@ -278,9 +290,11 @@ private object Libraries {
     // https://square.github.io/leakcanary/changelog/
     // https://github.com/square/leakcanary/releases
     private const val LEAK_CANARY_VERSION = "2.8.1"
+
     /** Use only on debugImplementation builds */
     // Using leakcanary-android-startup since we're using the androidx startup lib: https://square.github.io/leakcanary/changelog/#androidx-app-startup
     const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android-startup:$LEAK_CANARY_VERSION"
+
     /** Use on all builds (via implementation) */
     const val LEAK_CANARY_PLUMBER = "com.squareup.leakcanary:plumber-android:$LEAK_CANARY_VERSION"
 
@@ -374,6 +388,10 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
     implementation(Libraries.COMPOSE_LIVE_DATA)
+}
+
+fun DependencyHandler.launchPadDependencies() {
+    implementation(Libraries.LAUNCHPAD_COMPOSE)
 }
 
 fun DependencyHandler.coilDependencies() {

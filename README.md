@@ -59,3 +59,6 @@ The project is using the Gradle Versions plugin to do a lot of heavy lifting her
     * positive CTA text/click callback
     * (optional) negative CTA text/click callback
     * cancelOnTouchOutside (Boolean)
+    
+## LaunchPad Development
+Uncomment mavenLocal in main build.gradle.kts to test local library changes.

@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
-import com.bottlerocketstudios.compose.resources.bold
 import com.bottlerocketstudios.compose.resources.sea_foam
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
 fun HomeEmptyLayout() {
