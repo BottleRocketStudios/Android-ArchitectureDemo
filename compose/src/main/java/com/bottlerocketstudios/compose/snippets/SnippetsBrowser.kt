@@ -27,13 +27,13 @@ data class SnippetsBrowserScreenState(
 @Composable
 fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
     Scaffold(floatingActionButton = { SnippetsFabLayout(state.onCreateSnippetClicked) }) {
-        SnippetsListLayout(state = state)
+        SnippetsListLayout(snippets = state.snippets.value)
     }
 }
 
 @Composable
-fun SnippetsListLayout(state: SnippetsBrowserScreenState) {
-    if (state.snippets.value.isNotEmpty()) {
+fun SnippetsListLayout(snippets: List<SnippetUiModel>) {
+    if (snippets.isNotEmpty()) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Dimens.grid_1_5),
             modifier = Modifier
@@ -41,8 +41,8 @@ fun SnippetsListLayout(state: SnippetsBrowserScreenState) {
                 .fillMaxSize()
         ) {
             items(
-                items = state.snippets.value,
-                itemContent = { item ->SnippetItem(item) }
+                items = snippets,
+                itemContent = { item -> SnippetItem(item) }
             )
         }
     } else {
