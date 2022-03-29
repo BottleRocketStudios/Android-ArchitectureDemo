@@ -90,6 +90,6 @@ fun SnippetItem(snippet: SnippetUiModel) {
 @Composable
 fun SnippetItemPreview() {
     Preview {
-        SnippetItem(snippet = snippet1)
+        SnippetItem(snippet = mockSnippet1)
     }
 }
