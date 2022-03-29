@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.data.model
+package com.bottlerocketstudios.brarchitecture.domain.models
 
 /**
  * [Marker interface](https://en.wikipedia.org/wiki/Marker_interface_pattern) for all [DomainModel]s used in the app to quickly/easily find them.

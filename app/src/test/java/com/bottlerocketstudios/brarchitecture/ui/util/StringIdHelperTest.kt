@@ -3,6 +3,8 @@ package com.bottlerocketstudios.brarchitecture.ui.util
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.mocks.testContext
+import com.bottlerocketstudios.compose.util.StringIdHelper
+import com.bottlerocketstudios.compose.util.toStringIdHelper
 import com.google.common.truth.Truth.assertThat
 
 import org.junit.Test

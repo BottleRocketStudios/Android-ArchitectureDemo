@@ -40,4 +40,23 @@
     <!-- FileBrowser -->
     <string name="file_image_description">File Image</string>
 
+    <!-- Snippets -->
+    <string name="snippet_icon">Snippet Icon</string>
+    <string name="no_snippets">No Snippets</string>
+    <string name="new_snippet">New Snippet</string>
+
+    <!-- CreateSnippets -->
+    <string name="create_snippet_title_hint">Title</string>
+    <string name="create_snippet_filename_hint">Filename</string>
+    <string name="create_snippet_contents_hint">Contents</string>
+    <string name="create_snippet_private">Private</string>
+    <string name="snippet_creation_failed">Snippet Creation Failed</string>
+    <string name="create_snippet_button">Create</string>
+
+    <plurals name="days_ago_plural">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <string name="today">Today</string>
+
 </resources>

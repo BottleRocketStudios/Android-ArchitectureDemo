@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -62,11 +63,10 @@ fun HomeScreen(state: HomeScreenState, selectItem: (userRepositoryUiModel: UserR
                     )
                     .fillMaxSize()
             ) {
-                state.repositories.value.forEach {
-                    item {
-                        CardLayout(it, selectItem)
-                    }
-                }
+                items(
+                    items = state.repositories.value,
+                    itemContent = { item -> CardLayout(item, selectItem) }
+                )
             }
         } else {
             HomeEmptyLayout()
@@ -85,4 +85,3 @@ fun HomeScreenPreview() {
         ) {}
     }
 }
-

@@ -8,24 +8,18 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
-import com.bottlerocketstudios.brarchitecture.ui.util.formattedUpdateTime
 import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.time.Clock
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
     override val fragmentViewModel: HomeViewModel by viewModel()
     private val activityViewModel: MainActivityViewModel by sharedViewModel()
-    private val clock by inject<Clock>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         ComposeScreen {
-            val state = fragmentViewModel.toState()
-            setUpdatedOnString(state.repositories.value, clock)
-            HomeScreen(state = state, ::selectItem)
+            HomeScreen(state = fragmentViewModel.toState(), ::selectItem)
         }
 
     private fun selectItem(userRepositoryUiModel: UserRepositoryUiModel) {
@@ -37,13 +31,5 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             )
         )
         findNavController(this@HomeFragment).navigate(action)
-    }
-
-    private fun setUpdatedOnString(userRepositoryUiModelList: List<UserRepositoryUiModel>, clock: Clock) {
-        userRepositoryUiModelList.forEach { userRepoUiModel ->
-            context?.let {
-                userRepoUiModel.updatedTimeString = userRepoUiModel.repo.updated.formattedUpdateTime(clock = clock).getString(it)
-            }
-        }
     }
 }

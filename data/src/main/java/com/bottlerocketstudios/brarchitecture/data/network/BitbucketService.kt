@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.data.network
 
-import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
-import com.bottlerocketstudios.brarchitecture.data.model.Snippet
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
@@ -59,7 +59,7 @@ internal interface BitbucketService {
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
     @GET(value = "2.0/snippets?role=owner")
-    suspend fun getSnippets(): Response<BitbucketPagedResponse<List<Snippet>>>
+    suspend fun getSnippets(): Response<BitbucketPagedResponse<List<SnippetDto>>>
 
     @Multipart
     @POST(value = "2.0/snippets")
@@ -67,5 +67,5 @@ internal interface BitbucketService {
         @Part("title") title: String,
         @Part body: MultipartBody.Part,
         @Part("is_private") private: Boolean
-    ): Response<Snippet>
+    ): Response<SnippetDto>
 }
