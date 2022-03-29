@@ -112,7 +112,7 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                         )
                 ) {
                     Text(
-                        userRepositoryUiModel.formattedTime.getString(LocalContext.current),
+                        userRepositoryUiModel.formattedLastUpdatedTime.getString(LocalContext.current),
                         style = MaterialTheme.typography.h6.light(),
                         modifier = Modifier
                             .wrapContentHeight()

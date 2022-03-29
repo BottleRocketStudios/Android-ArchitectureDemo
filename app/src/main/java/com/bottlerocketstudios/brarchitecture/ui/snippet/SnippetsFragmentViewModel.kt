@@ -18,7 +18,7 @@ class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseVie
             SnippetUiModel(
                 title = it.title ?: "",
                 userName = it.owner?.displayName ?: "",
-                formattedTime = it.updated.formattedUpdateTime(clock = clock)
+                formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock = clock)
             )
         }
     }

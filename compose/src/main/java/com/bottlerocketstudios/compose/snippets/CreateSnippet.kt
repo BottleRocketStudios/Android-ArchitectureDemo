@@ -48,8 +48,8 @@ data class CreateSnippetScreenState(
     val title: State<String>,
     val filename: State<String>,
     val contents: State<String>,
-    val private: State<Boolean>,
-    val failed: State<Boolean>,
+    val isPrivate: State<Boolean>,
+    val creationFailed: State<Boolean>,
     val createEnabled: State<Boolean>,
     val onTitleChanged: (String) -> Unit,
     val onFilenameChanged: (String) -> Unit,
@@ -119,7 +119,7 @@ fun CreateSnippetButton(uiState: CreateSnippetScreenState) {
 
 @Composable
 fun FailedText(uiState: CreateSnippetScreenState) {
-    val text = if (uiState.failed.value) {
+    val text = if (uiState.creationFailed.value) {
         stringResource(id = R.string.snippet_creation_failed)
     } else {
         ""
@@ -151,7 +151,7 @@ fun LabelledCheckbox(uiState: CreateSnippetScreenState) {
             )
     ) {
         Checkbox(
-            checked = uiState.private.value,
+            checked = uiState.isPrivate.value,
             onCheckedChange = { uiState.onPrivateChanged(it) },
             enabled = true,
             colors = CheckboxDefaults.colors(ArchitectureDemoTheme.colors.tertiary)
@@ -213,8 +213,8 @@ fun CreateSnippetScreenPreview() {
                 title = "".asMutableState(),
                 filename = "".asMutableState(),
                 contents = "".asMutableState(),
-                private = true.asMutableState(),
-                failed = false.asMutableState(),
+                isPrivate = true.asMutableState(),
+                creationFailed = false.asMutableState(),
                 createEnabled = true.asMutableState(),
                 onCreateClicked = {},
                 onTitleChanged = {},

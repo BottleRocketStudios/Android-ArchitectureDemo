@@ -41,8 +41,7 @@ fun SnippetItem(snippet: SnippetUiModel) {
                 painter = painterResource(id = R.drawable.ic_snippet_blue),
                 contentDescription = stringResource(id = R.string.snippet_icon),
                 tint = ArchitectureDemoTheme.colors.tertiary,
-                modifier = Modifier
-                    .padding(all = Dimens.grid_2)
+                modifier = Modifier.padding(all = Dimens.grid_2)
             )
             Row(
                 modifier = Modifier.wrapContentHeight(align = Alignment.Top)
@@ -74,7 +73,7 @@ fun SnippetItem(snippet: SnippetUiModel) {
                         .padding(top = Dimens.grid_2_5)
                 ) {
                     Text(
-                        snippet.formattedTime.getString(LocalContext.current),
+                        snippet.formattedLastUpdatedTime.getString(LocalContext.current),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.h6.light(),
                         modifier = Modifier

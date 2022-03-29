@@ -5,5 +5,5 @@ import com.bottlerocketstudios.compose.util.StringIdHelper
 
 data class UserRepositoryUiModel(
     val repo: GitRepository,
-    val formattedTime: StringIdHelper,
+    val formattedLastUpdatedTime: StringIdHelper,
 )

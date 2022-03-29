@@ -35,7 +35,7 @@ internal val testCard1 = UserRepositoryUiModel(
         description = "description1",
         updated = ZonedDateTime.now()
     ),
-    formattedTime = StringIdHelper.Raw("")
+    formattedLastUpdatedTime = StringIdHelper.Raw("")
 )
 internal val testCard2 = UserRepositoryUiModel(
     GitRepository(
@@ -64,5 +64,5 @@ internal val testCard2 = UserRepositoryUiModel(
         description = "description2",
         updated = ZonedDateTime.now()
     ),
-    formattedTime = StringIdHelper.Raw("")
+    formattedLastUpdatedTime = StringIdHelper.Raw("")
 )

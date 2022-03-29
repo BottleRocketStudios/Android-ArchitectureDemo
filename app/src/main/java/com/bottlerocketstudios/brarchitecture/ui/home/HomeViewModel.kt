@@ -20,7 +20,7 @@ class HomeViewModel(repo: BitbucketRepository) : BaseViewModel() {
         it.map {
             UserRepositoryUiModel(
                 repo = it.convertToGitRepository(),
-                formattedTime = it.updated.formattedUpdateTime(clock = clock)
+                formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock = clock)
             )
         }
     }
