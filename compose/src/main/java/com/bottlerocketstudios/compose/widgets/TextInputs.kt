@@ -70,3 +70,22 @@ fun OutlinedInputFieldPreview() {
         )
     }
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun OutlinedInputFieldPreFilledPreview() {
+    Preview {
+        OutlinedInputField(
+            text = "BobRoss@gmail.com",
+            onChanged = {},
+            hint = "UserName",
+            modifier = Modifier
+                .padding(
+                    start = Dimens.grid_7,
+                    end = Dimens.grid_7
+                )
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+    }
+}
