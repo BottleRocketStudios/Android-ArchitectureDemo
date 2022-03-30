@@ -9,6 +9,7 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
+import com.bottlerocketstudios.brarchitecture.ui.Routes
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class AuthCodeViewModel(
@@ -27,20 +28,17 @@ class AuthCodeViewModel(
         requestUrl.value = "https://bitbucket.org/site/oauth2/authorize?client_id=$BITBUCKET_KEY&response_type=code"
     }
 
-    fun onDevOptionsClicked() {
-        navigationEvent.postValue(NavigationEvent.Action(R.id.action_authCodeFragment_to_devOptionsFragment))
-    }
+    fun onDevOptionsClicked() = navigationEvent.postValue(NavigationEvent.Path(Routes.DevOptions))
 
-    fun onSignUpClicked() {
+    fun onSignUpClicked() =
         externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://id.atlassian.com/signup?application=bitbucket".toUri())))
-    }
 
     fun onAuthCode(authCode: String) {
         requestUrl.value = ""
 
         launchIO {
             if (repo.authenticate(authCode)) {
-                navigationEvent.postValue(NavigationEvent.Action(R.id.action_authCodeFragment_to_homeFragment))
+                navigationEvent.postValue(NavigationEvent.Path(Routes.Home))
             } else {
                 handleError(R.string.login_error)
             }

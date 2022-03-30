@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.navigation
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 
 /**
  * Encapsulates navigation components navigation action.
@@ -10,6 +11,14 @@ import androidx.navigation.NavDirections
  * @see NavigationObserver
  */
 sealed class NavigationEvent {
+
+    /**
+     * Use when passing data by Path.
+     *
+     * Example Usage:
+     * `NavigationEvent.Path("user/{param1]?param2=value"
+     */
+    data class Path(val path: String) : NavigationEvent()
 
     /**
      * Use when passing args (via safe args) to another fragment.
@@ -42,6 +51,7 @@ sealed class NavigationEvent {
     /** Contains logic to navigate using [navController] (intended to be called from [NavigationObserver]) */
     fun navigate(navController: NavController) {
         when (this) {
+            is Path -> navController.navigate(path)
             is Directions -> navController.navigate(directions)
             is Action -> navController.navigate(destinationId)
             is Up -> navController.navigateUp()

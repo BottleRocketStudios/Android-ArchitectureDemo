@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <!-- Note: window soft input mode adjusted per fragment in MainActivity -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.ComposeActivity"
             android:windowSoftInputMode="adjustNothing"
             android:exported="true">
             <intent-filter>
