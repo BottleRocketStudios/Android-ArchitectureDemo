@@ -1,18 +1,18 @@
 package com.bottlerocketstudios.brarchitecture.ui.splash
 
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import com.bottlerocketstudios.brarchitecture.ui.Routes
 
 class SplashFragmentViewModel(repo: BitbucketRepository) : BaseViewModel() {
+    var onAuthenticated: () -> Unit = {}
+    var onUnauthenticated: () -> Unit = {}
 
     init {
         launchIO {
             if (repo.authenticate()) {
-                navigationEvent.postValue(NavigationEvent.Path(Routes.Home))
+                runOnMain {  onAuthenticated() }
             } else {
-                navigationEvent.postValue(NavigationEvent.Path(Routes.AuthCode))
+                runOnMain {  onUnauthenticated() }
             }
         }
     }
