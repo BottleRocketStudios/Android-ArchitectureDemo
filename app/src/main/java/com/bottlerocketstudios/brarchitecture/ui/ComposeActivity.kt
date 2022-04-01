@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+// TODO - move to new file
 @Suppress("FunctionName")
 object Routes {
     const val Main = "main"
@@ -36,9 +37,9 @@ class ComposeActivity : ComponentActivity() {
         set(value) { activityViewModel.title.value = value }
 
     @Composable
-    fun <T : BaseViewModel> T.ConnectBaseViewModel(navController: NavController, block: @Composable (T) -> Unit) {
+    fun <T : BaseViewModel> T.ConnectBaseViewModel(block: @Composable (T) -> Unit) {
         // Perform resets of MainActivityVIewModel fields here.
-        // title = ""
+        title = ""
 
         // Connect external routing to activiety
         launchIO {
@@ -47,8 +48,6 @@ class ComposeActivity : ComponentActivity() {
 
         block.invoke(this)
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
