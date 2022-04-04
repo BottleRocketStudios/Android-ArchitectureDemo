@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel" />
+            type="com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"

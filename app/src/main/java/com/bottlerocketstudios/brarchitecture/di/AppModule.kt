@@ -16,7 +16,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserVie
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -24,7 +24,7 @@ import org.koin.dsl.module
 object AppModule {
     val module = module {
         viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
-        viewModel { SplashFragmentViewModel(repo = get()) }
+        viewModel { SplashViewModel(repo = get()) }
         viewModel { LoginViewModel(repo = get(), buildConfigProvider = get()) }
         viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get()) }
         viewModel { HomeViewModel(repo = get()) }

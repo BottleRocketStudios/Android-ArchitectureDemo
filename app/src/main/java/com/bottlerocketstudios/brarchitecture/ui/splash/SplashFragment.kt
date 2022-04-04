@@ -7,8 +7,8 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
 import com.bottlerocketstudios.compose.splash.SplashScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SplashFragment : BaseFragment<SplashFragmentViewModel>() {
-    override val fragmentViewModel: SplashFragmentViewModel by viewModel()
+class SplashFragment : BaseFragment<SplashViewModel>() {
+    override val fragmentViewModel: SplashViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         ComposeScreen {

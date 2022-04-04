@@ -77,6 +77,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
      *
      * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
      */
+    // TODO - Remove this for Compose; as compose navigation is performed in the nav graph
     val navigationEvent: LiveData<NavigationEvent> = LiveEvent<NavigationEvent>()
 
     /**
@@ -92,7 +93,22 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     /** Helper function to avoid needing downcast declarations for public MutableLiveData or LiveEvent */
     protected fun <T> LiveData<T>.postValue(value: T?) = (this as? MutableLiveData<T>)?.postValue(value) ?: run { Timber.w("[postValue] unable to postValue for $this") }
 
+    /**
+     *  Helper functions to get access down casted mutable SharedFlows
+     *    due to SharedFlow being covariant we must use templates with upper bounds to show type errors at build instead of run time.
+     */
+    protected suspend fun <T : Number?> SharedFlow<T>.emit(value: T) =
+        (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+    protected suspend fun <T : CharSequence> SharedFlow<T>.emit(value: T) =
+        (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+    protected suspend fun SharedFlow<Boolean>.emit(value: Boolean) =
+        (this as? MutableSharedFlow<Boolean>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+    protected suspend fun SharedFlow<Unit>.emit(value: Unit) =
+        (this as? MutableSharedFlow<Unit>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+
+    // FIXME - Since StateFlow is Covariant we can't use a template without upper bounds and still have build time type checks
     /** Helper function to avoid needing downcast declarations for public MutableStateFlow */
+    //TODO This is not Type safe.
     protected fun <T : Any?> StateFlow<T?>?.setNullable(value: T?) {
         if (this is MutableStateFlow<T?>) {
             this.value = value
@@ -107,23 +123,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
             this.value = value
         } else {
             Timber.w("[set] unable to set value for $this")
-        }
-    }
-
-    /** Helper function to avoid needing downcast declarations for public MutableSharedFlow */
-    protected suspend fun <T : Any?> SharedFlow<T?>?.emitNullable(value: T?) {
-        if (this is MutableSharedFlow<T?>) {
-            emit(value)
-        } else {
-            Timber.w("[set] unable to emit value for $this")
-        }
-    }
-    /** Helper function to avoid needing downcast declarations for public MutableSharedFlow. [value] only emitted when it is non-nullable */
-    protected suspend fun <T : Any> SharedFlow<T>?.emitValue(value: T?) {
-        if (this is MutableSharedFlow<T> && value != null) {
-            emit(value)
-        } else {
-            Timber.w("[emitValue] unable to emit value for $this")
         }
     }
 
