@@ -27,7 +27,7 @@ class ComposeActivity : ComponentActivity() {
         // Perform resets of MainActivityVIewModel fields here.
         title = ""
 
-        // Connect external routing to activiety
+        // Connect external routing to activity
         launchIO {
             externalNavigationEvent.asFlow().collect { runOnMain { it.navigate(this@ComposeActivity) } }
         }

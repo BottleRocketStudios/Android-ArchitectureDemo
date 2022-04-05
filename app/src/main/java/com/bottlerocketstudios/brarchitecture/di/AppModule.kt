@@ -24,7 +24,7 @@ object AppModule {
     val module = module {
         viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
         viewModel { SplashViewModel() }
-        viewModel { AuthCodeViewModel(repo = get(), buildConfigProvider = get()) }
+        viewModel { AuthCodeViewModel() }
         viewModel { HomeViewModel(repo = get()) }
         viewModel { RepositoryBrowserViewModel(repo = get()) }
         viewModel { RepositoryFileFragmentViewModel(repo = get()) }

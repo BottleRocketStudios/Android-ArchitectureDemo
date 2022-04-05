@@ -19,7 +19,7 @@ import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-fun ComposeActivity.splashComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+private fun ComposeActivity.splashComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Splash) {
         val vm: SplashViewModel = getViewModel()
         vm.authEvent.LaunchCollection { navController.navigateAsTopLevel(Routes.Home) }
@@ -29,17 +29,23 @@ fun ComposeActivity.splashComposable(navGraphBuilder: NavGraphBuilder, navContro
     }
 }
 
+private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+    navGraphBuilder.composable(Routes.AuthCode) {
+        val vm: AuthCodeViewModel = getViewModel()
+        vm.devOptionsEvent.LaunchCollection { navController.navigate(Routes.DevOptions) }
+        vm.homeEvent.LaunchCollection { navController.navigateAsTopLevel(Routes.Home) }
+
+        vm.ConnectBaseViewModel {
+            AuthCodeScreen(state = it.toState())
+        }
+    }
+}
+
 fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: ComposeActivity) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
             splashComposable(this, navController)
-
-            composable(Routes.AuthCode) {
-                val viewModel: AuthCodeViewModel = getViewModel()
-                viewModel.ConnectBaseViewModel {
-                    AuthCodeScreen(state = it.toState())
-                }
-            }
+            authCodeComposable(this, navController)
 
             composable(Routes.DevOptions) {
                 val viewModel: DevOptionsViewModel = getViewModel()
@@ -60,4 +66,5 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
         }
     }
 }
+
 

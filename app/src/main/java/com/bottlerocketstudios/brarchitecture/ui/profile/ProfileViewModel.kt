@@ -22,7 +22,7 @@ class ProfileViewModel(val repo: BitbucketRepository) : BaseViewModel() {
 
     fun onLogoutClicked() {
         repo.clear()
-        navigationEvent.postValue(NavigationEvent.Action(R.id.action_global_to_authCodeFragment))
+        // navigationEvent.postValue(NavigationEvent.Action(R.id.action_global_to_authCodeFragment))
     }
 
     companion object {
