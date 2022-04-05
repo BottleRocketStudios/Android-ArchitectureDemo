@@ -78,6 +78,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
      * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
      */
     // TODO - Remove this for Compose; as compose navigation is performed in the nav graph
+    @Deprecated("Moving internal app navigation out of view model and into nav graph")
     val navigationEvent: LiveData<NavigationEvent> = LiveEvent<NavigationEvent>()
 
     /**

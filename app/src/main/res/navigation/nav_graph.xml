@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/profileFragment">
 
     <!--
     Use popUpTo/popUpToInclusive to remove fragment from backstack when moving forwards
@@ -18,23 +18,6 @@
         app:popUpTo="@id/nav_graph"
         app:destination="@id/authCodeFragment" />
 
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragment"
-        android:label="@string/empty_label"
-        tools:layout="@layout/splash_fragment">
-        <!-- Using popUpTo/popUpToInclusive to remove splash from backstack (see note at top of file for more info) -->
-        <action
-            android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_splashFragment_to_authCodeFragment"
-            app:destination="@id/authCodeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.home.HomeFragment"
