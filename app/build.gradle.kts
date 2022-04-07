@@ -163,7 +163,7 @@ dependencies {
     // UI
     groupieDependencies()
 
-    //TODO Remove Glide after Compose conversion
+    // TODO Remove Glide after Compose conversion
     glideDependencies()
 
     // Utility

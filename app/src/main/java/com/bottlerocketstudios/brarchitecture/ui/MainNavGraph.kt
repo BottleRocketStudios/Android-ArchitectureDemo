@@ -36,17 +36,20 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
     navGraphBuilder.composable(Routes.AuthCode) {
         val vm: AuthCodeViewModel = getViewModel()
         vm.ConnectBaseViewModel {
-            AuthCodeScreen(state = it.toState { showToolbar: Boolean ->
-                controls.title = if (showToolbar) " " else ""
-                navIntercept = {
-                    if (vm.requestUrl.value.isNotEmpty()) {
-                        vm.requestUrl.value = ""
-                        true
-                    } else {
-                        false
+            AuthCodeScreen(
+                state = it.toState { showToolbar: Boolean ->
+                    controls.title = if (showToolbar) " " else ""
+                    navIntercept = {
+                        if (vm.requestUrl.value.isNotEmpty()) {
+                            vm.requestUrl.value = ""
+                            true
+                        } else {
+                            false
+                        }
                     }
-                }
-            }, navigator = webViewNavigator)
+                },
+                navigator = webViewNavigator
+            )
         }
 
         vm.devOptionsEvent.LaunchCollection { navController.navigate(Routes.DevOptions) }
@@ -64,9 +67,9 @@ private fun ComposeActivity.devOptionsComposable(navGraphBuilder: NavGraphBuilde
         // TODO - integrate this check somewhere.  Probably Viewmodel with event.
         // Only debug/internal builds allowed to show this screen. Immediately close if somehow launched on prod release build.
         // if (buildConfigProvider.isProductionReleaseBuild) {
-            // NOTE: Special case usage of findNavController
-            // findNavController().popBackStack()
-            // return
+        // NOTE: Special case usage of findNavController
+        // findNavController().popBackStack()
+        // return
         // }
 
         controls.title = stringResource(id = R.string.dev_options_title)
@@ -88,9 +91,6 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator:
                     })
                 }
             }
-
         }
     }
 }
-
-

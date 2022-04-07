@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.navigation
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 
 /**
  * Encapsulates navigation components navigation action.

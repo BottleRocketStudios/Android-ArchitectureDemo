@@ -40,7 +40,6 @@ class MutableStateFlowDelegate<T>(val flow: MutableStateFlow<T>) {
     }
 }
 
-
 class ComposeActivity : ComponentActivity() {
     private val activityViewModel: MainActivityViewModel by viewModel()
 
@@ -115,7 +114,6 @@ class ComposeActivity : ComponentActivity() {
                                     }
                                 }
                             )
-
                         }
                     },
                     drawerContent = {
@@ -127,7 +125,7 @@ class ComposeActivity : ComponentActivity() {
                         )
                     },
 
-                    ) {
+                ) {
                     NavHost(navController = navController, startDestination = Routes.Main) {
                         mainNavGraph(navController = navController, webViewNavigator = webViewNavigator, activity = this@ComposeActivity)
                     }

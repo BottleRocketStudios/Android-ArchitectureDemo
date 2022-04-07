@@ -64,7 +64,6 @@ fun AuthCodePreview() {
     }
 }
 
-
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNavigator) {
@@ -73,20 +72,21 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNav
     WebView(
         state = state,
         navigator = navigator,
-        onCreated = { it.apply {
-            webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                    //  This has to match callback URL defined for bitbucket api key.
-                    if (request?.url?.toString()?.contains("www.bottlerocketstudios.com") == true) {
-                        onAuthCode(request.url.getQueryParameter("code") ?: "")
-                        return true
+        onCreated = {
+            it.apply {
+                webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                        //  This has to match callback URL defined for bitbucket api key.
+                        if (request?.url?.toString()?.contains("www.bottlerocketstudios.com") == true) {
+                            onAuthCode(request.url.getQueryParameter("code") ?: "")
+                            return true
+                        }
+                        return super.shouldOverrideUrlLoading(view, request)
                     }
-                    return super.shouldOverrideUrlLoading(view, request)
                 }
+                settings.javaScriptEnabled = true
             }
-            settings.javaScriptEnabled = true
-
-        } }
+        }
     )
 }
 

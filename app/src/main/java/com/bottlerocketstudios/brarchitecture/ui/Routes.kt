@@ -9,6 +9,5 @@ object Routes {
     const val DevOptions = "devoptions"
 
     // Example path with arguments; will remove after first real path with arguments is in place.
-    fun UserProfile(id: String) = "profile/{${id}}"
+    fun UserProfile(id: String) = "profile/{$id}"
 }
-
