@@ -12,18 +12,18 @@
             type="com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel" />
     </data>
 
+<!--        app:visibilityGoneIfFalse="@{viewModel.showToolbar}"-->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:visibilityGoneIfFalse="@{viewModel.showToolbar}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+<!--            app:visibilityGoneIfFalse="@{viewModel.showToolbar}"-->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:visibilityGoneIfFalse="@{viewModel.showToolbar}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"

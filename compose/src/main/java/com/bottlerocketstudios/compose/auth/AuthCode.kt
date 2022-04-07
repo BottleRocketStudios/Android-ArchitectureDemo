@@ -23,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.viewinterop.AndroidView
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
@@ -31,6 +30,10 @@ import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
+import com.google.accompanist.web.WebView
+import com.google.accompanist.web.WebViewNavigator
+import com.google.accompanist.web.rememberWebViewNavigator
+import com.google.accompanist.web.rememberWebViewState
 
 data class AuthCodeState(
     val requestUrl: State<String>,
@@ -39,6 +42,7 @@ data class AuthCodeState(
     val onLoginClicked: () -> Unit,
     val onSignupClicked: () -> Unit,
     val onDevOptionsClicked: () -> Unit,
+    val showToolbar: (show: Boolean) -> Unit,
 )
 
 @Preview(showSystemUi = true)
@@ -53,16 +57,23 @@ fun AuthCodePreview() {
                 onLoginClicked = {},
                 onSignupClicked = {},
                 onDevOptionsClicked = {},
-            )
+                showToolbar = {}
+            ),
+            navigator = rememberWebViewNavigator()
         )
     }
 }
 
+
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
-    AndroidView(factory = {
-        WebView(it).apply {
+fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNavigator) {
+    val state = rememberWebViewState(url = url)
+
+    WebView(
+        state = state,
+        navigator = navigator,
+        onCreated = { it.apply {
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                     //  This has to match callback URL defined for bitbucket api key.
@@ -74,15 +85,21 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
                 }
             }
             settings.javaScriptEnabled = true
-            loadUrl(url)
-        }
-    })
+
+        } }
+    )
 }
 
 @Composable
-fun AuthCodeScreen(state: AuthCodeState) {
+fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
     Crossfade(targetState = state.requestUrl.value.isEmpty()) {
-        if (it) AuthCodeContent(state) else RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode)
+        if (it) {
+            state.showToolbar(false)
+            AuthCodeContent(state)
+        } else {
+            state.showToolbar(true)
+            RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode, navigator = navigator)
+        }
     }
 }
 

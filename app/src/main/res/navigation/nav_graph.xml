@@ -9,10 +9,6 @@
     See https://proandroiddev.com/android-navigation-component-tips-tricks-implementing-splash-screen-f0f5ce046a09 and https://developer.android.com/guide/navigation/navigation-navigate#pop
     -->
 
-    <action
-        android:id="@+id/action_global_to_devOptionsFragment"
-        app:destination="@id/devOptionsFragment" />
-
 
     <fragment
         android:id="@+id/homeFragment"
@@ -50,10 +46,6 @@
             app:argType="com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData" />
     </fragment>
 
-    <fragment
-        android:id="@+id/devOptionsFragment"
-        android:name="com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsFragment"
-        android:label="@string/dev_options_button"/>
     <fragment
         android:id="@+id/createSnippetFragment"
         android:name="com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragment"

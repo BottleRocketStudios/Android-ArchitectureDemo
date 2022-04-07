@@ -39,14 +39,13 @@ class MainActivity : AppCompatActivity() {
                 setupActionBarWithNavController(navController, it)
             }
             devOptionsCta.setOnClickListener {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_to_devOptionsFragment)
+                // findNavController(R.id.nav_host_fragment).navigate(R.id.action_global_to_devOptionsFragment)
                 drawerLayout.close()
             }
             // Don't show the toolbar's AppCompatTextView title, show the one we style
         }
         navController.addOnDestinationChangedListener { _, destination, _ ->
             this@MainActivity.hideKeyboard() // hide keyboard for every destination change - prevents need to manually hide keyboard per fragment just prior to navigating away
-            activityViewModel.showToolbar.value = destination.label?.isNotEmpty() ?: false
             activityViewModel.title.value = destination.label.toString()
             binding.viewToolbar.toolbar.title = ""
             invalidateOptionsMenu()

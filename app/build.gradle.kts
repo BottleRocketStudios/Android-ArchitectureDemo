@@ -146,6 +146,7 @@ dependencies {
 
     // AndroidX
     composeDependencies()
+    accompanistDependencies()
     appCompatDependencies()
     activityDependencies()
     fragmentDependencies()

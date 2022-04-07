@@ -179,6 +179,11 @@ private object Libraries {
 
     const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:0.2.0"
 
+
+    // Accompanist
+    const val ACCOMPANIST = "com.google.accompanist:accompanist-webview:0.24.5-alpha"
+
+
     // Coil
     // https://coil-kt.github.io/coil/
     // https://coil-kt.github.io/coil/changelog/#full-release-notes
@@ -388,6 +393,10 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
     implementation(Libraries.COMPOSE_LIVE_DATA)
+}
+
+fun DependencyHandler.accompanistDependencies() {
+    implementation(Libraries.ACCOMPANIST)
 }
 
 fun DependencyHandler.launchPadDependencies() {

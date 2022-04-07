@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.map
 
 class MainActivityViewModel(val repo: BitbucketRepository, buildConfigProvider: BuildConfigProvider) : BaseViewModel() {
     val selectedRepo = MutableStateFlow(GitRepository(null, null, null, null, null, null, null))
-    val showToolbar = MutableStateFlow(false)
     val title = MutableStateFlow("")
+    val showToolbar = title.map { it.isNotEmpty() }
+    val topLevel = MutableStateFlow(false)
 
     val avatarUrl = repo.user.map { it?.convertToUser()?.avatarUrl.orEmpty() }.groundState("")
     val displayName = repo.user.map { it?.displayName.orEmpty() }.groundState("")
