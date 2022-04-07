@@ -3,6 +3,11 @@ package com.bottlerocketstudios.brarchitecture.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -27,7 +32,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.reflect.KProperty
-import kotlin.reflect.KProperty0
 
 class MutableStateFlowDelegate<T>(val flow: MutableStateFlow<T>) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = flow.value
@@ -77,8 +81,15 @@ class ComposeActivity : ComponentActivity() {
                 Scaffold(
                     scaffoldState = scaffoldState,
                     topBar = {
-                        // TODO - Add custom entrance/exit animation.
-                        if (activityViewModel.showToolbar.collectAsState(false).value) {
+                        AnimatedVisibility(
+                            visible = activityViewModel.showToolbar.collectAsState(false).value,
+                            enter = slideInVertically(
+                                animationSpec = spring(stiffness = Spring.StiffnessHigh)
+                            ),
+                            exit = slideOutVertically(
+                                animationSpec = spring(stiffness = Spring.StiffnessHigh)
+                            )
+                        ) {
                             val topLevel = activityViewModel.topLevel.collectAsState()
 
                             AppBar(
@@ -104,6 +115,7 @@ class ComposeActivity : ComponentActivity() {
                                     }
                                 }
                             )
+
                         }
                     },
                     drawerContent = {
