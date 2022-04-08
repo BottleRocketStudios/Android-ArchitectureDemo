@@ -181,6 +181,7 @@ private object Libraries {
 
 
     // Accompanist
+    // https://github.com/google/accompanist/releases
     const val ACCOMPANIST = "com.google.accompanist:accompanist-webview:0.24.5-alpha"
 
 
