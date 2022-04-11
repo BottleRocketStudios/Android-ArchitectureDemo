@@ -78,6 +78,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
      * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
      */
     // TODO - Remove this for Compose; as compose navigation is performed in the nav graph
+    @Deprecated("Moving internal app navigation out of view model and into nav graph")
     val navigationEvent: LiveData<NavigationEvent> = LiveEvent<NavigationEvent>()
 
     /**
@@ -108,7 +109,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     // FIXME - Since StateFlow is Covariant we can't use a template without upper bounds and still have build time type checks
     /** Helper function to avoid needing downcast declarations for public MutableStateFlow */
-    //TODO This is not Type safe.
+    // TODO This is not Type safe.
     protected fun <T : Any?> StateFlow<T?>?.setNullable(value: T?) {
         if (this is MutableStateFlow<T?>) {
             this.value = value
@@ -117,7 +118,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         }
     }
     /** Helper function to avoid needing downcast declarations for public MutableStateFlow. [value] only set when it is non-nullable */
-    //TODO This is not Type safe.
+    // TODO This is not Type safe.
     protected fun <T : Any> StateFlow<T>?.set(value: T?) {
         if (this is MutableStateFlow<T> && value != null) {
             this.value = value

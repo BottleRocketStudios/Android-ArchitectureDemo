@@ -82,6 +82,9 @@ dependencies {
     // LaunchPad - Starting Assets
     launchPadDependencies()
 
+    // Accompanist
+    accompanistDependencies()
+
     // AndroidX
     composeDependencies()
 

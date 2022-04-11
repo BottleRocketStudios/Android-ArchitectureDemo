@@ -146,6 +146,7 @@ dependencies {
 
     // AndroidX
     composeDependencies()
+    accompanistDependencies()
     appCompatDependencies()
     activityDependencies()
     fragmentDependencies()
@@ -162,7 +163,7 @@ dependencies {
     // UI
     groupieDependencies()
 
-    //TODO Remove Glide after Compose conversion
+    // TODO Remove Glide after Compose conversion
     glideDependencies()
 
     // Utility

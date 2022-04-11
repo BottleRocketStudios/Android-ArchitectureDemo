@@ -5,11 +5,12 @@ import androidx.compose.runtime.collectAsState
 import com.bottlerocketstudios.compose.auth.AuthCodeState
 
 @Composable
-fun AuthCodeViewModel.toState() = AuthCodeState(
+fun AuthCodeViewModel.toState(showToolbar: (Boolean) -> Unit) = AuthCodeState(
     requestUrl = requestUrl.collectAsState(),
     devOptionsEnabled = devOptionsEnabled,
     onLoginClicked = ::onLoginClicked,
     onSignupClicked = ::onSignUpClicked,
     onDevOptionsClicked = ::onDevOptionsClicked,
     onAuthCode = ::onAuthCode,
+    showToolbar = showToolbar,
 )

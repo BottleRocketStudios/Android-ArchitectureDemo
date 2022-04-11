@@ -52,7 +52,6 @@ internal val textString: String = "# These are some examples of commonly ignored
     "*.mov\n" +
     "*.wmv\n"
 
-
 internal val fileBrowserMockData = FileBrowserScreenState(
     path = mutableStateOf(".gitingore"),
     content = mutableStateOf(textString.toByteArray())

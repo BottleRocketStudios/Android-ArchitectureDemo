@@ -8,3 +8,9 @@ java {
 }
 
 // TODO - update with dependencies
+
+dependencies {
+    // Kotlin/coroutines
+    kotlinDependencies()
+    coroutineDependencies()
+}

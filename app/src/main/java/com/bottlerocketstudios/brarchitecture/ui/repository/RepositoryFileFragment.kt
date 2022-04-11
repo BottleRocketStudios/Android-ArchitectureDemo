@@ -27,7 +27,6 @@ class RepositoryFileFragment : BaseFragment<RepositoryFileFragmentViewModel>() {
         val data: RepositoryFileData = args.data
 
         activityViewModel.title.value = data.path
-        activityViewModel.showToolbar.value = true
         fragmentViewModel.loadFile(
             repo.workspace?.slug ?: "",
             repo.name ?: "",

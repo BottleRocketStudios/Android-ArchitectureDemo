@@ -4,8 +4,13 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import org.koin.core.component.inject
 
-class SplashViewModel(repo: BitbucketRepository) : BaseViewModel() {
+class SplashViewModel : BaseViewModel() {
+    // DI
+    val repo: BitbucketRepository by inject()
+
+    // Events
     val authEvent: SharedFlow<Unit> = MutableSharedFlow()
     val unAuthEvent: SharedFlow<Unit> = MutableSharedFlow()
 
