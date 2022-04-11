@@ -22,26 +22,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.asFlow
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.bottlerocketstudios.brarchitecture.domain.utils.MutableStateFlowDelegate
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.widgets.AppBar
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.google.accompanist.web.rememberWebViewNavigator
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.reflect.KProperty
-
-class MutableStateFlowDelegate<T>(val flow: MutableStateFlow<T>) {
-    operator fun getValue(thisRef: Any?, property: KProperty<*>) = flow.value
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        flow.value = value
-    }
-}
 
 class ComposeActivity : ComponentActivity() {
     private val activityViewModel: MainActivityViewModel by viewModel()
+
+    /**
+     *   EMPTY_TOOLBAR_TITLE is used to show toolbar without a title.
+     */
+    companion object {
+        const val EMPTY_TOOLBAR_TITLE = " "
+    }
 
     // Lazy initialized public interface that provides access to view model
     val controls by lazy { Controls(activityViewModel) }
@@ -66,7 +65,6 @@ class ComposeActivity : ComponentActivity() {
 
         block.invoke(this)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -103,6 +101,8 @@ class ComposeActivity : ComponentActivity() {
                                             }
                                         }
                                     } else {
+                                        // TODO - Observe behavior with multiple web view screens to see if WebViewNavigator works correctly
+                                        //    Other possible issues: leaving WebView before navigating to top, etc.
                                         // Otherwise navigate upwards.
                                         if (webViewNavigator.canGoBack) {
                                             webViewNavigator.navigateBack()

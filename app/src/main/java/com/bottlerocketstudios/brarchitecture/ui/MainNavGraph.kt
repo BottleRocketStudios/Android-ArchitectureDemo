@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.ui
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.bottlerocketstudios.brarchitecture.R
@@ -22,6 +23,12 @@ import com.bottlerocketstudios.compose.splash.SplashScreen
 import com.google.accompanist.web.WebViewNavigator
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
+fun NavOptionsBuilder.popToMainInclusive() {
+    popUpTo(Routes.Main) {
+        inclusive = true
+    }
+}
+
 private fun ComposeActivity.splashComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Splash) {
         val vm: SplashViewModel = getViewModel()
@@ -38,7 +45,7 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
         vm.ConnectBaseViewModel {
             AuthCodeScreen(
                 state = it.toState { showToolbar: Boolean ->
-                    controls.title = if (showToolbar) " " else ""
+                    controls.title = if (showToolbar) ComposeActivity.EMPTY_TOOLBAR_TITLE else ""
                     navIntercept = {
                         if (vm.requestUrl.value.isNotEmpty()) {
                             vm.requestUrl.value = ""
