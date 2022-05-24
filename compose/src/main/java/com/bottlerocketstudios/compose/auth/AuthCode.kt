@@ -1,9 +1,7 @@
 package com.bottlerocketstudios.compose.auth
 
 import android.annotation.SuppressLint
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.net.Uri
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +30,7 @@ import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.WebViewNavigator
+import com.google.accompanist.web.WebViewState
 import com.google.accompanist.web.rememberWebViewNavigator
 import com.google.accompanist.web.rememberWebViewState
 
@@ -67,25 +66,17 @@ fun AuthCodePreview() {
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNavigator) {
-    val state = rememberWebViewState(url = url)
+    val state: WebViewState = rememberWebViewState(url = url)
+
+    if (state.content.getCurrentUrl()?.contains("www.bottlerocketstudios.com") == true) {
+        onAuthCode(Uri.parse(state.content.getCurrentUrl() ?: "").getQueryParameter("code") ?: "")
+    }
 
     WebView(
         state = state,
         navigator = navigator,
         onCreated = {
-            it.apply {
-                webViewClient = object : WebViewClient() {
-                    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                        //  This has to match callback URL defined for bitbucket api key.
-                        if (request?.url?.toString()?.contains("www.bottlerocketstudios.com") == true) {
-                            onAuthCode(request.url.getQueryParameter("code") ?: "")
-                            return true
-                        }
-                        return super.shouldOverrideUrlLoading(view, request)
-                    }
-                }
-                settings.javaScriptEnabled = true
-            }
+            it.settings.javaScriptEnabled = true
         }
     )
 }
