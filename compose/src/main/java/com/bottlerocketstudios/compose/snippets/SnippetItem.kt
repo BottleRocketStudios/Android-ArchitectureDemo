@@ -20,10 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.bold
-import com.bottlerocketstudios.compose.resources.light
-import com.bottlerocketstudios.compose.resources.normal
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.launchpad.compose.bold
+import com.bottlerocketstudios.launchpad.compose.light
+import com.bottlerocketstudios.launchpad.compose.normal
 
 @Composable
 fun SnippetItem(snippet: SnippetUiModel) {

@@ -29,11 +29,11 @@ import androidx.compose.ui.unit.dp
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.bold
-import com.bottlerocketstudios.compose.resources.normal
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedInputField
+import com.bottlerocketstudios.launchpad.compose.bold
+import com.bottlerocketstudios.launchpad.compose.normal
 
 data class CreateSnippetScreenState(
     val title: State<String>,
