@@ -6,5 +6,5 @@ import com.bottlerocketstudios.brarchitecture.ui.util.StringIdHelper
 
 @BindingAdapter("textByStringIdHelper")
 fun TextView.textByStringIdHelper(stringIdHelper: StringIdHelper?) {
-    text = stringIdHelper?.getString(context)
+    text = stringIdHelper?.getString()
 }

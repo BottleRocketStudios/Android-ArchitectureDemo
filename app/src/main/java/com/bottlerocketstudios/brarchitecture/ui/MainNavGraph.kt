@@ -83,23 +83,37 @@ private fun ComposeActivity.devOptionsComposable(navGraphBuilder: NavGraphBuilde
     }
 }
 
+private fun ComposeActivity.homeComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+    navGraphBuilder.composable(Routes.Home) {
+        val viewModel: HomeViewModel = getViewModel()
+
+        viewModel.ConnectBaseViewModel {
+            HomeScreen(state = it.toState())
+        }
+
+        controls.title = stringResource(id = R.string.home_title)
+        controls.topLevel = true
+
+        viewModel.itemSelected.LaunchCollection{
+            activityViewModel.selectedRepo.value = it.repo
+        //     TODO - Navigate to browse fragment
+            //     val action = HomeFragmentDirections.actionHomeToRepositoryBrowserFragment(
+            //         RepositoryBrowserData(
+            //             repoName = userRepositoryUiModel.repo.name ?: ""
+            //         )
+            //     )
+
+        }
+    }
+}
+
 fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator: WebViewNavigator, activity: ComposeActivity) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
             splashComposable(this, navController)
             authCodeComposable(this, navController, webViewNavigator)
             devOptionsComposable(this, navController)
-
-            composable(Routes.Home) {
-                val viewModel: HomeViewModel = getViewModel()
-                viewModel.ConnectBaseViewModel {
-                    HomeScreen(state = it.toState(), selectItem = {
-                        // FIXME - Connect selectItem code
-                    })
-                }
-                controls.title = stringResource(id = R.string.home_title)
-                controls.topLevel = true
-            }
+            homeComposable(this, navController)
         }
     }
 }

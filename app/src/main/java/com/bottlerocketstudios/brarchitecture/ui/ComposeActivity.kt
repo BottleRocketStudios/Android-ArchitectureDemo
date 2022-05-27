@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ComposeActivity : ComponentActivity() {
-    private val activityViewModel: MainActivityViewModel by viewModel()
+    val activityViewModel: MainActivityViewModel by viewModel()
 
     /**
      *   EMPTY_TOOLBAR_TITLE is used to show toolbar without a title.

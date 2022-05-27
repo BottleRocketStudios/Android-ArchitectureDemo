@@ -24,11 +24,12 @@ import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.launchpad.compose.bold
 
 data class HomeScreenState(
-    val repositories: State<List<UserRepositoryUiModel>>
+    val repositories: State<List<UserRepositoryUiModel>>,
+    val itemSelected: (userRepositoryUiModel: UserRepositoryUiModel) -> Unit,
 )
 
 @Composable
-fun HomeScreen(state: HomeScreenState, selectItem: (userRepositoryUiModel: UserRepositoryUiModel) -> Unit) {
+fun HomeScreen(state: HomeScreenState) {
     Column {
         Text(
             text = stringResource(id = R.string.home_repositories),
@@ -64,7 +65,7 @@ fun HomeScreen(state: HomeScreenState, selectItem: (userRepositoryUiModel: UserR
             ) {
                 state.repositories.value.forEach {
                     item {
-                        CardLayout(it, selectItem)
+                        CardLayout(it, state.itemSelected)
                     }
                 }
             }
@@ -81,7 +82,7 @@ fun HomeScreenPreview() {
         HomeScreen(
             state = HomeScreenState(
                 listOf(testCard1, testCard2).asMutableState()
-            )
-        ) {}
+            ) {}
+        )
     }
 }
