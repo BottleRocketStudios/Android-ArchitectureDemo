@@ -97,6 +97,8 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator:
                         // FIXME - Connect selectItem code
                     })
                 }
+                controls.title = stringResource(id = R.string.home_title)
+                controls.topLevel = true
             }
         }
     }

@@ -8,7 +8,6 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,18 +15,20 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.asFlow
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.domain.utils.MutableStateFlowDelegate
-import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.navdrawer.NavDrawer
+import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
-import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.widgets.AppBar
-import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.google.accompanist.web.rememberWebViewNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -73,7 +74,16 @@ class ComposeActivity : ComponentActivity() {
             val webViewNavigator = rememberWebViewNavigator()
             val scaffoldState = rememberScaffoldState()
             val scope = rememberCoroutineScope()
+            val navBackStackEntry = navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry.value?.destination?.route
+            // TODO - try this without derived state of to see if it updates,
+            val navItems = remember(currentRoute) {
+                derivedStateOf {
+                    generateNavDrawerItems(navController = navController, currentRoute = currentRoute ?: "")
+                }
+            }
 
+            // TODO - Move appbar definition to compose module
             ArchitectureDemoTheme {
                 Scaffold(
                     scaffoldState = scaffoldState,
@@ -117,14 +127,8 @@ class ComposeActivity : ComponentActivity() {
                         }
                     },
                     drawerContent = {
-                        OutlinedSurfaceButton(
-                            buttonText = stringResource(id = R.string.dev_options_button),
-                            forceCaps = true,
-                            onClick = { navController.navigate(Routes.DevOptions) },
-                            modifier = Modifier.padding(top = Dimens.grid_4)
-                        )
+                        NavDrawer(activityViewModel.toNavDrawerState(navItems))
                     },
-
                 ) {
                     NavHost(navController = navController, startDestination = Routes.Main) {
                         mainNavGraph(navController = navController, webViewNavigator = webViewNavigator, activity = this@ComposeActivity)
@@ -133,4 +137,31 @@ class ComposeActivity : ComponentActivity() {
             }
         }
     }
+
+    // TODO - look into making objects under NavItem with predefined values.
+    //  TODO - can we pass in NavController and route to simplify definitions??
+    private fun generateNavDrawerItems(navController: NavController, currentRoute: String) =
+        listOf(
+            NavItemState(
+                icon = R.drawable.ic_home,
+                itemText = R.string.home_title,
+                selected = currentRoute == Routes.Home
+            ) {
+                navController.navigate(Routes.Home)
+            },
+            NavItemState(
+                icon = R.drawable.ic_snippet,
+                itemText = R.string.snippets_title,
+                selected = currentRoute == Routes.Snippets
+            ) {
+                navController.navigate(Routes.Snippets)
+            },
+            NavItemState(
+                icon = R.drawable.ic_nav_profile,
+                itemText = R.string.profile_title,
+                selected = currentRoute == Routes.Profile
+            ) {
+                navController.navigate(Routes.Profile)
+            }
+        )
 }
