@@ -25,8 +25,8 @@ object AppModule {
         viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
         viewModel { SplashViewModel() }
         viewModel { AuthCodeViewModel() }
-        viewModel { HomeViewModel(repo = get()) }
-        viewModel { RepositoryBrowserViewModel(repo = get()) }
+        viewModel { HomeViewModel() }
+        viewModel { RepositoryBrowserViewModel() }
         viewModel { RepositoryFileFragmentViewModel(repo = get()) }
         viewModel { SnippetsFragmentViewModel(repo = get()) }
         viewModel { CreateSnippetFragmentViewModel(repo = get()) }

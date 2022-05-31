@@ -13,11 +13,14 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 import java.time.Clock
 
-class HomeViewModel(repo: BitbucketRepository) : BaseViewModel() {
-    // DI - Setup
+class HomeViewModel : BaseViewModel() {
+    // DI
+    private val repo: BitbucketRepository by inject()
+    private val clock by inject<Clock>()
+
+    // Setup
     val user = repo.user
     val repos = repo.repos
-    private val clock by inject<Clock>()
 
     // UI
     val userRepositoryState: Flow<List<UserRepositoryUiModel>> =
