@@ -79,6 +79,9 @@ val devConfigurations: List<Configuration> = listOf(internalDebugImplementation,
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
+    // Koin - Dependency Injection
+    koinDependencies()
+
     // LaunchPad - Starting Assets
     launchPadDependencies()
 

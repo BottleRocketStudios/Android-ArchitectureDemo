@@ -3,7 +3,6 @@ package com.bottlerocketstudios.compose.util
 import android.content.Context
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
-import com.bottlerocketstudios.brarchitecture.data.model.DomainModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import com.bottlerocketstudios.brarchitecture.domain.models.DomainModel

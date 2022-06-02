@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.data.converter.convertToGitRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import com.bottlerocketstudios.brarchitecture.ui.util.formattedUpdateTime
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
+import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
@@ -26,9 +26,11 @@ class HomeViewModel : BaseViewModel() {
     val userRepositoryState: Flow<List<UserRepositoryUiModel>> =
         repos.map {
             it.map {
-                UserRepositoryUiModel(repo = it.convertToGitRepository()).apply {
-                    updatedTimeString = this.repo.updated.formattedUpdateTime(clock).getString()
-                }
+                val repo = it.convertToGitRepository()
+                UserRepositoryUiModel(
+                    repo = repo,
+                    formattedLastUpdatedTime = repo.updated.formattedUpdateTime(clock)
+                )
             }
         }
 

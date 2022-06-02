@@ -73,7 +73,7 @@ fun SnippetItem(snippet: SnippetUiModel) {
                         .padding(top = Dimens.grid_2_5)
                 ) {
                     Text(
-                        snippet.formattedLastUpdatedTime.getString(LocalContext.current),
+                        snippet.formattedLastUpdatedTime.getString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.h6.light(),
                         modifier = Modifier
