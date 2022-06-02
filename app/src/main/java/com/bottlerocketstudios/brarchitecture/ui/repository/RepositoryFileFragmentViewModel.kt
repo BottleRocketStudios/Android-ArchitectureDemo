@@ -7,10 +7,12 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.core.component.inject
 
-class RepositoryFileFragmentViewModel(
-    private val repo: BitbucketRepository,
-) : BaseViewModel() {
+class RepositoryFileFragmentViewModel : BaseViewModel() {
+    // DI
+    private val repo: BitbucketRepository by inject()
+
     val srcFile: MutableStateFlow<ByteArray?> = MutableStateFlow(null)
     val path: StateFlow<String> = MutableStateFlow("")
 

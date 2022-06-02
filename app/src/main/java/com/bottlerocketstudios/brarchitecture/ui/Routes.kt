@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 
 @Suppress("FunctionName")
 object Routes {
@@ -15,13 +16,16 @@ object Routes {
     // Example path with arguments; will remove after first real path with arguments is in place.
     fun UserProfile(id: String) = "profile/{$id}"
 
-    fun RepositoryBrowser(data: RepositoryBrowserData) : String {
-        return "repository?repoName=${data.repoName}" +
-           (data.folderHash?.let { hash ->
+    fun RepositoryBrowser(data: RepositoryBrowserData)  =
+        "repository?repoName=${data.repoName}" +
+            (data.folderHash?.let { hash ->
                 "&folderHash=$hash"
             } ?: "") +
             (data.folderPath?.let { path ->
                 "&folderPath=$path"
             } ?: "")
-    }
+
+    fun RepositoryFile(data: RepositoryFileData) =
+        "file?hash=${data.hash}&path=${data.path}" +
+            if (data.mimeType.isNotEmpty()) "&mimeType=${data.mimeType}" else ""
 }

@@ -114,6 +114,7 @@ class ComposeActivity : ComponentActivity() {
                                         // TODO - Observe behavior with multiple web view screens to see if WebViewNavigator works correctly
                                         //    Other possible issues: leaving WebView before navigating to top, etc.
                                         // Otherwise navigate upwards.
+                                        // FIXME - Not working after login,  prolly due to webViewNav....
                                         if (webViewNavigator.canGoBack) {
                                             webViewNavigator.navigateBack()
                                         } else {

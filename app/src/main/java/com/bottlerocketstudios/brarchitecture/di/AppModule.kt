@@ -27,7 +27,7 @@ object AppModule {
         viewModel { AuthCodeViewModel() }
         viewModel { HomeViewModel() }
         viewModel { RepositoryBrowserViewModel() }
-        viewModel { RepositoryFileFragmentViewModel(repo = get()) }
+        viewModel { RepositoryFileFragmentViewModel() }
         viewModel { SnippetsFragmentViewModel(repo = get()) }
         viewModel { CreateSnippetFragmentViewModel(repo = get()) }
         viewModel { ProfileViewModel(repo = get()) }

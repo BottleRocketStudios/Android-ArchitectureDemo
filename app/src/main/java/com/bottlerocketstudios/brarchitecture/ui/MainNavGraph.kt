@@ -16,6 +16,8 @@ import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.toState
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import com.bottlerocketstudios.brarchitecture.ui.util.LaunchCollection
@@ -23,6 +25,8 @@ import com.bottlerocketstudios.brarchitecture.ui.util.navigateAsTopLevel
 import com.bottlerocketstudios.compose.auth.AuthCodeScreen
 import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
 import com.bottlerocketstudios.compose.home.HomeScreen
+import com.bottlerocketstudios.compose.repository.FileBrowserScreen
+import com.bottlerocketstudios.compose.repository.RawFileData
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
 import com.google.accompanist.web.WebViewNavigator
@@ -108,6 +112,39 @@ private fun ComposeActivity.homeComposable(navGraphBuilder: NavGraphBuilder, nav
     }
 }
 
+private fun ComposeActivity.repositoryFileComposable(navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        "file?hash={hash}&path={path}&mimeType={mimeType}",
+        arguments = listOf(
+            navArgument("hash") {},
+            navArgument("path") {},
+            navArgument("mimeType") { nullable = true },
+        )
+    ) { backStackEntry ->
+        val data = RepositoryFileData(
+            hash = backStackEntry.arguments?.getString("hash") ?: "",
+            path = backStackEntry.arguments?.getString("path") ?: "",
+            mimeType = backStackEntry.arguments?.getString("mimeType") ?: "",
+        )
+
+        val viewModel: RepositoryFileFragmentViewModel = getViewModel()
+        viewModel.ConnectBaseViewModel {
+            FileBrowserScreen(state = it.toState())
+            activityViewModel.selectedRepo.LaunchCollection { repo ->
+                it.loadFile(
+                    repo.workspace?.slug ?: "",
+                    repo.name ?: "",
+                    data.mimeType,
+                    data.hash,
+                    data.path
+                )
+            }
+        }
+
+        controls.title = data.path
+    }
+}
+
 private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(
         "repository?repoName={repoName}&folderHash={folderHash}&folderPath={folderPath}",
@@ -136,7 +173,7 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
         }
 
         viewModel.fileClickedEvent.LaunchCollection {
-            //    TODO  - connect to file fragment
+            navController.navigate(Routes.RepositoryFile(it))
         }
     }
 }
@@ -149,6 +186,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator:
             devOptionsComposable(this, navController)
             homeComposable(this, navController)
             repositoryBrowserComposable(this, navController)
+            repositoryFileComposable(this)
         }
     }
 }
