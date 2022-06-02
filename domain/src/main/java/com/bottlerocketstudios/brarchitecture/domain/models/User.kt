@@ -9,4 +9,4 @@ data class User(
     val uuid: String?,
     val links: Links?,
     val avatarUrl: String?,
-)
+) : DomainModel

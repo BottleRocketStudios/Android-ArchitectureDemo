@@ -1,12 +1,17 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.databinding.CreateSnippetFragmentBinding
-import com.bottlerocketstudios.brarchitecture.ui.BaseDataBindingFragment
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.bottlerocketstudios.brarchitecture.ui.BaseFragment
+import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateSnippetFragment : BaseDataBindingFragment<CreateSnippetFragmentViewModel, CreateSnippetFragmentBinding>() {
+class CreateSnippetFragment : BaseFragment<CreateSnippetFragmentViewModel>() {
     override val fragmentViewModel: CreateSnippetFragmentViewModel by viewModel()
 
-    override fun getLayoutRes(): Int = R.layout.create_snippet_fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        ComposeScreen {
+            CreateSnippetScreen(state = fragmentViewModel.toState())
+        }
 }

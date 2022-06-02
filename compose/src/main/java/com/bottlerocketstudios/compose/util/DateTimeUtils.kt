@@ -1,6 +1,6 @@
-package com.bottlerocketstudios.brarchitecture.ui.util
+package com.bottlerocketstudios.compose.util
 
-import com.bottlerocketstudios.brarchitecture.R
+import com.bottlerocketstudios.compose.R
 import java.time.Clock
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter

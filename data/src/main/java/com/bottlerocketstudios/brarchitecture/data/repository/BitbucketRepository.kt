@@ -3,7 +3,7 @@ package com.bottlerocketstudios.brarchitecture.data.repository
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
-import com.bottlerocketstudios.brarchitecture.data.model.Snippet
+import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
@@ -27,7 +27,7 @@ import timber.log.Timber
 interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.models.Repository {
     val user: StateFlow<UserDto?>
     val repos: StateFlow<List<GitRepositoryDto>>
-    val snippets: StateFlow<List<Snippet>>
+    val snippets: StateFlow<List<SnippetDto>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
     suspend fun authenticate(authCode: String): Boolean
     suspend fun refreshUser(): Status<Unit>
@@ -53,13 +53,13 @@ internal class BitbucketRepositoryImpl(
     // TODO: Move user specific logic to a separate UserRepository
     private val _user = MutableStateFlow<UserDto?>(null)
     private val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
-    private val _snippets = MutableStateFlow<List<Snippet>>(emptyList())
+    private val _snippets = MutableStateFlow<List<SnippetDto>>(emptyList())
     var authenticated = false
         private set
 
     override val user: StateFlow<UserDto?> = _user
     override val repos: StateFlow<List<GitRepositoryDto>> = _repos
-    override val snippets: StateFlow<List<Snippet>> = _snippets
+    override val snippets: StateFlow<List<SnippetDto>> = _snippets
 
     override suspend fun authenticate(authCode: String): Boolean {
         Timber.v("[authenticate]")
@@ -107,7 +107,7 @@ internal class BitbucketRepositoryImpl(
 
     override suspend fun refreshMySnippets(): Status<Unit> {
         return wrapRepoExceptions("refreshMySnippets") {
-            bitbucketService.getSnippets().toResult().map { it.values.orEmpty().asSuccess() }.alsoOnSuccess { snippets: List<Snippet> ->
+            bitbucketService.getSnippets().toResult().map { it.values.orEmpty().asSuccess() }.alsoOnSuccess { snippets: List<SnippetDto> ->
                 _snippets.value = snippets
             }.map { Unit.asSuccess() }
         }
