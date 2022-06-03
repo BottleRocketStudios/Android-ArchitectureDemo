@@ -10,9 +10,10 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 import java.time.Clock
 
-class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseViewModel() {
+class SnippetsFragmentViewModel : BaseViewModel() {
     // DI
     private val clock by inject<Clock>()
+    private val repo: BitbucketRepository by inject()
 
     // UI
     val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { it ->

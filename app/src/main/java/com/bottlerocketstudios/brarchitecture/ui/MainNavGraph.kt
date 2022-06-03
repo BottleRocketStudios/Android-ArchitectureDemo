@@ -23,6 +23,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserVie
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
+import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.toState
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
@@ -33,6 +34,7 @@ import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
 import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.repository.FileBrowserScreen
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
+import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
 import com.google.accompanist.web.WebViewNavigator
@@ -213,6 +215,18 @@ private fun ComposeActivity.snippetsComposable(navGraphBuilder: NavGraphBuilder,
     }
 }
 
+private fun ComposeActivity.createSnippetComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+    navGraphBuilder.composable(Routes.CreateSnippet) {
+        val vm: CreateSnippetFragmentViewModel = getViewModel()
+        vm.ConnectBaseViewModel {
+            CreateSnippetScreen(state = it.toState())
+        }
+
+        vm.onSuccess.LaunchCollection {
+            navController.navigateUp()
+        }
+    }
+}
 
 fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator: WebViewNavigator, activity: ComposeActivity) {
     with(activity) {
@@ -224,6 +238,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator:
             repositoryBrowserComposable(this, navController)
             repositoryFileComposable(this)
             snippetsComposable(this, navController)
+            createSnippetComposable(this, navController)
         }
     }
 }

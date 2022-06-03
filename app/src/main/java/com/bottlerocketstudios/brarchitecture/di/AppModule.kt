@@ -28,8 +28,8 @@ object AppModule {
         viewModel { HomeViewModel() }
         viewModel { RepositoryBrowserViewModel() }
         viewModel { RepositoryFileFragmentViewModel() }
-        viewModel { SnippetsFragmentViewModel(repo = get()) }
-        viewModel { CreateSnippetFragmentViewModel(repo = get()) }
+        viewModel { SnippetsFragmentViewModel() }
+        viewModel { CreateSnippetFragmentViewModel() }
         viewModel { ProfileViewModel(repo = get()) }
         viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get()) }
 
