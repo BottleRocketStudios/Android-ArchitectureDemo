@@ -30,7 +30,6 @@ import com.bottlerocketstudios.compose.navdrawer.NavDrawer
 import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.widgets.AppBar
-import com.google.accompanist.web.rememberWebViewNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -67,12 +66,13 @@ class ComposeActivity : ComponentActivity() {
 
         block.invoke(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContent {
+            val coroutineScope = rememberCoroutineScope()
             val navController = rememberNavController()
-            val webViewNavigator = rememberWebViewNavigator()
             val scaffoldState = rememberScaffoldState()
             val scope = rememberCoroutineScope()
             val navBackStackEntry = navController.currentBackStackEntryAsState()
@@ -108,7 +108,7 @@ class ComposeActivity : ComponentActivity() {
                                 title = activityViewModel.title.collectAsState().value,
                                 navIcon = if (topLevel.value) Icons.Default.Menu else Icons.Default.ArrowBack,
                                 onNavClicked = {
-                                    // If user is at top of navigation, show menu
+                                    // If user is at top of navigation, toggle side drawer
                                     if (topLevel.value) {
                                         scope.launch {
                                             scaffoldState.drawerState.apply {
@@ -116,16 +116,9 @@ class ComposeActivity : ComponentActivity() {
                                             }
                                         }
                                     } else {
-                                        // TODO - Observe behavior with multiple web view screens to see if WebViewNavigator works correctly
-                                        //    Other possible issues: leaving WebView before navigating to top, etc.
-                                        // Otherwise navigate upwards.
-                                        // FIXME - Not working after login,  prolly due to webViewNav....
-                                        if (webViewNavigator.canGoBack) {
-                                            webViewNavigator.navigateBack()
-                                        } else {
-                                            if (navIntercept?.invoke() != true) {
-                                                navController.popBackStack()
-                                            }
+                                        // Then check nav intercept. Otherwise navigate upwards.
+                                        if (navIntercept?.invoke() != true) {
+                                            navController.popBackStack()
                                         }
                                     }
                                 }
@@ -133,11 +126,16 @@ class ComposeActivity : ComponentActivity() {
                         }
                     },
                     drawerContent = {
-                        NavDrawer(activityViewModel.toNavDrawerState(navItems))
+                        NavDrawer(activityViewModel.toNavDrawerState(navItems) {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.close()
+                            }
+                            navController.navigate(Routes.DevOptions)
+                        })
                     },
                 ) {
                     NavHost(navController = navController, startDestination = Routes.Main) {
-                        mainNavGraph(navController = navController, webViewNavigator = webViewNavigator, activity = this@ComposeActivity)
+                        mainNavGraph(navController = navController, activity = this@ComposeActivity)
                     }
                 }
             }

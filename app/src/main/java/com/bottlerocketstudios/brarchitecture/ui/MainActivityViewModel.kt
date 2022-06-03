@@ -6,16 +6,24 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import org.koin.core.component.inject
 
-class MainActivityViewModel(val repo: BitbucketRepository, buildConfigProvider: BuildConfigProvider) : BaseViewModel() {
-    val selectedRepo = MutableStateFlow(GitRepository(null, null, null, null, null, null, null))
+class MainActivityViewModel : BaseViewModel() {
+    // DI
+    private val repo: BitbucketRepository by inject()
+    private val buildConfigProvider: BuildConfigProvider by inject()
+
+    // UI
     val title = MutableStateFlow("")
     val showToolbar = title.map { it.isNotEmpty() }
     val topLevel = MutableStateFlow(false)
 
+    // State
+    val selectedRepo = MutableStateFlow(GitRepository(null, null, null, null, null, null, null))
+    val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+
+    // Profile info
     val avatarUrl = repo.user.map { it?.convertToUser()?.avatarUrl.orEmpty() }.groundState("")
     val displayName = repo.user.map { it?.displayName.orEmpty() }.groundState("")
     val username = repo.user.map { it?.username.orEmpty() }.groundState("")
-
-    val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
 }

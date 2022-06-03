@@ -39,7 +39,7 @@ import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
 import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
-import com.google.accompanist.web.WebViewNavigator
+import com.google.accompanist.web.rememberWebViewNavigator
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 private fun ComposeActivity.splashComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
@@ -52,8 +52,10 @@ private fun ComposeActivity.splashComposable(navGraphBuilder: NavGraphBuilder, n
     }
 }
 
-private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder, navController: NavController, webViewNavigator: WebViewNavigator) {
+private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.AuthCode) {
+        val webViewNavigator = rememberWebViewNavigator()
+
         val vm: AuthCodeViewModel = getViewModel()
         vm.ConnectBaseViewModel {
             AuthCodeScreen(
@@ -70,6 +72,11 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
                 },
                 navigator = webViewNavigator
             )
+            navIntercept = {
+                webViewNavigator.canGoBack.also {
+                    if (it) webViewNavigator.navigateBack()
+                }
+            }
         }
 
         vm.devOptionsEvent.LaunchCollection { navController.navigate(Routes.DevOptions) }
@@ -84,13 +91,10 @@ private fun ComposeActivity.devOptionsComposable(navGraphBuilder: NavGraphBuilde
             DevOptionsScreen(state = it.toState())
         }
 
-        // TODO - integrate this check somewhere.  Probably Viewmodel with event.
         // Only debug/internal builds allowed to show this screen. Immediately close if somehow launched on prod release build.
-        // if (buildConfigProvider.isProductionReleaseBuild) {
-        // NOTE: Special case usage of findNavController
-        // findNavController().popBackStack()
-        // return
-        // }
+        if (!activityViewModel.devOptionsEnabled) {
+            navController.navigateUp()
+        }
 
         controls.title = stringResource(id = R.string.dev_options_title)
     }
@@ -189,7 +193,7 @@ private fun ComposeActivity.snippetsComposable(navGraphBuilder: NavGraphBuilder,
             SnippetsBrowserScreen(it.toState())
         }
 
-        controls.title = EMPTY_TOOLBAR_TITLE
+        controls.title = stringResource(id = R.string.snippets_title)
         controls.topLevel = true
 
         vm.createClicked.LaunchCollection {
@@ -218,6 +222,8 @@ private fun ComposeActivity.createSnippetComposable(navGraphBuilder: NavGraphBui
             CreateSnippetScreen(state = it.toState())
         }
 
+        controls.title = EMPTY_TOOLBAR_TITLE
+
         vm.onSuccess.LaunchCollection {
             navController.navigateUp()
         }
@@ -231,17 +237,20 @@ private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, 
             ProfileScreen(state = it.toState())
         }
 
+        controls.title = stringResource(id = R.string.profile_title)
+        controls.topLevel = true
+
         vm.onLogout.LaunchCollection {
             navController.navigateAsTopLevel(Routes.AuthCode)
         }
     }
 }
 
-fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator: WebViewNavigator, activity: ComposeActivity) {
+fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: ComposeActivity) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
             splashComposable(this, navController)
-            authCodeComposable(this, navController, webViewNavigator)
+            authCodeComposable(this, navController)
             devOptionsComposable(this, navController)
             homeComposable(this, navController)
             repositoryBrowserComposable(this, navController)

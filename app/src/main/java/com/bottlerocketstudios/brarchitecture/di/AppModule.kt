@@ -22,7 +22,7 @@ import org.koin.dsl.module
 /** General app configuration (repositories/viewmodels/etc) */
 object AppModule {
     val module = module {
-        viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
+        viewModel { MainActivityViewModel() }
         viewModel { SplashViewModel() }
         viewModel { AuthCodeViewModel() }
         viewModel { HomeViewModel() }
@@ -31,7 +31,7 @@ object AppModule {
         viewModel { SnippetsFragmentViewModel() }
         viewModel { CreateSnippetFragmentViewModel() }
         viewModel { ProfileViewModel() }
-        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get()) }
+        viewModel { DevOptionsViewModel() }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
         single<BuildConfigProvider> { BuildConfigProviderImpl() }

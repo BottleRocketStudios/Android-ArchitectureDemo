@@ -35,7 +35,7 @@ data class NavDrawerState(
     val displayName: State<String>,
     val username: State<String>,
     val items: State<List<NavItemState>>,
-//    TODO - add dev options click listener
+    val devOptionsListener: () -> Unit,
 )
 
 // TODO - Possibly move this into LaunchPad Library
@@ -85,7 +85,7 @@ fun ColumnScope.NavDrawer(state: NavDrawerState) {
     OutlinedSurfaceButton(
         buttonText = stringResource(id = R.string.dev_options_button),
         forceCaps = true,
-        onClick  = {},
+        onClick  = state.devOptionsListener,
         // onClick = { navController.navigate(Routes.DevOptions) },
         modifier = Modifier
             .padding(
@@ -114,7 +114,8 @@ fun ProfileScreenPreview() {
                     avatarUrl = "https://placekitten.com/66/66".asMutableState(),
                     displayName = "Cool Cat".asMutableState(),
                     username = "Claws_N_Paws".asMutableState(),
-                    items = generateItemListPreview()
+                    items = generateItemListPreview(),
+                    devOptionsListener = {},
                 ))
             }
         ) {}

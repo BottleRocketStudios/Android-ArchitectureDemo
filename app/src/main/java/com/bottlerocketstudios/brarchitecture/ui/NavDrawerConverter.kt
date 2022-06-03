@@ -8,10 +8,12 @@ import com.bottlerocketstudios.compose.navdrawer.NavItemState
 
 @Composable
 fun MainActivityViewModel.toNavDrawerState(
-    items: State<List<NavItemState>>
+    items: State<List<NavItemState>>,
+    devOptionsListener: () -> Unit,
 ) = NavDrawerState(
     avatarUrl = avatarUrl.collectAsState(),
     displayName = displayName.collectAsState(),
     username = username.collectAsState(),
-    items = items
+    items = items,
+    devOptionsListener = devOptionsListener,
 )
