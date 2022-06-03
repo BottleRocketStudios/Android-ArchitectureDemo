@@ -30,7 +30,7 @@ object AppModule {
         viewModel { RepositoryFileFragmentViewModel() }
         viewModel { SnippetsFragmentViewModel() }
         viewModel { CreateSnippetFragmentViewModel() }
-        viewModel { ProfileViewModel(repo = get()) }
+        viewModel { ProfileViewModel() }
         viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get()) }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }

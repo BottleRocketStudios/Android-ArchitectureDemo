@@ -14,9 +14,6 @@ object Routes {
     const val CreateSnippet = "snippets/create"
     const val Profile = "profile"
 
-    // Example path with arguments; will remove after first real path with arguments is in place.
-    fun UserProfile(id: String) = "profile/{$id}"
-
     fun RepositoryBrowser(data: RepositoryBrowserData)  =
         "repository?repoName=${data.repoName}" +
             (data.folderHash?.let { hash ->

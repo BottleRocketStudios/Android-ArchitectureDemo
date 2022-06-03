@@ -7,20 +7,32 @@ import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositor
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
+import org.koin.core.component.inject
 
-class ProfileViewModel(val repo: BitbucketRepository) : BaseViewModel() {
+class ProfileViewModel : BaseViewModel() {
+    // DI
+    private val repo: BitbucketRepository by inject()
+
+    // UI
     val avatarUrl: Flow<String> = repo.user.map { it?.convertToUser()?.avatarUrl.orEmpty() }
     val displayName: Flow<String> = repo.user.map { it?.displayName.orEmpty() }
     val nickname: Flow<String> = repo.user.map { it?.nickname.orEmpty() }
 
+    // Events
+    val onLogout = MutableSharedFlow<Unit>()
+
+    // UI Callbacks
     fun onEditClicked() {
         externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri())))
     }
 
     fun onLogoutClicked() {
         repo.clear()
-        // navigationEvent.postValue(NavigationEvent.Action(R.id.action_global_to_authCodeFragment))
+        launchIO {
+            onLogout.emit(Unit)
+        }
     }
 
     companion object {

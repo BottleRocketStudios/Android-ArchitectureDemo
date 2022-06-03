@@ -6,7 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
@@ -18,6 +17,8 @@ import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.toState
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.toState
+import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
+import com.bottlerocketstudios.brarchitecture.ui.profile.toState
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
@@ -32,6 +33,7 @@ import com.bottlerocketstudios.brarchitecture.ui.util.navigateAsTopLevel
 import com.bottlerocketstudios.compose.auth.AuthCodeScreen
 import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
 import com.bottlerocketstudios.compose.home.HomeScreen
+import com.bottlerocketstudios.compose.profile.ProfileScreen
 import com.bottlerocketstudios.compose.repository.FileBrowserScreen
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
 import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
@@ -39,12 +41,6 @@ import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
 import com.google.accompanist.web.WebViewNavigator
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-
-fun NavOptionsBuilder.popToMainInclusive() {
-    popUpTo(Routes.Main) {
-        inclusive = true
-    }
-}
 
 private fun ComposeActivity.splashComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Splash) {
@@ -228,6 +224,19 @@ private fun ComposeActivity.createSnippetComposable(navGraphBuilder: NavGraphBui
     }
 }
 
+private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+    navGraphBuilder.composable(Routes.Profile) {
+        val vm: ProfileViewModel = getViewModel()
+        vm.ConnectBaseViewModel {
+            ProfileScreen(state = it.toState())
+        }
+
+        vm.onLogout.LaunchCollection {
+            navController.navigateAsTopLevel(Routes.AuthCode)
+        }
+    }
+}
+
 fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator: WebViewNavigator, activity: ComposeActivity) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
@@ -239,6 +248,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator:
             repositoryFileComposable(this)
             snippetsComposable(this, navController)
             createSnippetComposable(this, navController)
+            profileComposable(this, navController)
         }
     }
 }
