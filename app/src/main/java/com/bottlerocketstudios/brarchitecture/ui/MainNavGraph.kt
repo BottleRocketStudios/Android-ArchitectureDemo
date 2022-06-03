@@ -1,6 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -8,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.bottlerocketstudios.brarchitecture.R
+import com.bottlerocketstudios.brarchitecture.ui.ComposeActivity.Companion.EMPTY_TOOLBAR_TITLE
 import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.toState
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
@@ -19,6 +23,8 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserVie
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
+import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.toState
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import com.bottlerocketstudios.brarchitecture.ui.util.LaunchCollection
 import com.bottlerocketstudios.brarchitecture.ui.util.navigateAsTopLevel
@@ -26,8 +32,8 @@ import com.bottlerocketstudios.compose.auth.AuthCodeScreen
 import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
 import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.repository.FileBrowserScreen
-import com.bottlerocketstudios.compose.repository.RawFileData
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
+import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
 import com.google.accompanist.web.WebViewNavigator
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -178,6 +184,36 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
     }
 }
 
+private fun ComposeActivity.snippetsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+    navGraphBuilder.composable(Routes.Snippets) {
+        val vm: SnippetsFragmentViewModel = getViewModel()
+        vm.ConnectBaseViewModel {
+            SnippetsBrowserScreen(it.toState())
+        }
+
+        controls.title = EMPTY_TOOLBAR_TITLE
+        controls.topLevel = true
+
+        vm.createClicked.LaunchCollection {
+            navController.navigate(Routes.CreateSnippet)
+        }
+
+        DisposableEffect(lifecycle) {
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    vm.refreshSnippets()
+                }
+            }
+
+            lifecycle.addObserver(observer)
+            onDispose {
+                lifecycle.removeObserver(observer)
+            }
+        }
+    }
+}
+
+
 fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator: WebViewNavigator, activity: ComposeActivity) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
@@ -187,6 +223,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, webViewNavigator:
             homeComposable(this, navController)
             repositoryBrowserComposable(this, navController)
             repositoryFileComposable(this)
+            snippetsComposable(this, navController)
         }
     }
 }

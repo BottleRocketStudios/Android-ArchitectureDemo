@@ -11,6 +11,7 @@ object Routes {
     const val AuthCode = "authcode"
     const val DevOptions = "devoptions"
     const val Snippets = "snippets"
+    const val CreateSnippet = "snippets/create"
     const val Profile = "profile"
 
     // Example path with arguments; will remove after first real path with arguments is in place.

@@ -12,6 +12,8 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -21,29 +23,35 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.launchpad.compose.bold
+import kotlinx.coroutines.launch
 
 data class NavItemState(
     val icon: Int,
     val itemText: Int,
     val selected: Boolean,
-    val onClick: () -> Unit
+    val onClick: suspend () -> Unit
 )
 
 @Composable
 fun ColumnScope.NavDrawerItem(
     state: NavItemState
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .height(Dimens.minimum_touch_target)
             .fillMaxWidth()
-            .clickable { state.onClick() }
+            .clickable {
+                coroutineScope.launch {
+                    state.onClick()
+                }
+            }
             .padding(
                 start = Dimens.grid_4
             )
     ) {
-
         Icon(
             painter = painterResource(id = state.icon),
             contentDescription = null,

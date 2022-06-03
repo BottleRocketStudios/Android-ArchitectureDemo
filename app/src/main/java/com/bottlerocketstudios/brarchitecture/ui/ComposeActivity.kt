@@ -9,6 +9,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -79,7 +80,11 @@ class ComposeActivity : ComponentActivity() {
             // TODO - try this without derived state of to see if it updates,
             val navItems = remember(currentRoute) {
                 derivedStateOf {
-                    generateNavDrawerItems(navController = navController, currentRoute = currentRoute ?: "")
+                    generateNavDrawerItems(
+                        navController = navController,
+                        scaffoldState = scaffoldState,
+                        currentRoute = currentRoute ?: "",
+                    )
                 }
             }
 
@@ -141,13 +146,14 @@ class ComposeActivity : ComponentActivity() {
 
     // TODO - look into making objects under NavItem with predefined values.
     //  TODO - can we pass in NavController and route to simplify definitions??
-    private fun generateNavDrawerItems(navController: NavController, currentRoute: String) =
+    private fun generateNavDrawerItems(navController: NavController, scaffoldState: ScaffoldState, currentRoute: String) =
         listOf(
             NavItemState(
                 icon = R.drawable.ic_home,
                 itemText = R.string.home_title,
                 selected = currentRoute == Routes.Home
             ) {
+                scaffoldState.drawerState.close()
                 navController.navigate(Routes.Home)
             },
             NavItemState(
@@ -155,6 +161,7 @@ class ComposeActivity : ComponentActivity() {
                 itemText = R.string.snippets_title,
                 selected = currentRoute == Routes.Snippets
             ) {
+                scaffoldState.drawerState.close()
                 navController.navigate(Routes.Snippets)
             },
             NavItemState(
@@ -162,6 +169,7 @@ class ComposeActivity : ComponentActivity() {
                 itemText = R.string.profile_title,
                 selected = currentRoute == Routes.Profile
             ) {
+                scaffoldState.drawerState.close()
                 navController.navigate(Routes.Profile)
             }
         )

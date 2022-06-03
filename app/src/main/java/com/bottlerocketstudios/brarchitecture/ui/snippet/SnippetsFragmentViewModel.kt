@@ -1,18 +1,20 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 import java.time.Clock
 
 class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseViewModel() {
+    // DI
     private val clock by inject<Clock>()
+
+    // UI
     val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { it ->
         it.map {
             SnippetUiModel(
@@ -23,8 +25,13 @@ class SnippetsFragmentViewModel(private val repo: BitbucketRepository) : BaseVie
         }
     }
 
+    // Events
+    val createClicked = MutableSharedFlow<Unit>()
+
     fun onCreateClick() {
-        navigationEvent.postValue(NavigationEvent.Action(R.id.action_snippetsFragment_to_createSnippetFragment))
+        launchIO {
+            createClicked.emit(Unit)
+        }
     }
 
     fun refreshSnippets() {
