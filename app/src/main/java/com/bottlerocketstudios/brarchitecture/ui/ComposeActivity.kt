@@ -74,7 +74,6 @@ class ComposeActivity : ComponentActivity() {
             val coroutineScope = rememberCoroutineScope()
             val navController = rememberNavController()
             val scaffoldState = rememberScaffoldState()
-            val scope = rememberCoroutineScope()
             val navBackStackEntry = navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry.value?.destination?.route
             // TODO - try this without derived state of to see if it updates,
@@ -110,7 +109,7 @@ class ComposeActivity : ComponentActivity() {
                                 onNavClicked = {
                                     // If user is at top of navigation, toggle side drawer
                                     if (topLevel.value) {
-                                        scope.launch {
+                                        coroutineScope.launch {
                                             scaffoldState.drawerState.apply {
                                                 if (isClosed) open() else close()
                                             }

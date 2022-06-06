@@ -24,7 +24,7 @@ class RepositoryFileFragmentViewModel : BaseViewModel() {
                 is Status.Failure -> handleError(R.string.error_loading_file)
             }.exhaustive
 
-            this@RepositoryFileFragmentViewModel.path.set(path)
+            this@RepositoryFileFragmentViewModel.path.setValue(path)
         }
     }
 }

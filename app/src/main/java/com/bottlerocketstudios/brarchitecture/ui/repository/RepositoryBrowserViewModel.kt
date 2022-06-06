@@ -18,7 +18,7 @@ class RepositoryBrowserViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // State
-    private val srcFiles: StateFlow<List<RepoFile>> = MutableStateFlow(emptyList())
+    private val srcFiles = MutableStateFlow<List<RepoFile>>(emptyList())
     private var currentRepoName: String = ""
 
     // UI
@@ -45,7 +45,7 @@ class RepositoryBrowserViewModel : BaseViewModel() {
     // Load Logic
     fun getFiles(data: RepositoryBrowserData) {
         currentRepoName = data.repoName
-        path.set(data.folderPath ?: data.repoName)
+        path.setValue(data.folderPath ?: data.repoName)
         val selectedRepo = repo.repos.value.firstOrNull { it.name?.equals(data.repoName) ?: false }
         selectedRepo?.let {
             val slug = it.workspaceDto?.slug ?: ""
@@ -57,7 +57,7 @@ class RepositoryBrowserViewModel : BaseViewModel() {
                     repo.getSource(slug, name)
                 }
                 when (result) {
-                    is Status.Success -> srcFiles.set(result.data)
+                    is Status.Success -> srcFiles.value = result.data
                     is Status.Failure -> handleError(R.string.error_loading_repository)
                 }.exhaustive
             }

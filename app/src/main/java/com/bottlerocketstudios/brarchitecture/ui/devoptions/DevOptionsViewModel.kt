@@ -38,7 +38,7 @@ class DevOptionsViewModel : BaseViewModel() {
         val oldEnvironment = environmentRepository.selectedConfig
         Timber.v("[onEnvironmentChanged] newEnvironment=$newEnvironment, oldEnvironment=$oldEnvironment")
         if (newEnvironment != oldEnvironment) {
-            environmentSpinnerPosition.set(newEnvironmentIndex)
+            environmentSpinnerPosition.setValue(newEnvironmentIndex)
             environmentRepository.changeEnvironment(environmentRepository.environments[newEnvironmentIndex].environmentType)
             updateEnvironmentInfo()
             toaster.toast("!!! Restart required !!!")
@@ -58,6 +58,6 @@ class DevOptionsViewModel : BaseViewModel() {
     }
 
     private fun updateEnvironmentInfo() {
-        baseUrl.set(environmentRepository.selectedConfig.baseUrl)
+        baseUrl.setValue(environmentRepository.selectedConfig.baseUrl)
     }
 }

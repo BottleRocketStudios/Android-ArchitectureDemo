@@ -6,14 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationObserver
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationObserver
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -73,15 +70,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     }
 
     /**
-     * Use to send [NavigationEvent]s (from subclasses).
-     *
-     * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
-     */
-    // TODO - Remove this for Compose; as compose navigation is performed in the nav graph
-    @Deprecated("Moving internal app navigation out of view model and into nav graph")
-    val navigationEvent: LiveData<NavigationEvent> = LiveEvent<NavigationEvent>()
-
-    /**
      * Use to send [ExternalNavigationEvent]s (from subclasses).
      *
      * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
@@ -107,32 +95,21 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected suspend fun SharedFlow<Unit>.emit(value: Unit) =
         (this as? MutableSharedFlow<Unit>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
 
-    // FIXME - Since StateFlow is Covariant we can't use a template without upper bounds and still have build time type checks
-    /** Helper function to avoid needing downcast declarations for public MutableStateFlow */
-    // TODO This is not Type safe.
-    protected fun <T : Any?> StateFlow<T?>?.setNullable(value: T?) {
-        if (this is MutableStateFlow<T?>) {
-            this.value = value
-        } else {
-            Timber.w("[set] unable to setValue for $this")
-        }
-    }
-    /** Helper function to avoid needing downcast declarations for public MutableStateFlow. [value] only set when it is non-nullable */
-    // TODO This is not Type safe.
-    protected fun <T : Any> StateFlow<T>?.set(value: T?) {
-        if (this is MutableStateFlow<T> && value != null) {
-            this.value = value
-        } else {
-            Timber.w("[set] unable to set value for $this")
-        }
-    }
+    /** Helper functions to avoid needing downcast declarations for public MutableStateFlow */
+    protected fun <T : Number> StateFlow<T>.setValue(value: T): Unit =
+        (this as? MutableStateFlow<T>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
+    protected fun <T : CharSequence> StateFlow<T>.setValue(value: T): Unit =
+        (this as? MutableStateFlow<T>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
+    protected fun StateFlow<Boolean>.setValue(value: Boolean): Unit =
+        (this as? MutableStateFlow<Boolean>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
+    protected fun StateFlow<Unit>.setValue(value: Unit): Unit =
+        (this as? MutableStateFlow<Unit>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
 
     // Ties flow to viewModelScope to give StateFlow.
     fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Lazily, initialValue)
 
     /** Setup observations for both [navigationEvent] from [fragment] */
     fun observeNavigationEvents(fragment: Fragment) {
-        navigationEvent.observe(fragment.viewLifecycleOwner, NavigationObserver(fragment.findNavController()))
         externalNavigationEvent.observe(fragment.viewLifecycleOwner, ExternalNavigationObserver(fragment.requireActivity()))
     }
 }
