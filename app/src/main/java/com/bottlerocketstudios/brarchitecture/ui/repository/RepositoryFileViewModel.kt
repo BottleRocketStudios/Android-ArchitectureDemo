@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.component.inject
 
-class RepositoryFileFragmentViewModel : BaseViewModel() {
+class RepositoryFileViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
 
@@ -24,7 +24,7 @@ class RepositoryFileFragmentViewModel : BaseViewModel() {
                 is Status.Failure -> handleError(R.string.error_loading_file)
             }.exhaustive
 
-            this@RepositoryFileFragmentViewModel.path.setValue(path)
+            this@RepositoryFileViewModel.path.setValue(path)
         }
     }
 }

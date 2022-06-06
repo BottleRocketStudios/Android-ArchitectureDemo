@@ -12,9 +12,9 @@ import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -27,9 +27,9 @@ object AppModule {
         viewModel { AuthCodeViewModel() }
         viewModel { HomeViewModel() }
         viewModel { RepositoryBrowserViewModel() }
-        viewModel { RepositoryFileFragmentViewModel() }
-        viewModel { SnippetsFragmentViewModel() }
-        viewModel { CreateSnippetFragmentViewModel() }
+        viewModel { RepositoryFileViewModel() }
+        viewModel { SnippetsViewModel() }
+        viewModel { CreateSnippetViewModel() }
         viewModel { ProfileViewModel() }
         viewModel { DevOptionsViewModel() }
 

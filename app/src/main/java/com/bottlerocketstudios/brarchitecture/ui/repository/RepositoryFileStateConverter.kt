@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import com.bottlerocketstudios.compose.repository.FileBrowserScreenState
 
 @Composable
-fun RepositoryFileFragmentViewModel.toState() = FileBrowserScreenState(
+fun RepositoryFileViewModel.toState() = FileBrowserScreenState(
     path = path.collectAsState(),
     content = srcFile.collectAsState()
 )

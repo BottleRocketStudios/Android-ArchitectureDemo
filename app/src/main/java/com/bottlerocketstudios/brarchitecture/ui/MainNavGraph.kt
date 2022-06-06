@@ -22,10 +22,10 @@ import com.bottlerocketstudios.brarchitecture.ui.profile.toState
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
-import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.toState
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import com.bottlerocketstudios.brarchitecture.ui.util.LaunchCollection
@@ -137,7 +137,7 @@ private fun ComposeActivity.repositoryFileComposable(navGraphBuilder: NavGraphBu
             mimeType = backStackEntry.arguments?.getString("mimeType") ?: "",
         )
 
-        val viewModel: RepositoryFileFragmentViewModel = getViewModel()
+        val viewModel: RepositoryFileViewModel = getViewModel()
         viewModel.ConnectBaseViewModel {
             FileBrowserScreen(state = it.toState())
             activityViewModel.selectedRepo.LaunchCollection { repo ->
@@ -190,7 +190,7 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
 
 private fun ComposeActivity.snippetsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Snippets) {
-        val vm: SnippetsFragmentViewModel = getViewModel()
+        val vm: SnippetsViewModel = getViewModel()
         vm.ConnectBaseViewModel {
             SnippetsBrowserScreen(it.toState())
         }
@@ -219,7 +219,7 @@ private fun ComposeActivity.snippetsComposable(navGraphBuilder: NavGraphBuilder,
 
 private fun ComposeActivity.createSnippetComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.CreateSnippet) {
-        val vm: CreateSnippetFragmentViewModel = getViewModel()
+        val vm: CreateSnippetViewModel = getViewModel()
         vm.ConnectBaseViewModel {
             CreateSnippetScreen(state = it.toState())
         }

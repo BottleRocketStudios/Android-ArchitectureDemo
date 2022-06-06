@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import com.bottlerocketstudios.compose.snippets.CreateSnippetScreenState
 
 @Composable
-fun CreateSnippetFragmentViewModel.toState() = CreateSnippetScreenState(
+fun CreateSnippetViewModel.toState() = CreateSnippetScreenState(
     title = title.collectAsState(),
     filename = filename.collectAsState(),
     contents = contents.collectAsState(),

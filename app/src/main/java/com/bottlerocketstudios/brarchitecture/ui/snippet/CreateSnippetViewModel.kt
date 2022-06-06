@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import org.koin.core.component.inject
 
-class CreateSnippetFragmentViewModel : BaseViewModel() {
+class CreateSnippetViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
 

@@ -72,7 +72,7 @@ class ComposeActivity : ComponentActivity() {
                     generateNavDrawerItems(
                         navController = navController,
                         scaffoldState = scaffoldState,
-                        currentRoute = currentRoute ?: "",
+                        currentRoute = currentRoute.orEmpty(),
                     )
                 }
             }
