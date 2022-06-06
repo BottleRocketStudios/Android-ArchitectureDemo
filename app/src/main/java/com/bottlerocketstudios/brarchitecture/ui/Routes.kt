@@ -16,12 +16,8 @@ object Routes {
 
     fun RepositoryBrowser(data: RepositoryBrowserData)  =
         "repository?repoName=${data.repoName}" +
-            (data.folderHash?.let { hash ->
-                "&folderHash=$hash"
-            } ?: "") +
-            (data.folderPath?.let { path ->
-                "&folderPath=$path"
-            } ?: "")
+            if (data.folderHash.orEmpty().isNotEmpty()) "&folderHash=${data.folderHash}" else "" +
+            if (data.folderPath.orEmpty().isNotEmpty()) "&folderPath=${data.folderPath}" else ""
 
     fun RepositoryFile(data: RepositoryFileData) =
         "file?hash=${data.hash}&path=${data.path}" +
