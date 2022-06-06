@@ -39,7 +39,7 @@ fun AppBar(
         },
         navigationIcon = {
             IconButton(onClick = onNavClicked) {
-                Icon(navIcon, contentDescription = "")
+                Icon(navIcon, contentDescription = navIcon.name.split(".").firstOrNull())
             }
         },
     )
