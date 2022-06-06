@@ -85,7 +85,7 @@ fun ColumnScope.NavDrawer(state: NavDrawerState) {
     OutlinedSurfaceButton(
         buttonText = stringResource(id = R.string.dev_options_button),
         forceCaps = true,
-        onClick  = state.devOptionsListener,
+        onClick = state.devOptionsListener,
         // onClick = { navController.navigate(Routes.DevOptions) },
         modifier = Modifier
             .padding(
@@ -110,13 +110,15 @@ fun ProfileScreenPreview() {
             ),
             topBar = {},
             drawerContent = {
-                NavDrawer(state = NavDrawerState(
-                    avatarUrl = "https://placekitten.com/66/66".asMutableState(),
-                    displayName = "Cool Cat".asMutableState(),
-                    username = "Claws_N_Paws".asMutableState(),
-                    items = generateItemListPreview(),
-                    devOptionsListener = {},
-                ))
+                NavDrawer(
+                    state = NavDrawerState(
+                        avatarUrl = "https://placekitten.com/66/66".asMutableState(),
+                        displayName = "Cool Cat".asMutableState(),
+                        username = "Claws_N_Paws".asMutableState(),
+                        items = generateItemListPreview(),
+                        devOptionsListener = {},
+                    )
+                )
             }
         ) {}
     }

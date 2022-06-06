@@ -7,7 +7,7 @@ import com.bottlerocketstudios.compose.navdrawer.NavDrawerState
 import com.bottlerocketstudios.compose.navdrawer.NavItemState
 
 @Composable
-fun MainActivityViewModel.toNavDrawerState(
+fun ComposeActivityViewModel.toNavDrawerState(
     items: State<List<NavItemState>>,
     devOptionsListener: () -> Unit,
 ) = NavDrawerState(

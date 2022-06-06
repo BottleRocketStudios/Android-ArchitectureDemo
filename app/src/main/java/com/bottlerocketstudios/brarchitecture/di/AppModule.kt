@@ -4,7 +4,7 @@ import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImp
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImpl
-import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
+import com.bottlerocketstudios.brarchitecture.ui.ComposeActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManager
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
@@ -22,7 +22,7 @@ import org.koin.dsl.module
 /** General app configuration (repositories/viewmodels/etc) */
 object AppModule {
     val module = module {
-        viewModel { MainActivityViewModel() }
+        viewModel { ComposeActivityViewModel() }
         viewModel { SplashViewModel() }
         viewModel { AuthCodeViewModel() }
         viewModel { HomeViewModel() }

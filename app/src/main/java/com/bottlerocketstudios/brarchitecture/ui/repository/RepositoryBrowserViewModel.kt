@@ -69,11 +69,13 @@ class RepositoryBrowserViewModel : BaseViewModel() {
         srcFiles.value.firstOrNull { it.path == item.path }?.let { file ->
             launchIO {
                 if (item.isFolder) {
-                    directoryClickedEvent.emit(RepositoryBrowserData(
-                        repoName = currentRepoName,
-                        folderPath = file.path,
-                        folderHash = file.commit?.hash
-                    ))
+                    directoryClickedEvent.emit(
+                        RepositoryBrowserData(
+                            repoName = currentRepoName,
+                            folderPath = file.path,
+                            folderHash = file.commit?.hash
+                        )
+                    )
                 } else {
                     fileClickedEvent.emit(
                         RepositoryFileData(

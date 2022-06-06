@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
-class MainActivityViewModel : BaseViewModel() {
+class ComposeActivityViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
     private val buildConfigProvider: BuildConfigProvider by inject()

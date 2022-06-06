@@ -96,14 +96,18 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         (this as? MutableSharedFlow<Unit>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
 
     /** Helper functions to avoid needing downcast declarations for public MutableStateFlow */
-    protected fun <T : Number> StateFlow<T>.setValue(value: T): Unit =
-        (this as? MutableStateFlow<T>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
-    protected fun <T : CharSequence> StateFlow<T>.setValue(value: T): Unit =
-        (this as? MutableStateFlow<T>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
-    protected fun StateFlow<Boolean>.setValue(value: Boolean): Unit =
-        (this as? MutableStateFlow<Boolean>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
-    protected fun StateFlow<Unit>.setValue(value: Unit): Unit =
-        (this as? MutableStateFlow<Unit>)?.setValue(value) ?: run { Timber.w("[setValue] unable to set value for $this") }
+    protected fun <T : Number> StateFlow<T>.setValue(value: T) {
+        (this as? MutableStateFlow<T>)?.value = value
+    }
+    protected fun <T : CharSequence> StateFlow<T>.setValue(value: T) {
+        (this as? MutableStateFlow<T>)?.value = value
+    }
+    protected fun StateFlow<Boolean>.setValue(value: Boolean) {
+        (this as? MutableStateFlow<Boolean>)?.value = value
+    }
+    protected fun StateFlow<Unit>.setValue(value: Unit) {
+        (this as? MutableStateFlow<Unit>)?.value = value
+    }
 
     // Ties flow to viewModelScope to give StateFlow.
     fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Lazily, initialValue)

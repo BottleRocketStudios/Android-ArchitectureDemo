@@ -78,6 +78,7 @@ val devConfigurations: List<Configuration> = listOf(internalDebugImplementation,
 
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
+    implementation("androidx.navigation:navigation-runtime-ktx:2.4.2")
 
     // Koin - Dependency Injection
     koinDependencies()

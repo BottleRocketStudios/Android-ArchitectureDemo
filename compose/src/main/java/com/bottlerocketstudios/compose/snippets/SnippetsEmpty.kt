@@ -17,12 +17,12 @@ import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
 fun SnippetsEmptyLayout() {
-    Column (
+    Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-    ){
+    ) {
         Text(
             text = stringResource(R.string.no_snippets),
             color = ArchitectureDemoTheme.colors.tertiary,

@@ -111,11 +111,13 @@ private fun ComposeActivity.homeComposable(navGraphBuilder: NavGraphBuilder, nav
         controls.title = stringResource(id = R.string.home_title)
         controls.topLevel = true
 
-        viewModel.itemSelected.LaunchCollection{
+        viewModel.itemSelected.LaunchCollection {
             activityViewModel.selectedRepo.value = it.repo
-            navController.navigate(Routes.RepositoryBrowser(
-                RepositoryBrowserData(repoName = it.repo.name ?: "")
-            ))
+            navController.navigate(
+                Routes.RepositoryBrowser(
+                    RepositoryBrowserData(repoName = it.repo.name ?: "")
+                )
+            )
         }
     }
 }
