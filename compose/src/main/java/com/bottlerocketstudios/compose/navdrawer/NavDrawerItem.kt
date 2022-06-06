@@ -25,8 +25,8 @@ import com.bottlerocketstudios.launchpad.compose.bold
 import kotlinx.coroutines.launch
 
 data class NavItemState(
-    val icon: Int,
-    val itemText: Int,
+    @DrawableRes val icon: Int,
+    @StringRes val itemText: Int,
     val selected: Boolean,
     val onClick: suspend () -> Unit
 )
