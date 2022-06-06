@@ -122,7 +122,7 @@ private fun ComposeActivity.homeComposable(navGraphBuilder: NavGraphBuilder, nav
 
 private fun ComposeActivity.repositoryFileComposable(navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        "file?hash={hash}&path={path}&mimeType={mimeType}",
+        route = "file?hash={hash}&path={path}&mimeType={mimeType}",
         arguments = listOf(
             navArgument("hash") {},
             navArgument("path") {},
