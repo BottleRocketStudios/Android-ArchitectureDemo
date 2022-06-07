@@ -3,6 +3,8 @@ package com.bottlerocketstudios.compose.util
 import android.content.Context
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import com.bottlerocketstudios.brarchitecture.domain.models.DomainModel
 import java.io.Serializable
 
@@ -11,7 +13,9 @@ import java.io.Serializable
  *
  * Calling getString resolves to a String from any subtype.
  */
-sealed class StringIdHelper : DomainModel, Serializable {
+sealed class StringIdHelper : DomainModel, Serializable, KoinComponent {
+    val context: Context by inject()
+
     data class Id(@StringRes val idRes: Int) : StringIdHelper()
 
     data class Raw(val rawString: String) : StringIdHelper()
@@ -20,22 +24,14 @@ sealed class StringIdHelper : DomainModel, Serializable {
 
     data class Plural(@PluralsRes val idRes: Int, val quantity: Int, val formatArgs: List<Any>) : StringIdHelper()
 
-    fun getString(context: Context): String {
+    fun getString(): String {
         return when (this) {
-            is Id -> {
-                context.getString(idRes)
-            }
-            is Raw -> {
-                rawString
-            }
+            is Id -> context.getString(idRes)
+            is Raw -> rawString
             is Format -> {
                 val mappedArgs = formatArgs.map {
                     // Allow for the use of string helpers within format args by unwrapping them here
-                    if (it is StringIdHelper) {
-                        it.getString(context)
-                    } else {
-                        it
-                    }
+                    if (it is StringIdHelper) it.getString() else it
                 }
                 @Suppress("SpreadOperator")
                 context.getString(idRes, *mappedArgs.toTypedArray())
@@ -43,11 +39,7 @@ sealed class StringIdHelper : DomainModel, Serializable {
             is Plural -> {
                 val mappedArgs = formatArgs.map {
                     // Allow for the use of string helpers within format args by unwrapping them here
-                    if (it is StringIdHelper) {
-                        it.getString(context)
-                    } else {
-                        it
-                    }
+                    if (it is StringIdHelper) it.getString() else it
                 }
                 @Suppress("SpreadOperator")
                 context.resources.getQuantityString(idRes, quantity, *mappedArgs.toTypedArray())

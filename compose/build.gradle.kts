@@ -42,10 +42,10 @@ android {
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
         create("debugMini") {
             initWith(getByName("debug"))
-            setMatchingFallbacks("debug")
+            matchingFallbacks += listOf("debug")
         }
     }
-    flavorDimensions("environment")
+    flavorDimensions += listOf("environment")
     // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
     productFlavors {
         create("internal") {
@@ -78,9 +78,16 @@ val devConfigurations: List<Configuration> = listOf(internalDebugImplementation,
 
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
+    implementation("androidx.navigation:navigation-runtime-ktx:2.4.2")
+
+    // Koin - Dependency Injection
+    koinDependencies()
 
     // LaunchPad - Starting Assets
     launchPadDependencies()
+
+    // Accompanist
+    accompanistDependencies()
 
     // AndroidX
     composeDependencies()

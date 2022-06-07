@@ -7,18 +7,24 @@ import com.bottlerocketstudios.brarchitecture.data.BuildConfig.BITBUCKET_KEY
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import org.koin.core.component.inject
 
-class AuthCodeViewModel(
-    private val repo: BitbucketRepository,
-    buildConfigProvider: BuildConfigProvider,
-) : BaseViewModel() {
+class AuthCodeViewModel : BaseViewModel() {
+    // DI
+    private val repo: BitbucketRepository by inject()
+    private val buildConfigProvider: BuildConfigProvider by inject()
 
     // UI
     val requestUrl = MutableStateFlow("")
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+
+    // Events
+    val devOptionsEvent: SharedFlow<Unit> = MutableSharedFlow()
+    val homeEvent: SharedFlow<Unit> = MutableSharedFlow()
 
     // /////////////////////////////////////////////////////////////////////////
     // Callbacks
@@ -28,19 +34,18 @@ class AuthCodeViewModel(
     }
 
     fun onDevOptionsClicked() {
-        navigationEvent.postValue(NavigationEvent.Action(R.id.action_authCodeFragment_to_devOptionsFragment))
+        launchIO { devOptionsEvent.emit(Unit) }
     }
 
-    fun onSignUpClicked() {
+    fun onSignUpClicked() =
         externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://id.atlassian.com/signup?application=bitbucket".toUri())))
-    }
 
     fun onAuthCode(authCode: String) {
         requestUrl.value = ""
 
         launchIO {
             if (repo.authenticate(authCode)) {
-                navigationEvent.postValue(NavigationEvent.Action(R.id.action_authCodeFragment_to_homeFragment))
+                homeEvent.emit(Unit)
             } else {
                 handleError(R.string.login_error)
             }

@@ -20,12 +20,14 @@ fun PrimaryButton(
     buttonText: String,
     forceCaps: Boolean = false,
     onClick: () -> Unit,
+    enabled: Boolean = true
 ) {
     Button(
         onClick = { onClick() },
         modifier = modifier,
         shape = RoundedCornerShape(Dimens.grid_1),
-        contentPadding = PaddingValues(Dimens.grid_1_5)
+        contentPadding = PaddingValues(Dimens.grid_1_5),
+        enabled = enabled,
     ) {
         Text(
             text = if (forceCaps) buttonText.uppercase() else buttonText,
@@ -40,6 +42,21 @@ private fun PreviewPrimaryButton() {
         PrimaryButton(
             buttonText = "Hello World",
             onClick = { },
+            modifier = Modifier
+                .padding(Dimens.grid_1)
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewPrimaryButtonDisabled() {
+    ArchitectureDemoTheme {
+        PrimaryButton(
+            buttonText = "Hello World",
+            onClick = { },
+            enabled = false,
             modifier = Modifier
                 .padding(Dimens.grid_1)
                 .fillMaxWidth()

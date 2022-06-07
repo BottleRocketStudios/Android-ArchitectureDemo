@@ -17,12 +17,12 @@ import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
 fun HomeEmptyLayout() {
-    Column (
+    Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-    ){
+    ) {
         Text(
             text = stringResource(R.string.no_repositories),
             color = sea_foam,

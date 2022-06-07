@@ -7,28 +7,48 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 import java.time.Clock
 
-class HomeViewModel(repo: BitbucketRepository) : BaseViewModel() {
+class HomeViewModel : BaseViewModel() {
+    // DI
+    private val repo: BitbucketRepository by inject()
     private val clock by inject<Clock>()
+
+    // Setup
     val user = repo.user
     val repos = repo.repos
-    val userRepositoryState: Flow<List<UserRepositoryUiModel>> = repos.map {
-        it.map {
-            UserRepositoryUiModel(
-                repo = it.convertToGitRepository(),
-                formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock = clock)
-            )
-        }
-    }
 
+    // UI
+    val userRepositoryState: Flow<List<UserRepositoryUiModel>> =
+        repos.map {
+            it.map {
+                val repo = it.convertToGitRepository()
+                UserRepositoryUiModel(
+                    repo = repo,
+                    formattedLastUpdatedTime = repo.updated.formattedUpdateTime(clock)
+                )
+            }
+        }
+
+    // Events
+    val itemSelected = MutableSharedFlow<UserRepositoryUiModel>()
+
+    // Init logic
     init {
         viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshUser()
             repo.refreshMyRepos()
+        }
+    }
+
+    // UI Callbacks
+    fun selectItem(userRepositoryUiModel: UserRepositoryUiModel) {
+        launchIO {
+            itemSelected.emit(userRepositoryUiModel)
         }
     }
 }

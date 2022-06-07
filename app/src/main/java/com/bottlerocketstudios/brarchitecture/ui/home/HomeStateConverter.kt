@@ -6,5 +6,6 @@ import com.bottlerocketstudios.compose.home.HomeScreenState
 
 @Composable
 fun HomeViewModel.toState() = HomeScreenState(
-    repositories = userRepositoryState.collectAsState(emptyList())
+    repositories = userRepositoryState.collectAsState(emptyList()),
+    itemSelected = ::selectItem
 )

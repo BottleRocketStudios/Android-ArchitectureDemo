@@ -30,8 +30,7 @@ abstract class BaseFragment<FRAGMENT_VIEW_MODEL : BaseViewModel> : Fragment() {
     }
 
     /**
-     * Observes [BaseViewModel.navigationEvent] with [NavigationObserver][com.bottlerocketstudios.brarchitecture.navigation.NavigationObserver] and
-     * [BaseViewModel.externalNavigationEvent] with [ExternalNavigationObserver][com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationObserver]
+     * Observes [BaseViewModel.externalNavigationEvent] with [ExternalNavigationObserver][com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationObserver]
      * to prevent all subclasses from writing the same line of code.
      *
      * Called in [onViewCreated]

@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreenState
 
 @Composable
-fun SnippetsFragmentViewModel.toState() = SnippetsBrowserScreenState(
+fun SnippetsViewModel.toState() = SnippetsBrowserScreenState(
     snippets = snippets.collectAsState(emptyList()),
     onCreateSnippetClicked = ::onCreateClick
 )

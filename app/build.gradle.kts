@@ -87,13 +87,13 @@ android {
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
         create("debugMini") {
             initWith(getByName("debug"))
-            setMatchingFallbacks("debug")
+            matchingFallbacks += listOf("debug")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-    flavorDimensions("environment")
+    flavorDimensions += listOf("environment")
     // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
     productFlavors {
         create("internal") {
@@ -146,6 +146,7 @@ dependencies {
 
     // AndroidX
     composeDependencies()
+    accompanistDependencies()
     appCompatDependencies()
     activityDependencies()
     fragmentDependencies()
@@ -161,9 +162,6 @@ dependencies {
 
     // UI
     groupieDependencies()
-
-    //TODO Remove Glide after Compose conversion
-    glideDependencies()
 
     // Utility
     brCustomAndroidLintRules()

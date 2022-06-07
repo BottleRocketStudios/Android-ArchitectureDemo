@@ -6,14 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationObserver
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationEvent
-import com.bottlerocketstudios.brarchitecture.navigation.NavigationObserver
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -73,13 +70,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     }
 
     /**
-     * Use to send [NavigationEvent]s (from subclasses).
-     *
-     * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
-     */
-    val navigationEvent: LiveData<NavigationEvent> = LiveEvent<NavigationEvent>()
-
-    /**
      * Use to send [ExternalNavigationEvent]s (from subclasses).
      *
      * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
@@ -92,39 +82,31 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     /** Helper function to avoid needing downcast declarations for public MutableLiveData or LiveEvent */
     protected fun <T> LiveData<T>.postValue(value: T?) = (this as? MutableLiveData<T>)?.postValue(value) ?: run { Timber.w("[postValue] unable to postValue for $this") }
 
-    /** Helper function to avoid needing downcast declarations for public MutableStateFlow */
-    protected fun <T : Any?> StateFlow<T?>?.setNullable(value: T?) {
-        if (this is MutableStateFlow<T?>) {
-            this.value = value
-        } else {
-            Timber.w("[set] unable to setValue for $this")
-        }
-    }
-    /** Helper function to avoid needing downcast declarations for public MutableStateFlow. [value] only set when it is non-nullable */
-    //TODO This is not Type safe.
-    protected fun <T : Any> StateFlow<T>?.set(value: T?) {
-        if (this is MutableStateFlow<T> && value != null) {
-            this.value = value
-        } else {
-            Timber.w("[set] unable to set value for $this")
-        }
-    }
+    /**
+     *  Helper functions to get access down casted mutable SharedFlows
+     *    due to SharedFlow being covariant we must use templates with upper bounds to show type errors at build instead of run time.
+     */
+    protected suspend fun <T : Number?> SharedFlow<T>.emit(value: T) =
+        (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+    protected suspend fun <T : CharSequence> SharedFlow<T>.emit(value: T) =
+        (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+    protected suspend fun SharedFlow<Boolean>.emit(value: Boolean) =
+        (this as? MutableSharedFlow<Boolean>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+    protected suspend fun SharedFlow<Unit>.emit(value: Unit) =
+        (this as? MutableSharedFlow<Unit>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
 
-    /** Helper function to avoid needing downcast declarations for public MutableSharedFlow */
-    protected suspend fun <T : Any?> SharedFlow<T?>?.emitNullable(value: T?) {
-        if (this is MutableSharedFlow<T?>) {
-            emit(value)
-        } else {
-            Timber.w("[set] unable to emit value for $this")
-        }
+    /** Helper functions to avoid needing downcast declarations for public MutableStateFlow */
+    protected fun <T : Number> StateFlow<T>.setValue(value: T) {
+        (this as? MutableStateFlow<T>)?.value = value
     }
-    /** Helper function to avoid needing downcast declarations for public MutableSharedFlow. [value] only emitted when it is non-nullable */
-    protected suspend fun <T : Any> SharedFlow<T>?.emitValue(value: T?) {
-        if (this is MutableSharedFlow<T> && value != null) {
-            emit(value)
-        } else {
-            Timber.w("[emitValue] unable to emit value for $this")
-        }
+    protected fun <T : CharSequence> StateFlow<T>.setValue(value: T) {
+        (this as? MutableStateFlow<T>)?.value = value
+    }
+    protected fun StateFlow<Boolean>.setValue(value: Boolean) {
+        (this as? MutableStateFlow<Boolean>)?.value = value
+    }
+    protected fun StateFlow<Unit>.setValue(value: Unit) {
+        (this as? MutableStateFlow<Unit>)?.value = value
     }
 
     // Ties flow to viewModelScope to give StateFlow.
@@ -132,7 +114,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     /** Setup observations for both [navigationEvent] from [fragment] */
     fun observeNavigationEvents(fragment: Fragment) {
-        navigationEvent.observe(fragment.viewLifecycleOwner, NavigationObserver(fragment.findNavController()))
         externalNavigationEvent.observe(fragment.viewLifecycleOwner, ExternalNavigationObserver(fragment.requireActivity()))
     }
 }
