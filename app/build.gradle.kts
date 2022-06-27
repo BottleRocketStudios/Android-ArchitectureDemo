@@ -144,24 +144,23 @@ dependencies {
     kotlinDependencies()
     coroutineDependencies()
 
+    // Koin DI
+    koinDependencies()
+
     // AndroidX
     composeDependencies()
     accompanistDependencies()
     appCompatDependencies()
     activityDependencies()
-    fragmentDependencies()
     androidxStartupDependencies()
-    constraintLayoutDependencies()
     materialDependencies()
     lifecycleDependencies()
     navigationDependencies()
 
-    koinDependencies()
-
     coreLibraryDesugaringDependencies()
 
     // UI
-    groupieDependencies()
+    // groupieDependencies()
 
     // Utility
     brCustomAndroidLintRules()
