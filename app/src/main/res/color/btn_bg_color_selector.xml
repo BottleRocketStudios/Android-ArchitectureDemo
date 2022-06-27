@@ -1,5 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="?attr/colorPrimary" android:state_enabled="true"/>
-    <!-- Increasing opacity from material default value of 0.12 (from mtrl_btn_bg_color_selector) -->
-    <item android:alpha="0.25" android:color="?attr/colorOnSurface"/>
-</selector>

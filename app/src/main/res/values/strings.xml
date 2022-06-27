@@ -5,55 +5,19 @@
     <string name="home_title">Home</string>
     <string name="profile_title">Profile</string>
     <string name="dev_options_title">@string/dev_options_button</string>
-
-    <!-- Splash -->
-    <string name="splash_image_content_description">Bottle Rocket Architecture Demo</string>
-
-    <!-- Login -->
-    <string name="login_id_hint">Username</string>
-    <string name="login_id_accessibility">Login ID</string>
-    <string name="login_password_hint">Password</string>
-    <string name="login_password_accessibility">Password</string>
-    <string name="login_forgot">Forgot ID or Password?</string>
-    <string name="login_button">Login</string>
-    <string name="signup_button">Sign Up</string>
     <string name="login_error">Login Error</string>
 
-    <!-- User Profile -->
-    <string name="edit">edit</string>
-    <string name="logout">Logout</string>
-    <string name="user_profile_image_accessibility">User profile image</string>
-
-    <!-- Home -->
-    <string name="home_repositories">Repositories</string>
-    <plurals name="folder_items_plural">
-        <item quantity="one">%1$d item</item>
-        <item quantity="other">%1$d items</item>
-    </plurals>
-    
     <!-- Snippets -->
     <string name="snippets_title">Snippets</string>
-    <string name="new_snippet">New Snippet</string>
-    <string name="snippet_title">Title</string>
-    <string name="snippet_filename">Filename</string>
-    <string name="snippet_contents">Contents</string>
-    <string name="create_snippets_title">New Snippet</string>
-    <string name="snippet_private">Private</string>
-    <string name="create_button">Create</string>
-    <string name="snippet_creation_failed">Snippet Creation Failed</string>
 
     <!-- Repository screen -->
     <string name="error_loading_repository">Error loading repository</string>
-
-    <!-- Repository Folder screen -->
-    <string name="error_loading_folder">Error loading folder</string>
 
     <!-- Repository File screen -->
     <string name="error_loading_file" tools:ignore="ExtraTranslation">Error loading file</string>
 
     <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>
-    <string name="empty_label" />
 
     <!-- Values added to exercise unit tests -->
     <string name="sample_format">Sample %1$s</string>
