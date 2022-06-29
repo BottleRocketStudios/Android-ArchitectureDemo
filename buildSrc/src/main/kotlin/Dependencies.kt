@@ -12,8 +12,6 @@ import java.util.Locale
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
 private const val KOTLIN_VERSION = "1.6.10"
 private const val KOTLIN_COROUTINES_VERSION = "1.6.0"
-private const val NAVIGATION_VERSION = "2.3.5"
-private const val FRAGMENT_VERSION = "1.4.1"
 
 /**
  * Provides the source of truth for version/configuration information to any gradle build file (project and app module build.gradle.kts)
@@ -63,8 +61,6 @@ object Config {
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
-
-        const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     }
 
     /**
@@ -78,7 +74,6 @@ object Config {
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
         const val DETEKT = "io.gitlab.arturbosch.detekt"
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
-        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs" // Note: not using safeargs.kotlin to prevent compile time failure: https://stackoverflow.com/a/68605639/201939
         const val PARCELIZE = "kotlin-parcelize"
         const val KSP = "com.google.devtools.ksp"
         object Kotlin {
@@ -133,8 +128,6 @@ private object Libraries {
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
     private const val LIFECYCLE_VERSION = "2.4.0"
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
-    const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
-    const val LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:$LIFECYCLE_VERSION"
     const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:$LIFECYCLE_VERSION"
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
@@ -146,11 +139,7 @@ private object Libraries {
     private const val ACTIVITY_VERSION = "1.4.0"
 
     // https://developer.android.com/jetpack/androidx/releases/activity
-    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:$ACTIVITY_VERSION"
     const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$ACTIVITY_VERSION"
-
-    // https://developer.android.com/jetpack/androidx/releases/fragment
-    const val FRAGMENT_KTX = "androidx.fragment:fragment-ktx:$FRAGMENT_VERSION"
 
     // Compose
     // Compose-Kotlin version compatibility matrix: https://developer.android.com/jetpack/androidx/releases/compose-kotlin
@@ -195,13 +184,9 @@ private object Libraries {
     // UI Tests
     const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
 
-    // https://developer.android.com/jetpack/androidx/releases/constraintlayout
-    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.3"
 
     // Navigation
     // https://developer.android.com/jetpack/androidx/releases/navigation
-    const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
-    const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
     const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:2.4.0-rc01"
 
     // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
@@ -259,18 +244,6 @@ private object Libraries {
     // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the kapt `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
     const val MOSHI = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
-
-    //// UI
-    // NOTE: groupie-databinding is deprecated. groupie-viewbinding is the replacement and should be used with both viewbinding and databinding. See https://github.com/lisawray/groupie#note
-    // https://github.com/lisawray/groupie/releases
-    private const val GROUPIE_VERSION = "2.10.0"
-    const val GROUPIE = "com.github.lisawray.groupie:groupie:$GROUPIE_VERSION"
-    const val GROUPIE_VIEWBINDING = "com.github.lisawray.groupie:groupie-viewbinding:$GROUPIE_VERSION"
-
-    // Glide
-    // https://github.com/bumptech/glide/releases
-    private const val GLIDE_VERSION = "4.13.0"
-    const val GLIDE = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
     //// Utility
     // https://github.com/BottleRocketStudios/Android-CustomLintRules/releases
@@ -341,7 +314,6 @@ private object TestLibraries {
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
     const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.3"
     const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
-    const val ANDROIDX_FRAGMENT_TEST = "androidx.fragment:fragment-testing:$FRAGMENT_VERSION"
 
     //// Kotlinx Coroutine - Testing
     // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
@@ -388,7 +360,6 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_UI)
     implementation(Libraries.COMPOSE_UI_TOOLING)
     implementation(Libraries.COMPOSE_FOUNDATION)
-
     implementation(Libraries.COMPOSE_ANIMATION)
     implementation(Libraries.COMPOSE_MATERIAL)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
@@ -412,29 +383,21 @@ fun DependencyHandler.coilDependencies() {
 fun DependencyHandler.appCompatDependencies() {
     implementation(Libraries.APP_COMPAT)
 }
+
 fun DependencyHandler.activityDependencies() {
-    implementation(Libraries.ACTIVITY_KTX)
     implementation(Libraries.COMPOSE_ACTIVITY)
 }
-fun DependencyHandler.fragmentDependencies() {
-    implementation(Libraries.FRAGMENT_KTX)
-}
+
 fun DependencyHandler.androidxStartupDependencies() {
     implementation(Libraries.STARTUP)
-}
-fun DependencyHandler.constraintLayoutDependencies() {
-    implementation(Libraries.CONSTRAINT_LAYOUT)
 }
 
 fun DependencyHandler.lifecycleDependencies() {
     implementation(Libraries.LIFECYCLE_LIVEDATA_KTX)
-    implementation(Libraries.LIFECYCLE_VIEWMODEL_KTX)
-    implementation(Libraries.LIFECYCLE_COMMON_JAVA8)
     implementation(Libraries.LIFECYCLE_COMPOSE)
 }
+
 fun DependencyHandler.navigationDependencies() {
-    implementation(Libraries.NAVIGATION_FRAGMENT_KTX)
-    implementation(Libraries.NAVIGATION_UI_KTX)
     implementation(Libraries.NAVIGATION_COMPOSE)
 }
 
@@ -449,15 +412,6 @@ fun DependencyHandler.coreKtxDependencies() {
 
 fun DependencyHandler.securityCryptoDependencies() {
     implementation(Libraries.SECURITY_CRYPTO)
-}
-
-fun DependencyHandler.groupieDependencies() {
-    implementation(Libraries.GROUPIE)
-    implementation(Libraries.GROUPIE_VIEWBINDING)
-}
-
-fun DependencyHandler.glideDependencies() {
-    implementation(Libraries.GLIDE)
 }
 
 fun DependencyHandler.timberDependencies() {
@@ -521,10 +475,6 @@ fun DependencyHandler.androidxCoreDependencies() {
 fun DependencyHandler.extJunitRunnerDependencies() {
     androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER)
     androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER_KTX)
-}
-
-fun DependencyHandler.fragmentTestingDependencies() {
-    androidTestImplementation(TestLibraries.ANDROIDX_FRAGMENT_TEST)
 }
 
 fun DependencyHandler.kotlinxCoroutineTestingDependencies() {

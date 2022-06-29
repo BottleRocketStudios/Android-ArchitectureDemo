@@ -7,7 +7,6 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
-    id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
 extra.set("jacocoCoverageThreshold", 0.20.toBigDecimal()) // module specific code coverage verification threshold
@@ -144,24 +143,20 @@ dependencies {
     kotlinDependencies()
     coroutineDependencies()
 
+    // Koin DI
+    koinDependencies()
+
     // AndroidX
     composeDependencies()
     accompanistDependencies()
     appCompatDependencies()
     activityDependencies()
-    fragmentDependencies()
     androidxStartupDependencies()
-    constraintLayoutDependencies()
     materialDependencies()
     lifecycleDependencies()
     navigationDependencies()
 
-    koinDependencies()
-
     coreLibraryDesugaringDependencies()
-
-    // UI
-    groupieDependencies()
 
     // Utility
     brCustomAndroidLintRules()
@@ -181,5 +176,4 @@ dependencies {
     espressoDependencies()
     extJunitRunnerDependencies()
     androidxCoreDependencies()
-    fragmentTestingDependencies()
 }

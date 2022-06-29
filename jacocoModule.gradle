@@ -101,7 +101,6 @@ project.afterEvaluate {
                     '**/Manifest*.*',
                     '**/*Application.*', // filter custom Application class
                     '**/*Activity.*', // filter Activities
-                    '**/*Fragment.*', // filter Fragments
                     '**/*BindingAdapter*.*', // filter all BindingAdapter classes
                     '**/*StartupInitializer*.*', // filter all StartupInitializer classes
                     '**/*BuildConfigProvider*.*', // filter BuildConfigProvider class

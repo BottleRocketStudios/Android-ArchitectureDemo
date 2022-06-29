@@ -53,7 +53,7 @@ The project is using the Gradle Versions plugin to do a lot of heavy lifting her
 
 #### To Do List
 * Android 12 Splash screen support (using androidx core-splashscreen lib at https://developer.android.com/jetpack/androidx/releases/core)
-* Base/custom/generic dialogfragment support with:
+* Base/custom/generic dialog support with:
     * title (visible/gone) - res id or string (see StringIdHelper below)
     * body - res id or string (see StringIdHelper below)
     * positive CTA text/click callback

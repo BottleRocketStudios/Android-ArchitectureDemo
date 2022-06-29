@@ -188,7 +188,6 @@ Currently the app is broken into two modules: `app` and `data`
 
 #### What should be in it
 * Activity
-* Fragment
 * ViewModels
 * Android resources such as strings/layouts/nav_graphs/drawables/colors/styles/themes/etc
 * DI UI Modules
