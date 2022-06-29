@@ -5,6 +5,8 @@ plugins {
     id(Config.ApplyPlugins.PARCELIZE)
 }
 
+apply(from = "../jacocoModule.gradle")
+
 android {
     compileSdk = Config.AndroidSdkVersions.COMPILE_SDK
     buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
