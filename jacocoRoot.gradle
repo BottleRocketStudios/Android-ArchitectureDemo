@@ -60,9 +60,9 @@ project.afterEvaluate {
                 println("[jacocoRoot.gradle] sourceName=${sourceName}")
                 println("[jacocoRoot.gradle] rootTaskName '${rootTaskName}'")
                 println("[jacocoRoot.gradle] testTaskName '${testTaskName}'")
-                println("[jacocoRoot.gradle] appModuleTestTaskName '${a_jappModuleTestTaskName}'")
+                println("[jacocoRoot.gradle] appModuleTestTaskName '${appModuleTestTaskName}'")
                 println("[jacocoRoot.gradle] dataModuleTestTaskName '${dataModuleTestTaskName}'")
-                println("[jacocoRoot.gradle] Creating jacoco task named '${taskName}'")
+                println("[jacocoRoot.gradle] Creating jacoco task named '${rootTaskName}'")
             }
 
             task "${rootTaskName}"(type: JacocoReport, dependsOn: ["${appModuleTestTaskName}", "${dataModuleTestTaskName}"]) {
