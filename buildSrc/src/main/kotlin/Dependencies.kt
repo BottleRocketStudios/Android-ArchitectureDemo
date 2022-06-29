@@ -44,7 +44,9 @@ object Config {
     // Release info: https://github.com/detekt/detekt/releases
     const val DETEKT_VERSION = "1.19.0"
     // https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
-    // https://github.com/google/ksp/blob/main/docs/quickstart.md
+    // Supported libs: https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
+    // https://kotlinlang.org/docs/ksp-overview.html
+    // https://kotlinlang.org/docs/ksp-quickstart.html
     // https://github.com/google/ksp/releases
     // TODO: First part of version should match version of kotlin - see https://github.com/google/ksp/blob/main/docs/faq.md
     const val KSP_VERSION = "1.6.10-1.0.2"
@@ -78,8 +80,6 @@ object Config {
         const val KSP = "com.google.devtools.ksp"
         object Kotlin {
             const val ANDROID = "android"
-            // Android DataBinding still requires kapt and will not migrate to use ksp: https://twitter.com/yigitboyar/status/1447408905240264704
-            const val KAPT = "kapt"
         }
     }
 
@@ -241,7 +241,7 @@ private object Libraries {
     // https://github.com/square/moshi/releases
     private const val MOSHI_VERSION = "1.13.0"
 
-    // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the kapt `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
+    // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the ksp `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
     const val MOSHI = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
 

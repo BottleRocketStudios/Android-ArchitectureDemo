@@ -4,7 +4,6 @@ import com.android.build.gradle.api.BaseVariantOutput
 plugins {
     id(Config.ApplyPlugins.ANDROID_APPLICATION)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    kotlin(Config.ApplyPlugins.Kotlin.KAPT)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
 }
