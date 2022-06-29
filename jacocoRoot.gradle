@@ -53,6 +53,7 @@ project.afterEvaluate {
             def testTaskName = "test${sourceName.capitalize()}UnitTestCoverage"
             def appModuleTestTaskName = "app:${testTaskName}"
             def dataModuleTestTaskName = "data:${testTaskName}"
+            def composeModuleTestTaskName = "compose:${testTaskName}"
 
             if (verboseLogging) {
                 println("[jacocoRoot.gradle] productFlavorName=${productFlavorName}")
@@ -62,26 +63,30 @@ project.afterEvaluate {
                 println("[jacocoRoot.gradle] testTaskName '${testTaskName}'")
                 println("[jacocoRoot.gradle] appModuleTestTaskName '${appModuleTestTaskName}'")
                 println("[jacocoRoot.gradle] dataModuleTestTaskName '${dataModuleTestTaskName}'")
+                println("[jacocoRoot.gradle] composeModuleTestTaskName '${composeModuleTestTaskName}'")
                 println("[jacocoRoot.gradle] Creating jacoco task named '${rootTaskName}'")
             }
 
-            task "${rootTaskName}"(type: JacocoReport, dependsOn: ["${appModuleTestTaskName}", "${dataModuleTestTaskName}"]) {
+            task "${rootTaskName}"(type: JacocoReport, dependsOn: ["${appModuleTestTaskName}", "${dataModuleTestTaskName}", "${composeModuleTestTaskName}"]) {
                 group = "Reporting"
-                description = "Generate comprehensive project Jacoco coverage report based on app/data modules"
+                description = "Generate comprehensive project Jacoco coverage report based on app/data/compose modules"
 
                 sourceDirectories.from = (files([
                         tasks.getByPath("${appModuleTestTaskName}").sourceDirectories,
-                        tasks.getByPath("${dataModuleTestTaskName}").sourceDirectories
+                        tasks.getByPath("${dataModuleTestTaskName}").sourceDirectories,
+                        tasks.getByPath("${composeModuleTestTaskName}").sourceDirectories
                 ]))
 
                 classDirectories.from = (files([
                         tasks.getByPath("${appModuleTestTaskName}").classDirectories,
-                        tasks.getByPath("${dataModuleTestTaskName}").classDirectories
+                        tasks.getByPath("${dataModuleTestTaskName}").classDirectories,
+                        tasks.getByPath("${composeModuleTestTaskName}").classDirectories
                 ]))
 
                 executionData.from = (files([
                         tasks.getByPath("${appModuleTestTaskName}").executionData,
-                        tasks.getByPath("${dataModuleTestTaskName}").executionData
+                        tasks.getByPath("${dataModuleTestTaskName}").executionData,
+                        tasks.getByPath("${composeModuleTestTaskName}").executionData
                 ]))
                 reports {
                     xml.required.set(true)

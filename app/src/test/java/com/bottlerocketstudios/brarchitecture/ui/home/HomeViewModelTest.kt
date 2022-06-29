@@ -28,7 +28,7 @@ class HomeViewModelTest : BaseTest() {
     val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val TEST_USER_NAME = "testuser"
     private val dispatcherProvider = TestDispatcherProvider()
-    val repo: BitbucketRepository = mock {
+    val bitbucketRepository: BitbucketRepository = mock {
         on { user }.then { _user }
         on { repos }.then { _repos }
         onBlocking { refreshUser() }.then {
@@ -45,14 +45,16 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() = runBlocking {
-        val model = HomeViewModel(repo)
+        inlineKoinSingle { bitbucketRepository }
+        val model = HomeViewModel()
 
         assertThat(model.repos.value).hasSize(1)
     }
 
     @Test
     fun homeViewModel_shouldHaveUser_whenInitialized() = runBlocking {
-        val model = HomeViewModel(repo)
+        inlineKoinSingle { bitbucketRepository }
+        val model = HomeViewModel()
 
         assertThat(model.user).isNotNull()
         assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)
