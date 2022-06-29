@@ -66,6 +66,11 @@ fun DependencyHandler.fooDependencies() {
 5. Navigate back to`Dependencies.kt` (step 1) and observe the block has no compilation error.
 6. You're done!
 
+### Use `ksp` in place of `kapt`
+* Favor usage of `ksp` over `kapt` as [it is faster](https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html)
+* [Supported libs](https://kotlinlang.org/docs/ksp-overview.html#supported-libraries)
+* More links in the ksp declaration in `Dependencies.kt`
+
 ## Code
 ### Style
 #### ktlint
