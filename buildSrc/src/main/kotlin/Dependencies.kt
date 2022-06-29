@@ -12,8 +12,6 @@ import java.util.Locale
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
 private const val KOTLIN_VERSION = "1.6.10"
 private const val KOTLIN_COROUTINES_VERSION = "1.6.0"
-private const val NAVIGATION_VERSION = "2.3.5"
-private const val FRAGMENT_VERSION = "1.4.1"
 
 /**
  * Provides the source of truth for version/configuration information to any gradle build file (project and app module build.gradle.kts)
@@ -63,8 +61,6 @@ object Config {
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
-
-        const val NAVIGATION_SAFE_ARGS_GRADLE = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     }
 
     /**
@@ -78,7 +74,6 @@ object Config {
         const val KT_LINT = "org.jlleitschuh.gradle.ktlint"
         const val DETEKT = "io.gitlab.arturbosch.detekt"
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
-        const val NAVIGATION_SAFE_ARGS_KOTLIN = "androidx.navigation.safeargs" // Note: not using safeargs.kotlin to prevent compile time failure: https://stackoverflow.com/a/68605639/201939
         const val PARCELIZE = "kotlin-parcelize"
         const val KSP = "com.google.devtools.ksp"
         object Kotlin {
@@ -319,7 +314,6 @@ private object TestLibraries {
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
     const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.3"
     const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
-    const val ANDROIDX_FRAGMENT_TEST = "androidx.fragment:fragment-testing:$FRAGMENT_VERSION"
 
     //// Kotlinx Coroutine - Testing
     // https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
@@ -481,10 +475,6 @@ fun DependencyHandler.androidxCoreDependencies() {
 fun DependencyHandler.extJunitRunnerDependencies() {
     androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER)
     androidTestImplementation(TestLibraries.JUNIT_EXT_RUNNER_KTX)
-}
-
-fun DependencyHandler.fragmentTestingDependencies() {
-    androidTestImplementation(TestLibraries.ANDROIDX_FRAGMENT_TEST)
 }
 
 fun DependencyHandler.kotlinxCoroutineTestingDependencies() {

@@ -1,7 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
-import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationObserver
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -27,7 +25,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
-/** Provides [LiveEvent]s for both navigation and external navigation and helper functionality to observe the [LiveData] from a [Fragment] */
+/** Provides common utility functionality for ViewModels including [LiveEvent]s for external navigation */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected val dispatcherProvider: DispatcherProvider by inject()
     protected val toaster: Toaster by inject()
@@ -71,8 +69,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     /**
      * Use to send [ExternalNavigationEvent]s (from subclasses).
-     *
-     * Note: You probably don't need to be observing this, as [observeNavigationEvents] is likely handling the observer setup for you. Available if necessary.
      */
     val externalNavigationEvent: LiveData<ExternalNavigationEvent> = LiveEvent<ExternalNavigationEvent>()
 
@@ -111,9 +107,4 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     // Ties flow to viewModelScope to give StateFlow.
     fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Lazily, initialValue)
-
-    /** Setup observations for both [navigationEvent] from [fragment] */
-    fun observeNavigationEvents(fragment: Fragment) {
-        externalNavigationEvent.observe(fragment.viewLifecycleOwner, ExternalNavigationObserver(fragment.requireActivity()))
-    }
 }

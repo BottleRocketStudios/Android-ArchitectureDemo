@@ -29,7 +29,7 @@ Things you should have prior to starting the new project setup. These can be cha
 3. **NOTE 2:** Make sure to copy the `.gitignore` files for the root project and each module (`:app` and `:data`) to ensure that important parts of the .idea folder are checked into the git repository and shared with the whole team.
 
 ### Delete architecture demo specific data (classes, Android resources)
-* In general, remove all unused Architecture Demo specific Fragments, ViewModels, Repositories, and Android resources(layouts, colors, drawables, color drawables, menus, styles, strings, etc). Keep `BaseFragment`, `BaseViewModel`, and `Repository (interface)`.
+* In general, remove all unused Architecture Demo specific Composables, ViewModels, Repositories, and Android resources(layouts, colors, drawables, color drawables, menus, styles, strings, etc). Keep `BaseViewModel` and `Repository (interface)`.
 * In the app module specifically, remove `.ui.repository`, `.ui.snippet`, `.ui.user`, `.ui.auth`, and `.ui.home`
 * In the data module specifically, remove all Arch Demo specific models in `.data.model` (keep `DomainModel`, `Dto`, `ServerError`, and the `ResponseToApiResultMapper` if you will be using Retrofit), `BitbucketRepository` in `.data.repository` (and `DateTimeAdapter` if you aren't going to need/use it)
 * Remove all unit tests covering removed functionality

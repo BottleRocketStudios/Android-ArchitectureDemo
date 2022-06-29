@@ -7,7 +7,6 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.KAPT)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
-    id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
 extra.set("jacocoCoverageThreshold", 0.20.toBigDecimal()) // module specific code coverage verification threshold
@@ -159,9 +158,6 @@ dependencies {
 
     coreLibraryDesugaringDependencies()
 
-    // UI
-    // groupieDependencies()
-
     // Utility
     brCustomAndroidLintRules()
     liveEventDependencies()
@@ -180,5 +176,4 @@ dependencies {
     espressoDependencies()
     extJunitRunnerDependencies()
     androidxCoreDependencies()
-    fragmentTestingDependencies()
 }
