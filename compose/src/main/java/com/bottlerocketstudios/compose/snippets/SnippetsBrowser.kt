@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.compose.snippets
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,12 +22,19 @@ import com.bottlerocketstudios.compose.util.asMutableState
 
 data class SnippetsBrowserScreenState(
     val snippets: State<List<SnippetUiModel>>,
+    val createVisible: State<Boolean>,
     val onCreateSnippetClicked: () -> Unit
 )
 
 @Composable
 fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
-    Scaffold(floatingActionButton = { SnippetsFabLayout(state.onCreateSnippetClicked) }) {
+    Scaffold(
+        floatingActionButton = {
+            AnimatedVisibility(visible = state.createVisible.value) {
+                SnippetsFabLayout(state.onCreateSnippetClicked)
+            }
+        }
+    ) {
         SnippetsListLayout(snippets = state.snippets.value)
     }
 }
@@ -70,8 +78,22 @@ fun SnippetsBrowserScreenPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = listOfMockSnippets.asMutableState(),
-                {}
-            )
+                createVisible = true.asMutableState()
+            ) {}
+        )
+    }
+}
+
+
+@Preview(showSystemUi = true)
+@Composable
+fun SnippetsBrowserScreenNoFabPreview() {
+    Preview {
+        SnippetsBrowserScreen(
+            state = SnippetsBrowserScreenState(
+                snippets = listOfMockSnippets.asMutableState(),
+                createVisible = false.asMutableState()
+            ) {}
         )
     }
 }
@@ -83,8 +105,8 @@ fun SnippetsBrowserScreenEmptyPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = emptyList<SnippetUiModel>().asMutableState(),
-                {}
-            )
+                createVisible = true.asMutableState()
+            ) {}
         )
     }
 }

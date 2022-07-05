@@ -3,15 +3,13 @@ package com.bottlerocketstudios.compose.widgets.listdetail
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 
 @Immutable
 interface ListDetailScope<T> {
     val list: @Composable (List<T>, (T) -> Unit) -> Unit
     val detail: @Composable (T?) -> Unit
-    // TODO - update the name of this.
     val detailStateCallback: (Boolean) -> Unit
-    val selector: MutableSharedFlow<String>
+    val selector: MutableSharedFlow<String?>
 
     @Composable
     fun List(newList: @Composable (List<T>, (T) -> Unit) -> Unit)
@@ -20,9 +18,9 @@ interface ListDetailScope<T> {
     fun Detail(newDetail: @Composable (T?) -> Unit)
 
     @Composable
-    fun DetailState(newDetailState: @Composable (Boolean) -> Unit)
+    fun DetailState(newDetailState: (Boolean) -> Unit)
 
-    suspend fun select(key: String)
+    suspend fun select(key: String?)
 }
 
 internal class ListDetailScopeImpl<T>(
@@ -37,7 +35,7 @@ internal class ListDetailScopeImpl<T>(
     override var detailStateCallback: (Boolean) -> Unit = {}
         private set
 
-    override val selector = MutableSharedFlow<String>()
+    override val selector = MutableSharedFlow<String?>()
 
     @Composable
     override fun List(newList: @Composable (List<T>, (T) -> Unit) -> Unit) {
@@ -54,7 +52,7 @@ internal class ListDetailScopeImpl<T>(
         detailStateCallback = newDetailState
     }
 
-    override suspend fun select(key: String) {
+    override suspend fun select(key: String?) {
         selector.emit(key)
     }
 }

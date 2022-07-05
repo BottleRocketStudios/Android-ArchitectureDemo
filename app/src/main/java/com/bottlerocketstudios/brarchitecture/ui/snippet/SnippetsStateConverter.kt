@@ -7,5 +7,6 @@ import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreenState
 @Composable
 fun SnippetsViewModel.toState() = SnippetsBrowserScreenState(
     snippets = snippets.collectAsState(emptyList()),
+    createVisible = showCreateCTA.collectAsState(),
     onCreateSnippetClicked = ::onCreateClick
 )

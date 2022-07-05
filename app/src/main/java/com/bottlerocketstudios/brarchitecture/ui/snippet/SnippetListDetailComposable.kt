@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,28 +36,29 @@ private val CreateSnippetItem = SnippetUiModel(
     formattedLastUpdatedTime = "".toStringIdHelper()
 )
 
-// TODO - Custom Animations for entrance of detail.   Try to use same animation spec for navigation side and visiblity
+// TODO - Custom Animations for entrance of detail.   Try to use same animation spec for navigation side and visibility
 
 fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.NewSnippet) {
         val scope = rememberCoroutineScope()
-        val vm: SnippetsViewModel = getViewModel()
+        val snippetsViewModel: SnippetsViewModel = getViewModel()
         val config = LocalConfiguration.current
 
-        val list = vm.snippets.collectAsState(initial = emptyList())
+        val list = snippetsViewModel.snippets.collectAsState(initial = emptyList())
         controls.title = stringResource(id = R.string.snippets_title)
         controls.topLevel = true
 
         AnimatedListDetail(
             list = list.value + CreateSnippetItem ,
+            // FIXME - Use unique ID
             keyProvider = { it.title },
             smallScreen = config.smallestScreenWidthDp < 580) {
             List { list, selected ->
-                // TODO - Do we need selected here?  Perhaps to highlight item?
+                // TODO - Use selected to highlight item
                 SnippetsBrowserScreen(state = SnippetsBrowserScreenState(
-                    // TODO - look to alter state to not require State if this works...
                     // Don't display CreateSnippetPlaceHolder
                     snippets = (list - CreateSnippetItem).asMutableState(),
+                    createVisible = snippetsViewModel.showCreateCTA.collectAsState(),
                     onCreateSnippetClicked = {
                         scope.launch {
                             select("CREATE_SNIPPET_SCREEN")
@@ -66,11 +68,13 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder, navC
             }
             Detail { model ->
                 model.also {
+                    // Show Create snippet in Detail when applicable
                     if (it == CreateSnippetItem) {
-                        val vm: CreateSnippetViewModel = getViewModel()
-                        CreateSnippetScreen(state = vm.toState())
-                        vm.onSuccess.LaunchCollection {
-                            navController.navigateUp()
+                        val createSnippetViewModel: CreateSnippetViewModel = getViewModel()
+                        CreateSnippetScreen(state = createSnippetViewModel.toState())
+                        createSnippetViewModel.onSuccess.LaunchCollection {
+                            select(null)
+                            snippetsViewModel.refreshSnippets()
                         }
                     } else {
                         //    TODO - Normal Detail screen.
@@ -81,15 +85,20 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder, navC
                         .fillMaxSize()
                         .background(Color.Gray))
                 }
+            }
 
-            // TODO - copy create screen to create view/edit screen.
+            DetailState { detailShowing ->
+                // Control list FAB visibility based of detail content.
+                snippetsViewModel.showCreateCTA.value = !detailShowing
+                // Show back arrow when detail is showing on small devices.
+                controls.topLevel = !detailShowing || config.smallestScreenWidthDp >= 580
             }
         }
 
         DisposableEffect(lifecycle) {
             val observer = LifecycleEventObserver { _, event ->
                 if (event == Lifecycle.Event.ON_RESUME) {
-                    vm.refreshSnippets()
+                    snippetsViewModel.refreshSnippets()
                 }
             }
 

@@ -56,14 +56,14 @@ fun <T> AnimatedListDetail(
                     } ?: run {
                         listDetailScope.list(listDetailScope.items) { selection ->
                             navController.navigate(route = NavGraph.Route.Detail.navigateRoute(keyProvider(selection))) {
-                                popUpTo(NavGraph.Route.Detail.navigateRoute(null)) {
+                                popUpTo(NavGraph.Route.Detail.route) {
                                     inclusive = true
                                 }
                             }
                         }
                     }
                 }
-                BackHandler(true) {
+                BackHandler(selected != null) {
                     navController.popBackStack()
                 }
             } else {
@@ -71,7 +71,7 @@ fun <T> AnimatedListDetail(
                     Box(modifier = Modifier.weight(1f)) {
                         listDetailScope.list(listDetailScope.items) { selection ->
                             navController.navigate(route = NavGraph.Route.Detail.navigateRoute(keyProvider(selection))) {
-                                popUpTo(NavGraph.Route.Detail.navigateRoute(null)) {
+                                popUpTo(NavGraph.Route.Detail.route) {
                                     inclusive = true
                                 }
                             }

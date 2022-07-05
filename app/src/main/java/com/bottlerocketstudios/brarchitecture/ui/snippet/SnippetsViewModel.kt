@@ -6,6 +6,7 @@ import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 import java.time.Clock
@@ -25,6 +26,8 @@ class SnippetsViewModel : BaseViewModel() {
             )
         }
     }
+
+    val showCreateCTA = MutableStateFlow(true)
 
     // Events
     val createClicked = MutableSharedFlow<Unit>()
