@@ -26,9 +26,9 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewMo
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.newSnippetsComposable
 import com.bottlerocketstudios.brarchitecture.ui.snippet.toState
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
-import com.bottlerocketstudios.brarchitecture.ui.util.LaunchCollection
 import com.bottlerocketstudios.brarchitecture.ui.util.navigateAsTopLevel
 import com.bottlerocketstudios.compose.auth.AuthCodeScreen
 import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
@@ -39,6 +39,7 @@ import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
 import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
+import com.bottlerocketstudios.compose.util.LaunchCollection
 import com.google.accompanist.web.rememberWebViewNavigator
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -260,6 +261,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             snippetsComposable(this, navController)
             createSnippetComposable(this, navController)
             profileComposable(this, navController)
+            newSnippetsComposable(this, navController)
         }
     }
 }

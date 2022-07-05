@@ -122,10 +122,12 @@ class ComposeActivity : ComponentActivity() {
             NavItemState(
                 icon = R.drawable.ic_snippet,
                 itemText = R.string.snippets_title,
-                selected = currentRoute == Routes.Snippets
+                // selected = currentRoute == Routes.Snippets
+                selected = currentRoute == Routes.NewSnippet
             ) {
                 scaffoldState.drawerState.close()
-                navController.navigate(Routes.Snippets)
+                // navController.navigate(Routes.Snippets)
+                navController.navigate(Routes.NewSnippet)
             },
             NavItemState(
                 icon = R.drawable.ic_nav_profile,

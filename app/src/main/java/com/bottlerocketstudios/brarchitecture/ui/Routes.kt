@@ -13,6 +13,7 @@ object Routes {
     const val Snippets = "snippets"
     const val CreateSnippet = "snippets/create"
     const val Profile = "profile"
+    const val NewSnippet = "newsnippets"
 
     fun RepositoryBrowser(data: RepositoryBrowserData) =
         "repository?repoName=${data.repoName}" +
