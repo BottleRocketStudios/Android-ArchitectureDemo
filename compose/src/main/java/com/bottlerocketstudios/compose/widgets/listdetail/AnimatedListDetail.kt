@@ -60,7 +60,7 @@ fun <T> AnimatedListDetail(
                         // Show list with on select logic.
                         listDetailScope.list(listDetailScope.items) { selection ->
                             navController.navigate(route = NavGraph.Route.Detail.navigateRoute(keyProvider(selection))) {
-                                popUpTo(NavGraph.Route.Detail.route) {
+                                popUpTo(NavGraph.Route.Detail.navigateRoute(null)) {
                                     inclusive = true
                                 }
                             }

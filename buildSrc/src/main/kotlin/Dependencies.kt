@@ -172,8 +172,9 @@ private object Libraries {
 
     // Accompanist
     // https://github.com/google/accompanist/releases
-    const val ACCOMPANIST_WEBVIEW = "com.google.accompanist:accompanist-webview:0.24.5-alpha"
-    const val ACCOMPANIST_NAVIGATION_ANIMATION = "com.google.accompanist:accompanist-navigation-animation:0.24.5-alpha"
+    private const val ACCOMPANIST_VERSION = "0.24.5-alpha"
+    const val ACCOMPANIST_WEBVIEW = "com.google.accompanist:accompanist-webview:$ACCOMPANIST_VERSION"
+    const val ACCOMPANIST_NAVIGATION_ANIMATION = "com.google.accompanist:accompanist-navigation-animation:$ACCOMPANIST_VERSION"
 
 
     // Coil

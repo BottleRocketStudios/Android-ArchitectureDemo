@@ -38,8 +38,8 @@ private val CreateSnippetItem = SnippetUiModel(
 )
 
 // TODO - Custom Animations for entrance of detail.   Try to use same animation spec for navigation side and visibility
-fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(Routes.NewSnippet) {
+fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(Routes.Snippets) {
         val scope = rememberCoroutineScope()
         val snippetsViewModel: SnippetsViewModel = getViewModel()
         val config = LocalConfiguration.current
@@ -61,7 +61,7 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
                     state = SnippetsBrowserScreenState(
                         // Don't display CreateSnippetPlaceHolder
                         snippets = (list - CreateSnippetItem).asMutableState(),
-                        createVisible = snippetsViewModel.showCreateCTA.collectAsState(),
+                        createVisible = snippetsViewModel.showCreateCta.collectAsState(),
                         onCreateSnippetClicked = {
                             scope.launch {
                                 select("CREATE_SNIPPET_SCREEN")
@@ -73,7 +73,7 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
 
             // Define Detail UI for create, detail, and empty states
             Detail { model ->
-                model.also {
+                model?.also {
                     // Show Create snippet in detail pane when applicable
                     if (it == CreateSnippetItem) {
                         val createSnippetViewModel: CreateSnippetViewModel = getViewModel()
@@ -98,10 +98,18 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
             // Callback with boolean if detail is showing or not.
             DetailState { detailShowing ->
                 // Control list FAB visibility based of detail content.
-                snippetsViewModel.showCreateCTA.value = !detailShowing
+                snippetsViewModel.showCreateCta.value = !detailShowing
 
                 // Show back arrow when detail is showing on small devices.
                 controls.topLevel = !detailShowing || config.smallestScreenWidthDp >= 580
+
+                // If detail showing, provide app bar nav interceptor, otherwise null
+                // FIXME - This isn't working as nav itercept is not stateful and triggering recompositions of AppBar with new value.
+                navIntercept = if (detailShowing) ({
+                    scope.launch { select(null) }
+                    true
+                }) else null
+
             }
         }
 

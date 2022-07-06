@@ -34,6 +34,9 @@ class ComposeActivity : ComponentActivity() {
         const val EMPTY_TOOLBAR_TITLE = " "
     }
 
+    // Window size.
+    enum class WindowSizeClass { Compact, Medium, Expanded }
+
     // Lazy initialized public interface that provides access to view model
     val controls by lazy { Controls(activityViewModel) }
     class Controls(viewModel: ComposeActivityViewModel) {
@@ -41,6 +44,7 @@ class ComposeActivity : ComponentActivity() {
         var topLevel by MutableStateFlowDelegate((viewModel.topLevel))
     }
 
+    // This may need to be remember or state? to trigger recomposition of App Bar....
     var navIntercept: (() -> Boolean)? = null
 
     @Composable
@@ -122,12 +126,10 @@ class ComposeActivity : ComponentActivity() {
             NavItemState(
                 icon = R.drawable.ic_snippet,
                 itemText = R.string.snippets_title,
-                // selected = currentRoute == Routes.Snippets
-                selected = currentRoute == Routes.NewSnippet
+                selected = currentRoute == Routes.Snippets
             ) {
                 scaffoldState.drawerState.close()
-                // navController.navigate(Routes.Snippets)
-                navController.navigate(Routes.NewSnippet)
+                navController.navigate(Routes.Snippets)
             },
             NavItemState(
                 icon = R.drawable.ic_nav_profile,

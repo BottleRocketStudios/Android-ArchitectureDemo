@@ -9,12 +9,10 @@ import java.time.ZonedDateTime
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class SnippetDto(
-    val id: String? = null,
-    val workspace: WorkspaceDto? = null,
-    val title: String? = null,
-    @Json(name = "is_private")
-    val isPrivate: Boolean? = null,
-    val owner: UserDto? = null,
-    @Json(name = "updated_on")
-    val updated: ZonedDateTime? = null,
+    @Json(name = "id") val id: String? = null,
+    @Json(name = "workspace") val workspace: WorkspaceDto? = null,
+    @Json(name = "title") val title: String? = null,
+    @Json(name = "owner") val owner: UserDto? = null,
+    @Json(name = "is_private") val isPrivate: Boolean? = null,
+    @Json(name = "updated_on") val updated: ZonedDateTime? = null,
 ) : Parcelable, Dto

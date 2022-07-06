@@ -29,16 +29,7 @@ class SnippetsViewModel : BaseViewModel() {
         }
     }
 
-    val showCreateCTA = MutableStateFlow(true)
-
-    // Events
-    val createClicked = MutableSharedFlow<Unit>()
-
-    fun onCreateClick() {
-        launchIO {
-            createClicked.emit(Unit)
-        }
-    }
+    val showCreateCta = MutableStateFlow(true)
 
     fun refreshSnippets() {
         launchIO {
