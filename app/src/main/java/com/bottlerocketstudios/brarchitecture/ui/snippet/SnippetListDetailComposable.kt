@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.bottlerocketstudios.brarchitecture.R
@@ -30,15 +28,17 @@ import com.bottlerocketstudios.compose.widgets.listdetail.AnimatedListDetail
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
+// Used to represent create item in list so it can be "selected" for detail view
 private val CreateSnippetItem = SnippetUiModel(
+    id = "CREATE_SNIPPET_SCREEN",
+    workspaceSlug = "",
     title = "CREATE_SNIPPET_SCREEN",
     userName = "UI_MODEL",
     formattedLastUpdatedTime = "".toStringIdHelper()
 )
 
 // TODO - Custom Animations for entrance of detail.   Try to use same animation spec for navigation side and visibility
-
-fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(Routes.NewSnippet) {
         val scope = rememberCoroutineScope()
         val snippetsViewModel: SnippetsViewModel = getViewModel()
@@ -50,9 +50,10 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder, navC
 
         AnimatedListDetail(
             list = list.value + CreateSnippetItem ,
-            // FIXME - Use unique ID
-            keyProvider = { it.title },
+            keyProvider = { it.id },
             smallScreen = config.smallestScreenWidthDp < 580) {
+
+            // Define List UI and connect to VM
             List { list, selected ->
                 // TODO - Use selected to highlight item
                 SnippetsBrowserScreen(state = SnippetsBrowserScreenState(
@@ -66,9 +67,11 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder, navC
                     }
                 ))
             }
+
+            // Define Detail UI for create, detail, and empty states
             Detail { model ->
                 model.also {
-                    // Show Create snippet in Detail when applicable
+                    // Show Create snippet in detail pane when applicable
                     if (it == CreateSnippetItem) {
                         val createSnippetViewModel: CreateSnippetViewModel = getViewModel()
                         CreateSnippetScreen(state = createSnippetViewModel.toState())
@@ -87,14 +90,17 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder, navC
                 }
             }
 
+            // Callback with boolean if detail is showing or not.
             DetailState { detailShowing ->
                 // Control list FAB visibility based of detail content.
                 snippetsViewModel.showCreateCTA.value = !detailShowing
+
                 // Show back arrow when detail is showing on small devices.
                 controls.topLevel = !detailShowing || config.smallestScreenWidthDp >= 580
             }
         }
 
+        // Refresh snippet list when lifecycle resumes.
         DisposableEffect(lifecycle) {
             val observer = LifecycleEventObserver { _, event ->
                 if (event == Lifecycle.Event.ON_RESUME) {

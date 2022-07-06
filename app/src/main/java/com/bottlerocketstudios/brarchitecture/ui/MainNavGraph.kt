@@ -61,7 +61,7 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
         vm.ConnectBaseViewModel {
             AuthCodeScreen(
                 state = it.toState { showToolbar: Boolean ->
-                    controls.title = if (showToolbar) ComposeActivity.EMPTY_TOOLBAR_TITLE else ""
+                    controls.title = if (showToolbar) EMPTY_TOOLBAR_TITLE else ""
                     navIntercept = {
                         if (vm.requestUrl.value.isNotEmpty()) {
                             vm.requestUrl.value = ""
@@ -261,7 +261,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             snippetsComposable(this, navController)
             createSnippetComposable(this, navController)
             profileComposable(this, navController)
-            newSnippetsComposable(this, navController)
+            newSnippetsComposable(this)
         }
     }
 }

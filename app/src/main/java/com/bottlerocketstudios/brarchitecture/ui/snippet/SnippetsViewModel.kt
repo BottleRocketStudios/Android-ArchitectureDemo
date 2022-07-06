@@ -20,6 +20,8 @@ class SnippetsViewModel : BaseViewModel() {
     val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { it ->
         it.map {
             SnippetUiModel(
+                id = it.id ?: "",
+                workspaceSlug = it.workspace?.slug ?: "",
                 title = it.title ?: "",
                 userName = it.owner?.displayName ?: "",
                 formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock = clock)
