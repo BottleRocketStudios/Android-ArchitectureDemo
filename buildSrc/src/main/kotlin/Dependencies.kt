@@ -151,6 +151,7 @@ private object Libraries {
 
     // Tooling support (Previews, etc.)
     const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION"
+    const val COMPOSE_UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:$COMPOSE_VERSION"
 
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
@@ -358,7 +359,8 @@ fun DependencyHandler.moshiDependencies() {
 fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_COMPILER)
     implementation(Libraries.COMPOSE_UI)
-    implementation(Libraries.COMPOSE_UI_TOOLING)
+    debugImplementation(Libraries.COMPOSE_UI_TOOLING)
+    implementation(Libraries.COMPOSE_UI_TOOLING_PREVIEW)
     implementation(Libraries.COMPOSE_FOUNDATION)
     implementation(Libraries.COMPOSE_ANIMATION)
     implementation(Libraries.COMPOSE_MATERIAL)
