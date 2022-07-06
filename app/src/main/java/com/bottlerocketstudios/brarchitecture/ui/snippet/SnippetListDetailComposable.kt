@@ -105,11 +105,12 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
 
                 // If detail showing, provide app bar nav interceptor, otherwise null
                 // FIXME - This isn't working as nav itercept is not stateful and triggering recompositions of AppBar with new value.
-                navIntercept = if (detailShowing) ({
-                    scope.launch { select(null) }
-                    true
-                }) else null
-
+                navIntercept = if (detailShowing) (
+                    {
+                        scope.launch { select(null) }
+                        true
+                    }
+                    ) else null
             }
         }
 

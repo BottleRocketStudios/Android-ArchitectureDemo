@@ -181,7 +181,6 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
     }
 }
 
-
 private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Profile) {
         val vm: ProfileViewModel = getViewModel()
