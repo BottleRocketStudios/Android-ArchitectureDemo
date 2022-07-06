@@ -104,8 +104,7 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
                 controls.topLevel = !detailShowing || config.smallestScreenWidthDp >= 580
 
                 // If detail showing, provide app bar nav interceptor, otherwise null
-                // FIXME - This isn't working as nav itercept is not stateful and triggering recompositions of AppBar with new value.
-                navIntercept = if (detailShowing) (
+                navIntercept.value = if (detailShowing) (
                     {
                         scope.launch { select(null) }
                         true

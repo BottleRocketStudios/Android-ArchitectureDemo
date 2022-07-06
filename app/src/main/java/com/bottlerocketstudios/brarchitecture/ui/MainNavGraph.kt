@@ -54,7 +54,7 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
             AuthCodeScreen(
                 state = it.toState { showToolbar: Boolean ->
                     controls.title = if (showToolbar) EMPTY_TOOLBAR_TITLE else ""
-                    navIntercept = {
+                    navIntercept.value = {
                         if (vm.requestUrl.value.isNotEmpty()) {
                             vm.requestUrl.value = ""
                             true
@@ -65,7 +65,7 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
                 },
                 navigator = webViewNavigator
             )
-            navIntercept = {
+            navIntercept.value = {
                 webViewNavigator.canGoBack.also {
                     if (it) webViewNavigator.navigateBack()
                 }

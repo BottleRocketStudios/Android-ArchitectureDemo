@@ -7,7 +7,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.asFlow
@@ -45,14 +47,14 @@ class ComposeActivity : ComponentActivity() {
     }
 
     // This may need to be remember or state? to trigger recomposition of App Bar....
-    var navIntercept: (() -> Boolean)? = null
+    val navIntercept: MutableState<(() -> Boolean)?> = mutableStateOf(null)
 
     @Composable
     fun <T : BaseViewModel> T.ConnectBaseViewModel(block: @Composable (T) -> Unit) {
         // Reset Controls
         controls.title = ""
         controls.topLevel = false
-        navIntercept = null
+        navIntercept.value = null
 
         // Connect external routing to activity
         launchIO {
@@ -89,7 +91,7 @@ class ComposeActivity : ComponentActivity() {
                             state = activityViewModel.toArchAppBarState(),
                             scaffoldState = scaffoldState,
                             navController = navController,
-                            navIntercept = navIntercept
+                            navIntercept = navIntercept.value
                         )
                     },
                     drawerContent = {
