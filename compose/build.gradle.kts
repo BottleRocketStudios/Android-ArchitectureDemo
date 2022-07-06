@@ -1,9 +1,11 @@
 plugins {
     id(Config.ApplyPlugins.ANDROID_LIBRARY)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    kotlin(Config.ApplyPlugins.Kotlin.KAPT)
+    id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
 }
+
+apply(from = "../jacocoModule.gradle")
 
 android {
     compileSdk = Config.AndroidSdkVersions.COMPILE_SDK

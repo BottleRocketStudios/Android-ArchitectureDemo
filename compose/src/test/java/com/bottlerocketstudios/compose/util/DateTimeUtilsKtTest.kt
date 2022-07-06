@@ -1,10 +1,7 @@
-package com.bottlerocketstudios.brarchitecture.ui.util
+package com.bottlerocketstudios.compose.util
 
-import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.test.BaseTest
-import com.bottlerocketstudios.compose.util.StringIdHelper
-import com.bottlerocketstudios.compose.util.formattedUpdateTime
-import com.bottlerocketstudios.compose.util.toStringIdHelper
+import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.Clock

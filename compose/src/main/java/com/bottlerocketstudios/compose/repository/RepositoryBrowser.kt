@@ -27,6 +27,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.pluralResource
 import com.bottlerocketstudios.compose.widgets.IconText
 
@@ -156,7 +157,7 @@ fun RepositoryItem(item: RepositoryItemUiModel, onItemClicked: (RepositoryItemUi
 @Preview(showBackground = true)
 @Composable
 private fun PreviewOuterScreenContent() {
-    ArchitectureDemoTheme {
+    Preview {
         RepositoryBrowserScreen(
             state = RepositoryBrowserScreenState(
                 path = remember { mutableStateOf("/path/to/folder") },

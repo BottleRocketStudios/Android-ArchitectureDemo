@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.light
@@ -295,7 +296,7 @@ fun EnvironmentList(text: String, expanded: Boolean, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewOuterScreenContent() {
-    ArchitectureDemoTheme {
+    Preview {
         val spinnerPosition = remember { mutableStateOf(0) }
         DevOptionsScreen(
             state = DevOptionsState(

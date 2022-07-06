@@ -30,11 +30,13 @@ object BuildInfoManager {
     /** Build number set as an environment variable on the build server (or empty string for local builds) */
     private val BUILD_NUMBER: String
         get() = System.getenv("BUILD_NUMBER").orEmpty() // using get() to allow value to be read dynamically if it was to change (primarily during local machine task execution testing)
-
+    private val BRANCH_NAME: String
+        get() = System.getenv("BRANCH_NAME").orEmpty() // using get() to allow value to be read dynamically if it was to change (primarily during local machine task execution testing)
     /** True if this build is running an a continuous integration server (ie, Jenkins). False if running on a local dev machine. */
     private val IS_CI: Boolean
         get() = determineIfCi() // using get() to allow value to be read dynamically if it was to change (primarily during local machine task execution testing)
 
+    @Suppress("MemberVisibilityCanBePrivate") // no, it must be visible as it is used in the build.gradle.kts files
     /** True if apk/aab names should be overridden. Otherwise false */
     fun shouldOverrideApkAndAabNames(): Boolean = IS_CI
     /** True if version name should be overridden. Otherwise false */
@@ -110,10 +112,10 @@ object BuildInfoManager {
      * See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
      *
      * #### Examples
-     * * CI debug:      BR_Architecture-debug-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.apk
-     * * CI release:    BR_Architecture-release-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.apk
-     * * local debug:   app-debug.apk
-     * * local release: app-release.apk
+     * * CI internalDebug:        BR_Architecture-internalDebug-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.apk
+     * * CI productionRelease:    BR_Architecture-productionRelease-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.apk
+     * * local internalDebug:     app-internal-debug.apk
+     * * local productionRelease: app-production-release.apk
      */
     private fun createApkFilename(variantName: String): String {
         return createAppArtifactFilename(variantName, AppArtifact.Apk)
@@ -127,10 +129,10 @@ object BuildInfoManager {
      * See https://developer.android.com/studio/build/optimize-your-build#use_static_build_properties
      *
      * #### Examples
-     * * CI debug:      BR_Architecture-debug-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.aab
-     * * CI release:    BR_Architecture-release-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.aab
-     * * local debug:   app-debug.aab
-     * * local release: app-release.aab
+     * * CI internalDebug:        BR_Architecture-internalDebug-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.aab
+     * * CI productionRelease:    BR_Architecture-productionRelease-feature__update-version-name-and-apk-name-build-350-3d7f6b4-2020-05-14.aab
+     * * local internalDebug:     app-internal-debug.aab
+     * * local productionRelease: app-production-release.aab
      */
     fun createAabFilename(variantName: String): String {
         return createAppArtifactFilename(variantName, AppArtifact.Aab)
@@ -165,8 +167,12 @@ object BuildInfoManager {
         val buildDateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val formattedDateString = buildDateFormatter.format(Date())
         val shortGitSha = "git rev-parse --short HEAD".execCommandWithOutput().trim()
-        // git branch name with starting/ending / removed and intermediate / converted to __ to support the branch name being added to a filename.
-        val gitBranchName = "git rev-parse --abbrev-ref HEAD".execCommandWithOutput().trim().removePrefix("/").removeSuffix("/").replace("/", "__")
+        var gitBranchName = "git rev-parse --abbrev-ref HEAD".execCommandWithOutput().normalizeBranchName()
+        // fallback to BRANCH_NAME if unable to retrieve branch name from git and BRANCH_NAME is not blank
+        if (gitBranchName == "HEAD" && BRANCH_NAME.isNotBlank()) {
+            gitBranchName = BRANCH_NAME.normalizeBranchName()
+        }
+
         val resolvedBuildNumber = if (IS_CI) {
             "build-$BUILD_NUMBER"
         } else {
@@ -174,6 +180,9 @@ object BuildInfoManager {
         }
         return "$gitBranchName-$resolvedBuildNumber-$shortGitSha-$formattedDateString"
     }
+
+    /** Normalizes git branch name by removing starting/ending `/` and converting intermediate `/` to `__` in order to support the branch name being added to a filename. */
+    private fun String.normalizeBranchName(): String = this.trim().removePrefix("/").removeSuffix("/").replace("/", "__")
 
     /** True is environment variable `IS_CI` is true or `BUILD_NUMBER` is not empty (in case IS_CI is not set explicitly in the CI build configuration) */
     private fun determineIfCi(): Boolean {
