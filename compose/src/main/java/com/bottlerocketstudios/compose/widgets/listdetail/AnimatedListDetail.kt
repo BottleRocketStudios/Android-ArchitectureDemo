@@ -22,7 +22,6 @@ object NavGraph {
     }
 }
 
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun <T> AnimatedListDetail(

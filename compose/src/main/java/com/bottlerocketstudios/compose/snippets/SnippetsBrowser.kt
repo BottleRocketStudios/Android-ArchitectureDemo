@@ -84,7 +84,6 @@ fun SnippetsBrowserScreenPreview() {
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun SnippetsBrowserScreenNoFabPreview() {

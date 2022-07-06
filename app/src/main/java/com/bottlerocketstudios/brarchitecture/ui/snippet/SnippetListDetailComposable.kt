@@ -49,23 +49,26 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
         controls.topLevel = true
 
         AnimatedListDetail(
-            list = list.value + CreateSnippetItem ,
+            list = list.value + CreateSnippetItem,
             keyProvider = { it.id },
-            smallScreen = config.smallestScreenWidthDp < 580) {
+            smallScreen = config.smallestScreenWidthDp < 580
+        ) {
 
             // Define List UI and connect to VM
             List { list, selected ->
                 // TODO - Use selected to highlight item
-                SnippetsBrowserScreen(state = SnippetsBrowserScreenState(
-                    // Don't display CreateSnippetPlaceHolder
-                    snippets = (list - CreateSnippetItem).asMutableState(),
-                    createVisible = snippetsViewModel.showCreateCTA.collectAsState(),
-                    onCreateSnippetClicked = {
-                        scope.launch {
-                            select("CREATE_SNIPPET_SCREEN")
+                SnippetsBrowserScreen(
+                    state = SnippetsBrowserScreenState(
+                        // Don't display CreateSnippetPlaceHolder
+                        snippets = (list - CreateSnippetItem).asMutableState(),
+                        createVisible = snippetsViewModel.showCreateCTA.collectAsState(),
+                        onCreateSnippetClicked = {
+                            scope.launch {
+                                select("CREATE_SNIPPET_SCREEN")
+                            }
                         }
-                    }
-                ))
+                    )
+                )
             }
 
             // Define Detail UI for create, detail, and empty states
@@ -82,11 +85,13 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
                     } else {
                         //    TODO - Normal Detail screen.
                     }
-                } ?: run  {
+                } ?: run {
                     // Empty Detail State
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Gray))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Gray)
+                    )
                 }
             }
 
@@ -113,6 +118,5 @@ fun ComposeActivity.newSnippetsComposable(navGraphBuilder: NavGraphBuilder) {
                 lifecycle.removeObserver(observer)
             }
         }
-
     }
 }

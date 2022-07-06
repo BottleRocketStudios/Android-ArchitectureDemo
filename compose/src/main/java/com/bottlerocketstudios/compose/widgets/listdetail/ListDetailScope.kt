@@ -48,7 +48,7 @@ internal class ListDetailScopeImpl<T>(
     }
 
     @Composable
-    override fun DetailState(newDetailState:  (Boolean) -> Unit) {
+    override fun DetailState(newDetailState: (Boolean) -> Unit) {
         detailStateCallback = newDetailState
     }
 
