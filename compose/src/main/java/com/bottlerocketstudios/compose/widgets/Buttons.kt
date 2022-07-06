@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
 fun PrimaryButton(
@@ -38,7 +39,7 @@ fun PrimaryButton(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewPrimaryButton() {
-    ArchitectureDemoTheme {
+    Preview {
         PrimaryButton(
             buttonText = "Hello World",
             onClick = { },
@@ -52,7 +53,7 @@ private fun PreviewPrimaryButton() {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewPrimaryButtonDisabled() {
-    ArchitectureDemoTheme {
+    Preview {
         PrimaryButton(
             buttonText = "Hello World",
             onClick = { },
@@ -94,7 +95,7 @@ fun SurfaceButton(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewSurfaceButton() {
-    ArchitectureDemoTheme {
+    Preview {
         SurfaceButton(
             buttonText = "Hello World",
             onClick = { },
@@ -135,7 +136,7 @@ fun OutlinedSurfaceButton(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewOutlineSurfaceButton() {
-    ArchitectureDemoTheme {
+    Preview {
         OutlinedSurfaceButton(
             buttonText = "Hello World",
             onClick = { },

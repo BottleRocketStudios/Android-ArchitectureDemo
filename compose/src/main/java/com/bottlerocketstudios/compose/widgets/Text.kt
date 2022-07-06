@@ -19,6 +19,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
 fun IconText(
@@ -47,7 +48,7 @@ fun IconText(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewPrimaryButton() {
-    ArchitectureDemoTheme {
+    Preview {
         IconText(
             modifier = Modifier
                 .padding(Dimens.grid_1)

@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
@@ -297,7 +298,7 @@ fun LoginScreenPasswordTextField(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewOuterScreenContent() {
-    ArchitectureDemoTheme {
+    Preview {
         LoginScreen(
             state = LoginScreenState(
                 email = remember { mutableStateOf("test@test.com") },
