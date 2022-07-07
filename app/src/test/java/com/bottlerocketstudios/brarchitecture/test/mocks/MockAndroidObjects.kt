@@ -3,8 +3,8 @@ package com.bottlerocketstudios.brarchitecture.test.mocks
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import com.bottlerocketstudios.brarchitecture.R
 import org.mockito.ArgumentMatchers
+import com.bottlerocketstudios.brarchitecture.R
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyVararg
 import org.mockito.kotlin.doAnswer

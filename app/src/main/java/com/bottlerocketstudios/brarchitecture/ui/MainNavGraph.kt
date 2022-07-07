@@ -114,7 +114,7 @@ private fun ComposeActivity.homeComposable(navGraphBuilder: NavGraphBuilder, nav
         viewModel.itemSelected.LaunchCollection {
             activityViewModel.selectedRepo.value = it.repo
             navController.navigate(
-                Routes.RepositoryBrowser(
+                Routes.repositoryBrowser(
                     RepositoryBrowserData(repoName = it.repo.name ?: "")
                 )
             )
@@ -179,11 +179,11 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
         controls.title = data.folderPath ?: data.repoName
 
         viewModel.directoryClickedEvent.LaunchCollection {
-            navController.navigate(Routes.RepositoryBrowser(it))
+            navController.navigate(Routes.repositoryBrowser(it))
         }
 
         viewModel.fileClickedEvent.LaunchCollection {
-            navController.navigate(Routes.RepositoryFile(it))
+            navController.navigate(Routes.repositoryFile(it))
         }
     }
 }

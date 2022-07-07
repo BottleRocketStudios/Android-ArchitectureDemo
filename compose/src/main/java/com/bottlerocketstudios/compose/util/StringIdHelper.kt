@@ -33,7 +33,6 @@ sealed class StringIdHelper : DomainModel, Serializable, KoinComponent {
                     // Allow for the use of string helpers within format args by unwrapping them here
                     if (it is StringIdHelper) it.getString() else it
                 }
-                @Suppress("SpreadOperator")
                 context.getString(idRes, *mappedArgs.toTypedArray())
             }
             is Plural -> {
@@ -41,7 +40,6 @@ sealed class StringIdHelper : DomainModel, Serializable, KoinComponent {
                     // Allow for the use of string helpers within format args by unwrapping them here
                     if (it is StringIdHelper) it.getString() else it
                 }
-                @Suppress("SpreadOperator")
                 context.resources.getQuantityString(idRes, quantity, *mappedArgs.toTypedArray())
             }
         }
