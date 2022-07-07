@@ -11,7 +11,6 @@ object Routes {
     const val AuthCode = "authcode"
     const val DevOptions = "devoptions"
     const val Snippets = "snippets"
-    const val CreateSnippet = "snippets/create"
     const val Profile = "profile"
 
     fun RepositoryBrowser(data: RepositoryBrowserData) =

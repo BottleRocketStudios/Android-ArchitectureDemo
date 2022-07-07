@@ -10,7 +10,7 @@ import java.util.Locale
 // https://kotlinlang.org/docs/reference/whatsnew15.html
 // https://kotlinlang.org/docs/releases.html#release-details
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-private const val KOTLIN_VERSION = "1.6.10"
+private const val KOTLIN_VERSION = "1.7.0"
 private const val KOTLIN_COROUTINES_VERSION = "1.6.0"
 
 /**
@@ -49,7 +49,7 @@ object Config {
     // https://kotlinlang.org/docs/ksp-quickstart.html
     // https://github.com/google/ksp/releases
     // TODO: First part of version should match version of kotlin - see https://github.com/google/ksp/blob/main/docs/faq.md
-    const val KSP_VERSION = "1.6.10-1.0.2"
+    const val KSP_VERSION = "1.7.0-1.0.6"
 
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
@@ -85,7 +85,7 @@ object Config {
 
     // What each version represents - https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
     object AndroidSdkVersions {
-        const val COMPILE_SDK = 31
+        const val COMPILE_SDK = 32
 
         // https://developer.android.com/studio/releases/build-tools
         const val BUILD_TOOLS = "31.0.0"
@@ -96,8 +96,8 @@ object Config {
     }
 
     object Compose {
-        const val COMPOSE_VERSION = "1.1.0"
-        const val COMPOSE_COMPILER_VERSION = "1.1.0"
+        const val COMPOSE_VERSION = "1.2.0-rc03"
+        const val COMPOSE_COMPILER_VERSION = "1.2.0"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
@@ -160,6 +160,9 @@ private object Libraries {
     // Material Design
     const val COMPOSE_MATERIAL = "androidx.compose.material:material:$COMPOSE_VERSION"
 
+    // Material 3 - Window Size Class
+    const val COMPOSE_MATERIAL3_WINDOW_SIZE = "androidx.compose.material3:material3-window-size-class:1.0.0-alpha13"
+
     // Material design icons
     const val COMPOSE_MATERIAL_ICONS_CORE = "androidx.compose.material:material-icons-core:$COMPOSE_VERSION"
     const val COMPOSE_MATERIAL_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
@@ -172,7 +175,9 @@ private object Libraries {
 
     // Accompanist
     // https://github.com/google/accompanist/releases
-    const val ACCOMPANIST = "com.google.accompanist:accompanist-webview:0.24.5-alpha"
+    private const val ACCOMPANIST_VERSION = "0.24.5-alpha"
+    const val ACCOMPANIST_WEBVIEW = "com.google.accompanist:accompanist-webview:$ACCOMPANIST_VERSION"
+    const val ACCOMPANIST_NAVIGATION_ANIMATION = "com.google.accompanist:accompanist-navigation-animation:$ACCOMPANIST_VERSION"
 
 
     // Coil
@@ -366,11 +371,13 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
+    implementation(Libraries.COMPOSE_MATERIAL3_WINDOW_SIZE)
     implementation(Libraries.COMPOSE_LIVE_DATA)
 }
 
 fun DependencyHandler.accompanistDependencies() {
-    implementation(Libraries.ACCOMPANIST)
+    implementation(Libraries.ACCOMPANIST_WEBVIEW)
+    implementation(Libraries.ACCOMPANIST_NAVIGATION_ANIMATION)
 }
 
 fun DependencyHandler.launchPadDependencies() {

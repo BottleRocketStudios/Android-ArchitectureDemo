@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,7 +8,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.asFlow
@@ -23,6 +26,9 @@ import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 
 class ComposeActivity : ComponentActivity() {
     val activityViewModel: ComposeActivityViewModel by viewModel()
@@ -41,14 +47,15 @@ class ComposeActivity : ComponentActivity() {
         var topLevel by MutableStateFlowDelegate((viewModel.topLevel))
     }
 
-    var navIntercept: (() -> Boolean)? = null
+    // This may need to be remember or state? to trigger recomposition of App Bar....
+    val navIntercept: MutableState<(() -> Boolean)?> = mutableStateOf(null)
 
     @Composable
     fun <T : BaseViewModel> T.ConnectBaseViewModel(block: @Composable (T) -> Unit) {
         // Reset Controls
         controls.title = ""
         controls.topLevel = false
-        navIntercept = null
+        navIntercept.value = null
 
         // Connect external routing to activity
         launchIO {
@@ -58,50 +65,58 @@ class ComposeActivity : ComponentActivity() {
         block.invoke(this)
     }
 
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContent {
-            val coroutineScope = rememberCoroutineScope()
-            val navController = rememberNavController()
-            val scaffoldState = rememberScaffoldState()
-            val navBackStackEntry = navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry.value?.destination?.route
-            val navItems = remember(currentRoute) {
-                derivedStateOf {
-                    generateNavDrawerItems(
-                        navController = navController,
-                        scaffoldState = scaffoldState,
-                        currentRoute = currentRoute.orEmpty(),
-                    )
-                }
-            }
+            val widthSizeClass = calculateWindowSizeClass(this).widthSizeClass
+            App(widthSizeClass)
+        }
+    }
 
-            ArchitectureDemoTheme {
-                Scaffold(
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+    @Composable
+    private fun App(widthSize: WindowWidthSizeClass) {
+        val coroutineScope = rememberCoroutineScope()
+        val navController = rememberNavController()
+        val scaffoldState = rememberScaffoldState()
+        val navBackStackEntry = navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry.value?.destination?.route
+        val navItems = remember(currentRoute) {
+            derivedStateOf {
+                generateNavDrawerItems(
+                    navController = navController,
                     scaffoldState = scaffoldState,
-                    topBar = {
-                        ArchAppBar(
-                            state = activityViewModel.toArchAppBarState(),
-                            scaffoldState = scaffoldState,
-                            navController = navController,
-                            navIntercept = navIntercept
-                        )
-                    },
-                    drawerContent = {
-                        NavDrawer(
-                            activityViewModel.toNavDrawerState(navItems) {
-                                coroutineScope.launch {
-                                    scaffoldState.drawerState.close()
-                                }
-                                navController.navigate(Routes.DevOptions)
+                    currentRoute = currentRoute.orEmpty(),
+                )
+            }
+        }
+
+        ArchitectureDemoTheme {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    ArchAppBar(
+                        state = activityViewModel.toArchAppBarState(),
+                        scaffoldState = scaffoldState,
+                        navController = navController,
+                        navIntercept = navIntercept.value
+                    )
+                },
+                drawerContent = {
+                    NavDrawer(
+                        activityViewModel.toNavDrawerState(navItems) {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.close()
                             }
-                        )
-                    },
-                ) {
-                    NavHost(navController = navController, startDestination = Routes.Main) {
-                        mainNavGraph(navController = navController, activity = this@ComposeActivity)
-                    }
+                            navController.navigate(Routes.DevOptions)
+                        }
+                    )
+                },
+            ) {
+                NavHost(navController = navController, startDestination = Routes.Main) {
+                    mainNavGraph(navController = navController, activity = this@ComposeActivity, widthSize)
                 }
             }
         }
