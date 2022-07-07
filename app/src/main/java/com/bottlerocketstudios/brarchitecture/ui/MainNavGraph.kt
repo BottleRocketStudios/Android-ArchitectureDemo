@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -197,7 +198,7 @@ private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, 
     }
 }
 
-fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: ComposeActivity) {
+fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: ComposeActivity, widthSize: WindowWidthSizeClass) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
             splashComposable(this, navController)
@@ -207,7 +208,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             repositoryBrowserComposable(this, navController)
             repositoryFileComposable(this)
             profileComposable(this, navController)
-            snippetListDetailComposable(this)
+            snippetListDetailComposable(this, widthSize)
         }
     }
 }

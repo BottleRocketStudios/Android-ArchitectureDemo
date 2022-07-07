@@ -3,12 +3,12 @@ package com.bottlerocketstudios.brarchitecture.ui.snippet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -38,11 +38,10 @@ private val CreateSnippetItem = SnippetUiModel(
 )
 
 // TODO - Custom Animations for entrance of detail.   Try to use same animation spec for navigation side and visibility
-fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder) {
+fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder, widthSize: WindowWidthSizeClass) {
     navGraphBuilder.composable(Routes.Snippets) {
         val scope = rememberCoroutineScope()
         val snippetsViewModel: SnippetsViewModel = getViewModel()
-        val config = LocalConfiguration.current
 
         val list = snippetsViewModel.snippets.collectAsState(initial = emptyList())
         controls.title = stringResource(id = R.string.snippets_title)
@@ -51,7 +50,7 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
         AnimatedListDetail(
             list = list.value + CreateSnippetItem,
             keyProvider = { it.id },
-            smallScreen = config.smallestScreenWidthDp < 580
+            smallScreen = widthSize == WindowWidthSizeClass.Compact
         ) {
 
             // Define List UI and connect to VM
@@ -101,7 +100,7 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
                 snippetsViewModel.showCreateCta.value = !detailShowing
 
                 // Show back arrow when detail is showing on small devices.
-                controls.topLevel = !detailShowing || config.smallestScreenWidthDp >= 580
+                controls.topLevel = !detailShowing || widthSize == WindowWidthSizeClass.Compact
 
                 // If detail showing, provide app bar nav interceptor, otherwise null
                 navIntercept.value = if (detailShowing) (
