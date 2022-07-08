@@ -18,8 +18,8 @@ class RepositoryBrowserViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // State
-    private val srcFiles = MutableStateFlow<List<RepoFile>>(emptyList())
-    private var currentRepoName: String = ""
+    val srcFiles = MutableStateFlow<List<RepoFile>>(emptyList())
+    var currentRepoName: String = ""
 
     // UI
     val path: StateFlow<String> = MutableStateFlow("")

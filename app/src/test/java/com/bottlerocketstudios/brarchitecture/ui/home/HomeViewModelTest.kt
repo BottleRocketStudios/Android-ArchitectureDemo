@@ -1,62 +1,64 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
-import com.bottlerocketstudios.brarchitecture.data.model.UserDto
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
-import com.bottlerocketstudios.brarchitecture.test.KoinTestRule
-import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
-import com.bottlerocketstudios.brarchitecture.test.TestModule
+import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo
+import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
+import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO
+import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_NAME
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.junit.Rule
+import org.junit.Before
 import org.junit.Test
-import org.junit.rules.TestRule
-import org.mockito.kotlin.mock
 
 class HomeViewModelTest : BaseTest() {
-    @get:Rule
-    var rule: TestRule = InstantTaskExecutorRule()
 
-    @get:Rule
-    val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
+    private lateinit var viewModel: HomeViewModel
+    private val repo = MockBitBucketRepo
 
-    val _user = MutableStateFlow<UserDto?>(null)
-    val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
-    private val TEST_USER_NAME = "testuser"
-    private val dispatcherProvider = TestDispatcherProvider()
-    val bitbucketRepository: BitbucketRepository = mock {
-        on { user }.then { _user }
-        on { repos }.then { _repos }
-        onBlocking { refreshUser() }.then {
-            val user = UserDto(username = TEST_USER_NAME)
-            _user.value = user
-            Status.Success(Unit)
-        }
-        onBlocking { refreshMyRepos() }.then {
-            val repos = listOf(GitRepositoryDto(name = "testRepo"))
-            _repos.value = repos
-            Status.Success(Unit)
-        }
-    }
-
-    @Test
-    fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() = runBlocking {
+    @Before
+    fun setUp() {
         inlineKoinSingle { bitbucketRepository }
-        val model = HomeViewModel()
-
-        assertThat(model.repos.value).hasSize(1)
+        viewModel = HomeViewModel()
     }
 
     @Test
     fun homeViewModel_shouldHaveUser_whenInitialized() = runBlocking {
-        inlineKoinSingle { bitbucketRepository }
-        val model = HomeViewModel()
+        assertThat(viewModel.user).isNotNull()
+        assertThat(viewModel.user.value?.username).isEqualTo(TEST_USER_NAME)
+    }
 
-        assertThat(model.user).isNotNull()
-        assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)
+    @Test
+    fun homeViewModel_shouldHaveRepos_whenReposRefreshed() = runBlocking {
+        assertThat(viewModel.repos.value).hasSize(bitbucketRepository.repos.value.size)
+    }
+
+    @Test
+    fun homeViewModel_userRepositoryState_shouldReturnTestRepo() = runBlocking {
+        repo.testGitRepositoryDtoList = listOf(GitRepositoryDto(name = TEST_REPO))
+        viewModel.userRepositoryState.test {
+            bitbucketRepository.refreshMyRepos()
+            assertThat(expectMostRecentItem().first().repo.name).isEqualTo(TEST_REPO)
+        }
+    }
+
+    @Test
+    fun homeViewModel_userRepositoryStateIsEmpty_whenReposIsEmpty() = runBlocking {
+        repo.testGitRepositoryDtoList = emptyList()
+         viewModel.userRepositoryState.test {
+             bitbucketRepository.refreshMyRepos()
+             assertThat(expectMostRecentItem().isEmpty()).isEqualTo(true)
+         }
+    }
+
+    @Test
+    fun homeViewModel_itemSelectedShouldHaveValue_whenSelectItemIsCalled() = runBlocking {
+        bitbucketRepository.refreshMyRepos()
+        viewModel.itemSelected.test {
+            viewModel.selectItem(viewModel.userRepositoryState.first()[0])
+            assertThat(awaitItem().repo.name).isEqualTo(TEST_REPO)
+        }
     }
 }

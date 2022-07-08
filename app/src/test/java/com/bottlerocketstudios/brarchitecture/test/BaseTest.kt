@@ -1,6 +1,13 @@
 package com.bottlerocketstudios.brarchitecture.test
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
+import org.junit.Rule
+import org.junit.rules.TestRule
 import org.koin.core.context.loadKoinModules
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
@@ -24,9 +31,27 @@ import timber.log.Timber
  * * https://medium.com/swlh/an-experience-of-unit-testing-with-the-arrange-act-assert-aaa-pattern-part-i-53babd01c52b
  */
 open class BaseTest {
+    val testDispatcherProvider = TestDispatcherProvider()
+
+    @get:Rule
+    var rule: TestRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
+
     @Before
     fun plantTimber() {
         Timber.plant(SystemOutPrintlnTree())
+    }
+
+    @Before
+    fun setMainDispatchers() {
+        Dispatchers.setMain(testDispatcherProvider.Unconfined)
+    }
+
+    @After
+    fun resetDispatchers() {
+        Dispatchers.resetMain()
     }
 
     /** Used to declare a Koin single within a module and load immediately, overriding any definitions previously set. */
