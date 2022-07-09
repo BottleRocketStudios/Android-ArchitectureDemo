@@ -5,6 +5,7 @@ import com.bottlerocketstudios.brarchitecture.data.BuildConfig
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBuildConfigProvider
+import com.bottlerocketstudios.brarchitecture.test.mocks.MockBuildConfigProvider.buildConfigProvider
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -15,12 +16,11 @@ class AuthCodeViewModelTest : BaseTest() {
     // TODO: Test onSignUpClicked external navigation
 
     private lateinit var viewModel: AuthCodeViewModel
-    private val mockBuildConfigProvider = MockBuildConfigProvider
 
     @Before
     fun setUp() {
         inlineKoinSingle { bitbucketRepository }
-        inlineKoinSingle { mockBuildConfigProvider.buildConfigProvider }
+        inlineKoinSingle { buildConfigProvider }
         viewModel = AuthCodeViewModel()
     }
 
@@ -41,7 +41,7 @@ class AuthCodeViewModelTest : BaseTest() {
     // FIXME -- How can I make the devOptionsEnabled reset to false in the same vm?
     @Test
     fun devOptionsEnabled_isProduction_shouldReturnFalse() = runBlocking {
-        mockBuildConfigProvider._isDebugOrInternalBuild.value = false
+        MockBuildConfigProvider._isDebugOrInternalBuild.value = false
         val viewModel = AuthCodeViewModel()
 
         assertThat(viewModel.devOptionsEnabled).isEqualTo(false)

@@ -58,7 +58,12 @@ object MockBitBucketRepo {
         on { repos }.then { _repos }
         on { snippets }.then { _snippets }
 
-        onBlocking { authenticate("") }.then { authenticated }
+        onBlocking { authenticate("") }.then {
+            authenticated
+        }
+        onBlocking { authenticate(null) }.then {
+            authenticated
+        }
         onBlocking { clear() }.then {
             authenticated = false
             _user.value = null
