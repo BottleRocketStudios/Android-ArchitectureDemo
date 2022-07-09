@@ -18,7 +18,6 @@ import org.junit.Test
 class RepositoryBrowserViewModelTest : BaseTest() {
 
     private lateinit var viewModel: RepositoryBrowserViewModel
-    private val unconfinedDispatcher = testDispatcherProvider.Unconfined
 
     @Before
     fun setUp() {
@@ -32,57 +31,64 @@ class RepositoryBrowserViewModelTest : BaseTest() {
     }
 
     @Test
-    fun repositoryBrowserViewModel_getFiles_shouldSetCurrentName() = runBlocking {
+    fun getFiles_onInitialization_shouldSetCurrentName() = runBlocking {
         assertThat(viewModel.currentRepoName).isEqualTo(TEST_REPO)
     }
 
     @Test
-    fun repositoryBrowserViewModel_getFiles_shouldSetPathFlow() = runBlocking {
+    fun getFiles_onInitialization_shouldSetPathFlow() = runBlocking {
         viewModel.path.test {
             assertThat(awaitItem()).isEqualTo(TEST_PATH)
         }
     }
 
     @Test
-    fun repositoryBrowserViewModel_getFiles_shouldSetSrcFiles() = runBlocking {
+    fun getFiles_onInitialization_shouldSetSrcFiles() = runBlocking {
         viewModel.srcFiles.test {
-            assertThat(awaitItem().first().path).isEqualTo(viewModel.path.value)
+            assertThat(awaitItem()[0].path).isEqualTo(viewModel.path.value)
         }
     }
 
     @Test
-    fun repositoryBrowserViewModel_itemCount_shouldReturnInitialValue() = runBlocking {
+    fun itemCount_initialValue_shouldReturnZero() = runBlocking {
         assertThat(viewModel.itemCount.value).isEqualTo(0)
     }
 
     @Test
-    fun repositoryBrowserViewModel_itemCount_shouldReturnSize() = runBlocking {
+    fun itemCount_onInitialization_shouldReturnSizeOfFilesList() = runBlocking {
         // Must start collection() for any flow using the .groundState extension
         // https://developer.android.com/kotlin/flow/test#statein
-        val collector = launch(unconfinedDispatcher) { viewModel.itemCount.collect() }
+        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.itemCount.collect() }
+
         assertThat(viewModel.itemCount.value).isEqualTo(viewModel.srcFiles.value.size)
+
         collector.cancel()
     }
 
     @Test
-    fun repositoryBrowserViewModel_uiModels_shouldNotReturnEmptyList() = runBlocking {
-        val collector = launch(unconfinedDispatcher) { viewModel.uiModels.collect() }
+    fun uiModels_srcFilesNotEmpty_shouldNotReturnEmptyList() = runBlocking {
+        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.uiModels.collect() }
+
         assertThat(viewModel.uiModels.value.size).isEqualTo(viewModel.srcFiles.value.size)
+
         collector.cancel()
     }
 
     @Test
-    fun repositoryBrowserViewModel_uiModels_shouldReturnEmptyList() = runBlocking {
-        val collector = launch(unconfinedDispatcher) { viewModel.uiModels.collect() }
+    fun uiModels_srcFilesEmpty_shouldReturnEmptyList() = runBlocking {
+        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.uiModels.collect() }
         viewModel.srcFiles.value = emptyList()
+
         assertThat(viewModel.uiModels.value.isEmpty()).isEqualTo(true)
+
         collector.cancel()
     }
 
     @Test
-    fun repositoryBrowserViewModel_uiModels_testModelData() = runBlocking {
-        // Multiple asserts in one test -- testing the contents of the list item.
-        val collector = launch(unconfinedDispatcher) { viewModel.uiModels.collect() }
+    fun uiModels_srcFilesNotEmpty_testModelData() = runBlocking {
+        // Multiple asserts to test contents of list item; if one fails the entire test should fail
+        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.uiModels.collect() }
+
         assertThat(viewModel.uiModels.value.first().path).isEqualTo(TEST_PATH)
         assertThat(viewModel.uiModels.value.first().size).isEqualTo(0)
         assertThat(viewModel.uiModels.value.first().isFolder).isEqualTo(true)
@@ -91,7 +97,7 @@ class RepositoryBrowserViewModelTest : BaseTest() {
     }
 
     @Test
-    fun repositoryBrowserViewModel_onRepoItemClicked_folderEmissionMatches() = runBlocking {
+    fun onRepoItemClicked_itemIsFolder_directoryClickEventValueMatches() = runBlocking {
         viewModel.directoryClickedEvent.test {
             viewModel.onRepoItemClicked(RepositoryItemUiModel(TEST_PATH, 0, true))
             assertThat(awaitItem().repoName).isEqualTo(viewModel.currentRepoName)
@@ -99,9 +105,10 @@ class RepositoryBrowserViewModelTest : BaseTest() {
     }
 
     @Test
-    fun repositoryBrowserViewModel_onRepoItemClicked_fileEmissionMatches() = runTest {
+    fun onRepoItemClicked_itemIsFile_fileClickEventMatches() = runBlocking {
         viewModel.fileClickedEvent.test {
             viewModel.onRepoItemClicked(RepositoryItemUiModel(TEST_PATH, 0, false))
+
             assertThat(awaitItem().path).isEqualTo(TEST_PATH)
         }
     }

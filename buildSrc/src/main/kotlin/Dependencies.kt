@@ -323,7 +323,7 @@ private object TestLibraries {
     // Turbine - small emission testing lib for flows (hot or cold)
     // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
     // https://github.com/cashapp/turbine/releases
-    const val TURBINE = "app.cash.turbine:turbine:0.7.0"
+    const val TURBINE = "app.cash.turbine:turbine:0.8.0"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency

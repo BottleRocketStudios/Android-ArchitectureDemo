@@ -1,10 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.test
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestRule
@@ -33,6 +29,9 @@ import timber.log.Timber
 open class BaseTest {
     val testDispatcherProvider = TestDispatcherProvider()
 
+    @get:Rule(order = Int.MIN_VALUE)
+    val setDispatcherOnMain = SetDispatcherOnMain(testDispatcherProvider.Unconfined)
+
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
@@ -42,16 +41,6 @@ open class BaseTest {
     @Before
     fun plantTimber() {
         Timber.plant(SystemOutPrintlnTree())
-    }
-
-    @Before
-    fun setMainDispatchers() {
-        Dispatchers.setMain(testDispatcherProvider.Unconfined)
-    }
-
-    @After
-    fun resetDispatchers() {
-        Dispatchers.resetMain()
     }
 
     /** Used to declare a Koin single within a module and load immediately, overriding any definitions previously set. */
