@@ -63,7 +63,7 @@ fun AuthCodePreview() {
     }
 }
 
-// FIX ME: javaScriptEnabled = true can result in removal from Play Store
+// FIXME: javaScriptEnabled = true can result in removal from Play Store
 // https://support.google.com/faqs/answer/7668153?hl=en
 @SuppressLint("SetJavaScriptEnabled")
 @Composable

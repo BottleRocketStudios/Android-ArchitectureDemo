@@ -4,8 +4,6 @@
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-    <!-- "clip-path" attribute not supported API < 24; Check that removing
-    this path data does not affect the look of the graphic -->
     <group>
         <clip-path
             android:pathData="M2,2.445h19.484L21.484,22.96L2,22.96z"
