@@ -38,7 +38,8 @@ object MockBitBucketRepo {
     var causeFailure = false
 
     var testRepoFile = RepoFile(TEST_TYPE, TEST_PATH, "", listOf(""), 0, null)
-    var testGitRepositoryDtoList = listOf(GitRepositoryDto(name = TEST_REPO))
+    var testGitRepositoryDto = GitRepositoryDto(name = TEST_REPO, updated = ZonedDateTime.parse(ZONE_DATE_TIME))
+    var testGitRepositoryDtoList = listOf(testGitRepositoryDto)
     var testUserDto = UserDto(
         username = TEST_USER_NAME,
         displayName = TEST_USER_DISPLAY_NAME,
@@ -58,12 +59,8 @@ object MockBitBucketRepo {
         on { repos }.then { _repos }
         on { snippets }.then { _snippets }
 
-        onBlocking { authenticate("") }.then {
-            authenticated
-        }
-        onBlocking { authenticate(null) }.then {
-            authenticated
-        }
+        onBlocking { authenticate("") }.then { authenticated }
+        onBlocking { authenticate(null) }.then { authenticated }
         onBlocking { clear() }.then {
             authenticated = false
             _user.value = null

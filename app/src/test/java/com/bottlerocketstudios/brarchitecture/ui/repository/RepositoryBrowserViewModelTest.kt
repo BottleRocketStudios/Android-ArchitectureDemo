@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import app.cash.turbine.test
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_HASH
@@ -16,7 +17,6 @@ import org.junit.Before
 import org.junit.Test
 
 class RepositoryBrowserViewModelTest : BaseTest() {
-
     private lateinit var viewModel: RepositoryBrowserViewModel
 
     @Before
@@ -31,21 +31,39 @@ class RepositoryBrowserViewModelTest : BaseTest() {
     }
 
     @Test
-    fun getFiles_onInitialization_shouldSetCurrentName() = runBlocking {
-        assertThat(viewModel.currentRepoName).isEqualTo(TEST_REPO)
-    }
-
-    @Test
-    fun getFiles_onInitialization_shouldSetPathFlow() = runBlocking {
-        viewModel.path.test {
-            assertThat(awaitItem()).isEqualTo(TEST_PATH)
+    fun srcFiles_getFilesCalledOnInit_shouldSetSrcFiles() = runBlocking {
+        viewModel.srcFiles.test {
+            assertThat(awaitItem()[0].path).isEqualTo(viewModel.path.value)
         }
     }
 
     @Test
-    fun getFiles_onInitialization_shouldSetSrcFiles() = runBlocking {
+    fun srcFiles_setValue_shouldReturnEmptyList() = runBlocking {
         viewModel.srcFiles.test {
-            assertThat(awaitItem()[0].path).isEqualTo(viewModel.path.value)
+            // Init value set by getFiles
+            assertThat(awaitItem()).isNotEmpty()
+            // Set value to empty list
+            viewModel.srcFiles.value = emptyList()
+            // Assert value is empty list
+            assertThat(awaitItem()).isEqualTo(emptyList<RepoFile>())
+        }
+    }
+
+    @Test
+    fun currentRepoName_getFilesCalledOnInit_shouldReturnTestRepo() = runBlocking {
+        assertThat(viewModel.currentRepoName).isEqualTo(TEST_REPO)
+    }
+
+    @Test
+    fun currentRepoName_setToEmptyString_shouldBeBlank() = runBlocking {
+        viewModel.currentRepoName = ""
+        assertThat(viewModel.currentRepoName).isEmpty()
+    }
+
+    @Test
+    fun path_getFilesCalledOnInit_shouldReturnTestPath() = runBlocking {
+        viewModel.path.test {
+            assertThat(awaitItem()).isEqualTo(TEST_PATH)
         }
     }
 

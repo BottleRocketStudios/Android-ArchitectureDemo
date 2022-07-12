@@ -1,18 +1,21 @@
 package com.bottlerocketstudios.brarchitecture.test.mocks
 
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
-import kotlinx.coroutines.flow.MutableStateFlow
-import org.mockito.kotlin.mock
 
+const val TEST_BUILD_DEV = "test_build_dev"
+const val TEST_BUILD_PROD = "test_build_prod"
+
+/** Preconfigured [BuildConfigProvider] to simplify usage of common configurations for easier testing  */
 object MockBuildConfigProvider {
-    var _isDebugOrInternalBuild = MutableStateFlow(true)
-    var _isProductionReleaseBuild = MutableStateFlow(false)
-    private var _buildIdentifier: String = ""
+    val DEV = object : BuildConfigProvider {
+        override val isDebugOrInternalBuild = true
+        override val isProductionReleaseBuild = !isDebugOrInternalBuild
+        override val buildIdentifier = TEST_BUILD_DEV
+    }
 
-    val buildConfigProvider: BuildConfigProvider = mock {
-        on { isDebugOrInternalBuild }.then { _isDebugOrInternalBuild.value }
-        on { isProductionReleaseBuild }.then { _isProductionReleaseBuild.value }
-        on { buildIdentifier }.then { _buildIdentifier }
-
+    val PROD_RELEASE = object : BuildConfigProvider {
+        override val isDebugOrInternalBuild = false
+        override val isProductionReleaseBuild = !isDebugOrInternalBuild
+        override val buildIdentifier = TEST_BUILD_PROD
     }
 }

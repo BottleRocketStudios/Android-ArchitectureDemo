@@ -3,24 +3,21 @@ package com.bottlerocketstudios.brarchitecture.ui.auth
 import app.cash.turbine.test
 import com.bottlerocketstudios.brarchitecture.data.BuildConfig
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
-import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBuildConfigProvider
-import com.bottlerocketstudios.brarchitecture.test.mocks.MockBuildConfigProvider.buildConfigProvider
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
 class AuthCodeViewModelTest : BaseTest() {
-
-    // TODO: Test onSignUpClicked external navigation
-
     private lateinit var viewModel: AuthCodeViewModel
 
     @Before
     fun setUp() {
-        inlineKoinSingle { bitbucketRepository }
-        inlineKoinSingle { buildConfigProvider }
+        inlineKoinSingle { MockBuildConfigProvider.DEV }
         viewModel = AuthCodeViewModel()
     }
 
@@ -38,13 +35,32 @@ class AuthCodeViewModelTest : BaseTest() {
         assertThat(viewModel.devOptionsEnabled).isEqualTo(true)
     }
 
-    // FIXME -- How can I make the devOptionsEnabled reset to false in the same vm?
     @Test
     fun devOptionsEnabled_isProduction_shouldReturnFalse() = runBlocking {
-        MockBuildConfigProvider._isDebugOrInternalBuild.value = false
-        val viewModel = AuthCodeViewModel()
+        inlineKoinSingle { MockBuildConfigProvider.PROD_RELEASE }
+        val model = AuthCodeViewModel()
 
-        assertThat(viewModel.devOptionsEnabled).isEqualTo(false)
+        assertThat(model.devOptionsEnabled).isEqualTo(false)
+    }
+
+    @Test
+    fun devOptionsEvent_emitValue_shouldReturnUnit() = runBlocking {
+        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.devOptionsEvent.collect() }
+        viewModel.devOptionsEvent.test {
+            (viewModel.devOptionsEvent as? MutableSharedFlow)?.emit(Unit)
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
+        collector.cancel()
+    }
+
+    @Test
+    fun homeEvent_emitValue_shouldReturnUnit() = runBlocking {
+        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.homeEvent.collect() }
+        viewModel.homeEvent.test {
+            (viewModel.homeEvent as? MutableSharedFlow)?.emit(Unit)
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
+        collector.cancel()
     }
 
     @Test
@@ -56,7 +72,7 @@ class AuthCodeViewModelTest : BaseTest() {
     }
 
     @Test
-    fun onAuthCode_shouldSetRequestUrlToEmptyString() = runBlocking {
+    fun requestUrl_onAuthCodeCalled_shouldReturnEmptyString() = runBlocking {
         viewModel.onAuthCode("")
         assertThat(viewModel.requestUrl.value.isBlank()).isEqualTo(true)
     }
