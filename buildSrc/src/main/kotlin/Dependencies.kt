@@ -169,6 +169,10 @@ private object Libraries {
 
     const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:0.2.0"
 
+    // Compose Testing
+    const val COMPOSE_UI_TEST_JUNIT4 = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
+    const val COMPOSE_UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
+
 
     // Accompanist
     // https://github.com/google/accompanist/releases
@@ -181,10 +185,6 @@ private object Libraries {
     private const val COIL_VERSION = "2.0.0-rc02"
     const val COIL = "io.coil-kt:coil:$COIL_VERSION"
     const val COIL_COMPOSE_EXT = "io.coil-kt:coil-compose:$COIL_VERSION"
-
-    // UI Tests
-    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
-
 
     // Navigation
     // https://developer.android.com/jetpack/androidx/releases/navigation
@@ -359,7 +359,6 @@ fun DependencyHandler.moshiDependencies() {
 fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_COMPILER)
     implementation(Libraries.COMPOSE_UI)
-    debugImplementation(Libraries.COMPOSE_UI_TOOLING)
     implementation(Libraries.COMPOSE_UI_TOOLING_PREVIEW)
     implementation(Libraries.COMPOSE_FOUNDATION)
     implementation(Libraries.COMPOSE_ANIMATION)
@@ -367,6 +366,9 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
     implementation(Libraries.COMPOSE_LIVE_DATA)
+    androidTestImplementation(Libraries.COMPOSE_UI_TEST_JUNIT4)
+    debugImplementation(Libraries.COMPOSE_UI_TEST_MANIFEST)
+    debugImplementation(Libraries.COMPOSE_UI_TOOLING)
 }
 
 fun DependencyHandler.accompanistDependencies() {
