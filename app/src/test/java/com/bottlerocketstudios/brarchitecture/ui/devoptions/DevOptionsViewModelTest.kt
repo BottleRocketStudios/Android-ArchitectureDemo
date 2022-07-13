@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.devoptions
 
+import app.cash.turbine.test
 import com.bottlerocketstudios.brarchitecture.domain.models.EnvironmentType
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.mocks.BASE_URL_PROD
@@ -42,17 +43,25 @@ class DevOptionsViewModelTest : BaseTest() {
     }
 
     @Test
+    fun environmentSpinnerPosition_changePosition_shouldReturnNewIndex() = runBlocking {
+        MockEnvironmentRepository._selectedConfig = MockEnvironmentRepository._environments[1]
+        viewModel = DevOptionsViewModel()
+        viewModel.environmentSpinnerPosition.test {
+            assertThat(awaitItem())
+                .isEqualTo(MockEnvironmentRepository._environments.indexOf(MockEnvironmentRepository._selectedConfig))
+        }
+    }
+
+    @Test
     fun environmentSpinnerPosition_onEnvironmentChanged_positionShouldUpdate() = runBlocking {
         // Change environment to PROD
         MockEnvironmentRepository.newEnvironment.value = ENVIRONMENT_PROD
-
         // Call function to change environment
         viewModel.onEnvironmentChanged(
             MockEnvironmentRepository._environments.indexOf(
                 MockEnvironmentRepository.newEnvironment.value
             )
         )
-
         // Assert that new spinner position is PROD and matches
         assertThat(viewModel.environmentSpinnerPosition.value).isEqualTo(
             mockEnvironmentRepository.environments.indexOf(ENVIRONMENT_PROD)
@@ -93,7 +102,6 @@ class DevOptionsViewModelTest : BaseTest() {
         assertThat(viewModel.applicationInfo.appId).isEqualTo(TEST_PACKAGE_NAME)
         assertThat(viewModel.applicationInfo.buildIdentifier).isEqualTo(TEST_BUILD_DEV)
     }
-
 }
 
 

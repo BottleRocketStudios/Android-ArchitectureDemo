@@ -68,6 +68,15 @@ class RepositoryBrowserViewModelTest : BaseTest() {
     }
 
     @Test
+    fun path_folderPathIsNull_shouldReturnRepoName() = runBlocking {
+        viewModel.path.test {
+            viewModel.getFiles(RepositoryBrowserData(TEST_REPO, TEST_HASH, null))
+            skipItems(1) // Skip init value
+            assertThat(awaitItem()).isEqualTo(TEST_REPO)
+        }
+    }
+
+    @Test
     fun itemCount_initialValue_shouldReturnZero() = runBlocking {
         assertThat(viewModel.itemCount.value).isEqualTo(0)
     }
@@ -77,9 +86,7 @@ class RepositoryBrowserViewModelTest : BaseTest() {
         // Must start collection() for any flow using the .groundState extension
         // https://developer.android.com/kotlin/flow/test#statein
         val collector = launch(testDispatcherProvider.Unconfined) { viewModel.itemCount.collect() }
-
         assertThat(viewModel.itemCount.value).isEqualTo(viewModel.srcFiles.value.size)
-
         collector.cancel()
     }
 

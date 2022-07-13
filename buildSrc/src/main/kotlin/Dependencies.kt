@@ -169,11 +169,6 @@ private object Libraries {
 
     const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:0.2.0"
 
-    // Compose Testing
-    const val COMPOSE_UI_TEST_JUNIT4 = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
-    const val COMPOSE_UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
-
-
     // Accompanist
     // https://github.com/google/accompanist/releases
     const val ACCOMPANIST = "com.google.accompanist:accompanist-webview:0.24.5-alpha"
@@ -366,8 +361,6 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_CORE)
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
     implementation(Libraries.COMPOSE_LIVE_DATA)
-    androidTestImplementation(Libraries.COMPOSE_UI_TEST_JUNIT4)
-    debugImplementation(Libraries.COMPOSE_UI_TEST_MANIFEST)
     debugImplementation(Libraries.COMPOSE_UI_TOOLING)
 }
 
