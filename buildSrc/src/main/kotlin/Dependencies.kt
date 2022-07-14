@@ -89,7 +89,7 @@ object Config {
 
         // https://developer.android.com/studio/releases/build-tools
         const val BUILD_TOOLS = "31.0.0"
-        const val MIN_SDK = 23 // TODO: TEMPLATE - Replace with appropriate project minSdkVersion
+        const val MIN_SDK = 24 // TODO: TEMPLATE - Replace with appropriate project minSdkVersion
 
         // https://developer.android.com/about/versions/12/behavior-changes-12
         const val TARGET_SDK = 31

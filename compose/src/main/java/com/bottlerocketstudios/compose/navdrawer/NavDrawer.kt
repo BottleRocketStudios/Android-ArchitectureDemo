@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.compose.navdrawer
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -17,7 +16,9 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -96,7 +97,6 @@ fun ColumnScope.NavDrawer(state: NavDrawerState) {
     )
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Preview(showSystemUi = true)
 @Composable
 fun ProfileScreenPreview() {
@@ -115,7 +115,7 @@ fun ProfileScreenPreview() {
                         avatarUrl = "https://placekitten.com/66/66".asMutableState(),
                         displayName = "Cool Cat".asMutableState(),
                         username = "Claws_N_Paws".asMutableState(),
-                        items = generateItemListPreview(),
+                        items = generateItemListPreview().asMutableState(),
                         devOptionsListener = {},
                     )
                 )
@@ -124,24 +124,28 @@ fun ProfileScreenPreview() {
     }
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
-fun generateItemListPreview() = mutableStateOf(
-    listOf(
-        NavItemState(
-            icon = R.drawable.ic_hide,
-            itemText = R.string.login_id_hint,
-            selected = true
-        ) {},
-        NavItemState(
-            icon = R.drawable.ic_hide,
-            itemText = R.string.login_id_hint,
-            selected = false
-        ) {},
-        NavItemState(
-            icon = R.drawable.ic_hide,
-            itemText = R.string.login_id_hint,
-            selected = false
-        ) {}
-    )
-)
+fun generateItemListPreview(): List<NavItemState> {
+    val itemList by remember {
+        mutableStateOf(
+            listOf(
+                NavItemState(
+                    icon = R.drawable.ic_hide,
+                    itemText = R.string.login_id_hint,
+                    selected = true
+                ) {},
+                NavItemState(
+                    icon = R.drawable.ic_hide,
+                    itemText = R.string.login_id_hint,
+                    selected = false
+                ) {},
+                NavItemState(
+                    icon = R.drawable.ic_hide,
+                    itemText = R.string.login_id_hint,
+                    selected = false
+                ) {}
+            )
+        )
+    }
+    return itemList
+}
