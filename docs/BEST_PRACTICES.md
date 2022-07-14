@@ -226,7 +226,6 @@ private fun PreviewPrimaryButton() {
 ```
 
 ##### Preview All States
-
 If the UI element can have multiple states then it is ideal to exercise each of those states in a preview.  For example, if a button can be in a disabled state then create a preview that demonstrates that state.
 
 ```kotlin

@@ -21,6 +21,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.launchpad.compose.bold
 
@@ -75,7 +76,7 @@ fun HomeScreen(state: HomeScreenState) {
     }
 }
 
-@Preview(showSystemUi = true)
+@PreviewAllDevices
 @Composable
 fun HomeScreenPreview() {
     Preview {

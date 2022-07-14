@@ -27,7 +27,7 @@ private object NavGraph {
  *
  * @param T - Type for list items and detail
  * @param list - list of [T] items
- * @param smallScreen - Is display small screen form factor
+ * @param compactWidth - Is display small screen form factor
  * @param keyProvider - Code block used to provide selection key from [T]
  * @param scope - [ListDetailScope] provides UI definition for List and Detail, along with callbacks.
  */
@@ -35,7 +35,7 @@ private object NavGraph {
 @Composable
 fun <T> AnimatedListDetail(
     list: List<T>,
-    smallScreen: Boolean,
+    compactWidth: Boolean,
     keyProvider: (T) -> String = { it.toString() },
     scope: @Composable ListDetailScope<T>.() -> Unit
 ) {
@@ -60,7 +60,7 @@ fun <T> AnimatedListDetail(
             }
 
             // Switch on screen size
-            if (smallScreen) {
+            if (compactWidth) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     // Show detail if item is selected
                     selected?.also {
