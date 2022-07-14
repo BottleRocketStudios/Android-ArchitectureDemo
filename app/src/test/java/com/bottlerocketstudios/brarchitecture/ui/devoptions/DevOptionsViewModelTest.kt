@@ -14,7 +14,7 @@ import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_PACKAGE_NAME
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_VERSION_CODE
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_VERSION_NAME
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -30,20 +30,20 @@ class DevOptionsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun environmentNames_onViewModelInit_shouldReturnEnvironmentTypeList() = runBlocking {
+    fun environmentNames_onViewModelInit_shouldReturnEnvironmentTypeList() = runTest {
         assertThat(viewModel.environmentNames.value)
             .isEqualTo(listOf(EnvironmentType.STG.shortName, EnvironmentType.PRODUCTION.shortName))
     }
 
     @Test
-    fun environmentSpinnerPosition_onViewModelInit_shouldReturnIndexOfSelectedConfig() = runBlocking {
+    fun environmentSpinnerPosition_onViewModelInit_shouldReturnIndexOfSelectedConfig() = runTest {
         assertThat(viewModel.environmentSpinnerPosition.value).isEqualTo(
             mockEnvironmentRepository.environments.indexOf(mockEnvironmentRepository.selectedConfig)
         )
     }
 
     @Test
-    fun environmentSpinnerPosition_changePosition_shouldReturnNewIndex() = runBlocking {
+    fun environmentSpinnerPosition_changePosition_shouldReturnNewIndex() = runTest {
         MockEnvironmentRepository._selectedConfig = MockEnvironmentRepository._environments[1]
         viewModel = DevOptionsViewModel()
         viewModel.environmentSpinnerPosition.test {
@@ -53,7 +53,7 @@ class DevOptionsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun environmentSpinnerPosition_onEnvironmentChanged_positionShouldUpdate() = runBlocking {
+    fun environmentSpinnerPosition_onEnvironmentChanged_positionShouldUpdate() = runTest {
         // Change environment to PROD
         MockEnvironmentRepository.newEnvironment.value = ENVIRONMENT_PROD
         // Call function to change environment
@@ -69,12 +69,12 @@ class DevOptionsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun baseUrl_initWithSTG_shouldReturnStgBaseUrl() = runBlocking {
+    fun baseUrl_initWithSTG_shouldReturnStgBaseUrl() = runTest {
         assertThat(viewModel.baseUrl.value).isEqualTo(BASE_URL_STG)
     }
 
     @Test
-    fun basUrl_initWithPROD_shouldReturnProdBaseUrl() = runBlocking {
+    fun basUrl_initWithPROD_shouldReturnProdBaseUrl() = runTest {
         // Change init environment
         MockEnvironmentRepository._selectedConfig = ENVIRONMENT_PROD
         // Re "init" viewModel
@@ -84,7 +84,7 @@ class DevOptionsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun baseUrl_onEnvironmentChanged_urlShouldUpdate() = runBlocking {
+    fun baseUrl_onEnvironmentChanged_urlShouldUpdate() = runTest {
         // Change environment to PROD
         MockEnvironmentRepository.newEnvironment.value = ENVIRONMENT_PROD
         viewModel.onEnvironmentChanged(MockEnvironmentRepository._environments.indexOf(ENVIRONMENT_PROD))
@@ -94,7 +94,7 @@ class DevOptionsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun applicationInfo_onViewModelInit_appInfoShouldMatch() = runBlocking {
+    fun applicationInfo_onViewModelInit_appInfoShouldMatch() = runTest {
         // Multiple asserts to check contents; if even one assert fails, this test should fail
         assertThat(viewModel.applicationInfo.appVersionName).isEqualTo(TEST_VERSION_NAME)
         assertThat(viewModel.applicationInfo.appVersionCode).isEqualTo(TEST_VERSION_CODE.toString())

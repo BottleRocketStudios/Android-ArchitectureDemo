@@ -1,6 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.test
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestRule
@@ -27,16 +29,17 @@ import timber.log.Timber
  * * https://medium.com/swlh/an-experience-of-unit-testing-with-the-arrange-act-assert-aaa-pattern-part-i-53babd01c52b
  */
 open class BaseTest {
-    val testDispatcherProvider = TestDispatcherProvider()
+    /** Defaults to using [UnconfinedTestDispatcher]. Override per test class to potentially use [StandardTestDispatcher] as needed. */
+    open val testDispatcherProvider = UnconfinedTestDispatcher().generateTestDispatcherProvider()
 
     @get:Rule(order = Int.MIN_VALUE)
-    val setDispatcherOnMain = SetDispatcherOnMain(testDispatcherProvider.Unconfined)
+    val setDispatcherOnMain by lazy { SetDispatcherOnMain(testDispatcherProvider.Unconfined) }
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
+    val koinRule by lazy { KoinTestRule(TestModule.generateMockedTestModule(testDispatcherProvider)) }
 
     @Before
     fun plantTimber() {

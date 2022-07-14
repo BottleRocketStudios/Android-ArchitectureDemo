@@ -8,7 +8,7 @@ import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_PATH
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO_ID
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO_MIME
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -23,14 +23,14 @@ class RepositoryFileViewModelTest : BaseTest() {
     }
 
     @Test
-    fun srcFile_onInitialization_shouldByteArray() = runBlocking {
+    fun srcFile_onInitialization_shouldByteArray() = runTest {
         viewModel.srcFile.test {
             assertThat(awaitItem()?.size).isEqualTo(4)
         }
     }
 
     @Test
-    fun path_onInitialization_shouldReturnPath() = runBlocking {
+    fun path_onInitialization_shouldReturnPath() = runTest {
         viewModel.path.test {
             assertThat(awaitItem()).isEqualTo(TEST_PATH)
         }

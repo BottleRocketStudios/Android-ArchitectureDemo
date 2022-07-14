@@ -9,8 +9,7 @@ import com.bottlerocketstudios.brarchitecture.test.mocks.SNIPPET_FILENAME
 import com.bottlerocketstudios.brarchitecture.test.mocks.SNIPPET_TITLE
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -24,7 +23,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun title_setWithTitle_shouldReturnTestTitle() = runBlocking {
+    fun title_setWithTitle_shouldReturnTestTitle() = runTest {
         viewModel.title.test {
             // Assert initial value is an empty string
             assertThat(awaitItem().isBlank()).isEqualTo(true)
@@ -34,7 +33,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun filename_setWithFileName_shouldReturnTestFilename() = runBlocking {
+    fun filename_setWithFileName_shouldReturnTestFilename() = runTest {
         viewModel.filename.test {
             // Assert initial value is an empty string
             assertThat(awaitItem().isBlank()).isEqualTo(true)
@@ -44,7 +43,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun contents_setWithContents_shouldReturnTestContents() = runBlocking {
+    fun contents_setWithContents_shouldReturnTestContents() = runTest {
         viewModel.contents.test {
             // Assert initial value is an empty string
             assertThat(awaitItem().isBlank()).isEqualTo(true)
@@ -54,7 +53,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun private_setToTrue_shouldReturnTrue() = runBlocking {
+    fun private_setToTrue_shouldReturnTrue() = runTest {
         viewModel.private.test {
             // Assert initial value is false
             assertThat(awaitItem()).isEqualTo(false)
@@ -64,7 +63,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun failed_setToTrue_shouldReturnTrue() = runBlocking {
+    fun failed_setToTrue_shouldReturnTrue() = runTest {
         viewModel.failed.test {
             // Assert initial value is false
             assertThat(awaitItem()).isEqualTo(false)
@@ -74,7 +73,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun failed_onCreateClickedWithSuccess_shouldReturnFalse() = runBlocking {
+    fun failed_onCreateClickedWithSuccess_shouldReturnFalse() = runTest {
         viewModel.failed.test {
             // Set values
             setSnippetValuesAndPrivacy(false)
@@ -84,10 +83,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun createEnabled_addValues_shouldReturnTrue() = runBlocking {
-        // Start collection on a flow that is using .groundState extension
-        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.createEnabled.value }
-
+    fun createEnabled_addValues_shouldReturnTrue() = runTest {
         viewModel.createEnabled.test {
             // Assert initial value is false
             assertThat(awaitItem()).isEqualTo(false)
@@ -95,12 +91,10 @@ class CreateSnippetViewModelTest : BaseTest() {
             setSnippetValuesAndPrivacy(false)
             assertThat(awaitItem()).isEqualTo(true)
         }
-
-        collector.cancel()
     }
 
     @Test
-    fun onSuccess_onCreateClickedSuccess_shouldEmitUnit() = runBlocking {
+    fun onSuccess_onCreateClickedSuccess_shouldEmitUnit() = runTest {
         setSnippetValuesAndPrivacy(true)
 
         viewModel.onSuccess.test {
@@ -110,7 +104,7 @@ class CreateSnippetViewModelTest : BaseTest() {
     }
 
     @Test
-    fun failed_onCreateClickedFailure_shouldReturnTrue() = runBlocking {
+    fun failed_onCreateClickedFailure_shouldReturnTrue() = runTest {
         setSnippetValuesAndPrivacy(true)
         MockBitBucketRepo.causeFailure = true
 

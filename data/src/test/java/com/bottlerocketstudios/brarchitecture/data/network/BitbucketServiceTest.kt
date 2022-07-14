@@ -11,13 +11,13 @@ import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import org.junit.Ignore
 import org.junit.Test
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -36,7 +36,7 @@ class BitbucketServiceTest : BaseTest() {
             tokenType = "bearer",
             scopes = "project account pullrequest"
         )
-        runBlocking {
+        runTest {
             val bitbucketService = createBitbucketService(accessToken)
             val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY")
             val body = response.body()
@@ -58,7 +58,7 @@ class BitbucketServiceTest : BaseTest() {
             tokenType = "bearer",
             scopes = "project account pullrequest"
         )
-        runBlocking {
+        runTest {
             val bitbucketService = createBitbucketService(accessToken)
             val response = bitbucketService.getRepository("REPLACE WITH USERNAME", "REPLACE WITH PRIVATE REPOSITORY")
             val body = response.body()
@@ -72,13 +72,11 @@ class BitbucketServiceTest : BaseTest() {
     }
 
     @Test
-    fun getUser_shouldReturnUser_whenAuthenticated() {
-        runBlocking {
-            val bitbucketService = createBitbucketService(null)
-            val response = bitbucketService.getUser()
-            val body = response.body()
-            val errorBody = response.errorBody()
-        }
+    fun getUser_shouldReturnUser_whenAuthenticated() = runTest {
+        val bitbucketService = createBitbucketService(null)
+        val response = bitbucketService.getUser()
+        val body = response.body()
+        val errorBody = response.errorBody()
     }
 
     // TODO: Consider adding koin-test and use a test koin graph instead of the manual creation here

@@ -12,10 +12,8 @@ import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import java.time.Clock
@@ -29,18 +27,18 @@ class HomeViewModelTest : BaseTest() {
     }
 
     @Test
-    fun user_onVMInit_shouldReturnMatchingUserName() = runBlocking {
+    fun user_onVMInit_shouldReturnMatchingUserName() = runTest {
         assertThat(viewModel.user).isNotNull()
         assertThat(viewModel.user.value?.username).isEqualTo(TEST_USER_NAME)
     }
 
     @Test
-    fun repos_onVMInit_shouldReturnMatchingListSize() = runBlocking {
+    fun repos_onVMInit_shouldReturnMatchingListSize() = runTest {
         assertThat(viewModel.repos.value).hasSize(bitbucketRepository.repos.value.size)
     }
 
     @Test
-    fun userRepositoryState_onVMInit_shouldReturnTestRepo() = runBlocking {
+    fun userRepositoryState_onVMInit_shouldReturnTestRepo() = runTest {
         MockBitBucketRepo.testGitRepositoryDtoList = listOf(GitRepositoryDto(name = TEST_REPO))
         viewModel.userRepositoryState.test {
             bitbucketRepository.refreshMyRepos()
@@ -49,7 +47,7 @@ class HomeViewModelTest : BaseTest() {
     }
 
     @Test
-    fun userRepositoryStateIsEmpty_whenSetToEmpty_shouldReturnEmptyList() = runBlocking {
+    fun userRepositoryStateIsEmpty_whenSetToEmpty_shouldReturnEmptyList() = runTest {
         MockBitBucketRepo.testGitRepositoryDtoList = emptyList()
         viewModel.userRepositoryState.test {
             bitbucketRepository.refreshMyRepos()
@@ -58,19 +56,17 @@ class HomeViewModelTest : BaseTest() {
     }
 
     @Test
-    fun itemSelected_emitValue_shouldReturnUserRepoUiModel() = runBlocking {
-        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.itemSelected.collect() }
+    fun itemSelected_emitValue_shouldReturnUserRepoUiModel() = runTest {
         viewModel.itemSelected.test {
             val repo = MockBitBucketRepo.testGitRepositoryDto.convertToGitRepository()
             (viewModel.itemSelected as? MutableSharedFlow)
                 ?.emit(UserRepositoryUiModel(repo, repo.updated.formattedUpdateTime(Clock.systemDefaultZone())))
             assertThat(awaitItem().repo.name).isEqualTo(repo.name)
         }
-        collector.cancel()
     }
 
     @Test
-    fun itemSelected_whenSelectItemIsCalled_shouldReturnTestRepo() = runBlocking {
+    fun itemSelected_whenSelectItemIsCalled_shouldReturnTestRepo() = runTest {
         bitbucketRepository.refreshMyRepos()
         viewModel.itemSelected.test {
             viewModel.selectItem(viewModel.userRepositoryState.first()[0])

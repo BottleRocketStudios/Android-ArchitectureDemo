@@ -9,9 +9,6 @@ import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_DISPLAY_NAME
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_LINK
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_NAME
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -36,21 +33,21 @@ class ComposeActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun showToolbar_initValue_shouldReturnFalse() = runBlocking {
+    fun showToolbar_initValue_shouldReturnFalse() = runTest {
         viewModel.showToolbar.test {
             assertThat(awaitItem()).isFalse()
         }
     }
 
     @Test
-    fun topLevel_initValue_shouldReturnEmptyString() = runBlocking {
+    fun topLevel_initValue_shouldReturnEmptyString() = runTest {
         viewModel.topLevel.test {
             assertThat(awaitItem()).isFalse()
         }
     }
 
     @Test
-    fun selectedRepo_initValue_shouldReturnEmptyRepo() = runBlocking {
+    fun selectedRepo_initValue_shouldReturnEmptyRepo() = runTest {
         viewModel.selectedRepo.test {
             assertThat(awaitItem())
                 .isEqualTo(GitRepository(null, null, null, null, null, null, null))
@@ -58,34 +55,28 @@ class ComposeActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun devOptionsEnabled_initValue_shouldReturnTrue() = runBlocking {
+    fun devOptionsEnabled_initValue_shouldReturnTrue() = runTest {
         assertThat(viewModel.devOptionsEnabled).isTrue()
     }
 
     @Test
-    fun avatarUrl_initWithValue_shouldReturnAvatarUrl() = runBlocking {
-        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.avatarUrl.collect() }
+    fun avatarUrl_initWithValue_shouldReturnAvatarUrl() = runTest {
         viewModel.avatarUrl.test {
             assertThat(awaitItem()).isEqualTo(TEST_USER_LINK)
         }
-        collector.cancel()
     }
 
     @Test
-    fun displayName_initWithValue_shouldReturnDisplayName() = runBlocking {
-        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.displayName.collect() }
+    fun displayName_initWithValue_shouldReturnDisplayName() = runTest {
         viewModel.displayName.test {
             assertThat(awaitItem()).isEqualTo(TEST_USER_DISPLAY_NAME)
         }
-        collector.cancel()
     }
 
     @Test
-    fun userName_initWithValue_shouldReturnUserName() = runBlocking {
-        val collector = launch(testDispatcherProvider.Unconfined) { viewModel.username.collect() }
+    fun userName_initWithValue_shouldReturnUserName() = runTest {
         viewModel.username.test {
             assertThat(awaitItem()).isEqualTo(TEST_USER_NAME)
         }
-        collector.cancel()
     }
 }

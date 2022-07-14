@@ -8,7 +8,7 @@ import com.bottlerocketstudios.brarchitecture.test.mocks.SNIPPET_TITLE
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_DISPLAY_NAME
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import java.time.Clock
@@ -23,7 +23,7 @@ class SnippetsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun snippets_refreshSnippets_shouldReturnSnippetListWithCorrectContent() = runBlocking {
+    fun snippets_refreshSnippets_shouldReturnSnippetListWithCorrectContent() = runTest {
         viewModel.snippets.test {
             viewModel.refreshSnippets()
             // Drop the initial "emptyList()" value and get the updated value from refresh call
@@ -44,7 +44,7 @@ class SnippetsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun createClicked_onCreateClicked_shouldEmitUnit() = runBlocking {
+    fun createClicked_onCreateClicked_shouldEmitUnit() = runTest {
         viewModel.createClicked.test {
             viewModel.onCreateClick()
             assertThat(awaitItem()).isEqualTo(Unit)
