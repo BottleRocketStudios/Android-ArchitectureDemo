@@ -140,7 +140,7 @@ Compose UI code is being developed in a separate module to decrease compile time
 
 #### Compose Screens
 ##### State
-Composable screens should be driven by a state object and lambas.  This state class is defined at the screen UI level in the compose module.  It can be used to drive previews of the screen.
+Composable screens should be driven by a state object and lambdas.  This state class is defined at the screen UI level in the compose module.  It can be used to drive previews of the screen easily with fake data, which wouldn't be the case if viewmodels were directly referenced.
 
 ```kotlin
 data class CreateSnippetScreenState(
