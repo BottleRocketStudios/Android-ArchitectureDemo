@@ -49,8 +49,8 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
                 .header("Authorization", getTokenAuthHeader(accessToken!!.value))
                 .build()
             var chainResult = chain.proceed(newRequest)
-            if (chainResult.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                val failureJson = chainResult.body()?.string() ?: ""
+            if (chainResult.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                val failureJson = chainResult.body?.string() ?: ""
                 val failure =
                     Moshi.Builder().build().adapter(BitbucketFailure::class.java).fromJson(failureJson)
                 Timber.v("auth failure=$failure")

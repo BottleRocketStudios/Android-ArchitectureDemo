@@ -17,6 +17,7 @@ data class SnippetDetailsDto(
     @Json(name = "files") val files: List<SnippetDetailsFileDto?>?= null,
     @Json(name = "owner") val owner: UserDto? = null,
     @Json(name = "creator") val creator: UserDto? = null,
+    @Json(name = "links") val links: LinksDto? = null
 ): Parcelable, Dto
 
 @JsonClass(generateAdapter = true)

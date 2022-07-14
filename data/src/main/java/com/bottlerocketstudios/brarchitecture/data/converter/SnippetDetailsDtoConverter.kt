@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.converter
 
-import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsFileDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
+import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsFileDto
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.compose.snippets.SnippetDetailsUiModel
 
@@ -27,5 +27,6 @@ fun SnippetDetailsFileDto.convertToUiModel(): SnippetDetailsFile? {
         }
     return snippetFile
 }
+
 
 

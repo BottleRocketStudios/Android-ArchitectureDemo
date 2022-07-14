@@ -27,7 +27,11 @@ class SnippetDetailsViewModel: BaseViewModel() {
     workspace (string) == workspace ID (slug) OR workspace UUID surrounded by curly-braces, for example: {workspace UUID}.
      */
 
-    fun getSnippetDetails(snippet: Snippet) {
+    init {
+        getSnippetDetails(Snippet())
+    }
+
+    private fun getSnippetDetails(snippet: Snippet) {
         val workspaceId = currentWorkspace.slug ?: currentWorkspace.uuid
         val snippetId: String? = snippet.id
         launchIO {

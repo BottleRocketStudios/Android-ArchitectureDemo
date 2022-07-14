@@ -1,10 +1,10 @@
 package com.bottlerocketstudios.brarchitecture.domain.models
 
 data class Links(
-    val self: Link?,
-    val html: Link?,
-    val comments: Link?,
-    val watchers: Link?,
-    val commits: Link?,
-    val avatar: Link?,
+    val self: Link? = null,
+    val html: Link? = null,
+    val comments: Link? = null,
+    val watchers: Link? = null,
+    val commits: Link? = null,
+    val avatar: Link? = null,
 ) : DomainModel
