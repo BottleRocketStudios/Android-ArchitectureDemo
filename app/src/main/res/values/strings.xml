@@ -9,6 +9,7 @@
 
     <!-- Snippets -->
     <string name="snippets_title">Snippets</string>
+    <string name="snippets_error">Failed to retrieve snippet</string>
 
     <!-- Repository screen -->
     <string name="error_loading_repository">Error loading repository</string>

@@ -2,6 +2,7 @@ package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import okhttp3.MultipartBody
@@ -68,4 +69,11 @@ internal interface BitbucketService {
         @Part body: MultipartBody.Part,
         @Part("is_private") private: Boolean
     ): Response<SnippetDto>
+
+    /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-get */
+    @GET(value = "2.0/snippets/{workspace}/{encoded_id}")
+    suspend fun getSnippetDetails(
+        @Path(value = "workspace") workspace: String,
+        @Path(value = "encoded_id") encoded_id: String,
+    ): Response<SnippetDetailsDto>
 }

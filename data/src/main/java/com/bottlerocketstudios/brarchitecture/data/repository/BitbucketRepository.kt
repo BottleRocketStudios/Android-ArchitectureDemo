@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.data.repository
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
+import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
@@ -39,6 +40,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
+    suspend fun getSnippetDetails(workspace: String, encodedId: String): Status<SnippetDetailsDto>
     fun clear()
 }
 
@@ -147,6 +149,12 @@ internal class BitbucketRepositoryImpl(
         return wrapRepoExceptions("createSnippet") {
             val body = MultipartBody.Part.createFormData("file", filename, RequestBody.create(MediaType.get("text/plain"), contents))
             bitbucketService.createSnippet(title, body, private).toEmptyResult()
+        }
+    }
+
+    override suspend fun getSnippetDetails(workspace: String, encodedId: String): Status<SnippetDetailsDto> {
+        return wrapRepoExceptions("snippetDetails") {
+            bitbucketService.getSnippetDetails(workspace, encodedId).toResult()
         }
     }
 

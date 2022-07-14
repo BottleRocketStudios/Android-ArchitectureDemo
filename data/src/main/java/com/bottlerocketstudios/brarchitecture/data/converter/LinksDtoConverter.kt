@@ -5,6 +5,13 @@ import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
 import com.bottlerocketstudios.brarchitecture.domain.models.Link
 import com.bottlerocketstudios.brarchitecture.domain.models.Links
 
-fun LinksDto.convertToLinks() = Links(avatar = avatar?.convertToLink())
+fun LinksDto.convertToLinks() = Links(
+    self = self?.convertToLink(),
+    html = html?.convertToLink(),
+    comments = comments?.convertToLink(),
+    watchers = watchers?.convertToLink(),
+    commits = commits?.convertToLink(),
+    avatar = avatar?.convertToLink()
+)
 
 fun LinkDto.convertToLink() = Link(href = href)
