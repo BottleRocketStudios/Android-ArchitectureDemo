@@ -63,6 +63,8 @@ fun AuthCodePreview() {
     }
 }
 
+// FIXME: javaScriptEnabled = true can result in removal from Play Store
+// https://support.google.com/faqs/answer/7668153?hl=en
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNavigator) {

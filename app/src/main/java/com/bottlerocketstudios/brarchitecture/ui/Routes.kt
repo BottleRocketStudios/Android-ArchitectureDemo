@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.ui
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 
-@Suppress("FunctionName")
 object Routes {
     const val Main = "main"
     const val Home = "home"
@@ -11,7 +10,6 @@ object Routes {
     const val AuthCode = "authcode"
     const val DevOptions = "devoptions"
     const val Snippets = "snippets"
-    const val CreateSnippet = "snippets/create"
     const val Profile = "profile"
 
     fun RepositoryBrowser(data: RepositoryBrowserData) =

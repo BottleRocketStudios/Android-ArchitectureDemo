@@ -1,9 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -24,11 +22,8 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserVie
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
-import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
-import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsViewModel
-import com.bottlerocketstudios.brarchitecture.ui.snippet.toState
+import com.bottlerocketstudios.brarchitecture.ui.snippet.snippetListDetailComposable
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
-import com.bottlerocketstudios.brarchitecture.ui.util.LaunchCollection
 import com.bottlerocketstudios.brarchitecture.ui.util.navigateAsTopLevel
 import com.bottlerocketstudios.compose.auth.AuthCodeScreen
 import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
@@ -36,9 +31,8 @@ import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.profile.ProfileScreen
 import com.bottlerocketstudios.compose.repository.FileBrowserScreen
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
-import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
-import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
+import com.bottlerocketstudios.compose.util.LaunchCollection
 import com.google.accompanist.web.rememberWebViewNavigator
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -60,8 +54,8 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
         vm.ConnectBaseViewModel {
             AuthCodeScreen(
                 state = it.toState { showToolbar: Boolean ->
-                    controls.title = if (showToolbar) ComposeActivity.EMPTY_TOOLBAR_TITLE else ""
-                    navIntercept = {
+                    controls.title = if (showToolbar) EMPTY_TOOLBAR_TITLE else ""
+                    navIntercept.value = {
                         if (vm.requestUrl.value.isNotEmpty()) {
                             vm.requestUrl.value = ""
                             true
@@ -72,7 +66,7 @@ private fun ComposeActivity.authCodeComposable(navGraphBuilder: NavGraphBuilder,
                 },
                 navigator = webViewNavigator
             )
-            navIntercept = {
+            navIntercept.value = {
                 webViewNavigator.canGoBack.also {
                     if (it) webViewNavigator.navigateBack()
                 }
@@ -188,50 +182,6 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
     }
 }
 
-private fun ComposeActivity.snippetsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
-    navGraphBuilder.composable(Routes.Snippets) {
-        val vm: SnippetsViewModel = getViewModel()
-        vm.ConnectBaseViewModel {
-            SnippetsBrowserScreen(it.toState())
-        }
-
-        controls.title = stringResource(id = R.string.snippets_title)
-        controls.topLevel = true
-
-        vm.createClicked.LaunchCollection {
-            navController.navigate(Routes.CreateSnippet)
-        }
-
-        DisposableEffect(lifecycle) {
-            val observer = LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_RESUME) {
-                    vm.refreshSnippets()
-                }
-            }
-
-            lifecycle.addObserver(observer)
-            onDispose {
-                lifecycle.removeObserver(observer)
-            }
-        }
-    }
-}
-
-private fun ComposeActivity.createSnippetComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
-    navGraphBuilder.composable(Routes.CreateSnippet) {
-        val vm: CreateSnippetViewModel = getViewModel()
-        vm.ConnectBaseViewModel {
-            CreateSnippetScreen(state = it.toState())
-        }
-
-        controls.title = EMPTY_TOOLBAR_TITLE
-
-        vm.onSuccess.LaunchCollection {
-            navController.navigateUp()
-        }
-    }
-}
-
 private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Profile) {
         val vm: ProfileViewModel = getViewModel()
@@ -248,7 +198,7 @@ private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, 
     }
 }
 
-fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: ComposeActivity) {
+fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: ComposeActivity, widthSize: WindowWidthSizeClass) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
             splashComposable(this, navController)
@@ -257,9 +207,8 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             homeComposable(this, navController)
             repositoryBrowserComposable(this, navController)
             repositoryFileComposable(this)
-            snippetsComposable(this, navController)
-            createSnippetComposable(this, navController)
             profileComposable(this, navController)
+            snippetListDetailComposable(this, widthSize)
         }
     }
 }
