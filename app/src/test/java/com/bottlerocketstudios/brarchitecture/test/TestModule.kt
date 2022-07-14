@@ -13,10 +13,10 @@ import java.time.Clock
 
 object TestModule {
     // Default mocks can be overridden using inlineKoinSingle function
-    fun generateMockedTestModule() = module {
+    fun generateMockedTestModule(testDispatcherProvider: TestDispatcherProvider) = module {
         single { testContext }
         single { testApplicationFactory() }
-        single<DispatcherProvider> { TestDispatcherProvider() }
+        single<DispatcherProvider> { testDispatcherProvider }
         single { ForceCrashLogicImpl }
         single<Clock> { Clock.systemDefaultZone() }
         single<Toaster> { ToasterImpl(testContext) }

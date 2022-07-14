@@ -15,10 +15,6 @@ class SplashViewModel : BaseViewModel() {
     val unAuthEvent: SharedFlow<Unit> = MutableSharedFlow()
 
     init {
-        authenticate()
-    }
-
-    fun authenticate() {
         launchIO {
             if (repo.authenticate()) {
                 authEvent.emit(Unit)
