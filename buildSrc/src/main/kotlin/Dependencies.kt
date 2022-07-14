@@ -172,7 +172,6 @@ private object Libraries {
 
     const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:0.2.0"
 
-
     // Accompanist
     // https://github.com/google/accompanist/releases
     private const val ACCOMPANIST_VERSION = "0.24.5-alpha"
@@ -186,10 +185,6 @@ private object Libraries {
     private const val COIL_VERSION = "2.0.0-rc02"
     const val COIL = "io.coil-kt:coil:$COIL_VERSION"
     const val COIL_COMPOSE_EXT = "io.coil-kt:coil-compose:$COIL_VERSION"
-
-    // UI Tests
-    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
-
 
     // Navigation
     // https://developer.android.com/jetpack/androidx/releases/navigation
@@ -328,7 +323,7 @@ private object TestLibraries {
     // Turbine - small emission testing lib for flows (hot or cold)
     // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
     // https://github.com/cashapp/turbine/releases
-    const val TURBINE = "app.cash.turbine:turbine:0.7.0"
+    const val TURBINE = "app.cash.turbine:turbine:0.8.0"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
@@ -364,7 +359,6 @@ fun DependencyHandler.moshiDependencies() {
 fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_COMPILER)
     implementation(Libraries.COMPOSE_UI)
-    debugImplementation(Libraries.COMPOSE_UI_TOOLING)
     implementation(Libraries.COMPOSE_UI_TOOLING_PREVIEW)
     implementation(Libraries.COMPOSE_FOUNDATION)
     implementation(Libraries.COMPOSE_ANIMATION)
@@ -373,6 +367,7 @@ fun DependencyHandler.composeDependencies() {
     implementation(Libraries.COMPOSE_MATERIAL_ICONS_EXTENDED)
     implementation(Libraries.COMPOSE_MATERIAL3_WINDOW_SIZE)
     implementation(Libraries.COMPOSE_LIVE_DATA)
+    debugImplementation(Libraries.COMPOSE_UI_TOOLING)
 }
 
 fun DependencyHandler.accompanistDependencies() {

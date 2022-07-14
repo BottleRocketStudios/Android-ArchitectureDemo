@@ -1,62 +1,76 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToGitRepository
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
-import com.bottlerocketstudios.brarchitecture.data.model.UserDto
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
-import com.bottlerocketstudios.brarchitecture.test.KoinTestRule
-import com.bottlerocketstudios.brarchitecture.test.TestDispatcherProvider
-import com.bottlerocketstudios.brarchitecture.test.TestModule
+import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo
+import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
+import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO
+import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_NAME
+import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
+import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.runBlocking
-import org.junit.Rule
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
-import org.junit.rules.TestRule
-import org.mockito.kotlin.mock
+import java.time.Clock
 
 class HomeViewModelTest : BaseTest() {
-    @get:Rule
-    var rule: TestRule = InstantTaskExecutorRule()
+    private lateinit var viewModel: HomeViewModel
 
-    @get:Rule
-    val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
+    @Before
+    fun setUp() {
+        viewModel = HomeViewModel()
+    }
 
-    val _user = MutableStateFlow<UserDto?>(null)
-    val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
-    private val TEST_USER_NAME = "testuser"
-    private val dispatcherProvider = TestDispatcherProvider()
-    val bitbucketRepository: BitbucketRepository = mock {
-        on { user }.then { _user }
-        on { repos }.then { _repos }
-        onBlocking { refreshUser() }.then {
-            val user = UserDto(username = TEST_USER_NAME)
-            _user.value = user
-            Status.Success(Unit)
-        }
-        onBlocking { refreshMyRepos() }.then {
-            val repos = listOf(GitRepositoryDto(name = "testRepo"))
-            _repos.value = repos
-            Status.Success(Unit)
+    @Test
+    fun user_onVMInit_shouldReturnMatchingUserName() = runTest {
+        assertThat(viewModel.user).isNotNull()
+        assertThat(viewModel.user.value?.username).isEqualTo(TEST_USER_NAME)
+    }
+
+    @Test
+    fun repos_onVMInit_shouldReturnMatchingListSize() = runTest {
+        assertThat(viewModel.repos.value).hasSize(bitbucketRepository.repos.value.size)
+    }
+
+    @Test
+    fun userRepositoryState_onVMInit_shouldReturnTestRepo() = runTest {
+        MockBitBucketRepo.testGitRepositoryDtoList = listOf(GitRepositoryDto(name = TEST_REPO))
+        viewModel.userRepositoryState.test {
+            bitbucketRepository.refreshMyRepos()
+            assertThat(expectMostRecentItem().first().repo.name).isEqualTo(TEST_REPO)
         }
     }
 
     @Test
-    fun homeViewModel_shouldUpdateAdapter_whenReposRefreshed() = runBlocking {
-        inlineKoinSingle { bitbucketRepository }
-        val model = HomeViewModel()
-
-        assertThat(model.repos.value).hasSize(1)
+    fun userRepositoryStateIsEmpty_whenSetToEmpty_shouldReturnEmptyList() = runTest {
+        MockBitBucketRepo.testGitRepositoryDtoList = emptyList()
+        viewModel.userRepositoryState.test {
+            bitbucketRepository.refreshMyRepos()
+            assertThat(expectMostRecentItem().isEmpty()).isEqualTo(true)
+        }
     }
 
     @Test
-    fun homeViewModel_shouldHaveUser_whenInitialized() = runBlocking {
-        inlineKoinSingle { bitbucketRepository }
-        val model = HomeViewModel()
+    fun itemSelected_emitValue_shouldReturnUserRepoUiModel() = runTest {
+        viewModel.itemSelected.test {
+            val repo = MockBitBucketRepo.testGitRepositoryDto.convertToGitRepository()
+            (viewModel.itemSelected as? MutableSharedFlow)
+                ?.emit(UserRepositoryUiModel(repo, repo.updated.formattedUpdateTime(Clock.systemDefaultZone())))
+            assertThat(awaitItem().repo.name).isEqualTo(repo.name)
+        }
+    }
 
-        assertThat(model.user).isNotNull()
-        assertThat(model.user.value?.username).isEqualTo(TEST_USER_NAME)
+    @Test
+    fun itemSelected_whenSelectItemIsCalled_shouldReturnTestRepo() = runTest {
+        bitbucketRepository.refreshMyRepos()
+        viewModel.itemSelected.test {
+            viewModel.selectItem(viewModel.userRepositoryState.first()[0])
+            assertThat(awaitItem().repo.name).isEqualTo(TEST_REPO)
+        }
     }
 }

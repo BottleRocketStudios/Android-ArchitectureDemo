@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name=":app - testInternalDebugUnitTest" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name=":compose - testInternalDebugUnitTest" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$/app" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/compose" />
       <option name="externalSystemIdString" value="GRADLE" />
       <option name="scriptParameters" value="--tests &quot;*&quot;" />
       <option name="taskDescriptions">
@@ -10,8 +10,8 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value=":app:cleanTestInternalDebugUnitTest" />
-          <option value=":app:testInternalDebugUnitTest" />
+          <option value=":compose:cleanTestInternalDebugUnitTest" />
+          <option value=":compose:testInternalDebugUnitTest" />
         </list>
       </option>
       <option name="vmOptions" value="" />
