@@ -67,7 +67,7 @@ class RepositoryBrowserViewModelTest : BaseTest() {
     fun path_folderPathIsNull_shouldReturnRepoName() = runTest {
         viewModel.path.test {
             viewModel.getFiles(RepositoryBrowserData(TEST_REPO, TEST_HASH, null))
-            skipItems(1) // Skip init value
+            awaitItem() // Skip init value
             assertThat(awaitItem()).isEqualTo(TEST_REPO)
         }
     }

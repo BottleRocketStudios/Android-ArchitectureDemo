@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
+import androidx.annotation.VisibleForTesting
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
@@ -18,7 +19,9 @@ class RepositoryBrowserViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // State
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val srcFiles = MutableStateFlow<List<RepoFile>>(emptyList())
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var currentRepoName: String = ""
 
     // UI
