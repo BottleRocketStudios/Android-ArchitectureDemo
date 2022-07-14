@@ -4,7 +4,7 @@ import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class CommitTest: BaseTest() {
+class CommitTest : BaseTest() {
     @Test
     fun commit_defaultFields_whenDefaultConstructor() {
         val commit = Commit(null, null, null, null, null)

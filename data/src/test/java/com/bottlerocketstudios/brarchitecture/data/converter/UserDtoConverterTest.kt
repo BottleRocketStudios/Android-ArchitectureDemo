@@ -7,7 +7,7 @@ import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class UserDtoConverterTest: BaseTest() {
+class UserDtoConverterTest : BaseTest() {
     private val linksDto = LinksDto(LinkDto("link_dto"))
     @Test
     fun user_shouldCreateUser_whenConvertToUser() {

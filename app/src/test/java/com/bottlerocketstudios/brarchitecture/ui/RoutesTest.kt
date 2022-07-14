@@ -10,7 +10,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class RoutesTest: BaseTest() {
+class RoutesTest : BaseTest() {
     @Test
     fun repositoryBrowser_dataHasFields_shouldReturnFields() {
         assertThat(Routes.RepositoryBrowser(RepositoryBrowserData(TEST_REPO, TEST_HASH, TEST_PATH)))

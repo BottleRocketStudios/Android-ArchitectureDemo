@@ -21,7 +21,7 @@ import org.junit.Test
 class DevOptionsViewModelTest : BaseTest() {
     private lateinit var viewModel: DevOptionsViewModel
 
-    //TODO: Test ApplicationInfoManagerImpl
+    // TODO: Test ApplicationInfoManagerImpl
 
     @Before
     fun setUp() {
@@ -91,7 +91,6 @@ class DevOptionsViewModelTest : BaseTest() {
 
         // Assert that baseUrl value has updated to PROD
         assertThat(viewModel.baseUrl.value).isEqualTo(BASE_URL_PROD)
-
     }
 
     @Test
@@ -103,6 +102,3 @@ class DevOptionsViewModelTest : BaseTest() {
         assertThat(viewModel.applicationInfo.buildIdentifier).isEqualTo(TEST_BUILD_DEV)
     }
 }
-
-
-

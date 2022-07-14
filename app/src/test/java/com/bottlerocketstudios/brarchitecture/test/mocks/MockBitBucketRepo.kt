@@ -94,13 +94,6 @@ object MockBitBucketRepo {
                 false -> Status.Success(Unit)
                 true -> Status.Failure.GeneralFailure("")
             }
-
         }
-
     }
-
 }
-
-
-
-

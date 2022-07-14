@@ -4,7 +4,7 @@ import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class RepoFileTest: BaseTest() {
+class RepoFileTest : BaseTest() {
     @Test
     fun repoFile_defaultFields_whenDefaultConstructor() {
         val repoFile = RepoFile(null, null, null, null, null, null)

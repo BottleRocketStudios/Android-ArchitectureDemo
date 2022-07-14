@@ -5,7 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.ZonedDateTime
 
-class SnippetDtoTest: BaseTest() {
+class SnippetDtoTest : BaseTest() {
     @Test
     fun commit_defaultFields_whenDefaultConstructor() {
         val snippet = SnippetDto()

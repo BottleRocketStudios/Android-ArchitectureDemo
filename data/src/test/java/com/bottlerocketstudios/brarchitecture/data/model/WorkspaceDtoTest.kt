@@ -4,7 +4,7 @@ import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class WorkspaceDtoTest: BaseTest() {
+class WorkspaceDtoTest : BaseTest() {
     @Test
     fun workspaceDto_defaultFields_whenDefaultConstructor() {
         val workspaceDto = WorkspaceDto()
@@ -15,7 +15,7 @@ class WorkspaceDtoTest: BaseTest() {
 
     @Test
     fun workspaceDto_shouldHaveFields_whenConstructed() {
-        val workspaceDto = WorkspaceDto("test_slug", "test_name", "test_uuid" )
+        val workspaceDto = WorkspaceDto("test_slug", "test_name", "test_uuid")
         assertThat(workspaceDto.slug).isEqualTo("test_slug")
         assertThat(workspaceDto.name).isEqualTo("test_name")
         assertThat(workspaceDto.uuid).isEqualTo("test_uuid")

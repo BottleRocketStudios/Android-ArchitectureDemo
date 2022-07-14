@@ -51,10 +51,10 @@ class HomeViewModelTest : BaseTest() {
     @Test
     fun userRepositoryStateIsEmpty_whenSetToEmpty_shouldReturnEmptyList() = runBlocking {
         MockBitBucketRepo.testGitRepositoryDtoList = emptyList()
-         viewModel.userRepositoryState.test {
-             bitbucketRepository.refreshMyRepos()
-             assertThat(expectMostRecentItem().isEmpty()).isEqualTo(true)
-         }
+        viewModel.userRepositoryState.test {
+            bitbucketRepository.refreshMyRepos()
+            assertThat(expectMostRecentItem().isEmpty()).isEqualTo(true)
+        }
     }
 
     @Test

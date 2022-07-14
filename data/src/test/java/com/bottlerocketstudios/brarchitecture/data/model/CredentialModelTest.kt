@@ -29,7 +29,6 @@ class CredentialModelTest : BaseTest() {
         val cm = CredentialModel(ProtectedProperty("validId"), ProtectedProperty("password0"))
         assertThat(cm.validCredentials).isNotNull()
         assertThat(cm.validCredentials).isInstanceOf(ValidCredentialModel::class.java)
-
     }
 
     @Test

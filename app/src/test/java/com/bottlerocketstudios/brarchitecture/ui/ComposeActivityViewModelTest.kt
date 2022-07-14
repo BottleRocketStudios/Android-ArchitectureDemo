@@ -16,7 +16,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class ComposeActivityViewModelTest: BaseTest() {
+class ComposeActivityViewModelTest : BaseTest() {
 
     private lateinit var viewModel: ComposeActivityViewModel
 
@@ -59,7 +59,7 @@ class ComposeActivityViewModelTest: BaseTest() {
 
     @Test
     fun devOptionsEnabled_initValue_shouldReturnTrue() = runBlocking {
-            assertThat(viewModel.devOptionsEnabled).isTrue()
+        assertThat(viewModel.devOptionsEnabled).isTrue()
     }
 
     @Test

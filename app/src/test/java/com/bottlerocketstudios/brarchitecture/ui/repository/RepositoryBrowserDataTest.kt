@@ -5,7 +5,7 @@ import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class RepositoryBrowserDataTest: BaseTest() {
+class RepositoryBrowserDataTest : BaseTest() {
     @Test
     fun repositoryBrowserDataTest_defaultFields_whenDefaultConstructor() {
         val repoBrowserData = RepositoryBrowserData(TEST_REPO)

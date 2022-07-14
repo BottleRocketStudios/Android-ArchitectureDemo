@@ -78,11 +78,10 @@ class AuthCodeViewModelTest : BaseTest() {
     }
 
     @Test
-    fun onAuthCode_authenticateReturnsTrue_HomeEventShouldReturnUnit() = runBlocking{
+    fun onAuthCode_authenticateReturnsTrue_HomeEventShouldReturnUnit() = runBlocking {
         viewModel.homeEvent.test {
             viewModel.onAuthCode("")
             assertThat(awaitItem()).isEqualTo(Unit)
         }
     }
-
 }
