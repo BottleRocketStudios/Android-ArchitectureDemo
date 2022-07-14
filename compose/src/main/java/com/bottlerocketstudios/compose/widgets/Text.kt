@@ -46,7 +46,7 @@ fun IconText(
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewPrimaryButton() {
+private fun PreviewIconText() {
     Preview {
         IconText(
             modifier = Modifier
