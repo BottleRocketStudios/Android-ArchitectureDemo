@@ -20,7 +20,7 @@ class SnippetsViewModel : BaseViewModel() {
         it.map {
             SnippetUiModel(
                 id = it.id ?: "",
-                workspaceSlug = it.workspace?.slug ?: "",
+                workspaceId = it.workspace?.slug ?: it.workspace?.uuid ?: "",
                 title = it.title ?: "",
                 userName = it.owner?.displayName ?: "",
                 formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock = clock)

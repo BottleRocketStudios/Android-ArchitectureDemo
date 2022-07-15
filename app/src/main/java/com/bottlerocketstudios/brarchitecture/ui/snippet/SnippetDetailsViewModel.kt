@@ -3,46 +3,46 @@ package com.bottlerocketstudios.brarchitecture.ui.snippet
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.converter.convertToUiModel
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.domain.models.Snippet
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
-import com.bottlerocketstudios.brarchitecture.domain.models.Workspace
+import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetDetailsUiModel
+import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
 
-class SnippetDetailsViewModel: BaseViewModel() {
+class SnippetDetailsViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
 
     // State
-    // TODO: Need current GitRepository Workspace
-    private val currentWorkspace: Workspace = Workspace("", "", "")
-    val currentSnippet = MutableStateFlow<SnippetDetailsUiModel?>(null)
+    val userAvatar = MutableStateFlow(repo.user.value?.linksDto?.avatar?.href)
+    val snippetTitle = MutableStateFlow("")
+    val createdMessage = MutableStateFlow("")
+    val updatedMessage = MutableStateFlow("")
+    val isPrivate = MutableStateFlow(false)
+    val files = MutableStateFlow(emptyList<SnippetDetailsFile?>())
+    val owner = MutableStateFlow<User?>(null)
+    val creator = MutableStateFlow<User?>(null)
 
-
-    /** When calling for details:
-     * encoded_id (string) == The snippet id.
-
-    workspace (string) == workspace ID (slug) OR workspace UUID surrounded by curly-braces, for example: {workspace UUID}.
-     */
-
-    init {
-        getSnippetDetails(Snippet())
-    }
-
-    private fun getSnippetDetails(snippet: Snippet) {
-        val workspaceId = currentWorkspace.slug ?: currentWorkspace.uuid
-        val snippetId: String? = snippet.id
+    private fun getSnippetDetails(snippet: SnippetUiModel) {
         launchIO {
-            if ((workspaceId != null) && (snippetId != null)) {
-                when (val result = repo.getSnippetDetails(workspaceId, snippetId)) {
-                    is Status.Success -> currentSnippet.value = result.data.convertToUiModel()
+            if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty())
+                when (val result = repo.getSnippetDetails(snippet.workspaceId, snippet.id)) {
+                    is Status.Success -> setSnippetData(result.data.convertToUiModel())
                     is Status.Failure -> handleError(R.string.snippets_error)
                 }
-            } else {
-                handleError(R.string.snippets_error)
-            }
         }
+    }
+
+    private fun setSnippetData(snippet: SnippetDetailsUiModel) {
+        snippetTitle.value = snippet.title ?: ""
+        createdMessage.value = snippet.createdMessage ?: ""
+        updatedMessage.value = snippet.updatedMessage ?: ""
+        isPrivate.value = snippet.isPrivate == true
+        files.value = snippet.files ?: emptyList()
+        owner.value = snippet.owner
+        creator.value = snippet.creator
     }
 }

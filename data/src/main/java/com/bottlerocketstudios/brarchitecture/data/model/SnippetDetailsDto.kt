@@ -14,14 +14,8 @@ data class SnippetDetailsDto(
     @Json(name = "created_on") val created: ZonedDateTime? = null,
     @Json(name = "updated_on") val updated: ZonedDateTime? = null,
     @Json(name = "is_private") val isPrivate: Boolean? = null,
-    @Json(name = "files") val files: List<SnippetDetailsFileDto?>?= null,
+    @Json(name = "files") val files: Map<String, LinksDto>?= null,
     @Json(name = "owner") val owner: UserDto? = null,
     @Json(name = "creator") val creator: UserDto? = null,
     @Json(name = "links") val links: LinksDto? = null
-): Parcelable, Dto
-
-@JsonClass(generateAdapter = true)
-@Parcelize
-data class SnippetDetailsFileDto(
-    val file: Map<String, LinksDto>? = null
 ): Parcelable, Dto

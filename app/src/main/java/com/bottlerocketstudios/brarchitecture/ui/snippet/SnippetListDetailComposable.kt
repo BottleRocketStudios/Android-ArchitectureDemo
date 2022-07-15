@@ -31,7 +31,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 // Used to represent create item in list so it can be "selected" for detail view
 private val CreateSnippetItem = SnippetUiModel(
     id = "CREATE_SNIPPET_SCREEN",
-    workspaceSlug = "",
+    workspaceId = "",
     title = "CREATE_SNIPPET_SCREEN",
     userName = "UI_MODEL",
     formattedLastUpdatedTime = "".toStringIdHelper()
