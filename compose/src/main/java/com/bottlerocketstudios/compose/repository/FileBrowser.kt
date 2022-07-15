@@ -22,6 +22,7 @@ import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
@@ -101,7 +102,7 @@ fun TextFileLayout(rawString: String) {
     )
 }
 
-@Preview(showSystemUi = true)
+@PreviewAllDevices
 @Composable
 fun FileBrowserScreenPreview() {
     Preview {

@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 
 @Composable
 fun SplashScreen() {
@@ -30,7 +31,7 @@ fun SplashScreen() {
     }
 }
 
-@Preview(showBackground = true)
+@PreviewAllDevices
 @Composable
 private fun PreviewOuterScreenContent() {
     Preview {

@@ -20,10 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
@@ -44,7 +44,7 @@ data class AuthCodeState(
     val showToolbar: (show: Boolean) -> Unit,
 )
 
-@Preview(showSystemUi = true)
+@PreviewAllDevices
 @Composable
 fun AuthCodePreview() {
     Preview {

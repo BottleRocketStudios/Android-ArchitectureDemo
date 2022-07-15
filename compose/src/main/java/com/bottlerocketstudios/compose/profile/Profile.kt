@@ -27,6 +27,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.br_red
 import com.bottlerocketstudios.compose.resources.greyish_brown
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.normal
 
@@ -114,7 +115,7 @@ fun ProfileScreen(state: ProfileScreenState) {
     }
 }
 
-@Preview(showSystemUi = true)
+@PreviewAllDevices
 @Composable
 fun ProfileScreenPreview() {
     Preview {

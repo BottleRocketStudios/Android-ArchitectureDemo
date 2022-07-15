@@ -14,7 +14,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 // Internal Graph Routes for use by this widget
-object NavGraph {
+private object NavGraph {
     sealed class Route(val route: String) {
         object Detail : Route("detail/{selected}") {
             fun navigateRoute(selected: String?) = "detail/$selected"
@@ -22,11 +22,20 @@ object NavGraph {
     }
 }
 
+/**
+ * Animated list detail - Composable that creates an animated list/detail UI
+ *
+ * @param T - Type for list items and detail
+ * @param list - list of [T] items
+ * @param compactWidth - Is display small screen form factor
+ * @param keyProvider - Code block used to provide selection key from [T]
+ * @param scope - [ListDetailScope] provides UI definition for List and Detail, along with callbacks.
+ */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun <T> AnimatedListDetail(
     list: List<T>,
-    smallScreen: Boolean,
+    compactWidth: Boolean,
     keyProvider: (T) -> String = { it.toString() },
     scope: @Composable ListDetailScope<T>.() -> Unit
 ) {
@@ -51,7 +60,7 @@ fun <T> AnimatedListDetail(
             }
 
             // Switch on screen size
-            if (smallScreen) {
+            if (compactWidth) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     // Show detail if item is selected
                     selected?.also {

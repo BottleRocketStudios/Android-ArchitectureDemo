@@ -50,7 +50,7 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
         AnimatedListDetail(
             list = list.value + CreateSnippetItem,
             keyProvider = { it.id },
-            smallScreen = widthSize == WindowWidthSizeClass.Compact
+            compactWidth = widthSize == WindowWidthSizeClass.Compact
         ) {
 
             // Define List UI and connect to VM

@@ -52,7 +52,7 @@ fun OutlinedInputField(
     )
 }
 
-@Preview(showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun OutlinedInputFieldPreview() {
     Preview {
@@ -71,7 +71,7 @@ fun OutlinedInputFieldPreview() {
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun OutlinedInputFieldPreFilledPreview() {
     Preview {

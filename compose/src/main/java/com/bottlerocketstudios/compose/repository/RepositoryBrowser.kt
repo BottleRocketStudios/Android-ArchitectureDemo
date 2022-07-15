@@ -27,6 +27,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.pluralResource
 import com.bottlerocketstudios.compose.widgets.IconText
 
@@ -153,7 +154,7 @@ fun RepositoryItem(item: RepositoryItemUiModel, onItemClicked: (RepositoryItemUi
     }
 }
 
-@Preview(showBackground = true)
+@PreviewAllDevices
 @Composable
 private fun PreviewOuterScreenContent() {
     Preview {
