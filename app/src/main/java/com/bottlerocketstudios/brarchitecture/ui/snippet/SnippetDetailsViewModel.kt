@@ -2,6 +2,7 @@ package com.bottlerocketstudios.brarchitecture.ui.snippet
 
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.converter.convertToUiModel
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToUser
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
@@ -17,7 +18,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // State
-    val userAvatar = MutableStateFlow(repo.user.value?.linksDto?.avatar?.href)
+    val currentUser = MutableStateFlow<User?>(null)
     val snippetTitle = MutableStateFlow("")
     val createdMessage = MutableStateFlow("")
     val updatedMessage = MutableStateFlow("")
@@ -26,6 +27,15 @@ class SnippetDetailsViewModel : BaseViewModel() {
     val owner = MutableStateFlow<User?>(null)
     val creator = MutableStateFlow<User?>(null)
 
+    val isWatchingSnippet = MutableStateFlow(false)
+
+    val comment = MutableStateFlow("")
+
+    init {
+        currentUser.value = repo.user.value?.convertToUser()
+    }
+
+    // API calls
     private fun getSnippetDetails(snippet: SnippetUiModel) {
         launchIO {
             if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty())
@@ -36,6 +46,40 @@ class SnippetDetailsViewModel : BaseViewModel() {
         }
     }
 
+    private fun isWatchingSnippet() {
+        // TODO: set "isWatchingSnippet"
+        //  check if the current user is watching a specific snippet.
+        //  GET /2.0/snippets/{workspace}/{encoded_id}/watch
+    }
+
+    private fun getSnippetComments() {
+        // TODO: GET /2.0/snippets/{workspace}/{encoded_id}/comments
+        //  https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-comments-get
+    }
+
+    // Call back from button clicks
+    fun watchSnippet() {
+        // TODO:
+        //  Watch Snippet
+        //  PUT /2.0/snippets/{workspace}/{encoded_id}/watch
+        //  Stop Watching Snippet
+        //  DELETE /2.0/snippets/{workspace}/{encoded_id}/watch
+    }
+
+    fun cloneSnippet() { Unit }
+    fun editSnippet() { Unit }
+
+    fun deleteSnippet() {
+        // TODO: DELETE /2.0/snippets/{workspace}/{encoded_id}
+        //  https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-delete
+    }
+
+    fun getRawFile() {
+        // TODO GET /2.0/snippets/{workspace}/{encoded_id}/{node_id}/files/{path}
+    }
+
+
+    // Helper
     private fun setSnippetData(snippet: SnippetDetailsUiModel) {
         snippetTitle.value = snippet.title ?: ""
         createdMessage.value = snippet.createdMessage ?: ""

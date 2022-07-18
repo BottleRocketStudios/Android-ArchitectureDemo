@@ -59,6 +59,13 @@
     </plurals>
     <string name="today">Today</string>
 
+    <!-- Snippet Details -->
+    <string name="snippet_owner_avatar">Avatar image of snippet owner</string>
+    <string name="created_by">Created By %1s</string>
+    <string name="owned_by">Owned By</string>
+    <string name="last_modified">Last Modified %s</string>
+    <string name="eye_icon_description">Eye icon on button titled Watching</string>
+
     <!-- Values added to exercise unit tests -->
     <string name="sample_format">Sample %1$s</string>
     <plurals name="sample_plural_format">

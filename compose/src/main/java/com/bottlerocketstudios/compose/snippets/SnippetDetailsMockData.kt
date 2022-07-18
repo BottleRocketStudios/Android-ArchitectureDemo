@@ -8,76 +8,101 @@ import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.compose.util.asMutableState
 import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
-val mockCreationMsg = ZonedDateTime.now().minusDays(30).convertToModifiedMessage()
-val mockUpdatedMsg = ZonedDateTime.now().minusHours(18).convertToModifiedMessage()
+val mockCreationMsg = ZonedDateTime.now().minusDays(30).convertToTimeAgoMessage()
+val mockUpdatedMsg = ZonedDateTime.now().minusHours(18).convertToTimeAgoMessage()
 
 @Composable
 fun returnMockSnippetDetails() =
-     SnippetDetailsScreenState(
-    snippetTitle = "Test Snippet Title".asMutableState(),
-    createdMessage = mockCreationMsg.asMutableState(),
-    updatedMessage = mockUpdatedMsg.asMutableState(),
-    isPrivate = false.asMutableState(),
-    files = listOf(
-        SnippetDetailsFile(
-            fileName = "Test File Number 1",
-            links = Links(
-                comments = Link("https://fake.snippet.com/comments")
-            )
-        ),
-        SnippetDetailsFile(
-            fileName = "Test File Number 2",
-            links = Links(
-                comments = Link("https://fake.snippet.com/comments")
-            )
-        ),
-        SnippetDetailsFile(
-            fileName = "Test File Number 3",
-            links = Links(
-                comments = Link("https://fake.snippet.com/comments")
-            )
-        ),
-        SnippetDetailsFile(
-            fileName = "Test File Number 4",
-            links = Links(
-                comments = Link("https://fake.snippet.com/comments")
-            )
-        ),
-    ).asMutableState(),
-    owner = User(
-        username = "Anakin",
-        nickname = "Annie",
-        accountStatus = "",
-        displayName = "Darth Vader",
-        createdOn = "",
-        uuid = "",
-        links = Links(null),
-        avatarUrl = ""
-    ).asMutableState(),
-    creator = User(
-        username = "Obi-Wan",
-        nickname = "Ben",
-        accountStatus = "",
-        displayName = "Obi-Wan Kenobi",
-        createdOn = "",
-        uuid = "",
-        links = Links(null),
-        avatarUrl = ""
-    ).asMutableState()
-)
+    SnippetDetailsScreenState(
+        currentUser = User(
+            username = null,
+            nickname = null,
+            displayName = "Luke Skywalker",
+            avatarUrl = "https://i.pinimg.com/736x/69/ed/be/69edbedeccf27136c2ea6b18af6ec49d.jpg",
+            accountStatus = null,
+            createdOn = null,
+            uuid = null,
+            links = null
+        ).asMutableState(),
+        snippetTitle = "Test Snippet Title".asMutableState(),
+        createdMessage = mockCreationMsg.asMutableState(),
+        updatedMessage = mockUpdatedMsg.asMutableState(),
+        isPrivate = false.asMutableState(),
+        files = listOf(
+            SnippetDetailsFile(
+                fileName = "Test File Number 1",
+                links = Links(
+                    comments = Link("https://fake.snippet.com/comments")
+                )
+            ),
+            SnippetDetailsFile(
+                fileName = "Test File Number 2",
+                links = Links(
+                    comments = Link("https://fake.snippet.com/comments")
+                )
+            ),
+            // SnippetDetailsFile(
+            //     fileName = "Test File Number 3",
+            //     links = Links(
+            //         comments = Link("https://fake.snippet.com/comments")
+            //     )
+            // ),
+            // SnippetDetailsFile(
+            //     fileName = "Test File Number 4",
+            //     links = Links(
+            //         comments = Link("https://fake.snippet.com/comments")
+            //     )
+            // ),
+        ).asMutableState(),
+        owner = User(
+            username = "Anakin",
+            nickname = "Annie",
+            accountStatus = "",
+            displayName = "Darth Vader",
+            createdOn = "",
+            uuid = "",
+            links = Links(null),
+            avatarUrl = "https://whatsondisneyplus.com/wp-content/uploads/2022/05/vader.png"
+        ).asMutableState(),
+        creator = User(
+            username = "Obi-Wan",
+            nickname = "Ben",
+            accountStatus = "",
+            displayName = "Obi-Wan Kenobi",
+            createdOn = "",
+            uuid = "",
+            links = Links(null),
+            avatarUrl = "https://whatsondisneyplus.com/wp-content/uploads/2022/05/kenobi-avatar.png"
+        ).asMutableState(),
+        isWatchingSnippet = false.asMutableState(),
+        changeWatchingStatus = { mockFunction() },
+        onCloneClick = { mockFunction() },
+        onEditClick = { mockFunction() },
+        onDeleteClick = { mockFunction() },
+        onRawClick = { mockFunction() },
+        comment = "".asMutableState(),
+        onCommentChanged = { mockFunction() }
+    )
 
-fun ZonedDateTime.convertToModifiedMessage(): String {
-    val timeElapsed =
+fun ZonedDateTime.convertToTimeAgoMessage(): String {
+    val elapsedMinutes = TimeUnit.SECONDS.toMinutes(
         ZonedDateTime.now().toEpochSecond() - this.toEpochSecond()
+    )
 
-    val minutes = TimeUnit.SECONDS.toMinutes(timeElapsed)
+    val elapsedHours = TimeUnit.MINUTES.toHours(elapsedMinutes)
+    val elapsedDays = TimeUnit.MINUTES.toDays(elapsedMinutes)
 
     return when {
-        minutes in 2..59 -> "$minutes Minutes Ago"
-        minutes > 60 && (minutes/60) < 24 -> "${TimeUnit.MINUTES.toHours(minutes).toInt()} Hours Ago"
-        (minutes/60) > 24 && ((minutes/60)/24) < 30.4 -> "${TimeUnit.MINUTES.toDays(minutes).toInt()} Days Ago"
-        TimeUnit.MINUTES.toDays(minutes) > 30.4 -> "${(TimeUnit.MINUTES.toDays(minutes)/30.4).toInt()} Months Ago"
-        else -> "Unknown"
+        elapsedMinutes in 5..59 -> "$elapsedMinutes Minutes Ago"
+        elapsedHours in 1..23 -> "$elapsedHours Hours Ago"
+        elapsedDays in 1..6 -> "$elapsedDays Days Ago"
+        elapsedDays in 7..30 -> "${(elapsedDays/7).toInt()} Weeks Ago"
+        elapsedDays in 31..365 -> "${(elapsedDays/30.4).roundToInt()} Months Ago"
+        elapsedDays > 364 -> "${(elapsedDays/365).toInt()} Years Ago"
+        else -> "Just Now"
     }
 }
+
+fun mockFunction() = Unit

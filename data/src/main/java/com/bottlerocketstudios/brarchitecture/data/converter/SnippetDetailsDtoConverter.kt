@@ -6,35 +6,39 @@ import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.compose.snippets.SnippetDetailsUiModel
 import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 fun SnippetDetailsDto.convertToUiModel() =
     SnippetDetailsUiModel(
         id = id,
         title = title,
-        createdMessage = created?.convertToModifiedMessage(),
-        updatedMessage = updated?.convertToModifiedMessage(),
+        createdMessage = created?.convertToTimeAgoMessage(),
+        updatedMessage = updated?.convertToTimeAgoMessage(),
         isPrivate = isPrivate,
         files = files?.convertToUiModel(),
         owner = owner?.convertToUser(),
-        creator = creator?.convertToUser()
+        creator = creator?.convertToUser(),
+        links = links?.convertToLinks()
     )
-
 
 fun Map<String, LinksDto?>?.convertToUiModel(): List<SnippetDetailsFile?>? =
     this?.map { SnippetDetailsFile(it.key, it.value?.convertToLinks()) }
 
-fun ZonedDateTime.convertToModifiedMessage(): String {
-    val timeElapsed =
+fun ZonedDateTime.convertToTimeAgoMessage(): String {
+    val elapsedMinutes = TimeUnit.SECONDS.toMinutes(
         ZonedDateTime.now().toEpochSecond() - this.toEpochSecond()
-
-    val minutes = TimeUnit.SECONDS.toMinutes(timeElapsed)
+    )
+    val elapsedHours = TimeUnit.MINUTES.toHours(elapsedMinutes)
+    val elapsedDays = TimeUnit.MINUTES.toDays(elapsedMinutes)
 
     return when {
-        minutes in 2..59 -> "$minutes Minutes Ago"
-        minutes > 60 && (minutes/60) < 24 -> "${TimeUnit.MINUTES.toHours(minutes).toInt()} Hours Ago"
-        (minutes/60) > 24 && ((minutes/60)/24) < 30.4 -> "${TimeUnit.MINUTES.toDays(minutes).toInt()} Days Ago"
-        TimeUnit.MINUTES.toDays(minutes) > 30.4 -> "${(TimeUnit.MINUTES.toDays(minutes)/30.4).toInt()} Months Ago"
-        else -> "Unknown"
+        elapsedMinutes in 5..59 -> "$elapsedMinutes Minutes Ago"
+        elapsedHours in 1..23 -> "$elapsedHours Hours Ago"
+        elapsedDays in 1..6 -> "$elapsedDays Days Ago"
+        elapsedDays in 7..30 -> "${(elapsedDays/7).toInt()} Weeks Ago"
+        elapsedDays in 31..365 -> "${(elapsedDays/30.4).roundToInt()} Months Ago"
+        elapsedDays > 364 -> "${(elapsedDays/365).toInt()} Years Ago"
+        else -> "Just Now"
     }
 }
 
