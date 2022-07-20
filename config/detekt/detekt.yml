@@ -454,6 +454,8 @@ naming:
     ignoreOverridden: true
     ignoreAnnotated:
       - 'Composable' # Ignore composable function naming: https://detekt.github.io/detekt/compose.html#functionnaming
+      - 'Preview'
+      - 'PreviewAllDevices'
   FunctionParameterNaming:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
@@ -681,7 +683,7 @@ style:
       - '1'
       - '2'
     ignoreHashCodeFunction: true
-    ignorePropertyDeclaration: false
+    ignorePropertyDeclaration: true
     ignoreLocalVariableDeclaration: false
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true

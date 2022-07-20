@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
@@ -37,6 +36,8 @@ data class RepositoryBrowserScreenState(
     val repositoryItems: State<List<RepositoryItemUiModel>>,
     val onRepositoryItemClicked: (RepositoryItemUiModel) -> Unit
 )
+
+private const val DEFAULT_ITEM_COUNT = 3
 
 @Composable
 fun RepositoryBrowserScreen(state: RepositoryBrowserScreenState) {
@@ -161,7 +162,7 @@ private fun PreviewOuterScreenContent() {
         RepositoryBrowserScreen(
             state = RepositoryBrowserScreenState(
                 path = remember { mutableStateOf("/path/to/folder") },
-                itemCount = remember { mutableStateOf(3) },
+                itemCount = remember { mutableStateOf(DEFAULT_ITEM_COUNT) },
                 repositoryItems = remember {
                     mutableStateOf(
                         listOf(
