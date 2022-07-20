@@ -11,7 +11,10 @@ fun LinksDto.convertToLinks() = Links(
     comments = comments?.convertToLink(),
     watchers = watchers?.convertToLink(),
     commits = commits?.convertToLink(),
-    avatar = avatar?.convertToLink()
+    avatar = avatar?.convertToLink(),
+    followers = followers?.convertToLink(),
+    following = following?.convertToLink(),
+    repositories = repositories?.convertToLink()
 )
 
-fun LinkDto.convertToLink() = Link(href = href)
+fun LinkDto.convertToLink() = Link(href = href, name = name)

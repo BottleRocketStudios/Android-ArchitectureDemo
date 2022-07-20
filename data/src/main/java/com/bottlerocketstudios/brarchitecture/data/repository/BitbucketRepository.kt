@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.data.repository
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
+import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
@@ -40,7 +41,13 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
-    suspend fun getSnippetDetails(workspace: String, encodedId: String): Status<SnippetDetailsDto>
+    suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit>
+    suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto>
+    suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetCommentDto>>
+    suspend fun getSnippetFile(workspaceId: String, encodedId: String, filePath: String): Status<ByteArray>
+    suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Status<Int>
+    suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
+    suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
     fun clear()
 }
 
@@ -152,9 +159,45 @@ internal class BitbucketRepositoryImpl(
         }
     }
 
-    override suspend fun getSnippetDetails(workspace: String, encodedId: String): Status<SnippetDetailsDto> {
-        return wrapRepoExceptions("snippetDetails") {
-            bitbucketService.getSnippetDetails(workspace, encodedId).toResult()
+    override suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit> {
+        return wrapRepoExceptions("deleteSnippet") {
+            bitbucketService.deleteSnippet(workspaceId, encodedId).toEmptyResult()
+        }
+    }
+
+    override suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto> {
+        return wrapRepoExceptions("getSnippetDetails") {
+            bitbucketService.getSnippetDetails(workspaceId, encodedId).toResult()
+        }
+    }
+
+    override suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetCommentDto>> {
+        return wrapRepoExceptions("getSnippetComments") {
+            bitbucketService.getSnippetComments(workspaceId, encodedId).toResult().map { it.values.orEmpty().asSuccess() }
+        }
+    }
+
+    override suspend fun getSnippetFile(workspaceId: String, encodedId: String, filePath: String): Status<ByteArray> {
+        return wrapRepoExceptions("getSnippetFile") {
+            bitbucketService.getSnippetFile(workspaceId, encodedId, filePath).toResult().map { it.byteStream().readBytes().asSuccess() }
+        }
+    }
+
+    override suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Status<Int> {
+        return wrapRepoExceptions("isUserWatchingSnippet") {
+            bitbucketService.isUserWatchingSnippet(workspaceId, encodedId).toResponseCode()
+        }
+    }
+
+    override suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit> {
+        return wrapRepoExceptions("startWatchingSnippet") {
+            bitbucketService.startWatchingSnippet(workspaceId, encodedId).toEmptyResult()
+        }
+    }
+
+    override suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit> {
+        return wrapRepoExceptions("stopWatchingSnippet") {
+            bitbucketService.stopWatchingSnippet(workspaceId, encodedId).toEmptyResult()
         }
     }
 
@@ -177,5 +220,9 @@ internal class BitbucketRepositoryImpl(
 
     private fun <T : Any> Response<T>.toEmptyResult(): Status<Unit> {
         return responseToApiResultMapper.toEmptyResult(this)
+    }
+
+    private fun <T : Any> Response<T>.toResponseCode(): Status<Int> {
+        return responseToApiResultMapper.toResponseCode(this)
     }
 }

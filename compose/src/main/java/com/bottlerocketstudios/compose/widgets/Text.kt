@@ -39,7 +39,10 @@ fun IconText(
         )
         Text(
             text = text,
-            style = style
+            style = style,
+            modifier = Modifier.padding(
+                start = Dimens.grid_1
+            )
         )
     }
 }

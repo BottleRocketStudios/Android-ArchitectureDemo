@@ -23,6 +23,7 @@ import com.bottlerocketstudios.compose.util.asMutableState
 data class SnippetsBrowserScreenState(
     val snippets: State<List<SnippetUiModel>>,
     val createVisible: State<Boolean>,
+    val onSnippetClick: (SnippetUiModel) -> Unit,
     val onCreateSnippetClicked: () -> Unit
 )
 
@@ -35,12 +36,12 @@ fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
             }
         }
     ) {
-        SnippetsListLayout(snippets = state.snippets.value)
+        SnippetsListLayout(snippets = state.snippets.value, state.onSnippetClick)
     }
 }
 
 @Composable
-fun SnippetsListLayout(snippets: List<SnippetUiModel>) {
+fun SnippetsListLayout(snippets: List<SnippetUiModel>, onClick: (SnippetUiModel) -> Unit) {
     if (snippets.isNotEmpty()) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Dimens.grid_1_5),
@@ -50,7 +51,7 @@ fun SnippetsListLayout(snippets: List<SnippetUiModel>) {
         ) {
             items(
                 items = snippets,
-                itemContent = { item -> SnippetItem(item) }
+                itemContent = { item -> SnippetItem(item, onClick) }
             )
         }
     } else {
@@ -78,7 +79,8 @@ fun SnippetsBrowserScreenPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = listOfMockSnippets.asMutableState(),
-                createVisible = true.asMutableState()
+                createVisible = true.asMutableState(),
+                onSnippetClick = {}
             ) {}
         )
     }
@@ -91,7 +93,8 @@ fun SnippetsBrowserScreenNoFabPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = listOfMockSnippets.asMutableState(),
-                createVisible = false.asMutableState()
+                createVisible = false.asMutableState(),
+                onSnippetClick = {}
             ) {}
         )
     }
@@ -104,7 +107,8 @@ fun SnippetsBrowserScreenEmptyPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = emptyList<SnippetUiModel>().asMutableState(),
-                createVisible = true.asMutableState()
+                createVisible = true.asMutableState(),
+                onSnippetClick = {}
             ) {}
         )
     }

@@ -8,16 +8,20 @@ import kotlinx.parcelize.Parcelize
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class LinksDto(
-    @Json(name = "self") val self: LinkDto? = null,
-    @Json(name = "html") val html: LinkDto? = null,
-    @Json(name = "comments") val comments: LinkDto? = null,
-    @Json(name = "watchers") val watchers: LinkDto? = null,
-    @Json(name = "commits") val commits: LinkDto? = null,
-    @Json(name = "avatar") val avatar: LinkDto? = null
-) : Parcelable
+    @Json(name = "self") val self: LinkDto?,
+    @Json(name = "html") val html: LinkDto?,
+    @Json(name = "comments") val comments: LinkDto?,
+    @Json(name = "watchers") val watchers: LinkDto?,
+    @Json(name = "commits") val commits: LinkDto?,
+    @Json(name = "avatar") val avatar: LinkDto?,
+    @Json(name = "followers") val followers: LinkDto?,
+    @Json(name = "following") val following: LinkDto?,
+    @Json(name = "repositories") val repositories: LinkDto?
+) : Parcelable, Dto
 
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class LinkDto(
-    @Json(name = "href") val href: String? = null
+    @Json(name = "href") val href: String?,
+    @Json(name = "name") val name: String?
 ) : Parcelable, Dto

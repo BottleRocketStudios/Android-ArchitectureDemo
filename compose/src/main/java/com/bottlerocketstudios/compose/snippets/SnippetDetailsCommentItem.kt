@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
@@ -23,23 +24,23 @@ import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.launchpad.compose.light
 
-// TODO: Replace arguments with Comment Data Class
 @Composable
 fun CommentCard(
-    userAvatar: String,
-    userName: String,
-    userComment: String,
+    comment: SnippetComment,
     onReplyClick: () -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
-    Row(modifier = Modifier.padding(vertical = Dimens.grid_1_5)) {
+    Row(
+        modifier = Modifier.padding(vertical = Dimens.grid_1_5)
+    ) {
         AsyncImage(
             modifier = Modifier
+                .padding(top = Dimens.grid_1)
                 .width(Dimens.grid_5)
                 .height(Dimens.grid_5)
                 .clip(CircleShape),
-            model = userAvatar,
+            model = comment.user?.avatarUrl,
             contentScale = ContentScale.Crop,
             placeholder = painterResource(R.drawable.ic_avatar_placeholder),
             contentDescription = "User Avatar"
@@ -47,16 +48,16 @@ fun CommentCard(
 
         Column(modifier = Modifier.padding(horizontal = Dimens.grid_1_5)) {
             Text(
-                text = userName,
+                text = comment.user?.displayName ?: "",
                 style = typography.h4.copy(color = Colors.onSurface),
             )
             Text(
-                text = userComment,
+                text = comment.content?.raw ?: "",
                 style = typography.h5.light(),
-                modifier = Modifier.padding(top = Dimens.grid_1_5)
+                modifier = Modifier.padding(top = Dimens.grid_0_5)
             )
             Row(
-                modifier = Modifier.padding(top = Dimens.grid_1)
+                modifier = Modifier.padding(top = Dimens.grid_0_5)
             ) {
                 ClickableText(
                     text = AnnotatedString("Reply"),
@@ -75,7 +76,11 @@ fun CommentCard(
                     style = typography.body1.copy(color = Colors.tertiary),
                     onClick = { onDeleteClick() }
                 )
-                // TODO: Add text when comment was created
+                Text(text = "  \u2022  ")
+                Text(
+                    text = comment.updated ?: comment.created ?: "",
+                    style = typography.body1.light().copy(color = Colors.onSurface),
+                )
             }
         }
     }
@@ -86,9 +91,7 @@ fun CommentCard(
 fun PreviewCommentCard() {
     Preview {
         CommentCard(
-            userAvatar = "https://i.pinimg.com/736x/69/ed/be/69edbedeccf27136c2ea6b18af6ec49d.jpg",
-            userName = "Luke Skywalker",
-            userComment = "This is a fake comment on a preivew of a comment card. This represents the comment a user would make.",
+            comment = returnMockSnippetDetails().comments.value[0],
             onReplyClick = { Unit },
             onEditClick  = { Unit },
             onDeleteClick  = { Unit }

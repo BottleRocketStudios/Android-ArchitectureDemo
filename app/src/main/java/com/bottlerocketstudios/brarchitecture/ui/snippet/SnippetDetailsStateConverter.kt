@@ -16,12 +16,12 @@ fun SnippetDetailsViewModel.toState() =
         owner = owner.collectAsState(),
         creator = creator.collectAsState(),
         isWatchingSnippet = isWatchingSnippet.collectAsState(),
-        changeWatchingStatus = ::watchSnippet,
+        changeWatchingStatus = ::changeSnippetWatching,
         onCloneClick = ::cloneSnippet,
         onEditClick = ::editSnippet,
         onDeleteClick = ::deleteSnippet,
-        onRawClick = ::getRawFile,
-        comment = comment.collectAsState(),
-        onCommentChanged = { comment.value = it }
+        comments = snippetComments.collectAsState(),
+        newSnippetComment = newSnippetComment.collectAsState(),
+        onCommentChanged = { newSnippetComment.value = it }
     )
 

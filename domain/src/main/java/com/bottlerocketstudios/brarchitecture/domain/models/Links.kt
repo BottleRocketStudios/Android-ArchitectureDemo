@@ -7,4 +7,7 @@ data class Links(
     val watchers: Link? = null,
     val commits: Link? = null,
     val avatar: Link? = null,
+    val followers: Link? = null,
+    val following: Link? = null,
+    val repositories: Link? = null
 ) : DomainModel
