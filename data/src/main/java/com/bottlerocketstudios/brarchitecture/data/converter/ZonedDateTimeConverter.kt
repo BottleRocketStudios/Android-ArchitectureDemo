@@ -13,11 +13,17 @@ fun ZonedDateTime.convertToTimeAgoMessage(): String {
 
     return when {
         elapsedMinutes in 5..59 -> "$elapsedMinutes Minutes Ago"
-        elapsedHours in 1..23 -> "$elapsedHours Hours Ago"
-        elapsedDays in 1..6 -> "$elapsedDays Days Ago"
-        elapsedDays in 7..30 -> "${(elapsedDays/7).toInt()} Weeks Ago"
-        elapsedDays in 31..365 -> "${(elapsedDays/30.4).roundToInt()} Months Ago"
-        elapsedDays > 364 -> "${(elapsedDays/365).toInt()} Years Ago"
+        elapsedHours in 1..23 -> elapsedHours.toInt().timePluralizer("Hour")
+        elapsedDays in 1..6 -> elapsedDays.toInt().timePluralizer("Day")
+        elapsedDays in 7..30 -> (elapsedDays / 7).toInt().timePluralizer("Week")
+        elapsedDays in 31..365 -> (elapsedDays / 30.4).roundToInt().timePluralizer("Month")
+        elapsedDays > 364 -> (elapsedDays / 365).toInt().timePluralizer("Year")
         else -> "Just Now"
     }
 }
+
+private fun Int.timePluralizer(timeUnit: String) =
+    when (this > 1) {
+        true -> "$this ${timeUnit}s Ago"
+        false -> "$this $timeUnit Ago"
+    }

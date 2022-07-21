@@ -12,10 +12,13 @@ fun SnippetCommentDto.convertToComment() = SnippetComment(
     content = content?.convertToCommentContent(),
     user = user?.convertToUser(),
     deleted = deleted,
+    parentId = parent?.id,
+    childrenComments = mutableListOf<SnippetComment?>(),
     links = links?.convertToLinks(),
     type = type,
     snippet = snippet?.convertToSnippet()
 )
+
 
 fun SnippetCommentContentDto.convertToCommentContent() = SnippetCommentContent(
     type = type,

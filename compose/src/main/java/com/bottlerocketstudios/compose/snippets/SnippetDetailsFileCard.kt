@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.compose.snippets
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,6 +44,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
             .fillMaxWidth()
             .padding(vertical = Dimens.grid_1)
             .wrapContentHeight()
+            .animateContentSize(tween(1000))
     ) {
         Column {
             Row(
@@ -71,6 +74,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
                     )
                 }
             }
+
             if (expanded) {
                 Divider(
                     color = brown_grey_three,
@@ -85,6 +89,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
     }
 }
 
+// TODO: Content Slot
 @Composable
 fun RawFileData(byteArray: ByteArray?) {
     byteArray?.let {

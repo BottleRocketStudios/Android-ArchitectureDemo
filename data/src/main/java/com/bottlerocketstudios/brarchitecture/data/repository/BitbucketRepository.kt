@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import retrofit2.Response
@@ -44,6 +45,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit>
     suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto>
     suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetCommentDto>>
+    suspend fun createSnippetComment(workspaceId: String, encodedId: String, comment: String): Status<Unit>
     suspend fun getSnippetFile(workspaceId: String, encodedId: String, filePath: String): Status<ByteArray>
     suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Status<Int>
     suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
@@ -174,6 +176,13 @@ internal class BitbucketRepositoryImpl(
     override suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetCommentDto>> {
         return wrapRepoExceptions("getSnippetComments") {
             bitbucketService.getSnippetComments(workspaceId, encodedId).toResult().map { it.values.orEmpty().asSuccess() }
+        }
+    }
+
+    override suspend fun createSnippetComment(workspaceId: String, encodedId: String, comment: String): Status<Unit> {
+        return wrapRepoExceptions("deleteSnippet") {
+
+            bitbucketService.createSnippetComment(workspaceId, encodedId, comment).toEmptyResult()
         }
     }
 

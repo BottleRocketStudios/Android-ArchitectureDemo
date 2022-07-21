@@ -12,7 +12,9 @@
     <string name="snippets_error">Failed to retrieve snippet</string>
     <string name="snippet_watching_error">Failed to retrieve watching status</string>
     <string name="snippet_comments_error">Failed to retrieve snippet comments</string>
+    <string name="delete_snippet_success">Snippet was successfully deleted</string>
     <string name="delete_snippet_error">Failed to delete snippet</string>
+    <string name="create_comment_error">Failed to create new comment</string>
 
 
     <!-- Snippet Details -->

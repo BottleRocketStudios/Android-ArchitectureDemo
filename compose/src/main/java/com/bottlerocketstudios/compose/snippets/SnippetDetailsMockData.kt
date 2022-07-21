@@ -70,13 +70,17 @@ fun returnMockSnippetDetails() =
             avatarUrl = "https://whatsondisneyplus.com/wp-content/uploads/2022/05/kenobi-avatar.png"
         ).asMutableState(),
         isWatchingSnippet = false.asMutableState(),
+        httpsLink = "https://bitbucket.org/snippets/jmichealmurray/zEqaLk/test-snippet-public.git".asMutableState(),
+        sshLink = "git@bitbucket.org:snippets/jmichealmurray/zEqaLk/test-snippet-public.git".asMutableState(),
+        copyHttps = {},
+        copySsh = {},
         changeWatchingStatus = { },
-        onCloneClick = { },
         onEditClick = { },
         onDeleteClick = { },
         comments = listOf(snippetComment).asMutableState(),
         newSnippetComment = "".asMutableState(),
-        onCommentChanged = { }
+        onCommentChanged = { },
+        onSaveCommentClick = {}
     )
 
 fun ZonedDateTime.convertToTimeAgoMessage(): String {
@@ -112,8 +116,35 @@ val snippetComment = SnippetComment(
     id = 7L,
     type = "Snippet Comment",
     user = currentUser,
+    parentId = null,
+    childrenComments = mutableListOf(
+        SnippetComment(
+            id = 7L,
+            type = "Snippet Comment",
+            user = currentUser,
+            parentId = null,
+            childrenComments = mutableListOf(
+                SnippetComment(
+                    id = 7L,
+                    type = "Snippet Comment",
+                    user = currentUser,
+                    parentId = null,
+                    childrenComments = mutableListOf<SnippetComment?>(),
+                    content = SnippetCommentContent(raw = "This is a fake comment on a preivew of a comment card. This represents the comment a user would make.", html = null, markup = null, type = null),
+                    created = mockCreationMsg,
+                    updated = mockCreationMsg,
+                    deleted = false
+                )
+            ),
+            content = SnippetCommentContent(raw = "This is a fake comment on a preivew of a comment card. This represents the comment a user would make.", html = null, markup = null, type = null),
+            created = mockCreationMsg,
+            updated = mockCreationMsg,
+            deleted = false
+        )
+    ),
     content = SnippetCommentContent(raw = "This is a fake comment on a preivew of a comment card. This represents the comment a user would make.", html = null, markup = null, type = null),
     created = mockCreationMsg,
     updated = mockCreationMsg,
     deleted = false
 )
+

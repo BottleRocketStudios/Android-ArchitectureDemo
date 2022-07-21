@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
@@ -80,7 +81,20 @@ fun CommentCard(
                 Text(
                     text = comment.updated ?: comment.created ?: "",
                     style = typography.body1.light().copy(color = Colors.onSurface),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
+            }
+
+            comment.childrenComments.forEach { comment ->
+                comment?.let {
+                    CommentCard(
+                        comment = comment,
+                        onReplyClick = { onReplyClick() },
+                        onEditClick = { onEditClick() },
+                        onDeleteClick = { onDeleteClick() }
+                    )
+                }
             }
         }
     }

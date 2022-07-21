@@ -121,4 +121,11 @@ internal interface BitbucketService {
         @Path(value = "workspace_id") workspace: String,
         @Path(value = "encoded_id") encoded_id: String
     ): Response<BitbucketPagedResponse<List<SnippetCommentDto>>>
+
+    @Multipart
+    @POST(value = "/2.0/snippets/{workspace_id}/{encoded_id}/comments")
+    suspend fun createSnippetComment(
+        @Path(value = "workspace_id") workspaceId: String,
+        @Path(value = "encoded_id") encodedId: String,
+    ): Response<Unit>
 }

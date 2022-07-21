@@ -7,11 +7,12 @@ class SnippetComment(
     val content: SnippetCommentContent?,
     val user: User?,
     val deleted: Boolean?,
+    val parentId: Long?,
+    val childrenComments: MutableList<SnippetComment?>,
     val links: Links? = null,
     val type: String?,
     val snippet: Snippet? = null
 ): DomainModel
-
 
 data class SnippetCommentContent(
     val type: String?,

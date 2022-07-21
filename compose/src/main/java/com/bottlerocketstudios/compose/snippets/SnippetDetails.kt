@@ -1,5 +1,7 @@
 package com.bottlerocketstudios.compose.snippets
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +20,10 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,8 +43,8 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.lightColors
 import com.bottlerocketstudios.compose.resources.typography
+import com.bottlerocketstudios.compose.snippets.snippetDetails.NewCommentInput
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.widgets.OutlinedInputField
 import com.bottlerocketstudios.launchpad.compose.bold
 
 data class SnippetDetailsScreenState(
@@ -50,14 +56,18 @@ data class SnippetDetailsScreenState(
     val files: State<List<SnippetDetailsFile?>>,
     val owner: State<User?>,
     val creator: State<User?>,
+    val httpsLink: State<String>,
+    val sshLink: State<String>,
+    val copyHttps: () -> Unit,
+    val copySsh: () -> Unit,
     val isWatchingSnippet: State<Boolean>,
     val changeWatchingStatus: () -> Unit,
-    val onCloneClick: () -> Unit,
     val onEditClick: () -> Unit,
     val onDeleteClick: () -> Unit,
     val comments: State<List<SnippetComment>>,
     val newSnippetComment: State<String>,
-    val onCommentChanged: (String) -> Unit
+    val onCommentChanged: (String) -> Unit,
+    val onSaveCommentClick: () -> Unit
 )
 
 @Composable
@@ -68,8 +78,11 @@ fun SnippetDetailsScreen(state: SnippetDetailsScreenState) {
         item {
             EditButtonsLayout(
                 isWatching = state.isWatchingSnippet.value,
+                httpsLink = state.httpsLink.value,
+                sshLink = state.sshLink.value,
+                onCopyHttps = state.copyHttps,
+                onCopySsh = state.copySsh,
                 onWatchingClick = state.changeWatchingStatus,
-                onCloneClick = state.onCloneClick,
                 onEditClick = state.onEditClick,
                 onDeleteClick = state.onDeleteClick
             )
@@ -77,7 +90,7 @@ fun SnippetDetailsScreen(state: SnippetDetailsScreenState) {
 
         item { CategoryHeader(header = "Snippet Files") }
 
-        FilesLayout(files = state.files.value)
+        filesLayout(files = state.files.value)
 
         item {
             CategoryHeader(
@@ -90,11 +103,12 @@ fun SnippetDetailsScreen(state: SnippetDetailsScreenState) {
             NewCommentInput(
                 user = state.currentUser.value,
                 newComment = state.newSnippetComment.value,
-                onCommentChanged = state.onCommentChanged
+                onCommentChanged = state.onCommentChanged,
+                onSaveClicked = state.onSaveCommentClick
             )
         }
 
-        CommentsLayout(comments = state.comments.value)
+        commentsLayout(comments = state.comments.value)
     }
 }
 
@@ -133,7 +147,7 @@ fun SnippetDetailsLayout(state: SnippetDetailsScreenState) {
     Column {
         SnippetDetailsSpan("Owned By ", state.owner.value?.displayName ?: "")
         SnippetDetailsSpan("Created By ${state.creator.value?.displayName ?: ""} ", state.createdMessage.value)
-        if (state.updatedMessage.value.isNotEmpty() && state.updatedMessage.value != state.createdMessage.value) {
+        if (state.updatedMessage.value.isNotEmpty()) {
             SnippetDetailsSpan("Last Modified ", state.updatedMessage.value)
         }
     }
@@ -142,26 +156,43 @@ fun SnippetDetailsLayout(state: SnippetDetailsScreenState) {
 @Composable
 fun EditButtonsLayout(
     isWatching: Boolean,
+    httpsLink: String?,
+    onCopyHttps: () -> Unit,
+    sshLink: String?,
+    onCopySsh: () -> Unit,
     onWatchingClick: () -> Unit,
-    onCloneClick: () -> Unit, onEditClick: () -> Unit,
+    onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(top = Dimens.grid_3),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        SnippetDetailsEditButton(
-            icon = if (isWatching) Icons.Default.Visibility else Icons.Outlined.Visibility,
-            iconDescription = "Eye Icon on Watch Button",
-            buttonText = if (isWatching) "Stop Watching" else "Start Watching",
-            onClick = { onWatchingClick() })
-        SnippetDetailsEditButton(buttonText = "Clone", onClick = { onCloneClick() })
-        SnippetDetailsEditButton(buttonText = "Edit", onClick = { onEditClick() })
-        SnippetDetailsEditButton(buttonText = "Delete", onClick = { onDeleteClick() })
+    var cloneExpanded by remember { mutableStateOf(false) }
+
+    Column(modifier = Modifier.animateContentSize(tween(1000))) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = Dimens.grid_3),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            SnippetDetailsEditButton(
+                icon = if (isWatching) Icons.Default.Visibility else Icons.Outlined.Visibility,
+                iconDescription = "Eye Icon on Watch Button",
+                buttonText = if (isWatching) "Stop Watching" else "Start Watching",
+                onClick = { onWatchingClick() })
+            SnippetDetailsEditButton(buttonText = "Clone", onClick = { cloneExpanded = !cloneExpanded })
+            SnippetDetailsEditButton(buttonText = "Edit", onClick = { onEditClick() })
+            SnippetDetailsEditButton(buttonText = "Delete", onClick = { onDeleteClick() })
+        }
+
+        if (cloneExpanded) {
+            Column() {
+                SnippetDetailsCloneCard(type = "HTTPS", link = httpsLink ?: "", copyClick = onCopyHttps)
+                SnippetDetailsCloneCard(type = "SSH", link = sshLink ?: "", copyClick = onCopySsh)
+            }
+        }
     }
 }
 
-fun LazyListScope.FilesLayout(
+fun LazyListScope.filesLayout(
     files: List<SnippetDetailsFile?>
 ) {
     items(files) { file ->
@@ -178,39 +209,7 @@ fun CategoryHeader(header: String) {
     )
 }
 
-@Composable
-fun NewCommentInput(
-    user: User?,
-    newComment: String,
-    onCommentChanged: (String) -> Unit
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(bottom = Dimens.grid_1_5)
-    ) {
-        AsyncImage(
-            modifier = Modifier
-                .width(Dimens.grid_5)
-                .height(Dimens.grid_5)
-                .clip(CircleShape),
-            model = user?.avatarUrl,
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(R.drawable.ic_avatar_placeholder),
-            contentDescription = "User Avatar"
-        )
-        OutlinedInputField(
-            text = newComment,
-            onChanged = onCommentChanged,
-            hint = if (newComment.isEmpty()) "What would you like to say?" else "New Comment",
-            modifier = Modifier
-                .wrapContentHeight()
-                .padding(start = Dimens.grid_2)
-                .fillMaxWidth()
-        )
-    }
-}
-
-fun LazyListScope.CommentsLayout(comments: List<SnippetComment>) {
+fun LazyListScope.commentsLayout(comments: List<SnippetComment>) {
     items(comments) { comment ->
         CommentCard(
             comment = comment,

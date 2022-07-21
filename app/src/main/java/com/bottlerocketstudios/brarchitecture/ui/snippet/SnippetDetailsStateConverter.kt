@@ -15,13 +15,17 @@ fun SnippetDetailsViewModel.toState() =
         files = files.collectAsState(),
         owner = owner.collectAsState(),
         creator = creator.collectAsState(),
+        httpsLink = httpsCloneLink.collectAsState(),
+        sshLink = sshCloneLink.collectAsState(),
+        copyHttps = ::copyHttps,
+        copySsh = ::copySsh,
         isWatchingSnippet = isWatchingSnippet.collectAsState(),
         changeWatchingStatus = ::changeSnippetWatching,
-        onCloneClick = ::cloneSnippet,
         onEditClick = ::editSnippet,
         onDeleteClick = ::deleteSnippet,
         comments = snippetComments.collectAsState(),
         newSnippetComment = newSnippetComment.collectAsState(),
-        onCommentChanged = { newSnippetComment.value = it }
+        onCommentChanged = { newSnippetComment.value = it },
+        onSaveCommentClick = ::createSnippetComment
     )
 
