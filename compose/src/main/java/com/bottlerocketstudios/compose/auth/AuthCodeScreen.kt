@@ -34,15 +34,18 @@ import com.google.accompanist.web.WebViewState
 import com.google.accompanist.web.rememberWebViewNavigator
 import com.google.accompanist.web.rememberWebViewState
 
-data class AuthCodeState(
-    val requestUrl: State<String>,
-    val devOptionsEnabled: Boolean,
-    val onAuthCode: (String) -> Unit,
-    val onLoginClicked: () -> Unit,
-    val onSignupClicked: () -> Unit,
-    val onDevOptionsClicked: () -> Unit,
-    val showToolbar: (show: Boolean) -> Unit,
-)
+@Composable
+fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
+    Crossfade(targetState = state.requestUrl.value.isEmpty()) {
+        if (it) {
+            state.showToolbar(false)
+            AuthCodeContent(state)
+        } else {
+            state.showToolbar(true)
+            RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode, navigator = navigator)
+        }
+    }
+}
 
 @PreviewAllDevices
 @Composable
@@ -83,18 +86,7 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNav
     )
 }
 
-@Composable
-fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
-    Crossfade(targetState = state.requestUrl.value.isEmpty()) {
-        if (it) {
-            state.showToolbar(false)
-            AuthCodeContent(state)
-        } else {
-            state.showToolbar(true)
-            RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode, navigator = navigator)
-        }
-    }
-}
+
 
 @Composable
 private fun AuthCodeContent(state: AuthCodeState) {
@@ -159,3 +151,14 @@ private fun AuthCodeContent(state: AuthCodeState) {
         }
     }
 }
+
+data class AuthCodeState(
+    val requestUrl: State<String>,
+    val devOptionsEnabled: Boolean,
+    val onAuthCode: (String) -> Unit,
+    val onLoginClicked: () -> Unit,
+    val onSignupClicked: () -> Unit,
+    val onDevOptionsClicked: () -> Unit,
+    val showToolbar: (show: Boolean) -> Unit,
+)
+

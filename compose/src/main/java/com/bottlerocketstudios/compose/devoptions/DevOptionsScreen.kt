@@ -48,18 +48,20 @@ import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
 
-data class DevOptionsState(
-    val environmentNames: State<List<String>>,
-    val environmentSpinnerPosition: State<Int>,
-    val baseUrl: State<String>,
-    val appVersionName: String,
-    val appVersionCode: String,
-    val appId: String,
-    val buildIdentifier: String,
-    val onEnvironmentChanged: (Int) -> Unit,
-    val onRestartCtaClick: () -> Unit,
-    val onForceCrashCtaClicked: () -> Unit
-)
+@Composable
+fun DevOptionsScreen(state: DevOptionsState) {
+    DevOptionsScreenTheme {
+        Scaffold(floatingActionButton = { FabLayout(state.onRestartCtaClick) }) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize().padding(paddingValues)
+            ) {
+                DropdownEnvMenu(state)
+                ScrollContent(state)
+            }
+        }
+    }
+}
 
 @Composable
 fun DevOptionsScreenTheme(content: @Composable () -> Unit) {
@@ -69,21 +71,6 @@ fun DevOptionsScreenTheme(content: @Composable () -> Unit) {
         )
     ) {
         content()
-    }
-}
-
-@Composable
-fun DevOptionsScreen(state: DevOptionsState) {
-    DevOptionsScreenTheme {
-        Scaffold(floatingActionButton = { FabLayout(state.onRestartCtaClick) }) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                DropdownEnvMenu(state)
-                ScrollContent(state)
-            }
-        }
     }
 }
 
@@ -294,6 +281,7 @@ fun EnvironmentList(text: String, expanded: Boolean, onClick: () -> Unit) {
     }
 }
 
+@Preview
 @PreviewAllDevices
 @Composable
 private fun PreviewDevOptions() {
@@ -317,3 +305,16 @@ private fun PreviewDevOptions() {
         )
     }
 }
+
+data class DevOptionsState(
+    val environmentNames: State<List<String>>,
+    val environmentSpinnerPosition: State<Int>,
+    val baseUrl: State<String>,
+    val appVersionName: String,
+    val appVersionCode: String,
+    val appId: String,
+    val buildIdentifier: String,
+    val onEnvironmentChanged: (Int) -> Unit,
+    val onRestartCtaClick: () -> Unit,
+    val onForceCrashCtaClicked: () -> Unit
+)

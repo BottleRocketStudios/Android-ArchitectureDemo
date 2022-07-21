@@ -66,43 +66,8 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                 modifier = Modifier
                     .wrapContentHeight(align = Alignment.Top)
             ) {
-                Column(
-                    modifier = Modifier
-                        .weight(2f)
-                ) {
-                    Text(
-                        userRepositoryUiModel.repo.name ?: "",
-                        color = sea_foam,
-                        style = MaterialTheme.typography.h3.bold(),
-                        modifier = Modifier
-                            .padding(
-                                top = Dimens.grid_1
-                            )
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                    )
-                    Text(
-                        userRepositoryUiModel.repo.owner?.displayName ?: "",
-                        style = MaterialTheme.typography.h5.normal(),
-                        modifier = Modifier
-                            .padding(
-                                top = Dimens.grid_0_5
-                            )
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                    )
-                    Text(
-                        userRepositoryUiModel.repo.description ?: "",
-                        style = MaterialTheme.typography.h6.light(),
-                        modifier = Modifier
-                            .padding(
-                                top = Dimens.grid_0_5,
-                                bottom = Dimens.grid_1
-                            )
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                    )
-                }
+               RepoDescriptionComponent(userRepositoryUiModel = userRepositoryUiModel, Modifier.weight(2f) )
+
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -120,6 +85,47 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                 }
             }
         }
+    }
+}
+
+@Composable
+fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modifier: Modifier) {
+
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            userRepositoryUiModel.repo.name ?: "",
+            color = sea_foam,
+            style = MaterialTheme.typography.h3.bold(),
+            modifier = Modifier
+                .padding(
+                    top = Dimens.grid_1
+                )
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+        Text(
+            userRepositoryUiModel.repo.owner?.displayName ?: "",
+            style = MaterialTheme.typography.h5.normal(),
+            modifier = Modifier
+                .padding(
+                    top = Dimens.grid_0_5
+                )
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
+        Text(
+            userRepositoryUiModel.repo.description ?: "",
+            style = MaterialTheme.typography.h6.light(),
+            modifier = Modifier
+                .padding(
+                    top = Dimens.grid_0_5,
+                    bottom = Dimens.grid_1
+                )
+                .wrapContentHeight()
+                .fillMaxWidth()
+        )
     }
 }
 

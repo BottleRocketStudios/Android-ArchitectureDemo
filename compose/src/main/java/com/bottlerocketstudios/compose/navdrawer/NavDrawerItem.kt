@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,15 +25,8 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.launchpad.compose.bold
 import kotlinx.coroutines.launch
 
-data class NavItemState(
-    @DrawableRes val icon: Int,
-    @StringRes val itemText: Int,
-    val selected: Boolean,
-    val onClick: suspend () -> Unit
-)
-
 @Composable
-fun ColumnScope.NavDrawerItem(
+fun NavDrawerItem(
     state: NavItemState
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -99,3 +91,10 @@ fun NavItemSelectedPreview() {
         }
     }
 }
+
+data class NavItemState(
+    @DrawableRes val icon: Int,
+    @StringRes val itemText: Int,
+    val selected: Boolean,
+    val onClick: suspend () -> Unit
+)

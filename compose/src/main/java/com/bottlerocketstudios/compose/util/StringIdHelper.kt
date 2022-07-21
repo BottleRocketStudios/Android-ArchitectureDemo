@@ -33,14 +33,14 @@ sealed class StringIdHelper : DomainModel, Serializable, KoinComponent {
                     // Allow for the use of string helpers within format args by unwrapping them here
                     if (it is StringIdHelper) it.getString() else it
                 }
-                context.getString(idRes, *mappedArgs.toTypedArray())
+                context.getString(idRes, mappedArgs.toTypedArray())
             }
             is Plural -> {
                 val mappedArgs = formatArgs.map {
                     // Allow for the use of string helpers within format args by unwrapping them here
                     if (it is StringIdHelper) it.getString() else it
                 }
-                context.resources.getQuantityString(idRes, quantity, *mappedArgs.toTypedArray())
+                context.resources.getQuantityString(idRes, quantity, mappedArgs.toTypedArray())
             }
         }
     }

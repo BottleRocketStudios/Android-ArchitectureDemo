@@ -27,11 +27,6 @@ import com.bottlerocketstudios.compose.util.convertToImageBitmap
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
 
-data class FileBrowserScreenState(
-    val path: State<String>,
-    val content: State<ByteArray?>,
-)
-
 @Composable
 fun FileBrowserScreen(state: FileBrowserScreenState) {
     Column(
@@ -111,3 +106,9 @@ fun FileBrowserScreenPreview() {
         )
     }
 }
+
+data class FileBrowserScreenState(
+    val path: State<String>,
+    val content: State<ByteArray?>,
+)
+

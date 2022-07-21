@@ -43,19 +43,6 @@ import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
 
-data class LoginScreenState(
-    val email: State<String>,
-    val password: State<String>,
-    val loginEnabled: State<Boolean>,
-    val devOptionsEnabled: Boolean,
-    val onLoginClicked: () -> Unit,
-    val onSignupClicked: () -> Unit,
-    val onForgotClicked: () -> Unit,
-    val onDevOptionsClicked: () -> Unit,
-    val onEmailChanged: (String) -> Unit,
-    val onPasswordChanged: (String) -> Unit
-)
-
 @Composable
 fun LoginScreen(state: LoginScreenState) {
     Surface(
@@ -314,3 +301,16 @@ private fun PreviewOuterScreenContent() {
         )
     }
 }
+
+data class LoginScreenState(
+    val email: State<String>,
+    val password: State<String>,
+    val loginEnabled: State<Boolean>,
+    val devOptionsEnabled: Boolean,
+    val onLoginClicked: () -> Unit,
+    val onSignupClicked: () -> Unit,
+    val onForgotClicked: () -> Unit,
+    val onDevOptionsClicked: () -> Unit,
+    val onEmailChanged: (String) -> Unit,
+    val onPasswordChanged: (String) -> Unit
+)

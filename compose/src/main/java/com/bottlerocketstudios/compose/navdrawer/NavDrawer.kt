@@ -31,14 +31,6 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 
-data class NavDrawerState(
-    val avatarUrl: State<String>,
-    val displayName: State<String>,
-    val username: State<String>,
-    val items: State<List<NavItemState>>,
-    val devOptionsListener: () -> Unit,
-)
-
 // TODO - Possibly move this into LaunchPad Library
 @Composable
 fun ColumnScope.NavDrawer(state: NavDrawerState) {
@@ -149,3 +141,11 @@ fun generateItemListPreview(): List<NavItemState> {
     }
     return itemList
 }
+
+data class NavDrawerState(
+    val avatarUrl: State<String>,
+    val displayName: State<String>,
+    val username: State<String>,
+    val items: State<List<NavItemState>>,
+    val devOptionsListener: () -> Unit,
+)

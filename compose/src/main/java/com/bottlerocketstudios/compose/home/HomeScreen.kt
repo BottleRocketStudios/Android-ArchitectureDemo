@@ -25,10 +25,6 @@ import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.launchpad.compose.bold
 
-data class HomeScreenState(
-    val repositories: State<List<UserRepositoryUiModel>>,
-    val itemSelected: (userRepositoryUiModel: UserRepositoryUiModel) -> Unit,
-)
 
 @Composable
 fun HomeScreen(state: HomeScreenState) {
@@ -87,3 +83,8 @@ fun HomeScreenPreview() {
         )
     }
 }
+
+data class HomeScreenState(
+    val repositories: State<List<UserRepositoryUiModel>>,
+    val itemSelected: (userRepositoryUiModel: UserRepositoryUiModel) -> Unit,
+)

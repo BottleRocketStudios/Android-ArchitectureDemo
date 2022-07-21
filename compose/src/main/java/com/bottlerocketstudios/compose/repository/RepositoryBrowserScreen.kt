@@ -30,15 +30,6 @@ import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.pluralResource
 import com.bottlerocketstudios.compose.widgets.IconText
 
-data class RepositoryBrowserScreenState(
-    val path: State<String>,
-    val itemCount: State<Int>,
-    val repositoryItems: State<List<RepositoryItemUiModel>>,
-    val onRepositoryItemClicked: (RepositoryItemUiModel) -> Unit
-)
-
-private const val DEFAULT_ITEM_COUNT = 3
-
 @Composable
 fun RepositoryBrowserScreen(state: RepositoryBrowserScreenState) {
     LazyColumn(
@@ -189,3 +180,12 @@ private fun PreviewOuterScreenContent() {
         )
     }
 }
+
+data class RepositoryBrowserScreenState(
+    val path: State<String>,
+    val itemCount: State<Int>,
+    val repositoryItems: State<List<RepositoryItemUiModel>>,
+    val onRepositoryItemClicked: (RepositoryItemUiModel) -> Unit
+)
+
+private const val DEFAULT_ITEM_COUNT = 3
