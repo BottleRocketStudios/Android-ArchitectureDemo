@@ -21,10 +21,10 @@ import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreenState
-import com.bottlerocketstudios.compose.util.LaunchCollection
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.util.toStringIdHelper
-import com.bottlerocketstudios.compose.widgets.listdetail.AnimatedListDetail
+import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
+import com.bottlerocketstudios.launchpad.compose.widgets.listdetail.AnimatedListDetail
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
