@@ -96,4 +96,5 @@ suspend fun <T : Any> logWrappedExceptions(className: String, methodName: String
 
 // Simple version of wrap exceptions; with no logging.
 suspend fun <T : Any> wrapExceptions(block: suspend () -> Status<T>): Status<T> =
+    @Suppress("TooGenericExceptionCaught") // this might be overly broad (catching NPEs isn't ideal) but not worth it yet to check for all other possible types (IO..., Json..., others)
     try { block() } catch (e: Exception) { e.asAppropriateFailure() }

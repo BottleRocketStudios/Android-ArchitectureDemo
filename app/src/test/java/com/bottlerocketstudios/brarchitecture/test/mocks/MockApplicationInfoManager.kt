@@ -16,6 +16,7 @@ object MockApplicationInfoManager {
         buildIdentifier = TEST_BUILD_DEV,
     )
 
+    @Suppress("MemberNameEqualsClassName")
     val mockApplicationInfoManager: ApplicationInfoManager = mock {
         on { getApplicationInfo() }.then { appInfo }
     }

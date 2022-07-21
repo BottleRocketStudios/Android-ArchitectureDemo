@@ -37,35 +37,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        AsyncImage(
-            model = state.avatarUrl.value,
-            contentDescription = stringResource(id = R.string.profile_image_description),
-            modifier = Modifier
-                .padding(
-                    top = 142.dp
-                )
-                .height(Dimens.grid_12_5)
-        )
-        Text(
-            state.displayName.value,
-            color = ArchitectureDemoTheme.colors.tertiary,
-            style = MaterialTheme.typography.h3.bold(),
-            modifier = Modifier
-                .padding(
-                    top = Dimens.grid_2
-                )
-                .wrapContentSize()
-        )
-        Text(
-            state.nickname.value,
-            color = ArchitectureDemoTheme.colors.onSurface,
-            style = MaterialTheme.typography.h4.normal(),
-            modifier = Modifier
-                .padding(
-                    top = Dimens.grid_0_5
-                )
-                .wrapContentSize()
-        )
+        ProfileDetailComponent(state = state)
         OutlinedButton(
             onClick = { state.onEditClicked() },
             border = BorderStroke(1.dp, br_red),
@@ -104,6 +76,39 @@ fun ProfileScreen(state: ProfileScreenState) {
             )
         }
     }
+}
+
+@Composable
+fun ProfileDetailComponent(state: ProfileScreenState) {
+    AsyncImage(
+        model = state.avatarUrl.value,
+        contentDescription = stringResource(id = R.string.profile_image_description),
+        modifier = Modifier
+            .padding(
+                top = 142.dp
+            )
+            .height(Dimens.grid_12_5)
+    )
+    Text(
+        state.displayName.value,
+        color = ArchitectureDemoTheme.colors.tertiary,
+        style = MaterialTheme.typography.h3.bold(),
+        modifier = Modifier
+            .padding(
+                top = Dimens.grid_2
+            )
+            .wrapContentSize()
+    )
+    Text(
+        state.nickname.value,
+        color = ArchitectureDemoTheme.colors.onSurface,
+        style = MaterialTheme.typography.h4.normal(),
+        modifier = Modifier
+            .padding(
+                top = Dimens.grid_0_5
+            )
+            .wrapContentSize()
+    )
 }
 
 @PreviewAllDevices
