@@ -155,6 +155,9 @@ dependencies {
     lifecycleDependencies()
     navigationDependencies()
 
+    // Launchpad
+    launchPadDependencies()
+
     coreLibraryDesugaringDependencies()
 
     // Utility

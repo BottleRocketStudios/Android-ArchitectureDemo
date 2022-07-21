@@ -3,7 +3,6 @@ package com.bottlerocketstudios.compose.resources
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
@@ -17,7 +16,6 @@ fun ProvideColors(
     CompositionLocalProvider(LocalAppColors provides colorPalette, content = content)
 }
 
-// TODO update this to use compositionLocalOf when a set of dark mode colors has been added
 private val LocalAppColors = staticCompositionLocalOf {
     lightColors
 }
@@ -32,7 +30,7 @@ fun ProvideDimens(
     CompositionLocalProvider(LocalAppDimens provides dimensionSet, content = content)
 }
 
-private val LocalAppDimens = compositionLocalOf {
+private val LocalAppDimens = staticCompositionLocalOf {
     sw360Dimensions
 }
 
