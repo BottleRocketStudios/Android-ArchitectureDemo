@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -86,8 +85,6 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNav
     )
 }
 
-
-
 @Composable
 private fun AuthCodeContent(state: AuthCodeState) {
     Column(
@@ -151,6 +148,3 @@ private fun AuthCodeContent(state: AuthCodeState) {
         }
     }
 }
-
-
-

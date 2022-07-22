@@ -66,7 +66,7 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                 modifier = Modifier
                     .wrapContentHeight(align = Alignment.Top)
             ) {
-               RepoDescriptionComponent(userRepositoryUiModel = userRepositoryUiModel, Modifier.weight(2f) )
+                RepoDescriptionComponent(userRepositoryUiModel = userRepositoryUiModel, Modifier.weight(2f))
 
                 Column(
                     modifier = Modifier
