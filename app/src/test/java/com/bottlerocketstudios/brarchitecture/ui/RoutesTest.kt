@@ -13,25 +13,25 @@ import org.junit.Test
 class RoutesTest : BaseTest() {
     @Test
     fun repositoryBrowser_dataHasFields_shouldReturnFields() {
-        assertThat(Routes.repositoryBrowser(RepositoryBrowserData(TEST_REPO, TEST_HASH, TEST_PATH)))
+        assertThat(Routes.RepositoryBrowser(RepositoryBrowserData(TEST_REPO, TEST_HASH, TEST_PATH)))
             .isEqualTo("repository?repoName=$TEST_REPO&folderHash=$TEST_HASH&folderPath=$TEST_PATH")
     }
 
     @Test
     fun repositoryBrowser_emptyDataFields_shouldReturnWithoutFields() {
-        assertThat(Routes.repositoryBrowser(RepositoryBrowserData(TEST_REPO)))
+        assertThat(Routes.RepositoryBrowser(RepositoryBrowserData(TEST_REPO)))
             .isEqualTo("repository?repoName=$TEST_REPO")
     }
 
     @Test
     fun repositoryFile_dataHasFields_shouldReturnFields() {
-        assertThat(Routes.repositoryFile(RepositoryFileData(TEST_HASH, TEST_PATH, TEST_REPO_MIME)))
+        assertThat(Routes.RepositoryFile(RepositoryFileData(TEST_HASH, TEST_PATH, TEST_REPO_MIME)))
             .isEqualTo("file?hash=$TEST_HASH&path=$TEST_PATH&mimeType=$TEST_REPO_MIME")
     }
 
     @Test
     fun repositoryFile_noMimeType_shouldReturnWithoutMime() {
-        assertThat(Routes.repositoryFile(RepositoryFileData(TEST_HASH, TEST_PATH, "")))
+        assertThat(Routes.RepositoryFile(RepositoryFileData(TEST_HASH, TEST_PATH, "")))
             .isEqualTo("file?hash=$TEST_HASH&path=$TEST_PATH")
     }
 }

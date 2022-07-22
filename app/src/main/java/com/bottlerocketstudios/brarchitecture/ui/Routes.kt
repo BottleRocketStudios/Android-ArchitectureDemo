@@ -1,3 +1,4 @@
+@file:Suppress("FunctionNaming")
 package com.bottlerocketstudios.brarchitecture.ui
 
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
@@ -12,12 +13,12 @@ object Routes {
     const val Snippets = "snippets"
     const val Profile = "profile"
 
-    fun repositoryBrowser(data: RepositoryBrowserData) =
+    fun RepositoryBrowser(data: RepositoryBrowserData) =
         "repository?repoName=${data.repoName}" +
             (if (data.folderHash.orEmpty().isNotEmpty()) "&folderHash=${data.folderHash}" else "") +
             (if (data.folderPath.orEmpty().isNotEmpty()) "&folderPath=${data.folderPath}" else "")
 
-    fun repositoryFile(data: RepositoryFileData) =
+    fun RepositoryFile(data: RepositoryFileData) =
         "file?hash=${data.hash}&path=${data.path}" +
             if (data.mimeType.isNotEmpty()) "&mimeType=${data.mimeType}" else ""
 }
