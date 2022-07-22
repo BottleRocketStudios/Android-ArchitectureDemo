@@ -10,16 +10,18 @@
     <!-- Snippets -->
     <string name="snippets_title">Snippets</string>
     <string name="snippets_error">Failed to retrieve snippet</string>
+
+    <!-- Snippet Details -->
+    <string name="snippet_owner_avatar">Avatar image of snippet owner</string>
+    <string name="error_changing_watching">Error: Unable to change watching status</string>
     <string name="snippet_watching_error">Failed to retrieve watching status</string>
     <string name="snippet_comments_error">Failed to retrieve snippet comments</string>
     <string name="delete_snippet_success">Snippet was successfully deleted</string>
     <string name="delete_snippet_error">Failed to delete snippet</string>
     <string name="create_comment_error">Failed to create new comment</string>
-
-
-    <!-- Snippet Details -->
-    <string name="snippet_owner_avatar">Avatar image of snippet owner</string>
-    <string name="error_changing_watching">Error: Unable to change watching status</string>
+    <string name="comment_reply_error">Comment reply failed</string>
+    <string name="edit_comment_error">Failed to edit comment</string>
+    <string name="delete_comment_error">Failed to delete comment</string>
 
     <!-- Repository screen -->
     <string name="error_loading_repository">Error loading repository</string>

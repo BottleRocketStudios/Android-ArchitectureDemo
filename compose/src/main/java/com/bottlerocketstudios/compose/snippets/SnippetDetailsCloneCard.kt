@@ -1,5 +1,8 @@
 package com.bottlerocketstudios.compose.snippets
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +19,7 @@ import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.typography
 
@@ -31,6 +35,8 @@ fun SnippetDetailsCloneCard(
             .fillMaxWidth()
             .padding(vertical = Dimens.grid_0_5)
     ) {
+        val clipboardManager = LocalContext.current.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(type, link)
         Column(modifier = Modifier.padding(Dimens.grid_2)) {
             Text(
                 text = type,
@@ -45,7 +51,10 @@ fun SnippetDetailsCloneCard(
                 Icon(
                     imageVector = Icons.Default.ContentCopy,
                     contentDescription = "Copy Icon",
-                    modifier = Modifier.clickable { copyClick() }
+                    modifier = Modifier
+                        .clickable {
+                            clipboardManager.setPrimaryClip(clipData)
+                        }
                 )
                 OutlinedTextField(
                     value = link,

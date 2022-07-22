@@ -14,6 +14,7 @@ import com.bottlerocketstudios.compose.snippets.SnippetDetailsUiModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
+import timber.log.Timber
 
 class SnippetDetailsViewModel : BaseViewModel() {
     // DI
@@ -41,6 +42,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
 
     // State - Edits
     val newSnippetComment = MutableStateFlow("")
+    val newReplyComment = MutableStateFlow("")
 
     init {
         currentUser.value = repo.user.value?.convertToUser()
@@ -124,9 +126,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
         }
     }
 
-    fun editSnippet() {
-        Unit
-    }
+    fun editSnippet() {}
 
     fun deleteSnippet() {
         launchIO {
@@ -145,13 +145,66 @@ class SnippetDetailsViewModel : BaseViewModel() {
     fun copyHttps() {}
     fun copySsh() {}
 
-    fun createSnippetComment() {
+    fun cancelCommentCreation() {
+        newSnippetComment.value = ""
+        newReplyComment.value = ""
+    }
+
+
+    fun saveComment(commentId: Int?) {
+        when (commentId == null) {
+            true -> createSnippetComment()
+            false -> createReplyComment(commentId)
+        }
+    }
+
+    private fun createSnippetComment() {
         if (newSnippetComment.value.isNotEmpty()) {
             launchIO {
-                when (val result = repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)) {
-                    is Status.Success -> getSnippetComments()
+                when (repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)) {
+                    is Status.Success -> {
+                        getSnippetComments()
+                        cancelCommentCreation()
+                    }
                     is Status.Failure -> handleError(R.string.create_comment_error)
                 }
+            }
+        }
+    }
+
+    private fun createReplyComment(commentId: Int) {
+        if (newReplyComment.value.isNotEmpty()) {
+            launchIO {
+                handleError(R.string.app_name)
+                cancelCommentCreation()
+                Timber.w("[createReplyComment] Sending Request: $commentId")
+                when (val result = repo.createCommentReply(workspaceId.value, encodedId.value, newSnippetComment.value, commentId)) {
+                    is Status.Success -> getSnippetComments()
+                    is Status.Failure.NetworkTimeoutFailure -> Timber.w("[createReplyComment] Network Failure: ${result.exception}")
+                    is Status.Failure.GeneralFailure -> Timber.w("[createReplyComment] General Failure: ${result.message}")
+                    is Status.Failure.Server -> Timber.w("[createReplyComment] General Failure: ${result.error}")
+                    else -> handleError(R.string.comment_reply_error)
+                }
+            }
+        }
+    }
+
+    fun commentEditClick(commentId: Int) {
+        launchIO {
+            when (repo.editSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value, commentId)) {
+                is Status.Success -> getSnippetComments()
+                else -> handleError(R.string.edit_comment_error)
+            }
+        }
+    }
+
+    fun commentDeleteClick(commentId: Int) {
+        launchIO {
+            when (val result = repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId)) {
+                is Status.Success -> getSnippetComments()
+                is Status.Failure.GeneralFailure -> Timber.w("[commentDeleteClick] General Failure: ${result.message}")
+                is Status.Failure.Server -> Timber.w("[commentDeleteClick] General Failure: ${result.error}")
+                else -> handleError(R.string.delete_comment_error)
             }
         }
     }
@@ -190,6 +243,6 @@ class SnippetDetailsViewModel : BaseViewModel() {
             }
         }
 
-        snippetComments.value = parentComments
+        snippetComments.value = parentComments.reversed()
     }
 }

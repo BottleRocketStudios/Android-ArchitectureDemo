@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +31,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
@@ -43,32 +41,11 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.lightColors
 import com.bottlerocketstudios.compose.resources.typography
+import com.bottlerocketstudios.compose.snippets.snippetDetails.CategoryHeader
 import com.bottlerocketstudios.compose.snippets.snippetDetails.NewCommentInput
+import com.bottlerocketstudios.compose.snippets.snippetDetails.SnippetDetailsScreenState
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.launchpad.compose.bold
-
-data class SnippetDetailsScreenState(
-    val currentUser: State<User?>,
-    val snippetTitle: State<String>,
-    val createdMessage: State<String>,
-    val updatedMessage: State<String>,
-    val isPrivate: State<Boolean>,
-    val files: State<List<SnippetDetailsFile?>>,
-    val owner: State<User?>,
-    val creator: State<User?>,
-    val httpsLink: State<String>,
-    val sshLink: State<String>,
-    val copyHttps: () -> Unit,
-    val copySsh: () -> Unit,
-    val isWatchingSnippet: State<Boolean>,
-    val changeWatchingStatus: () -> Unit,
-    val onEditClick: () -> Unit,
-    val onDeleteClick: () -> Unit,
-    val comments: State<List<SnippetComment>>,
-    val newSnippetComment: State<String>,
-    val onCommentChanged: (String) -> Unit,
-    val onSaveCommentClick: () -> Unit
-)
 
 @Composable
 fun SnippetDetailsScreen(state: SnippetDetailsScreenState) {
@@ -83,32 +60,46 @@ fun SnippetDetailsScreen(state: SnippetDetailsScreenState) {
                 onCopyHttps = state.copyHttps,
                 onCopySsh = state.copySsh,
                 onWatchingClick = state.changeWatchingStatus,
-                onEditClick = state.onEditClick,
-                onDeleteClick = state.onDeleteClick
+                onEditClick = state.onSnippetEditClick,
+                onDeleteClick = state.onSnippetDeleteClick
             )
         }
 
-        item { CategoryHeader(header = "Snippet Files") }
+        // TODO: Move category headers to respective "layouts"
+        item { CategoryHeader(header = stringResource(id = R.string.header_snippet_files)) }
 
         filesLayout(files = state.files.value)
 
         item {
             CategoryHeader(
                 header = if (state.comments.value.isEmpty())
-                    "Snippet Comments" else "Snippet Comments (${state.comments.value.size})"
+                    stringResource(id = R.string.header_snippet_comments, "")
+                else
+                    stringResource(id = R.string.header_snippet_comments, "(${state.comments.value.size})")
             )
         }
 
+        // TODO: move to comments layout
         item {
             NewCommentInput(
                 user = state.currentUser.value,
                 newComment = state.newSnippetComment.value,
                 onCommentChanged = state.onCommentChanged,
-                onSaveClicked = state.onSaveCommentClick
+                onSaveClicked = state.onSaveCommentClick,
+                onCancelClicked = state.onCancelNewCommentClick,
             )
         }
 
-        commentsLayout(comments = state.comments.value)
+        commentsLayout(
+            user = state.currentUser.value,
+            replyComment = state.newReplyComment.value,
+            onReplyChanged = state.onReplyChanged,
+            onCancelClicked = state.onCancelNewCommentClick,
+            comments = state.comments.value,
+            onSaveClick = state.onSaveCommentClick,
+            onEditCommentClick = state.onEditCommentClick,
+            onDeleteCommentClick = state.onDeleteCommentClick,
+        )
     }
 }
 
@@ -145,14 +136,18 @@ fun SnippetTitleLayout(state: SnippetDetailsScreenState) {
 @Composable
 fun SnippetDetailsLayout(state: SnippetDetailsScreenState) {
     Column {
-        SnippetDetailsSpan("Owned By ", state.owner.value?.displayName ?: "")
-        SnippetDetailsSpan("Created By ${state.creator.value?.displayName ?: ""} ", state.createdMessage.value)
+        SnippetDetailsSpan(stringResource(id = R.string.owned_by), state.owner.value?.displayName ?: "")
+        SnippetDetailsSpan(
+            stringResource(id = R.string.created_by, state.creator.value?.displayName ?: ""),
+            state.createdMessage.value
+        )
         if (state.updatedMessage.value.isNotEmpty()) {
-            SnippetDetailsSpan("Last Modified ", state.updatedMessage.value)
+            SnippetDetailsSpan(stringResource(id = R.string.last_modified), state.updatedMessage.value)
         }
     }
 }
 
+//TODO: Pass state to layout and values to widgets
 @Composable
 fun EditButtonsLayout(
     isWatching: Boolean,
@@ -175,18 +170,36 @@ fun EditButtonsLayout(
         ) {
             SnippetDetailsEditButton(
                 icon = if (isWatching) Icons.Default.Visibility else Icons.Outlined.Visibility,
-                iconDescription = "Eye Icon on Watch Button",
-                buttonText = if (isWatching) "Stop Watching" else "Start Watching",
+                iconDescription = stringResource(id = R.string.eye_icon_description),
+                buttonText =
+                if (isWatching) stringResource(id = R.string.stop_watching) else stringResource(id = R.string.start_watching),
                 onClick = { onWatchingClick() })
-            SnippetDetailsEditButton(buttonText = "Clone", onClick = { cloneExpanded = !cloneExpanded })
-            SnippetDetailsEditButton(buttonText = "Edit", onClick = { onEditClick() })
-            SnippetDetailsEditButton(buttonText = "Delete", onClick = { onDeleteClick() })
+            SnippetDetailsEditButton(
+                buttonText = stringResource(id = R.string.button_clone),
+                onClick = { cloneExpanded = !cloneExpanded }
+            )
+            SnippetDetailsEditButton(
+                buttonText = stringResource(id = R.string.button_edit),
+                onClick = { onEditClick() }
+            )
+            SnippetDetailsEditButton(
+                buttonText = stringResource(id = R.string.button_delete),
+                onClick = { onDeleteClick() }
+            )
         }
 
         if (cloneExpanded) {
-            Column() {
-                SnippetDetailsCloneCard(type = "HTTPS", link = httpsLink ?: "", copyClick = onCopyHttps)
-                SnippetDetailsCloneCard(type = "SSH", link = sshLink ?: "", copyClick = onCopySsh)
+            Column {
+                SnippetDetailsCloneCard(
+                    type = stringResource(id = R.string.https),
+                    link = httpsLink ?: "",
+                    copyClick = onCopyHttps
+                )
+                SnippetDetailsCloneCard(
+                    type = stringResource(id = R.string.ssh),
+                    link = sshLink ?: "",
+                    copyClick = onCopySsh
+                )
             }
         }
     }
@@ -200,22 +213,26 @@ fun LazyListScope.filesLayout(
     }
 }
 
-@Composable
-fun CategoryHeader(header: String) {
-    Text(
-        text = header,
-        style = typography.h2.copy(fontWeight = FontWeight.Bold),
-        modifier = Modifier.padding(top = Dimens.grid_1_5, bottom = Dimens.grid_0_25)
-    )
-}
-
-fun LazyListScope.commentsLayout(comments: List<SnippetComment>) {
+fun LazyListScope.commentsLayout(
+    user: User?,
+    replyComment: String,
+    onReplyChanged: (String) -> Unit,
+    onCancelClicked: () -> Unit,
+    comments: List<SnippetComment>,
+    onDeleteCommentClick: (Int) -> Unit,
+    onEditCommentClick: (Int) -> Unit,
+    onSaveClick: (Int?) -> Unit,
+) {
     items(comments) { comment ->
         CommentCard(
+            user = user,
+            replyComment = replyComment,
+            onReplyChanged = onReplyChanged,
+            onCancelClicked = onCancelClicked,
             comment = comment,
-            onReplyClick = { Unit },
-            onEditClick = { Unit },
-            onDeleteClick = { Unit }
+            onSaveClick = onSaveClick,
+            onEditClick = onEditCommentClick,
+            onDeleteClick = onDeleteCommentClick,
         )
     }
 }
@@ -234,7 +251,7 @@ fun SnippetDetailsSpan(
     val spanStyle2 = spanStyle1.copy(color = lightColors.onSurface)
     Text(text = buildAnnotatedString {
         withStyle(style = spanStyle1) { append(text) }
-        withStyle(spanStyle2) { append(appendedText) }
+        withStyle(spanStyle2) { append(" $appendedText") }
     }
     )
 }

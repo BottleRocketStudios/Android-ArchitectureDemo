@@ -1,6 +1,9 @@
 package com.bottlerocketstudios.compose.snippets.snippetDetails
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,56 +35,67 @@ import com.bottlerocketstudios.compose.widgets.OutlinedInputField
 @Composable
 fun NewCommentInput(
     user: User?,
+    parentId: Int? = null,
     newComment: String,
     onCommentChanged: (String) -> Unit,
-    onSaveClicked: () -> Unit
+    onSaveClicked: ((Int?) -> Unit),
+    onCancelClicked: () -> Unit,
 ) {
     var focusState by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(bottom = if (focusState) Dimens.grid_0_25 else Dimens.grid_1_5)
-    ) {
-        AsyncImage(
-            modifier = Modifier
-                .width(Dimens.grid_5)
-                .height(Dimens.grid_5)
-                .clip(CircleShape),
-            model = user?.avatarUrl,
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(R.drawable.ic_avatar_placeholder),
-            contentDescription = "User Avatar"
-        )
-        OutlinedInputField(
-            text = newComment,
-            onChanged = onCommentChanged,
-            hint = if (focusState) "New Comment" else "What would you like to say?",
-            modifier = Modifier
-                .wrapContentHeight()
-                .padding(start = Dimens.grid_2)
-                .fillMaxWidth()
-                .onFocusChanged { focusState = it.hasFocus }
-        )
-    }
-    if (focusState) {
+
+    Column(Modifier.animateContentSize(tween(1000))) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(bottom = if (focusState) Dimens.grid_0_25 else Dimens.grid_1_5)
         ) {
-            SnippetDetailsEditButton(
-                buttonText = "Save",
-                onClick = { onSaveClicked() },
-                textStyle = typography.body1,
-                buttonPadding = Dimens.grid_0_5
+            AsyncImage(
+                modifier = Modifier
+                    .width(Dimens.grid_5)
+                    .height(Dimens.grid_5)
+                    .clip(CircleShape),
+                model = user?.avatarUrl,
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.ic_avatar_placeholder),
+                contentDescription = "User Avatar"
             )
-            SnippetDetailsEditButton(
-                buttonText = "Cancel",
-                onClick = { focusManager.clearFocus() },
-                textStyle = typography.body1,
-                buttonColor = Colors.surface,
-                buttonPadding = Dimens.grid_0_5
+            OutlinedInputField(
+                text = newComment,
+                onChanged = onCommentChanged,
+                hint = if (focusState) "New Comment" else "What would you like to say?",
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .padding(start = Dimens.grid_2)
+                    .fillMaxWidth()
+                    .onFocusChanged { focusState = it.hasFocus }
             )
+        }
+        if (focusState) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                SnippetDetailsEditButton(
+                    buttonText = "Save",
+                    onClick = {
+                        onSaveClicked(parentId)
+                        focusManager.clearFocus()
+                    },
+                    textStyle = typography.body1,
+                    buttonPadding = Dimens.grid_0_5
+                )
+                SnippetDetailsEditButton(
+                    buttonText = "Cancel",
+                    onClick = {
+                        onCancelClicked()
+                        focusManager.clearFocus()
+                    },
+                    textStyle = typography.body1,
+                    buttonColor = Colors.surface,
+                    buttonPadding = Dimens.grid_0_5
+                )
+            }
         }
     }
 }

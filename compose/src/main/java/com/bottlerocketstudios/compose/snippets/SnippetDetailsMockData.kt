@@ -75,12 +75,17 @@ fun returnMockSnippetDetails() =
         copyHttps = {},
         copySsh = {},
         changeWatchingStatus = { },
-        onEditClick = { },
-        onDeleteClick = { },
+        onSnippetEditClick = { },
+        onSnippetDeleteClick = { },
         comments = listOf(snippetComment).asMutableState(),
         newSnippetComment = "".asMutableState(),
         onCommentChanged = { },
-        onSaveCommentClick = {}
+        onSaveCommentClick = {},
+        onCancelNewCommentClick = {},
+        onDeleteCommentClick = {},
+        onEditCommentClick = {},
+        newReplyComment = "".asMutableState(),
+        onReplyChanged = {}
     )
 
 fun ZonedDateTime.convertToTimeAgoMessage(): String {
@@ -113,19 +118,19 @@ val currentUser = User(
     links = null
 )
 val snippetComment = SnippetComment(
-    id = 7L,
+    id = 7,
     type = "Snippet Comment",
     user = currentUser,
     parentId = null,
     childrenComments = mutableListOf(
         SnippetComment(
-            id = 7L,
+            id = 7,
             type = "Snippet Comment",
             user = currentUser,
             parentId = null,
             childrenComments = mutableListOf(
                 SnippetComment(
-                    id = 7L,
+                    id = 7,
                     type = "Snippet Comment",
                     user = currentUser,
                     parentId = null,

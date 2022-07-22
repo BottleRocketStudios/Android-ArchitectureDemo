@@ -21,11 +21,16 @@ fun SnippetDetailsViewModel.toState() =
         copySsh = ::copySsh,
         isWatchingSnippet = isWatchingSnippet.collectAsState(),
         changeWatchingStatus = ::changeSnippetWatching,
-        onEditClick = ::editSnippet,
-        onDeleteClick = ::deleteSnippet,
+        onSnippetEditClick = ::editSnippet,
+        onSnippetDeleteClick = ::deleteSnippet,
         comments = snippetComments.collectAsState(),
         newSnippetComment = newSnippetComment.collectAsState(),
+        newReplyComment = newReplyComment.collectAsState(),
         onCommentChanged = { newSnippetComment.value = it },
-        onSaveCommentClick = ::createSnippetComment
+        onReplyChanged = { newReplyComment.value = it },
+        onSaveCommentClick = ::saveComment,
+        onCancelNewCommentClick = ::cancelCommentCreation,
+        onEditCommentClick = ::commentEditClick,
+        onDeleteCommentClick = ::commentDeleteClick,
     )
 

@@ -9,6 +9,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -121,11 +122,33 @@ internal interface BitbucketService {
         @Path(value = "workspace_id") workspace: String,
         @Path(value = "encoded_id") encoded_id: String
     ): Response<BitbucketPagedResponse<List<SnippetCommentDto>>>
-
-    @Multipart
+    
     @POST(value = "/2.0/snippets/{workspace_id}/{encoded_id}/comments")
     suspend fun createSnippetComment(
         @Path(value = "workspace_id") workspaceId: String,
         @Path(value = "encoded_id") encodedId: String,
+        @Body body: SnippetCommentDto,
+    ): Response<Unit>
+
+    @POST(value = "/2.0/snippets/{workspace_id}/{encoded_id}/comments")
+    suspend fun createCommentReply(
+        @Path(value = "workspace_id") workspaceId: String,
+        @Path(value = "encoded_id") encodedId: String,
+        @Body body: SnippetCommentDto,
+    ): Response<Unit>
+
+    @PUT(value = "/2.0/snippets/{workspace_id}/{encoded_id}/comments/{comment_id}")
+    suspend fun editSnippetComment(
+        @Path(value = "workspace_id") workspaceId: String,
+        @Path(value = "encoded_id") encodedId: String,
+        @Path(value = "comment_id") commentId: Int,
+        @Body body: SnippetCommentDto,
+    ): Response<Unit>
+
+    @DELETE(value = "/2.0/snippets/{workspace_id}/{encoded_id}/comments/{comment_id}")
+    suspend fun deleteSnippetComment(
+        @Path(value = "workspace_id") workspaceId: String,
+        @Path(value = "encoded_id") encodedId: String,
+        @Path(value = "comment_id") commentId: Int
     ): Response<Unit>
 }

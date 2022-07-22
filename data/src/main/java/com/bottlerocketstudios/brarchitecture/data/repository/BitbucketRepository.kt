@@ -1,8 +1,10 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.ParentSnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
+import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentContentDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
@@ -21,7 +23,6 @@ import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import retrofit2.Response
@@ -46,6 +47,9 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto>
     suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetCommentDto>>
     suspend fun createSnippetComment(workspaceId: String, encodedId: String, comment: String): Status<Unit>
+    suspend fun createCommentReply(workspaceId: String, encodedId: String, comment: String, commentId: Int): Status<Unit>
+    suspend fun editSnippetComment(workspaceId: String, encodedId: String, comment: String, commentId: Int): Status<Unit>
+    suspend fun deleteSnippetComment(workspaceId: String, encodedId: String, commentId: Int): Status<Unit>
     suspend fun getSnippetFile(workspaceId: String, encodedId: String, filePath: String): Status<ByteArray>
     suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Status<Int>
     suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
@@ -180,9 +184,29 @@ internal class BitbucketRepositoryImpl(
     }
 
     override suspend fun createSnippetComment(workspaceId: String, encodedId: String, comment: String): Status<Unit> {
-        return wrapRepoExceptions("deleteSnippet") {
+        return wrapRepoExceptions("createSnippetComment") {
+            val commentDto = SnippetCommentDto(content = SnippetCommentContentDto(raw = comment))
+            bitbucketService.createSnippetComment(workspaceId, encodedId, commentDto).toEmptyResult()
+        }
+    }
 
-            bitbucketService.createSnippetComment(workspaceId, encodedId, comment).toEmptyResult()
+    override suspend fun createCommentReply(workspaceId: String, encodedId: String, comment: String, commentId: Int): Status<Unit> {
+        return wrapRepoExceptions("createCommentReply") {
+            val commentDto = SnippetCommentDto(content = SnippetCommentContentDto(raw = comment), parent = ParentSnippetCommentDto(id = commentId))
+            bitbucketService.createCommentReply(workspaceId, encodedId, commentDto).toEmptyResult()
+        }
+    }
+
+    override suspend fun editSnippetComment(workspaceId: String, encodedId: String, comment: String, commentId: Int): Status<Unit> {
+        return wrapRepoExceptions("editSnippetComment") {
+            val commentDto = SnippetCommentDto(content = SnippetCommentContentDto(raw = comment))
+            bitbucketService.editSnippetComment(workspaceId, encodedId, commentId, commentDto).toEmptyResult()
+        }
+    }
+
+    override suspend fun deleteSnippetComment(workspaceId: String, encodedId: String, commentId: Int): Status<Unit> {
+        return wrapRepoExceptions("deleteSnippetComment") {
+            bitbucketService.deleteSnippetComment(workspaceId, encodedId, commentId).toEmptyResult()
         }
     }
 
