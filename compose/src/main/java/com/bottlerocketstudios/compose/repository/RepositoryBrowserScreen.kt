@@ -152,27 +152,9 @@ private fun PreviewOuterScreenContent() {
         RepositoryBrowserScreen(
             state = RepositoryBrowserScreenState(
                 path = remember { mutableStateOf("/path/to/folder") },
-                itemCount = remember { mutableStateOf(DEFAULT_ITEM_COUNT) },
+                itemCount = remember { mutableStateOf(browserItems.size) },
                 repositoryItems = remember {
-                    mutableStateOf(
-                        listOf(
-                            RepositoryItemUiModel(
-                                path = "Stuff",
-                                size = 12,
-                                isFolder = true
-                            ),
-                            RepositoryItemUiModel(
-                                path = "fileOne",
-                                size = 1,
-                                isFolder = false
-                            ),
-                            RepositoryItemUiModel(
-                                path = "file2",
-                                size = 2,
-                                isFolder = false
-                            ),
-                        )
-                    )
+                    mutableStateOf(browserItems)
                 },
                 onRepositoryItemClicked = {}
             )
@@ -180,4 +162,21 @@ private fun PreviewOuterScreenContent() {
     }
 }
 
-private const val DEFAULT_ITEM_COUNT = 3
+private val browserItems = listOf(
+    RepositoryItemUiModel(
+        path = "Stuff",
+        size = 12,
+        isFolder = true
+    ),
+    RepositoryItemUiModel(
+        path = "fileOne",
+        size = 1,
+        isFolder = false
+    ),
+    RepositoryItemUiModel(
+        path = "file2",
+        size = 2,
+        isFolder = false
+    ),
+)
+
