@@ -181,11 +181,4 @@ private fun PreviewOuterScreenContent() {
     }
 }
 
-data class RepositoryBrowserScreenState(
-    val path: State<String>,
-    val itemCount: State<Int>,
-    val repositoryItems: State<List<RepositoryItemUiModel>>,
-    val onRepositoryItemClicked: (RepositoryItemUiModel) -> Unit
-)
-
 private const val DEFAULT_ITEM_COUNT = 3

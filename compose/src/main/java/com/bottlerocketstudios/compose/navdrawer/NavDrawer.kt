@@ -142,10 +142,4 @@ fun generateItemListPreview(): List<NavItemState> {
     return itemList
 }
 
-data class NavDrawerState(
-    val avatarUrl: State<String>,
-    val displayName: State<String>,
-    val username: State<String>,
-    val items: State<List<NavItemState>>,
-    val devOptionsListener: () -> Unit,
-)
+

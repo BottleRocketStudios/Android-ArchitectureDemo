@@ -12,11 +12,9 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
@@ -106,9 +104,3 @@ fun FileBrowserScreenPreview() {
         )
     }
 }
-
-data class FileBrowserScreenState(
-    val path: State<String>,
-    val content: State<ByteArray?>,
-)
-

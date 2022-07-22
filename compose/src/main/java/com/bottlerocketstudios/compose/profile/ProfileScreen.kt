@@ -37,7 +37,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        ProfileDetailComponent(state = state)
+        ProfileDetailComponent(state.avatarUrl.value, state.displayName.value, state.nickname.value)
         OutlinedButton(
             onClick = { state.onEditClicked() },
             border = BorderStroke(1.dp, br_red),
@@ -79,9 +79,9 @@ fun ProfileScreen(state: ProfileScreenState) {
 }
 
 @Composable
-fun ProfileDetailComponent(state: ProfileScreenState) {
+fun ProfileDetailComponent(avatarUrl: String, displayName: String, nickname: String) {
     AsyncImage(
-        model = state.avatarUrl.value,
+        model = avatarUrl,
         contentDescription = stringResource(id = R.string.profile_image_description),
         modifier = Modifier
             .padding(
@@ -90,7 +90,7 @@ fun ProfileDetailComponent(state: ProfileScreenState) {
             .height(Dimens.grid_12_5)
     )
     Text(
-        state.displayName.value,
+        displayName,
         color = ArchitectureDemoTheme.colors.tertiary,
         style = MaterialTheme.typography.h3.bold(),
         modifier = Modifier
@@ -100,7 +100,7 @@ fun ProfileDetailComponent(state: ProfileScreenState) {
             .wrapContentSize()
     )
     Text(
-        state.nickname.value,
+        nickname,
         color = ArchitectureDemoTheme.colors.onSurface,
         style = MaterialTheme.typography.h4.normal(),
         modifier = Modifier
@@ -121,10 +121,4 @@ fun ProfileScreenPreview() {
     }
 }
 
-data class ProfileScreenState(
-    val avatarUrl: State<String>,
-    val displayName: State<String>,
-    val nickname: State<String>,
-    val onEditClicked: () -> Unit,
-    val onLogoutClicked: () -> Unit,
-)
+
