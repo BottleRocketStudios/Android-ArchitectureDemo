@@ -20,12 +20,6 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asMutableState
 
-data class SnippetsBrowserScreenState(
-    val snippets: State<List<SnippetUiModel>>,
-    val createVisible: State<Boolean>,
-    val onCreateSnippetClicked: () -> Unit
-)
-
 @Composable
 fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
     Scaffold(
@@ -34,7 +28,8 @@ fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
                 SnippetsFabLayout(state.onCreateSnippetClicked)
             }
         }
-    ) {
+    ) { paddingValues ->
+        Modifier.padding(paddingValues)
         SnippetsListLayout(snippets = state.snippets.value)
     }
 }
@@ -109,3 +104,9 @@ fun SnippetsBrowserScreenEmptyPreview() {
         )
     }
 }
+
+data class SnippetsBrowserScreenState(
+    val snippets: State<List<SnippetUiModel>>,
+    val createVisible: State<Boolean>,
+    val onCreateSnippetClicked: () -> Unit
+)

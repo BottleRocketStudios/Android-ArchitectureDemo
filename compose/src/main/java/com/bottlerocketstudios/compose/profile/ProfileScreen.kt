@@ -14,11 +14,9 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.bottlerocketstudios.compose.R
@@ -31,14 +29,6 @@ import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.normal
 
-data class ProfileScreenState(
-    val avatarUrl: State<String>,
-    val displayName: State<String>,
-    val nickname: State<String>,
-    val onEditClicked: () -> Unit,
-    val onLogoutClicked: () -> Unit,
-)
-
 @Composable
 fun ProfileScreen(state: ProfileScreenState) {
     Column(
@@ -46,35 +36,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        AsyncImage(
-            model = state.avatarUrl.value,
-            contentDescription = stringResource(id = R.string.profile_image_description),
-            modifier = Modifier
-                .padding(
-                    top = 142.dp
-                )
-                .height(Dimens.grid_12_5)
-        )
-        Text(
-            state.displayName.value,
-            color = ArchitectureDemoTheme.colors.tertiary,
-            style = MaterialTheme.typography.h3.bold(),
-            modifier = Modifier
-                .padding(
-                    top = Dimens.grid_2
-                )
-                .wrapContentSize()
-        )
-        Text(
-            state.nickname.value,
-            color = ArchitectureDemoTheme.colors.onSurface,
-            style = MaterialTheme.typography.h4.normal(),
-            modifier = Modifier
-                .padding(
-                    top = Dimens.grid_0_5
-                )
-                .wrapContentSize()
-        )
+        ProfileDetailComponent(state.avatarUrl.value, state.displayName.value, state.nickname.value)
         OutlinedButton(
             onClick = { state.onEditClicked() },
             border = BorderStroke(1.dp, br_red),
@@ -113,6 +75,39 @@ fun ProfileScreen(state: ProfileScreenState) {
             )
         }
     }
+}
+
+@Composable
+fun ProfileDetailComponent(avatarUrl: String, displayName: String, nickname: String) {
+    AsyncImage(
+        model = avatarUrl,
+        contentDescription = stringResource(id = R.string.profile_image_description),
+        modifier = Modifier
+            .padding(
+                top = 142.dp
+            )
+            .height(Dimens.grid_12_5)
+    )
+    Text(
+        displayName,
+        color = ArchitectureDemoTheme.colors.tertiary,
+        style = MaterialTheme.typography.h3.bold(),
+        modifier = Modifier
+            .padding(
+                top = Dimens.grid_2
+            )
+            .wrapContentSize()
+    )
+    Text(
+        nickname,
+        color = ArchitectureDemoTheme.colors.onSurface,
+        style = MaterialTheme.typography.h4.normal(),
+        modifier = Modifier
+            .padding(
+                top = Dimens.grid_0_5
+            )
+            .wrapContentSize()
+    )
 }
 
 @PreviewAllDevices

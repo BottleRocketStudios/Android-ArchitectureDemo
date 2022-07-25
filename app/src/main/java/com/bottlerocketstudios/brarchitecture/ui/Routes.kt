@@ -1,3 +1,4 @@
+@file:Suppress("FunctionNaming")
 package com.bottlerocketstudios.brarchitecture.ui
 
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData

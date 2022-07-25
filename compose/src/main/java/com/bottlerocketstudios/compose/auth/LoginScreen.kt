@@ -21,7 +21,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -42,19 +41,6 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
-
-data class LoginScreenState(
-    val email: State<String>,
-    val password: State<String>,
-    val loginEnabled: State<Boolean>,
-    val devOptionsEnabled: Boolean,
-    val onLoginClicked: () -> Unit,
-    val onSignupClicked: () -> Unit,
-    val onForgotClicked: () -> Unit,
-    val onDevOptionsClicked: () -> Unit,
-    val onEmailChanged: (String) -> Unit,
-    val onPasswordChanged: (String) -> Unit
-)
 
 @Composable
 fun LoginScreen(state: LoginScreenState) {

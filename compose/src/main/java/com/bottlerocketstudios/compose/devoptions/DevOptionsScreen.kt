@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.compose.devoptions
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
@@ -48,18 +47,20 @@ import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
 
-data class DevOptionsState(
-    val environmentNames: State<List<String>>,
-    val environmentSpinnerPosition: State<Int>,
-    val baseUrl: State<String>,
-    val appVersionName: String,
-    val appVersionCode: String,
-    val appId: String,
-    val buildIdentifier: String,
-    val onEnvironmentChanged: (Int) -> Unit,
-    val onRestartCtaClick: () -> Unit,
-    val onForceCrashCtaClicked: () -> Unit
-)
+@Composable
+fun DevOptionsScreen(state: DevOptionsState) {
+    DevOptionsScreenTheme {
+        Scaffold(floatingActionButton = { FabLayout(state.onRestartCtaClick) }) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize().padding(paddingValues)
+            ) {
+                DropdownEnvMenu(state)
+                ScrollContent(state)
+            }
+        }
+    }
+}
 
 @Composable
 fun DevOptionsScreenTheme(content: @Composable () -> Unit) {
@@ -69,22 +70,6 @@ fun DevOptionsScreenTheme(content: @Composable () -> Unit) {
         )
     ) {
         content()
-    }
-}
-
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Composable
-fun DevOptionsScreen(state: DevOptionsState) {
-    DevOptionsScreenTheme {
-        Scaffold(floatingActionButton = { FabLayout(state.onRestartCtaClick) }) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                DropdownEnvMenu(state)
-                ScrollContent(state)
-            }
-        }
     }
 }
 
@@ -295,6 +280,7 @@ fun EnvironmentList(text: String, expanded: Boolean, onClick: () -> Unit) {
     }
 }
 
+@Preview
 @PreviewAllDevices
 @Composable
 private fun PreviewDevOptions() {
