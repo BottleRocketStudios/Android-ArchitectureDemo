@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
@@ -157,5 +158,24 @@ private fun AuthCodeContent(state: AuthCodeState) {
                 )
             }
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun AuthCodeDarkPreview() {
+    Preview(darkTheme = true) {
+        AuthCodeScreen(
+            state = AuthCodeState(
+                requestUrl = "".asMutableState(),
+                devOptionsEnabled = true,
+                onAuthCode = {},
+                onLoginClicked = {},
+                onSignupClicked = {},
+                onDevOptionsClicked = {},
+                showToolbar = {}
+            ),
+            navigator = rememberWebViewNavigator()
+        )
     }
 }

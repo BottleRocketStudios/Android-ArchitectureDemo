@@ -8,7 +8,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 
 @Composable
-fun Preview(content: @Composable () -> Unit) = ArchitectureDemoTheme(content = content)
+fun Preview(
+    darkTheme: Boolean = false,
+    content: @Composable () -> Unit
+) = ArchitectureDemoTheme(
+    darkTheme = darkTheme,
+    content = content,
+)
 
 @SuppressLint("UnrememberedMutableState")
 @Composable

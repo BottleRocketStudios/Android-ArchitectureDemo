@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.compose.profile
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.br_red
 import com.bottlerocketstudios.compose.resources.greyish_brown
@@ -45,6 +47,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
+            .background(Colors.background)
     ) {
         AsyncImage(
             model = state.avatarUrl.value,
@@ -79,7 +82,7 @@ fun ProfileScreen(state: ProfileScreenState) {
             onClick = { state.onEditClicked() },
             border = BorderStroke(1.dp, br_red),
             shape = RoundedCornerShape(Dimens.grid_1_5),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = br_red),
+            colors = ButtonDefaults.outlinedButtonColors(),
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_5_5
@@ -108,7 +111,6 @@ fun ProfileScreen(state: ProfileScreenState) {
         ) {
             Text(
                 stringResource(id = R.string.profile_logout),
-                color = greyish_brown,
                 style = MaterialTheme.typography.h3.bold()
             )
         }
@@ -124,3 +126,12 @@ fun ProfileScreenPreview() {
         )
     }
 }
+
+@Preview(showSystemUi = true, backgroundColor = 0xfff8f8f8)
+@Composable
+fun ProfileScreenDarkPreview() {
+    Preview(darkTheme = true) {
+        ProfileScreen(state = profileMockData)
+    }
+}
+

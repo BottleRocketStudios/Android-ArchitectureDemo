@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.compose.snippets
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asMutableState
@@ -56,6 +58,7 @@ fun CreateSnippetScreen(state: CreateSnippetScreenState) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Colors.background)
     ) {
         OutlinedInputField(
             text = uiState.title.value,
@@ -164,19 +167,33 @@ fun LabelledCheckbox(isPrivate: Boolean, onCheckedChange: (Boolean) -> Unit) {
 fun CreateSnippetScreenPreview() {
     Preview {
         CreateSnippetScreen(
-            state = CreateSnippetScreenState(
-                title = "".asMutableState(),
-                filename = "".asMutableState(),
-                contents = "".asMutableState(),
-                isPrivate = true.asMutableState(),
-                creationFailed = false.asMutableState(),
-                createEnabled = true.asMutableState(),
-                onCreateClicked = {},
-                onTitleChanged = {},
-                onFilenameChanged = {},
-                onContentsChanged = {},
-                onPrivateChanged = {}
-            )
+            state = previewState()
         )
     }
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun CreateSnippetScreenDarkPreview() {
+    Preview(darkTheme = true) {
+        CreateSnippetScreen(
+            state = previewState()
+        )
+    }
+}
+
+@Composable
+fun previewState() = CreateSnippetScreenState(
+    title = "".asMutableState(),
+    filename = "".asMutableState(),
+    contents = "".asMutableState(),
+    isPrivate = true.asMutableState(),
+    creationFailed = false.asMutableState(),
+    createEnabled = true.asMutableState(),
+    onCreateClicked = {},
+    onTitleChanged = {},
+    onFilenameChanged = {},
+    onContentsChanged = {},
+    onPrivateChanged = {}
+)
+

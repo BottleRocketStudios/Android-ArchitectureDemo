@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.compose.resources
 
 import androidx.compose.material.Colors
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
@@ -10,11 +11,11 @@ val br_light_red = Color(0xffe66963)
 val brown_grey = Color(0xff979797)
 val greyish_brown = Color(0xff515151)
 val white = Color(0xffffffff)
-val background_black = Color(0x05000000)
+val mostly_white = Color(0xfff8f8f8)
 val black = Color(0xff000000)
 val sea_foam = Color(0xff1fada8)
-val brown_grey_two = Color(0xff797979)
-val brown_grey_three = Color(0xff9e9e9e)
+// val brown_grey_two = Color(0xff797979)
+// val brown_grey_three = Color(0xff9e9e9e)
 
 val lightColors = ArchitectureDemoColors(
     tertiary = sea_foam,
@@ -22,12 +23,27 @@ val lightColors = ArchitectureDemoColors(
         primary = br_red,
         primaryVariant = br_dark_red,
         secondary = br_light_red,
-        background = background_black,
+        background = mostly_white,
         surface = white,
         onPrimary = white,
         onSecondary = white,
         onBackground = black,
         onSurface = greyish_brown,
+    )
+)
+
+val darkColors = ArchitectureDemoColors(
+    tertiary = Color.Green,
+    materialColors = darkColors(
+        primary = br_red,
+        primaryVariant = br_dark_red,
+        secondary = br_light_red,
+        background = black,
+        surface = greyish_brown,
+        onPrimary = sea_foam,
+        onSecondary = Color.Yellow,
+        onBackground = Color.White,
+        onSurface = Color.White,
     )
 )
 
