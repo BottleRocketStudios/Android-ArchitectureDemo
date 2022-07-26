@@ -20,6 +20,7 @@ import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 
+@Suppress("LongParameterList")
 @Composable
 fun OutlinedInputField(
     text: String,

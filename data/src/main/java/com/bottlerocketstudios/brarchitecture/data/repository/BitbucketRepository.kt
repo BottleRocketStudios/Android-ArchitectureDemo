@@ -42,6 +42,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     fun clear()
 }
 
+@Suppress("TooManyFunctions")
 internal class BitbucketRepositoryImpl(
     private val bitbucketService: BitbucketService,
     private val bitbucketCredentialsRepository: BitbucketCredentialsRepository,

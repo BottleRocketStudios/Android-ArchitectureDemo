@@ -79,8 +79,8 @@ fun Exception.asAppropriateFailure(): Status.Failure = when (this) {
  * @param block Lambda with logic that returns the appropriate [Status] response
  *
  */
-// FIXME- make logger interface for domain
-suspend fun <T : Any> logWrappedExceptions(className: String, methodName: String, block: suspend () -> Status<T>): Status<T> {
+// FIXME - make logger interface for domain and remove UnusedPrivateMember suppressions from arguments
+suspend fun <T : Any> logWrappedExceptions(@Suppress("UnusedPrivateMember") className: String, @Suppress("UnusedPrivateMember") methodName: String, block: suspend () -> Status<T>): Status<T> {
     @Suppress("TooGenericExceptionCaught") // this might be overly broad (catching general Exceptions isn't ideal) but not worth it yet to check for all other possible types (IO..., Json..., others)
     return try {
         // Timber.tag(className).v("[$methodName]")
