@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.compose.snippets
+package com.bottlerocketstudios.compose.snippets.snippetDetails
 
 import androidx.compose.runtime.Composable
 import com.bottlerocketstudios.brarchitecture.domain.models.Link
@@ -18,11 +18,36 @@ val mockUpdatedMsg = ZonedDateTime.now().minusHours(18).convertToTimeAgoMessage(
 @Composable
 fun returnMockSnippetDetails() =
     SnippetDetailsScreenState(
+        snippetDetails = SnippetDetailsUiModel(
+            id = "fake id",
+            title = "Test Snippet Title",
+            createdMessage = mockCreationMsg,
+            updatedMessage = mockUpdatedMsg,
+            isPrivate = false,
+            owner = User(
+                username = "Anakin",
+                nickname = "Annie",
+                accountStatus = "",
+                displayName = "Darth Vader",
+                createdOn = "",
+                uuid = "",
+                links = Links(null),
+                avatarUrl = "https://whatsondisneyplus.com/wp-content/uploads/2022/05/vader.png"
+            ),
+            creator = User(
+                username = "Obi-Wan",
+                nickname = "Ben",
+                accountStatus = "",
+                displayName = "Obi-Wan Kenobi",
+                createdOn = "",
+                uuid = "",
+                links = Links(null),
+                avatarUrl = "https://whatsondisneyplus.com/wp-content/uploads/2022/05/kenobi-avatar.png"
+            ),
+            httpsCloneLink = "https://bitbucket.org/snippets/jmichealmurray/zEqaLk/test-snippet-public.git",
+            sshCloneLink = "git@bitbucket.org:snippets/jmichealmurray/zEqaLk/test-snippet-public.git"
+        ).asMutableState(),
         currentUser = currentUser.asMutableState(),
-        snippetTitle = "Test Snippet Title".asMutableState(),
-        createdMessage = mockCreationMsg.asMutableState(),
-        updatedMessage = mockUpdatedMsg.asMutableState(),
-        isPrivate = false.asMutableState(),
         files = listOf(
             SnippetDetailsFile(
                 fileName = "Test File Number 1",
@@ -49,37 +74,14 @@ fun returnMockSnippetDetails() =
                 )
             ),
         ).asMutableState(),
-        owner = User(
-            username = "Anakin",
-            nickname = "Annie",
-            accountStatus = "",
-            displayName = "Darth Vader",
-            createdOn = "",
-            uuid = "",
-            links = Links(null),
-            avatarUrl = "https://whatsondisneyplus.com/wp-content/uploads/2022/05/vader.png"
-        ).asMutableState(),
-        creator = User(
-            username = "Obi-Wan",
-            nickname = "Ben",
-            accountStatus = "",
-            displayName = "Obi-Wan Kenobi",
-            createdOn = "",
-            uuid = "",
-            links = Links(null),
-            avatarUrl = "https://whatsondisneyplus.com/wp-content/uploads/2022/05/kenobi-avatar.png"
-        ).asMutableState(),
+
         isWatchingSnippet = false.asMutableState(),
-        httpsLink = "https://bitbucket.org/snippets/jmichealmurray/zEqaLk/test-snippet-public.git".asMutableState(),
-        sshLink = "git@bitbucket.org:snippets/jmichealmurray/zEqaLk/test-snippet-public.git".asMutableState(),
-        copyHttps = {},
-        copySsh = {},
-        changeWatchingStatus = { },
+        onSnippetWatchClick = { },
         onSnippetEditClick = { },
         onSnippetDeleteClick = { },
         comments = listOf(snippetComment).asMutableState(),
         newSnippetComment = "".asMutableState(),
-        onCommentChanged = { },
+        onCommentChanged =  {},
         onSaveCommentClick = {},
         onCancelNewCommentClick = {},
         onDeleteCommentClick = {},
@@ -134,7 +136,7 @@ val snippetComment = SnippetComment(
                     type = "Snippet Comment",
                     user = currentUser,
                     parentId = null,
-                    childrenComments = mutableListOf<SnippetComment?>(),
+                    childrenComments = mutableListOf<SnippetComment>(),
                     content = SnippetCommentContent(raw = "This is a fake comment on a preivew of a comment card. This represents the comment a user would make.", html = null, markup = null, type = null),
                     created = mockCreationMsg,
                     updated = mockCreationMsg,
@@ -152,4 +154,5 @@ val snippetComment = SnippetComment(
     updated = mockCreationMsg,
     deleted = false
 )
+
 

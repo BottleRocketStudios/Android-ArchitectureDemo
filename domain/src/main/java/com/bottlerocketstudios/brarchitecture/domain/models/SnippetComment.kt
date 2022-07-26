@@ -8,7 +8,7 @@ class SnippetComment(
     val user: User?,
     val deleted: Boolean?,
     val parentId: Int?,
-    val childrenComments: MutableList<SnippetComment?>,
+    val childrenComments: MutableList<SnippetComment> = mutableListOf(),
     val links: Links? = null,
     val type: String?,
     val snippet: Snippet? = null

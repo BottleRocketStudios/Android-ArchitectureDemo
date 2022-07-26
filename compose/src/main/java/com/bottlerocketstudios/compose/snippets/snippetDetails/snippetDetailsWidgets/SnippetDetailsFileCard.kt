@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.compose.snippets
+package com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -30,6 +30,7 @@ import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey_three
 import com.bottlerocketstudios.compose.resources.typography
+import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
 import com.bottlerocketstudios.compose.widgets.IconText
 import com.bottlerocketstudios.launchpad.compose.light
@@ -38,17 +39,19 @@ import com.bottlerocketstudios.launchpad.compose.normal
 @Composable
 fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
     var expanded by remember { mutableStateOf(false) }
+
     Card(
         elevation = Dimens.plane_3,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = Dimens.grid_1)
             .wrapContentHeight()
-            .animateContentSize(tween(1000))
+            .padding(vertical = Dimens.grid_1, horizontal = Dimens.grid_2)
     ) {
-        Column {
+        Column(
+            modifier = Modifier.animateContentSize(tween(1000))
+        ) {
             Row(
-                Modifier
+                modifier = Modifier
                     .padding(
                         vertical = Dimens.grid_1,
                         horizontal = Dimens.grid_2
@@ -89,7 +92,6 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
     }
 }
 
-// TODO: Content Slot
 @Composable
 fun RawFileData(byteArray: ByteArray?) {
     byteArray?.let {
@@ -112,7 +114,7 @@ fun RawFileData(byteArray: ByteArray?) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewFilesCard() {
     SnippetDetailsFilesCard(

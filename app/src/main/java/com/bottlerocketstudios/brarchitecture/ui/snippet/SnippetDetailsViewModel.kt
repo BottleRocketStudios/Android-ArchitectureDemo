@@ -10,11 +10,10 @@ import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import com.bottlerocketstudios.compose.snippets.SnippetDetailsUiModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
+import com.bottlerocketstudios.compose.snippets.snippetDetails.SnippetDetailsUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
-import timber.log.Timber
 
 class SnippetDetailsViewModel : BaseViewModel() {
     // DI
@@ -29,18 +28,11 @@ class SnippetDetailsViewModel : BaseViewModel() {
     val isWatchingSnippet = MutableStateFlow(false)
 
     // State - Snippet
-    val snippetTitle = MutableStateFlow("")
-    val createdMessage = MutableStateFlow("")
-    val updatedMessage = MutableStateFlow("")
-    val isPrivate = MutableStateFlow(false)
-    val files = MutableStateFlow(emptyList<SnippetDetailsFile?>())
-    val owner = MutableStateFlow<User?>(null)
-    val creator = MutableStateFlow<User?>(null)
-    val httpsCloneLink = MutableStateFlow("")
-    val sshCloneLink = MutableStateFlow("")
+    val snippetDetails = MutableStateFlow<SnippetDetailsUiModel?>(null)
+    val snippetFiles = MutableStateFlow(mutableListOf<SnippetDetailsFile?>())
     val snippetComments = MutableStateFlow<List<SnippetComment>>(mutableListOf())
 
-    // State - Edits
+    // UI
     val newSnippetComment = MutableStateFlow("")
     val newReplyComment = MutableStateFlow("")
 
@@ -48,37 +40,31 @@ class SnippetDetailsViewModel : BaseViewModel() {
         currentUser.value = repo.user.value?.convertToUser()
     }
 
-    // API calls
-    fun getSnippetDetails(snippet: SnippetUiModel) {
-        launchIO {
-            if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty())
-                when (val result = repo.getSnippetDetails(snippet.workspaceId, snippet.id)) {
-                    is Status.Success -> {
-                        workspaceId.value = snippet.workspaceId
-                        encodedId.value = snippet.id
-                        setSnippetData(result.data.convertToUiModel())
-                        getSnippetComments()
-                        result.data.files?.keys?.toList()?.let { getRawFiles(it) }
-                        isUserWatchingSnippet()
-                    }
-                    is Status.Failure -> handleError(R.string.snippets_error)
-                }
+    /////////////////////  API Calls /////////////////////
+    fun getSnippetDetails(snippet: SnippetUiModel) = launchIO {
+        if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty()) {
+            repo.getSnippetDetails(snippet.workspaceId, snippet.id).handlingErrors(R.string.snippets_error) { snippetDetailsDto ->
+                workspaceId.value = snippet.workspaceId
+                encodedId.value = snippet.id
+                snippetDetails.value = snippetDetailsDto.convertToUiModel() // Pass just UI model
+                getSnippetComments()
+                snippetDetailsDto.files?.keys?.toList()?.let { getRawFiles(it) }
+                isUserWatchingSnippet()
+            }
         }
     }
 
-    private fun getRawFiles(filePaths: List<String>) {
-        launchIO {
-            val filesList = mutableListOf<SnippetDetailsFile>()
+    private fun getRawFiles(filePaths: List<String>) = launchIO {
+        snippetFiles.value = mutableListOf<SnippetDetailsFile?>().apply {
             filePaths.forEach { path ->
-                when (val result = repo.getSnippetFile(workspaceId.value, encodedId.value, path)) {
-                    is Status.Success -> filesList.add(SnippetDetailsFile(fileName = path, links = null, result.data))
-                    is Status.Failure -> handleError(R.string.error_loading_file)
+                repo.getSnippetFile(workspaceId.value, encodedId.value, path).handlingErrors(R.string.error_loading_file) {
+                    add(SnippetDetailsFile(fileName = path, links = null, it))
                 }
             }
-            files.value = filesList
         }
     }
 
+    /** Coded Response: Api returns 204 if user is watching and a 404 if user is not, else an error has occured */
     private fun isUserWatchingSnippet() {
         launchIO {
             when (repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
@@ -89,160 +75,110 @@ class SnippetDetailsViewModel : BaseViewModel() {
         }
     }
 
-    private fun getSnippetComments() {
-        launchIO {
-            when (val result = repo.getSnippetComments(workspaceId.value, encodedId.value)) {
-                is Status.Success -> organizeComments(result.data.map { it.convertToComment() })
-                is Status.Failure -> handleError(R.string.snippet_comments_error)
-            }
+    private fun getSnippetComments() = launchIO {
+        repo.getSnippetComments(workspaceId.value, encodedId.value).handlingErrors(R.string.snippet_comments_error) { commentList ->
+            sortComments(commentList.map { it.convertToComment() })
         }
     }
 
-    // Call back from button clicks
-    fun changeSnippetWatching() {
-        launchIO {
-            when (isWatchingSnippet.value) {
-                true -> stopWatchingSnippet()
-                false -> startWatchingSnippet()
-            }
+    private fun stopWatchingSnippet() = launchIO {
+        repo.stopWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.error_changing_watching) { isUserWatchingSnippet() }
+    }
+
+    private fun startWatchingSnippet() = launchIO {
+        repo.startWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.error_changing_watching) { isUserWatchingSnippet() }
+    }
+
+    // TODO: Show dialog to confirm user wants to continue with deletion before calling this function
+    fun onDeleteSnippetClick() = launchIO {
+        repo.deleteSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.delete_snippet_error) {
+            // Using handleError here to inform the user that the snippet has been deleted; maybe use a branded messaging?
+            handleError(R.string.delete_snippet_success)
         }
     }
 
-    private fun stopWatchingSnippet() {
-        launchIO {
-            when (repo.stopWatchingSnippet(workspaceId.value, encodedId.value)) {
-                is Status.Success -> isUserWatchingSnippet()
-                is Status.Failure -> handleError(R.string.error_changing_watching)
-            }
+    private fun createSnippetComment() = launchIO {
+        repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value).handlingErrors(R.string.create_comment_error) {
+            getSnippetComments()
+            clearCommentValues()
         }
     }
 
-    private fun startWatchingSnippet() {
-        launchIO {
-            when (repo.startWatchingSnippet(workspaceId.value, encodedId.value)) {
-                is Status.Success -> isUserWatchingSnippet()
-                is Status.Failure -> handleError(R.string.error_changing_watching)
-            }
+    private fun createReplyComment(commentId: Int) = launchIO {
+        repo.createCommentReply(workspaceId.value, encodedId.value, newReplyComment.value, commentId).handlingErrors(R.string.comment_reply_error) {
+            getSnippetComments()
+            clearCommentValues()
         }
     }
 
-    fun editSnippet() {}
-
-    fun deleteSnippet() {
-        launchIO {
-            when (repo.deleteSnippet(workspaceId.value, encodedId.value)) {
-                is Status.Success -> {
-                    // Dialog to confirm, then navigate?
-
-                    // Using handleError to give the user a confirmation
-                    handleError(R.string.delete_snippet_success)
-                }
-                else -> handleError(R.string.delete_snippet_error)
-            }
-        }
+    fun commentEditClick(commentId: Int) = launchIO {
+        repo.editSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value, commentId).handlingErrors(R.string.edit_comment_error) { getSnippetComments() }
     }
 
-    fun copyHttps() {}
-    fun copySsh() {}
-
-    fun cancelCommentCreation() {
-        newSnippetComment.value = ""
-        newReplyComment.value = ""
+    fun commentDeleteClick(commentId: Int) = launchIO {
+        repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId).handlingErrors(R.string.delete_comment_error) { getSnippetComments() }
     }
 
+    /////////////////////  Callbacks /////////////////////
+    fun changeSnippetWatching() = when (isWatchingSnippet.value) {
+        true -> stopWatchingSnippet()
+        false -> startWatchingSnippet()
+    }
 
-    fun saveComment(commentId: Int?) {
+    fun onEditSnippetClick() {}
+
+    fun onCommentSaveEvent(commentId: Int?) {
         when (commentId == null) {
             true -> createSnippetComment()
             false -> createReplyComment(commentId)
         }
     }
 
-    private fun createSnippetComment() {
-        if (newSnippetComment.value.isNotEmpty()) {
-            launchIO {
-                when (repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)) {
-                    is Status.Success -> {
-                        getSnippetComments()
-                        cancelCommentCreation()
-                    }
-                    is Status.Failure -> handleError(R.string.create_comment_error)
-                }
-            }
-        }
+    /////////////////////  Helper Functions /////////////////////
+    fun clearCommentValues() {
+        newSnippetComment.value = ""
+        newReplyComment.value = ""
     }
 
-    private fun createReplyComment(commentId: Int) {
-        if (newReplyComment.value.isNotEmpty()) {
-            launchIO {
-                handleError(R.string.app_name)
-                cancelCommentCreation()
-                Timber.w("[createReplyComment] Sending Request: $commentId")
-                when (val result = repo.createCommentReply(workspaceId.value, encodedId.value, newSnippetComment.value, commentId)) {
-                    is Status.Success -> getSnippetComments()
-                    is Status.Failure.NetworkTimeoutFailure -> Timber.w("[createReplyComment] Network Failure: ${result.exception}")
-                    is Status.Failure.GeneralFailure -> Timber.w("[createReplyComment] General Failure: ${result.message}")
-                    is Status.Failure.Server -> Timber.w("[createReplyComment] General Failure: ${result.error}")
-                    else -> handleError(R.string.comment_reply_error)
-                }
-            }
-        }
-    }
-
-    fun commentEditClick(commentId: Int) {
-        launchIO {
-            when (repo.editSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value, commentId)) {
-                is Status.Success -> getSnippetComments()
-                else -> handleError(R.string.edit_comment_error)
-            }
-        }
-    }
-
-    fun commentDeleteClick(commentId: Int) {
-        launchIO {
-            when (val result = repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId)) {
-                is Status.Success -> getSnippetComments()
-                is Status.Failure.GeneralFailure -> Timber.w("[commentDeleteClick] General Failure: ${result.message}")
-                is Status.Failure.Server -> Timber.w("[commentDeleteClick] General Failure: ${result.error}")
-                else -> handleError(R.string.delete_comment_error)
-            }
-        }
-    }
-
-    // Helper
-    private fun setSnippetData(snippet: SnippetDetailsUiModel) {
-        snippetTitle.value = snippet.title ?: ""
-        createdMessage.value = snippet.createdMessage ?: ""
-        updatedMessage.value =
-            if (snippet.updatedMessage != snippet.createdMessage) snippet.updatedMessage.toString() else ""
-        isPrivate.value = snippet.isPrivate == true
-        owner.value = snippet.owner
-        creator.value = snippet.creator
-        httpsCloneLink.value = snippet.links?.clone?.find { it?.name == "https" }?.href ?: ""
-        sshCloneLink.value = snippet.links?.clone?.find { it?.name == "ssh" }?.href ?: ""
-    }
-
-    private fun organizeComments(comments: List<SnippetComment>) {
-        val parentComments = mutableListOf<SnippetComment>()
-        val childrenComments = mutableListOf<SnippetComment>()
-
-        comments.forEach { comment ->
-            if (comment.parentId != null) {
-                childrenComments.add(comment)
-            } else {
-                parentComments.add(comment)
-            }
-        }
+    private fun sortComments(comments: List<SnippetComment>) {
+        val (parentComments, childrenComments) = comments.partition { it.parentId == null }
 
         childrenComments.forEach { child ->
-            val siblingComment = childrenComments.find { it.id == child.parentId }
-            if (siblingComment != null) {
-                siblingComment.childrenComments.add(child)
-            } else {
+            childrenComments.find { it.id == child.parentId }?.childrenComments?.add(child) ?: run {
                 parentComments.find { it.id == child.parentId }?.childrenComments?.add(child)
             }
         }
 
         snippetComments.value = parentComments.reversed()
     }
+
+    /** Functions for optimized sort theory */
+    private fun sortWithRecursion(comments: List<SnippetComment>) {
+        val sortedComments = comments.filter { it.parentId == null }.toMutableList()
+        val unsortedComments = comments.filter { it.parentId != null }.toMutableList()
+
+        recursiveSort(sortedComments, unsortedComments)
+        snippetComments.value = sortedComments.reversed()
+    }
+
+    private fun recursiveSort(
+        sortedComments: MutableList<SnippetComment>,
+        unsortedComments: MutableList<SnippetComment>
+    ) {
+        if (unsortedComments.isNotEmpty()) {
+            sortedComments.forEach { parent ->
+                val toBeRemoved = mutableListOf<SnippetComment>()
+                unsortedComments.forEach { child ->
+                    if (child.parentId == parent.id) {
+                        parent.childrenComments.add(child)
+                        toBeRemoved.add(child)
+                    }
+                }
+                unsortedComments.removeAll(toBeRemoved)
+                recursiveSort(parent.childrenComments, unsortedComments)
+            }
+        }
+    }
 }
+
+

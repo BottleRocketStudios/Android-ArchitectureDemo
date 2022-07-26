@@ -60,22 +60,27 @@
     <string name="today">Today</string>
 
     <!-- Snippet Details -->
-    <string name="snippet_owner_avatar">Avatar image of snippet owner</string>
     <string name="created_by">Created By %1s</string>
     <string name="owned_by">Owned By</string>
     <string name="last_modified">Last Modified</string>
-    <string name="eye_icon_description">Eye icon on button titled Watching</string>
     <string name="header_snippet_files">Snippet Files</string>
     <string name="header_snippet_comments">Snippet Comments %1s</string>
     <string name="description_eye_icon">Eye Icon on Watch Button</string>
+    <string name="description_avatar">Image of user avatar</string>
+    <string name="description_copy_icon">Clickable icon that copies text in adjacent text field to clipboard</string>
     <string name="stop_watching">Stop Watching</string>
     <string name="start_watching">Start Watching</string>
     <string name="button_clone">Clone</string>
     <string name="button_edit">Edit</string>
     <string name="button_delete">Delete</string>
     <string name="button_reply">Reply</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
     <string name="https">HTTPS</string>
     <string name="ssh">SSH</string>
+    <string name="new_snippet_comment">New Comment</string>
+    <string name="snippet_comment_hint">What Would You Like To Say?</string>
+
 
 
     <!-- Values added to exercise unit tests -->

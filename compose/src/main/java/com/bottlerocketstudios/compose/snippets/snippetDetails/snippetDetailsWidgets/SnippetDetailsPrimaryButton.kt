@@ -1,9 +1,7 @@
-package com.bottlerocketstudios.compose.snippets
+package com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -13,33 +11,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.typography
+import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
-fun SnippetDetailsEditButton(
+fun SnippetDetailsPrimaryButton(
     icon: ImageVector? = null,
     iconDescription: String? = "",
     buttonText: String,
-    buttonPadding: Dp = 0.dp,
+    buttonPadding: Dp = Dimens.grid_0_25,
     buttonColor: Color = Colors.primary,
-    textStyle: TextStyle? = typography.h4,
-    onClick: () -> Unit
+    textStyle: TextStyle? = typography.body1,
+    onClick: () -> Unit,
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier
-            .wrapContentHeight()
-            .wrapContentWidth()
-            .padding(buttonPadding),
+        modifier = Modifier.padding(buttonPadding),
         colors = ButtonDefaults.buttonColors(backgroundColor = buttonColor)
     ) {
         icon?.let {
             Icon(
-                modifier = Modifier.padding(end = Dimens.grid_0_5).size(Dimens.grid_2),
+                modifier = Modifier
+                    .padding(end = Dimens.grid_0_5)
+                    .size(Dimens.grid_2),
                 imageVector = icon,
                 contentDescription = iconDescription
             )
@@ -49,6 +47,15 @@ fun SnippetDetailsEditButton(
                 text = buttonText,
                 style = it,
             )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewSnippetDetailsPrimaryButton() {
+    Preview {
+        SnippetDetailsPrimaryButton(buttonText = "Button Preview") {
         }
     }
 }

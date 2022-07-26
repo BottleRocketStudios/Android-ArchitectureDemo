@@ -192,7 +192,7 @@ internal class BitbucketRepositoryImpl(
 
     override suspend fun createCommentReply(workspaceId: String, encodedId: String, comment: String, commentId: Int): Status<Unit> {
         return wrapRepoExceptions("createCommentReply") {
-            val commentDto = SnippetCommentDto(content = SnippetCommentContentDto(raw = comment), parent = ParentSnippetCommentDto(id = commentId))
+            val commentDto = SnippetCommentDto(parent = ParentSnippetCommentDto(id = commentId), content = SnippetCommentContentDto(raw = comment))
             bitbucketService.createCommentReply(workspaceId, encodedId, commentDto).toEmptyResult()
         }
     }

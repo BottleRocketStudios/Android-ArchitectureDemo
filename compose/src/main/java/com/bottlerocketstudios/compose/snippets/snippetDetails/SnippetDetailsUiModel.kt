@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.compose.snippets
+package com.bottlerocketstudios.compose.snippets.snippetDetails
 
 import com.bottlerocketstudios.brarchitecture.domain.models.Links
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
@@ -13,5 +13,7 @@ data class SnippetDetailsUiModel(
     val files: List<SnippetDetailsFile?>? = null,
     val owner: User? = null,
     val creator: User? = null,
-    val links: Links? = null
+    val links: Links? = null,
+    val httpsCloneLink: String? = null,
+    val sshCloneLink: String? = null
 )

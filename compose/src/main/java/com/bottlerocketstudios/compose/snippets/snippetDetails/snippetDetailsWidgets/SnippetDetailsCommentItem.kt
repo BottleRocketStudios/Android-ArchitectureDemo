@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.compose.snippets
+package com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.User
@@ -29,7 +30,8 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.typography
-import com.bottlerocketstudios.compose.snippets.snippetDetails.NewCommentInput
+import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
+import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.launchpad.compose.light
 
 @Composable
@@ -46,7 +48,11 @@ fun CommentCard(
 
     var expanded by remember { mutableStateOf(false) }
 
-    Column(Modifier.animateContentSize(tween(1000))) {
+    Column(
+        Modifier
+            .animateContentSize(tween(1000))
+            .padding(horizontal = Dimens.grid_2)
+    ) {
         Row(
             modifier = Modifier.padding(vertical = Dimens.grid_1_5)
         ) {
@@ -59,10 +65,12 @@ fun CommentCard(
                 model = comment.user?.avatarUrl,
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.ic_avatar_placeholder),
-                contentDescription = "User Avatar"
+                contentDescription = stringResource(id = R.string.description_avatar)
             )
 
-            Column(modifier = Modifier.padding(horizontal = Dimens.grid_1_5)) {
+            Column(
+                modifier = Modifier.padding(horizontal = Dimens.grid_1_5)
+            ) {
                 Text(
                     text = comment.user?.displayName ?: "",
                     style = typography.h4.copy(color = Colors.onSurface),
@@ -123,26 +131,33 @@ fun CommentCard(
                 parentId = comment.id,
                 newComment = replyComment,
                 onCommentChanged = onReplyChanged,
-                onSaveClicked = onSaveClick,
-                onCancelClicked = onCancelClicked,
+                onSaveClicked = {
+                    expanded = false
+                    onSaveClick(comment.id)
+                },
+                onCancelClicked = {
+                    expanded = false
+                    onCancelClicked()
+                },
             )
         }
     }
 }
 
-// @Preview(showBackground = true)
-// @Composable
-// fun PreviewCommentCard() {
-//     Preview {
-//         CommentCard(
-//             user = user,
-//             newComment = newComment,
-//             onCommentChanged = onCommentChanged,
-//             onCancelClicked = onCancelClicked,
-//             comment = returnMockSnippetDetails().comments.value[0],
-//             onSaveCommentClick = { Unit },
-//             onEditClick  = { Unit },
-//             onDeleteClick  = { Unit },
-//         )
-//     }
-// }
+@Preview(showBackground = true)
+@Composable
+fun PreviewCommentCard() {
+    val mockData = returnMockSnippetDetails()
+    Preview {
+        CommentCard(
+            user = mockData.currentUser.value,
+            replyComment = mockData.newReplyComment.value,
+            onReplyChanged = {},
+            comment = mockData.comments.value[0],
+            onCancelClicked = {},
+            onSaveClick = { Unit },
+            onEditClick = { Unit },
+            onDeleteClick = { Unit },
+        )
+    }
+}
