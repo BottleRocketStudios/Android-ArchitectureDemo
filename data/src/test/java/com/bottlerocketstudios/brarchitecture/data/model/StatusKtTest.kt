@@ -9,7 +9,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.asSuccess
 import com.bottlerocketstudios.brarchitecture.domain.models.logWrappedExceptions
 import com.bottlerocketstudios.brarchitecture.domain.models.map
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
@@ -120,7 +120,7 @@ class StatusKtTest : BaseTest() {
     }
 
     @Test
-    fun wrapExceptions_apiResultSuccess_returnsApiResultSuccess() = runBlocking {
+    fun wrapExceptions_apiResultSuccess_returnsApiResultSuccess() = runTest {
         val blockLambda: suspend () -> Status<String> = {
             Status.Success("baz")
         }
@@ -130,7 +130,7 @@ class StatusKtTest : BaseTest() {
     }
 
     @Test
-    fun wrapExceptions_exceptionInBlockLambda_returnsApiResultFailure() = runBlocking {
+    fun wrapExceptions_exceptionInBlockLambda_returnsApiResultFailure() = runTest {
         val blockLambda: suspend () -> Status<String> = {
             error("exception in processing")
         }

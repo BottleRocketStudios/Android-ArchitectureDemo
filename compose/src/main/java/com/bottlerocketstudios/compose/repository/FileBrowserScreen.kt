@@ -12,24 +12,18 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
-
-data class FileBrowserScreenState(
-    val path: State<String>,
-    val content: State<ByteArray?>,
-)
 
 @Composable
 fun FileBrowserScreen(state: FileBrowserScreenState) {
@@ -101,7 +95,7 @@ fun TextFileLayout(rawString: String) {
     )
 }
 
-@Preview(showSystemUi = true)
+@PreviewAllDevices
 @Composable
 fun FileBrowserScreenPreview() {
     Preview {

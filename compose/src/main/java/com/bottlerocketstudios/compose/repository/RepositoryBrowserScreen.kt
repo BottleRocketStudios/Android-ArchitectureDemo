@@ -16,26 +16,18 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.pluralResource
 import com.bottlerocketstudios.compose.widgets.IconText
-
-data class RepositoryBrowserScreenState(
-    val path: State<String>,
-    val itemCount: State<Int>,
-    val repositoryItems: State<List<RepositoryItemUiModel>>,
-    val onRepositoryItemClicked: (RepositoryItemUiModel) -> Unit
-)
 
 @Composable
 fun RepositoryBrowserScreen(state: RepositoryBrowserScreenState) {
@@ -153,37 +145,38 @@ fun RepositoryItem(item: RepositoryItemUiModel, onItemClicked: (RepositoryItemUi
     }
 }
 
-@Preview(showBackground = true)
+@PreviewAllDevices
 @Composable
 private fun PreviewOuterScreenContent() {
     Preview {
         RepositoryBrowserScreen(
             state = RepositoryBrowserScreenState(
                 path = remember { mutableStateOf("/path/to/folder") },
-                itemCount = remember { mutableStateOf(3) },
+                itemCount = remember { mutableStateOf(browserItems.size) },
                 repositoryItems = remember {
-                    mutableStateOf(
-                        listOf(
-                            RepositoryItemUiModel(
-                                path = "Stuff",
-                                size = 12,
-                                isFolder = true
-                            ),
-                            RepositoryItemUiModel(
-                                path = "fileOne",
-                                size = 1,
-                                isFolder = false
-                            ),
-                            RepositoryItemUiModel(
-                                path = "file2",
-                                size = 2,
-                                isFolder = false
-                            ),
-                        )
-                    )
+                    mutableStateOf(browserItems)
                 },
                 onRepositoryItemClicked = {}
             )
         )
     }
 }
+
+private val browserItems = listOf(
+    RepositoryItemUiModel(
+        path = "Stuff",
+        size = 12,
+        isFolder = true
+    ),
+    RepositoryItemUiModel(
+        path = "fileOne",
+        size = 1,
+        isFolder = false
+    ),
+    RepositoryItemUiModel(
+        path = "file2",
+        size = 2,
+        isFolder = false
+    ),
+)
+

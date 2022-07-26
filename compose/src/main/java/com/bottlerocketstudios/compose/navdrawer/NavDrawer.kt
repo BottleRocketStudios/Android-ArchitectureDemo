@@ -15,7 +15,6 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,14 +29,6 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
-
-data class NavDrawerState(
-    val avatarUrl: State<String>,
-    val displayName: State<String>,
-    val username: State<String>,
-    val items: State<List<NavItemState>>,
-    val devOptionsListener: () -> Unit,
-)
 
 // TODO - Possibly move this into LaunchPad Library
 @Composable

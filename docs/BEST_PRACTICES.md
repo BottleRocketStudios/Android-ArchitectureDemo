@@ -134,6 +134,179 @@ sealed class Foo {
 #### Tip
 To display a helpful viewer for TODO and FIXME tags in Android Studio, go to Navigate -> Tool Windows -> TODO
 
+### Jetpack Compose
+#### Compose Module
+Compose UI code is being developed in a separate module to decrease compile time for Compose previews.  This also enforces separation of concerns to avoid references to viewmodels and other non state related code from being coupled to UI code.
+
+#### Compose Screens
+##### State
+Composable screens should be driven by a state object and lambdas.  This state class is defined at the screen UI level in the compose module.  It can be used to drive previews of the screen easily with fake data, which wouldn't be the case if viewmodels were directly referenced.
+
+```kotlin
+data class CreateSnippetScreenState(
+    val title: State<String>,
+    val filename: State<String>,
+    val contents: State<String>,
+    val isPrivate: State<Boolean>,
+    val creationFailed: State<Boolean>,
+    val createEnabled: State<Boolean>,
+    val onTitleChanged: (String) -> Unit,
+    val onFilenameChanged: (String) -> Unit,
+    val onContentsChanged: (String) -> Unit,
+    val onPrivateChanged: (Boolean) -> Unit,
+    val onCreateClicked: () -> Unit,
+)
+```
+
+##### Connecting ViewModels
+View Models hold state in app module and connect this state to the business logic in domain.  To connect a view model to a compose state holder we are using a converter function.  This function exists in the same module as the viewmodel and does not exist in the compose module.
+
+```kotlin
+@Composable
+fun CreateSnippetViewModel.toState() = CreateSnippetScreenState(
+    title = title.collectAsState(),
+    filename = filename.collectAsState(),
+    contents = contents.collectAsState(),
+    isPrivate = private.collectAsState(),
+    creationFailed = failed.collectAsState(),
+    createEnabled = createEnabled.collectAsState(),
+    onTitleChanged = { title.value = it },
+    onFilenameChanged = { filename.value = it },
+    onContentsChanged = { contents.value = it },
+    onPrivateChanged = { private.value = it },
+    onCreateClicked = ::onCreateClick,
+)
+```
+
+#### The Essence of Composition
+The real power of composables comes into play as we break down large UI into smaller elements that are easy to reuse.  Instead of having a primary button style, we now create a primary button composable function that encapsulates that style into Kotlin code.
+
+```kotlin
+@Composable
+fun PrimaryButton(
+    modifier: Modifier = Modifier,
+    buttonText: String,
+    forceCaps: Boolean = false,
+    onClick: () -> Unit,
+    enabled: Boolean = true
+) {
+    Button(
+        onClick = { onClick() },
+        modifier = modifier,
+        shape = RoundedCornerShape(Dimens.grid_1),
+        contentPadding = PaddingValues(Dimens.grid_1_5),
+        enabled = enabled,
+    ) {
+        Text(
+            text = if (forceCaps) buttonText.uppercase() else buttonText,
+        )
+    }
+}
+```
+
+Developers should favor breaking large UI elements into composables and passing down state.  **However, only pass down the state that is required for that specific UI element and avoid coupling to higher level state objects.**
+
+#### Previews
+Every composable function that renders UI should have at least one preview.
+
+```kotlin
+@Preview(showBackground = true)
+@Composable
+private fun PreviewPrimaryButton() {
+    Preview {
+        PrimaryButton(
+            buttonText = "Hello World",
+            onClick = { },
+            modifier = Modifier
+                .padding(Dimens.grid_1)
+                .fillMaxWidth()
+        )
+    }
+}
+```
+
+##### Preview All States
+If the UI element can have multiple states then it is ideal to exercise each of those states in a preview.  For example, if a button can be in a disabled state then create a preview that demonstrates that state.
+
+```kotlin
+@Preview(showBackground = true)
+@Composable
+private fun PreviewPrimaryButtonDisabled() {
+    Preview {
+        PrimaryButton(
+            buttonText = "Hello World",
+            onClick = { },
+            enabled = false,
+            modifier = Modifier
+                .padding(Dimens.grid_1)
+                .fillMaxWidth()
+        )
+    }
+}
+```
+
+**If composables are nested inside other composables then state permutations do not need to be previewed at every level.**
+
+##### Screen Previews
+Every screen should be previewed as well.  Try to preview as many state combinations as are needed and match Zeplin as close as possible.
+
+```kotlin
+@Preview(showSystemUi = true)
+@Composable
+fun CreateSnippetScreenPreview() {
+    Preview {
+        CreateSnippetScreen(
+            state = CreateSnippetScreenState(
+                title = "".asMutableState(),
+                filename = "".asMutableState(),
+                contents = "".asMutableState(),
+                isPrivate = true.asMutableState(),
+                creationFailed = false.asMutableState(),
+                createEnabled = true.asMutableState(),
+                onCreateClicked = {},
+                onTitleChanged = {},
+                onFilenameChanged = {},
+                onContentsChanged = {},
+                onPrivateChanged = {}
+            )
+        )
+    }
+}
+```
+
+##### Previewing Multiple Form Factors
+It is important to preview each screen on all possible form factors.  To that end, the following annotation has been created in PreviewUtils.kt
+
+```kotlin
+@Preview(showSystemUi = true, device = Devices.FOLDABLE)
+@Preview(showSystemUi = true, device = Devices.TABLET)
+@Preview(showSystemUi = true, device = Devices.DEFAULT)
+annotation class PreviewAllDevices
+```
+
+The annotation can be used in the following manner.
+
+```kotlin
+@PreviewAllDevices
+@Composable
+fun AuthCodePreview() {
+    Preview {
+        AuthCodeScreen(
+            state = AuthCodeState(
+                requestUrl = "".asMutableState(),
+                devOptionsEnabled = true,
+                onAuthCode = {},
+                onLoginClicked = {},
+                onSignupClicked = {},
+                onDevOptionsClicked = {},
+                showToolbar = {}
+            ),
+            navigator = rememberWebViewNavigator()
+        )
+    }
+}
+```
+
 ### Template Items
 There are files in the project marked with either `<!-- TEMPLATE: ... -->` or `// TEMPLATE: ...`. You can copy whole files or snippets marked with these tags as a basis for a new feature/screen/etc. The point of these existing is to provide a skeleton implementation of a thing(feature/screen/etc) to help speedup development and provide a common/somewhat uniform baseline expectation. To find them easily, you can use Find in Path -> TEMPLATE: or add a filter for TEMPLATE in View -> Tools Windows -> TODO.
 

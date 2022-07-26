@@ -20,13 +20,6 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.asMutableState
 
-data class SnippetsBrowserScreenState(
-    val snippets: State<List<SnippetUiModel>>,
-    val createVisible: State<Boolean>,
-    val onSnippetClick: (SnippetUiModel) -> Unit,
-    val onCreateSnippetClicked: () -> Unit
-)
-
 @Composable
 fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
     Scaffold(
@@ -35,13 +28,14 @@ fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
                 SnippetsFabLayout(state.onCreateSnippetClicked)
             }
         }
-    ) {
-        SnippetsListLayout(snippets = state.snippets.value, state.onSnippetClick)
+    ) { paddingValues ->
+        Modifier.padding(paddingValues)
+        SnippetsListLayout(snippets = state.snippets.value)
     }
 }
 
 @Composable
-fun SnippetsListLayout(snippets: List<SnippetUiModel>, onClick: (SnippetUiModel) -> Unit) {
+fun SnippetsListLayout(snippets: List<SnippetUiModel>) {
     if (snippets.isNotEmpty()) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Dimens.grid_1_5),
@@ -51,7 +45,7 @@ fun SnippetsListLayout(snippets: List<SnippetUiModel>, onClick: (SnippetUiModel)
         ) {
             items(
                 items = snippets,
-                itemContent = { item -> SnippetItem(item, onClick) }
+                itemContent = { item -> SnippetItem(item) }
             )
         }
     } else {
@@ -79,8 +73,7 @@ fun SnippetsBrowserScreenPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = listOfMockSnippets.asMutableState(),
-                createVisible = true.asMutableState(),
-                onSnippetClick = {}
+                createVisible = true.asMutableState()
             ) {}
         )
     }
@@ -93,8 +86,7 @@ fun SnippetsBrowserScreenNoFabPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = listOfMockSnippets.asMutableState(),
-                createVisible = false.asMutableState(),
-                onSnippetClick = {}
+                createVisible = false.asMutableState()
             ) {}
         )
     }
@@ -107,9 +99,14 @@ fun SnippetsBrowserScreenEmptyPreview() {
         SnippetsBrowserScreen(
             state = SnippetsBrowserScreenState(
                 snippets = emptyList<SnippetUiModel>().asMutableState(),
-                createVisible = true.asMutableState(),
-                onSnippetClick = {}
+                createVisible = true.asMutableState()
             ) {}
         )
     }
 }
+
+data class SnippetsBrowserScreenState(
+    val snippets: State<List<SnippetUiModel>>,
+    val createVisible: State<Boolean>,
+    val onCreateSnippetClicked: () -> Unit
+)

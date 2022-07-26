@@ -32,7 +32,7 @@ import com.bottlerocketstudios.compose.profile.ProfileScreen
 import com.bottlerocketstudios.compose.repository.FileBrowserScreen
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
-import com.bottlerocketstudios.compose.util.LaunchCollection
+import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
 import com.google.accompanist.web.rememberWebViewNavigator
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 

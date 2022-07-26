@@ -1,3 +1,4 @@
+@file:Suppress("ConstructorParameterNaming", "MatchingDeclarationName", "LongParameterList")
 package com.bottlerocketstudios.compose.resources
 
 import androidx.compose.ui.unit.Dp
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
  * space to be reclaimed for content. For larger screens, such as tablets, it is still recommended to
  * create composables specifically to take advantage of the extra space more efficiently.
  */
+
 class Dimensions(
     val grid_0_25: Dp,
     val grid_0_5: Dp,

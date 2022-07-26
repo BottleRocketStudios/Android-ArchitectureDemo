@@ -8,7 +8,7 @@ import timber.log.Timber
 fun ByteArray.convertToImageBitmap(): ImageBitmap? {
     return try {
         BitmapFactory.decodeByteArray(this, 0, this.count()).asImageBitmap()
-    } catch (e: Exception) {
+    } catch (e: RuntimeException) {
         Timber.w(e, "[convertToImageBitmap] error converting ByteArray to ImageBitmap")
         null
     }
