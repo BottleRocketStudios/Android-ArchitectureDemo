@@ -2,6 +2,7 @@ package com.bottlerocketstudios.compose.resources
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -51,7 +52,9 @@ fun ArchitectureDemoTheme(
                 colors = colors.materialColors,
                 typography = typography
             ) {
-                content()
+                Surface(color = Colors.background) {
+                    content()
+                }
             }
         }
     }

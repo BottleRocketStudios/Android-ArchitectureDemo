@@ -17,16 +17,14 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.pluralResource
 import com.bottlerocketstudios.compose.widgets.IconText
 
@@ -146,20 +144,10 @@ fun RepositoryItem(item: RepositoryItemUiModel, onItemClicked: (RepositoryItemUi
     }
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 private fun PreviewBrowserScreen() {
     Preview {
-        RepositoryBrowserScreen(
-            state = previewState
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewBrowserDarkScreen() {
-    Preview(darkTheme = true) {
         RepositoryBrowserScreen(
             state = previewState
         )

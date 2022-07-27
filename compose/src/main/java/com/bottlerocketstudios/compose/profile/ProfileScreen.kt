@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.bottlerocketstudios.compose.R
@@ -27,7 +26,7 @@ import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.br_red
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.normal
 
@@ -35,9 +34,7 @@ import com.bottlerocketstudios.launchpad.compose.normal
 fun ProfileScreen(state: ProfileScreenState) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Colors.background)
+        modifier = Modifier.fillMaxSize()
     ) {
         ProfileDetailComponent(state.avatarUrl.value, state.displayName.value, state.nickname.value)
         OutlinedButton(
@@ -112,7 +109,7 @@ fun ProfileDetailComponent(avatarUrl: String, displayName: String, nickname: Str
     )
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 fun ProfileScreenPreview() {
     Preview {
@@ -121,12 +118,3 @@ fun ProfileScreenPreview() {
         )
     }
 }
-
-@Preview(showSystemUi = true, backgroundColor = 0xfff8f8f8)
-@Composable
-fun ProfileScreenDarkPreview() {
-    Preview(darkTheme = true) {
-        ProfileScreen(state = profileMockData)
-    }
-}
-

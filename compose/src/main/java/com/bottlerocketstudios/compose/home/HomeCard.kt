@@ -17,12 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.sea_foam
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewComposable
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
@@ -130,18 +129,10 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
     }
 }
 
-@Preview(showBackground = true)
+@PreviewComposable
 @Composable
 fun HomeCardPreview() {
     Preview {
-        CardLayout(userRepositoryUiModel = testCard1) {}
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeCardDarkPreview() {
-    Preview(darkTheme = true) {
         CardLayout(userRepositoryUiModel = testCard1) {}
     }
 }

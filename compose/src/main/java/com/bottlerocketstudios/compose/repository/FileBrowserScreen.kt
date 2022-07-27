@@ -22,7 +22,7 @@ import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
@@ -31,7 +31,6 @@ import com.bottlerocketstudios.launchpad.compose.normal
 fun FileBrowserScreen(state: FileBrowserScreenState) {
     Column(
         modifier = Modifier
-            .background(Colors.background)
             .padding(
                 start = Dimens.grid_1_5,
                 end = Dimens.grid_1_5
@@ -99,7 +98,7 @@ fun TextFileLayout(rawString: String) {
     )
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 fun FileBrowserScreenPreview() {
     Preview {
@@ -108,12 +107,3 @@ fun FileBrowserScreenPreview() {
         )
     }
 }
-
-@Preview(showSystemUi = true)
-@Composable
-fun FileBrowserDarkPreview() {
-    Preview(darkTheme = true) {
-        FileBrowserScreen(state = fileBrowserMockData)
-    }
-}
-

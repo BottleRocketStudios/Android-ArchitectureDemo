@@ -15,19 +15,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
 fun HomeScreen(state: HomeScreenState) {
-    Column {
+    Column(
+        Modifier.background(
+            color = Colors.background
+        )
+    ) {
         Text(
             text = stringResource(id = R.string.home_repositories),
             style = MaterialTheme.typography.h1.bold(),
@@ -72,7 +75,7 @@ fun HomeScreen(state: HomeScreenState) {
     }
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 fun HomeScreenPreview() {
     Preview {
@@ -83,16 +86,3 @@ fun HomeScreenPreview() {
         )
     }
 }
-
-@Preview
-@Composable
-fun HomeScreenDarkPreview() {
-    Preview(darkTheme = true) {
-        HomeScreen(
-            state = HomeScreenState(
-                listOf(testCard1, testCard2).asMutableState()
-            ) {}
-        )
-    }
-}
-

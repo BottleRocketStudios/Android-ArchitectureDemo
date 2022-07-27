@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
@@ -31,7 +32,7 @@ fun SnippetsEmptyLayout() {
     }
 }
 
-@Preview(showSystemUi = true)
+@PreviewAll
 @Composable
 fun HomeEmptyPreview() {
     Preview {
