@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,11 +23,6 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.launchpad.compose.bold
-
-data class HomeScreenState(
-    val repositories: State<List<UserRepositoryUiModel>>,
-    val itemSelected: (userRepositoryUiModel: UserRepositoryUiModel) -> Unit,
-)
 
 @Composable
 fun HomeScreen(state: HomeScreenState) {

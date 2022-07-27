@@ -10,17 +10,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import com.bottlerocketstudios.compose.widgets.AppBar
 import kotlinx.coroutines.launch
-
-data class ArchAppBarState(
-    val showToolbar: State<Boolean>,
-    val topLevel: State<Boolean>,
-    val title: State<String>,
-)
 
 @Composable
 fun ArchAppBar(

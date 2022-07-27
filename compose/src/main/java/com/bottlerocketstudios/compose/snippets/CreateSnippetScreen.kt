@@ -37,20 +37,6 @@ import com.bottlerocketstudios.compose.widgets.OutlinedInputField
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.normal
 
-data class CreateSnippetScreenState(
-    val title: State<String>,
-    val filename: State<String>,
-    val contents: State<String>,
-    val isPrivate: State<Boolean>,
-    val creationFailed: State<Boolean>,
-    val createEnabled: State<Boolean>,
-    val onTitleChanged: (String) -> Unit,
-    val onFilenameChanged: (String) -> Unit,
-    val onContentsChanged: (String) -> Unit,
-    val onPrivateChanged: (Boolean) -> Unit,
-    val onCreateClicked: () -> Unit,
-)
-
 @Composable
 fun CreateSnippetScreen(state: CreateSnippetScreenState) {
     val uiState by remember { mutableStateOf(state) }
@@ -197,3 +183,17 @@ fun previewState() = CreateSnippetScreenState(
     onPrivateChanged = {}
 )
 
+
+data class CreateSnippetScreenState(
+    val title: State<String>,
+    val filename: State<String>,
+    val contents: State<String>,
+    val isPrivate: State<Boolean>,
+    val creationFailed: State<Boolean>,
+    val createEnabled: State<Boolean>,
+    val onTitleChanged: (String) -> Unit,
+    val onFilenameChanged: (String) -> Unit,
+    val onContentsChanged: (String) -> Unit,
+    val onPrivateChanged: (Boolean) -> Unit,
+    val onCreateClicked: () -> Unit,
+)

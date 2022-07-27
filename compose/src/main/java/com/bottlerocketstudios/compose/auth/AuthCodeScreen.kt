@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,15 +34,18 @@ import com.google.accompanist.web.WebViewState
 import com.google.accompanist.web.rememberWebViewNavigator
 import com.google.accompanist.web.rememberWebViewState
 
-data class AuthCodeState(
-    val requestUrl: State<String>,
-    val devOptionsEnabled: Boolean,
-    val onAuthCode: (String) -> Unit,
-    val onLoginClicked: () -> Unit,
-    val onSignupClicked: () -> Unit,
-    val onDevOptionsClicked: () -> Unit,
-    val showToolbar: (show: Boolean) -> Unit,
-)
+@Composable
+fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
+    Crossfade(targetState = state.requestUrl.value.isEmpty()) {
+        if (it) {
+            state.showToolbar(false)
+            AuthCodeContent(state)
+        } else {
+            state.showToolbar(true)
+            RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode, navigator = navigator)
+        }
+    }
+}
 
 @PreviewAllDevices
 @Composable
@@ -82,19 +84,6 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNav
             it.settings.javaScriptEnabled = true
         }
     )
-}
-
-@Composable
-fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
-    Crossfade(targetState = state.requestUrl.value.isEmpty()) {
-        if (it) {
-            state.showToolbar(false)
-            AuthCodeContent(state)
-        } else {
-            state.showToolbar(true)
-            RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode, navigator = navigator)
-        }
-    }
 }
 
 @Composable

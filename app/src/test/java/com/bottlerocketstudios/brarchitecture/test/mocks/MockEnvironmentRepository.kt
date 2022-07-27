@@ -18,6 +18,7 @@ object MockEnvironmentRepository {
 
     val newEnvironment = MutableStateFlow(ENVIRONMENT_STG)
 
+    @Suppress("MemberNameEqualsClassName")
     val mockEnvironmentRepository: EnvironmentRepository = mock {
         on { selectedConfig }.then { _selectedConfig }
         on { environments }.then { _environments }

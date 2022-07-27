@@ -20,6 +20,7 @@ fun ProvideColors(
 private val LocalAppColors = staticCompositionLocalOf {
     lightColors
 }
+private const val SMALL_SCREEN_WIDTH_DP = 360
 
 @Composable
 fun ProvideDimens(
@@ -42,7 +43,7 @@ fun ArchitectureDemoTheme(
     // TODO This should be updated later to support a dark mode check
     val colors = if (darkTheme) darkColors else lightColors
     val configuration = LocalConfiguration.current
-    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val dimensions = if (configuration.screenWidthDp <= SMALL_SCREEN_WIDTH_DP) smallDimensions else sw360Dimensions
 
     ProvideDimens(dimensions = dimensions) {
         ProvideColors(colors = colors) {
