@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
@@ -30,6 +31,7 @@ fun HomeScreen(state: HomeScreenState) {
         Text(
             text = stringResource(id = R.string.home_repositories),
             style = MaterialTheme.typography.h1.bold(),
+            color = Colors.onBackground,
             modifier = Modifier
                 .padding(
                     start = Dimens.grid_2_5,
@@ -81,3 +83,16 @@ fun HomeScreenPreview() {
         )
     }
 }
+
+@Preview
+@Composable
+fun HomeScreenDarkPreview() {
+    Preview(darkTheme = true) {
+        HomeScreen(
+            state = HomeScreenState(
+                listOf(testCard1, testCard2).asMutableState()
+            ) {}
+        )
+    }
+}
+

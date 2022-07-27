@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.compose.repository
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
@@ -29,6 +31,7 @@ import com.bottlerocketstudios.launchpad.compose.normal
 fun FileBrowserScreen(state: FileBrowserScreenState) {
     Column(
         modifier = Modifier
+            .background(Colors.background)
             .padding(
                 start = Dimens.grid_1_5,
                 end = Dimens.grid_1_5
@@ -86,6 +89,7 @@ fun TextFileLayout(rawString: String) {
     Text(
         text = rawString,
         style = MaterialTheme.typography.h5.light(),
+        color = Colors.onBackground,
         modifier = Modifier
             .padding(
                 top = Dimens.grid_1
@@ -104,3 +108,12 @@ fun FileBrowserScreenPreview() {
         )
     }
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun FileBrowserDarkPreview() {
+    Preview(darkTheme = true) {
+        FileBrowserScreen(state = fileBrowserMockData)
+    }
+}
+

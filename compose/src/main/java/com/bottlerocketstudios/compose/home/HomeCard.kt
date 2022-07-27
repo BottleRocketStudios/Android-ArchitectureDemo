@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.sea_foam
 import com.bottlerocketstudios.compose.util.Preview
@@ -55,7 +56,7 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                 Icon(
                     painter = painterResource(id = R.drawable.ic_repository),
                     contentDescription = stringResource(id = R.string.home_repository_icon),
-                    tint = sea_foam,
+                    tint = Colors.tertiary,
                     modifier = Modifier
                         .padding(
                             all = Dimens.grid_2
@@ -96,7 +97,7 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
     ) {
         Text(
             userRepositoryUiModel.repo.name ?: "",
-            color = sea_foam,
+            color = Colors.tertiary,
             style = MaterialTheme.typography.h3.bold(),
             modifier = Modifier
                 .padding(
@@ -129,10 +130,18 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun HomeCardPreview() {
     Preview {
+        CardLayout(userRepositoryUiModel = testCard1) {}
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeCardDarkPreview() {
+    Preview(darkTheme = true) {
         CardLayout(userRepositoryUiModel = testCard1) {}
     }
 }

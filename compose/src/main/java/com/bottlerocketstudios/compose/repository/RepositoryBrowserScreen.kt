@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
@@ -147,20 +148,24 @@ fun RepositoryItem(item: RepositoryItemUiModel, onItemClicked: (RepositoryItemUi
 
 @PreviewAllDevices
 @Composable
-private fun PreviewOuterScreenContent() {
+private fun PreviewBrowserScreen() {
     Preview {
         RepositoryBrowserScreen(
-            state = RepositoryBrowserScreenState(
-                path = remember { mutableStateOf("/path/to/folder") },
-                itemCount = remember { mutableStateOf(browserItems.size) },
-                repositoryItems = remember {
-                    mutableStateOf(browserItems)
-                },
-                onRepositoryItemClicked = {}
-            )
+            state = previewState
         )
     }
 }
+
+@Preview
+@Composable
+private fun PreviewBrowserDarkScreen() {
+    Preview(darkTheme = true) {
+        RepositoryBrowserScreen(
+            state = previewState
+        )
+    }
+}
+
 
 private val browserItems = listOf(
     RepositoryItemUiModel(
@@ -179,4 +184,12 @@ private val browserItems = listOf(
         isFolder = false
     ),
 )
+
+val previewState = RepositoryBrowserScreenState(
+    path = mutableStateOf("/path/to/folder"),
+    itemCount = mutableStateOf(browserItems.size),
+    repositoryItems =  mutableStateOf(browserItems),
+    onRepositoryItemClicked = {}
+)
+
 
