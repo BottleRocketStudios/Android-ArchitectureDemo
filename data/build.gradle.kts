@@ -4,7 +4,6 @@ import java.util.Properties
 plugins {
     id(Config.ApplyPlugins.ANDROID_LIBRARY)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    kotlin(Config.ApplyPlugins.Kotlin.KAPT)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
 }
@@ -47,10 +46,10 @@ android {
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
         create("debugMini") {
             initWith(getByName("debug"))
-            setMatchingFallbacks("debug")
+            matchingFallbacks += listOf("debug")
         }
     }
-    flavorDimensions("environment")
+    flavorDimensions += listOf("environment")
     // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
     productFlavors {
         create("internal") {
@@ -106,8 +105,10 @@ class ApiKeyProperties(pathToProperties: String, project: Project) {
 }
 
 dependencies {
-// TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(mapOf("path" to ":domain")))
+    // TODO: List out each jar/aar explicitly to help avoid the danger of someone "slipping" a dangerous lib into the directory
+    //  implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
     // Kotlin/coroutines
     kotlinDependencies()
     coroutineDependencies()

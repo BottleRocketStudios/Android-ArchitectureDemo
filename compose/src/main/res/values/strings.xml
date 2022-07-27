@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Splash -->
+    <string name="splash_image_content_description">Bottle Rocket Architecture Demo</string>
+
+    <!-- Login -->
+    <string name="login_id_hint">Username</string>
+    <string name="login_id_accessibility">Login ID</string>
+    <string name="login_clear_accessibility">Clear</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_password_accessibility">Password</string>
+    <string name="login_show_password_accessibility">Show Password</string>
+    <string name="login_hide_password_accessibility">Hide Password</string>
+    <string name="login_forgot">Forgot ID or Password?</string>
+    <string name="login_button">Login</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="login_error">Login Error</string>
+    <string name="dev_options_button">Dev Options</string>
+
+    <!--  Auth Code  -->
+    <string name="auth_code_subtitle">BitBucket now uses an auth code to login.</string>
+    <string name="auth_code_description">Tapping Login below will take you to a web view to authenticate</string>
+
+    <plurals name="folder_items_plural">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+
+    <!-- Home -->
+    <string name="no_repositories">No Repositories</string>
+    <string name="home_repositories">Repositories</string>
+    <string name="home_repository_icon">Repository Icon</string>
+
+    <!-- Profile -->
+    <string name="profile_edit">Edit</string>
+    <string name="profile_logout">Logout</string>
+    <string name="profile_image_description">Profile Image</string>
+
+    <!-- FileBrowser -->
+    <string name="file_image_description">File Image</string>
+
+    <!-- Snippets -->
+    <string name="snippet_icon">Snippet Icon</string>
+    <string name="no_snippets">No Snippets</string>
+    <string name="new_snippet">New Snippet</string>
+
+    <!-- CreateSnippets -->
+    <string name="create_snippet_title_hint">Title</string>
+    <string name="create_snippet_filename_hint">Filename</string>
+    <string name="create_snippet_contents_hint">Contents</string>
+    <string name="create_snippet_private">Private</string>
+    <string name="snippet_creation_failed">Snippet Creation Failed</string>
+    <string name="create_snippet_button">Create</string>
+
+    <plurals name="days_ago_plural">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <string name="today">Today</string>
+
+    <!-- Values added to exercise unit tests -->
+    <string name="sample_format">Sample %1$s</string>
+    <plurals name="sample_plural_format">
+        <item quantity="one">%1$s was updated %2$d day ago</item>
+        <item quantity="other">%1$s was updated %2$d days ago</item>
+    </plurals>
+
+</resources>

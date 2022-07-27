@@ -15,7 +15,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import retrofit2.Call
 import retrofit2.Response
@@ -42,7 +42,7 @@ class TokenAuthInterceptorTest : BaseTest() {
             on { loadToken() } doAnswer { accessToken }
         }
         val interceptor = TokenAuthInterceptor(service, bitbucketCredentialsRepository)
-        runBlocking {
+        runTest {
             val headerInterceptorMock = HeaderInterceptorMock()
             interceptor.intercept(headerInterceptorMock.getMockedChain())
             // Need to capture two arguments, can't use mockito-kotlin dsl

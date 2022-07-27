@@ -4,13 +4,11 @@ import com.android.build.gradle.api.BaseVariantOutput
 plugins {
     id(Config.ApplyPlugins.ANDROID_APPLICATION)
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    kotlin(Config.ApplyPlugins.Kotlin.KAPT)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
-    id(Config.ApplyPlugins.NAVIGATION_SAFE_ARGS_KOTLIN)
 }
 
-extra.set("jacocoCoverageThreshold", 0.20.toBigDecimal()) // module specific code coverage verification threshold
+extra.set("jacocoCoverageThreshold", 0.40.toBigDecimal()) // module specific code coverage verification threshold
 apply(from = "../jacocoModule.gradle")
 
 apply(from = "../renameAppBundle.gradle.kts") // configures additional gradle tasks to rename app bundles (when needed)
@@ -87,13 +85,13 @@ android {
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
         create("debugMini") {
             initWith(getByName("debug"))
-            setMatchingFallbacks("debug")
+            matchingFallbacks += listOf("debug")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-    flavorDimensions("environment")
+    flavorDimensions += listOf("environment")
     // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
     productFlavors {
         create("internal") {
@@ -134,32 +132,33 @@ android {
 // Declare configurations per variant to use in the dependencies block below. See :data module for examples if needed here in the :app module.
 
 dependencies {
+    implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
-    // TODO: Find a way to make sure we are aware of out-of-date versions of any static aars/jars in /libs. Manually check for any updates at/prior to dev signoff.
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(mapOf("path" to ":compose")))
+    // TODO: List out each jar/aar explicitly to help avoid the danger of someone "slipping" a dangerous lib into the directory
+    // implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // Kotlin/coroutines
     kotlinDependencies()
     coroutineDependencies()
 
+    // Koin DI
+    koinDependencies()
+
     // AndroidX
     composeDependencies()
+    accompanistDependencies()
     appCompatDependencies()
     activityDependencies()
-    fragmentDependencies()
     androidxStartupDependencies()
-    constraintLayoutDependencies()
     materialDependencies()
     lifecycleDependencies()
     navigationDependencies()
 
-    koinDependencies()
+    // Launchpad
+    launchPadDependencies()
 
     coreLibraryDesugaringDependencies()
-
-    // UI
-    groupieDependencies()
-    glideDependencies()
 
     // Utility
     brCustomAndroidLintRules()
@@ -179,5 +178,4 @@ dependencies {
     espressoDependencies()
     extJunitRunnerDependencies()
     androidxCoreDependencies()
-    fragmentTestingDependencies()
 }

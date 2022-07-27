@@ -19,16 +19,6 @@ private val fileKDoc = Unit
 internal fun DependencyHandler.`implementation`(dependencyNotation: Any): Dependency? = add("implementation", dependencyNotation)
 
 /**
- * Adds a dependency to the 'kapt' configuration.
- *
- * @param dependencyNotation notation for the dependency to be added.
- * @return The dependency.
- *
- * @see [DependencyHandler.add]
- */
-internal fun DependencyHandler.`kapt`(dependencyNotation: Any): Dependency? = add("kapt", dependencyNotation)
-
-/**
  * Adds a dependency to the 'ksp' configuration.
  *
  * @param dependencyNotation notation for the dependency to be added.

@@ -4,36 +4,34 @@ import com.bottlerocketstudios.brarchitecture.buildconfig.BuildConfigProviderImp
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImpl
-import com.bottlerocketstudios.brarchitecture.ui.MainActivityViewModel
-import com.bottlerocketstudios.brarchitecture.ui.auth.LoginViewModel
+import com.bottlerocketstudios.brarchitecture.ui.ComposeActivityViewModel
+import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManager
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFolderFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.splash.SplashFragmentViewModel
-import com.bottlerocketstudios.brarchitecture.ui.user.UserFragmentViewModel
+import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsViewModel
+import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 /** General app configuration (repositories/viewmodels/etc) */
 object AppModule {
     val module = module {
-        viewModel { MainActivityViewModel(repo = get(), buildConfigProvider = get()) }
-        viewModel { SplashFragmentViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { LoginViewModel(repo = get(), buildConfigProvider = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { HomeViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFileFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { RepositoryFolderFragmentViewModel(repo = get(), toaster = get(), dispatcherProvider = get()) }
-        viewModel { SnippetsFragmentViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { CreateSnippetFragmentViewModel(repo = get(), dispatcherProvider = get()) }
-        viewModel { UserFragmentViewModel(repo = get()) }
-        viewModel { DevOptionsViewModel(app = get(), forceCrashLogicImpl = get(), applicationInfoManager = get(), environmentRepository = get(), toaster = get()) }
+        viewModel { ComposeActivityViewModel() }
+        viewModel { SplashViewModel() }
+        viewModel { AuthCodeViewModel() }
+        viewModel { HomeViewModel() }
+        viewModel { RepositoryBrowserViewModel() }
+        viewModel { RepositoryFileViewModel() }
+        viewModel { SnippetsViewModel() }
+        viewModel { CreateSnippetViewModel() }
+        viewModel { ProfileViewModel() }
+        viewModel { DevOptionsViewModel() }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
         single<BuildConfigProvider> { BuildConfigProviderImpl() }

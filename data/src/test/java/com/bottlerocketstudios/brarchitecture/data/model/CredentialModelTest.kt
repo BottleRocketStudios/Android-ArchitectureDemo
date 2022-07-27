@@ -13,6 +13,25 @@ class CredentialModelTest : BaseTest() {
     }
 
     @Test
+    fun valid_shouldReturnTrue_whenIdPasswordAreValid() {
+        val cm = CredentialModel(ProtectedProperty("validId"), ProtectedProperty("password0"))
+        assertThat(cm.valid).isEqualTo(true)
+    }
+
+    @Test
+    fun valid_shouldReturnFalse_whenIdPasswordAreValid() {
+        val cm = CredentialModel(ProtectedProperty("id"), ProtectedProperty("password"))
+        assertThat(cm.valid).isEqualTo(false)
+    }
+
+    @Test
+    fun getValidCredentialModel_shouldReturnValidCm_whenCredentialsValid() {
+        val cm = CredentialModel(ProtectedProperty("validId"), ProtectedProperty("password0"))
+        assertThat(cm.validCredentials).isNotNull()
+        assertThat(cm.validCredentials).isInstanceOf(ValidCredentialModel::class.java)
+    }
+
+    @Test
     fun getValidCredentialModel_shouldReturnNull_whenCredentialsInvalid() {
         val cm = CredentialModel(ProtectedProperty(""), ProtectedProperty(""))
         assertThat(cm.validCredentials).isNull()

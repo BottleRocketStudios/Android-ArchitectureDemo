@@ -9,7 +9,7 @@ Bottle Rocket Android Architecture Guidelines
 
 ## OAuth consumer key creation and setup steps
 * Generate a Bitbucket OAuth consumer key at https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api
-    * You must specify a callback url. The value isn't important, so go ahead and use https://www.bottlerocketstudios.com/
+    * You must specify a callback url with the following value for auth code login to work: https://www.bottlerocketstudios.com/
     * You must enable the following permissions (at a minimum) to ensure proper functioning of the app:
         * **Account** read
         * **Snippets** read/write
@@ -53,9 +53,12 @@ The project is using the Gradle Versions plugin to do a lot of heavy lifting her
 
 #### To Do List
 * Android 12 Splash screen support (using androidx core-splashscreen lib at https://developer.android.com/jetpack/androidx/releases/core)
-* Base/custom/generic dialogfragment support with:
+* Base/custom/generic dialog support with:
     * title (visible/gone) - res id or string (see StringIdHelper below)
     * body - res id or string (see StringIdHelper below)
     * positive CTA text/click callback
     * (optional) negative CTA text/click callback
     * cancelOnTouchOutside (Boolean)
+    
+## LaunchPad Development
+Uncomment mavenLocal in main build.gradle.kts to test local library changes.

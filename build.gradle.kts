@@ -9,7 +9,6 @@ buildscript {
         classpath(Config.BuildScriptPlugins.ANDROID_GRADLE)
         classpath(Config.BuildScriptPlugins.KOTLIN_GRADLE)
         classpath(Config.BuildScriptPlugins.GRADLE_VERSIONS)
-        classpath(Config.BuildScriptPlugins.NAVIGATION_SAFE_ARGS_GRADLE)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
@@ -28,6 +27,9 @@ plugins {
 // Gradle docs at https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:allprojects(groovy.lang.Closure)
 allprojects {
     repositories {
+        // Uncomment mavenLocal to use local versions of libraries.
+        // This is used for library development of LaunchPad
+        // mavenLocal()
         google()
         mavenCentral()
         maven(url = "https://jitpack.io")

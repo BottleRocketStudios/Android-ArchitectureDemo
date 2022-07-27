@@ -28,14 +28,6 @@
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable,Exceptions
 
-## Keep all generated databinding classes since some are accessed via reflection in ViewModelItem.bind
-#noinspection ShrinkerUnresolvedReference
--keep class com.bottlerocketstudios.brarchitecture.databinding.** { *; }
-
-# This fixes: Caused by: androidx.fragment.app.Fragment$InstantiationException: Unable to instantiate fragment androidx.navigation.fragment.NavHostFragment: make sure class name exists
-# See https://stackoverflow.com/a/61365688/201939
--keepnames class androidx.navigation.fragment.NavHostFragment
-
 ## AndroidX Security Crypto (internal dependency on Tink)
 # Crash (obfuscated): Caused by: java.lang.RuntimeException: Field keySize_ for c.b.b.a.h0.u not found. Known fields are [private int c.b.b.a.h0.u.j, private static final c.b.b.a.h0.u c.b.b.a.h0.u.k,
 # private static volatile c.b.b.a.i0.a.b1 c.b.b.a.h0.u.l]

@@ -1,37 +1,54 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.bottlerocketstudios.brarchitecture.R
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToGitRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import com.bottlerocketstudios.brarchitecture.ui.HeaderViewModel
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryViewModel
-import com.bottlerocketstudios.brarchitecture.ui.util.StringIdHelper
-import com.xwray.groupie.Section
-import kotlinx.coroutines.flow.collect
+import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
+import com.bottlerocketstudios.compose.util.formattedUpdateTime
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import org.koin.core.component.inject
+import java.time.Clock
 
-class HomeViewModel(repo: BitbucketRepository, private val dispatcherProvider: DispatcherProvider) : BaseViewModel() {
+class HomeViewModel : BaseViewModel() {
+    // DI
+    private val repo: BitbucketRepository by inject()
+    private val clock by inject<Clock>()
+
+    // Setup
     val user = repo.user
     val repos = repo.repos
-    val reposGroup = Section()
 
-    init {
-        viewModelScope.launch(dispatcherProvider.IO) {
-            repos.collect { repoList ->
-                val map = repoList.map { RepositoryViewModel(it) }
-                withContext(dispatcherProvider.Main) {
-                    reposGroup.setHeader(HeaderViewModel(StringIdHelper.Id(R.string.home_repositories)))
-                    reposGroup.update(map)
-                }
+    // UI
+    val userRepositoryState: Flow<List<UserRepositoryUiModel>> =
+        repos.map {
+            it.map {
+                val repo = it.convertToGitRepository()
+                UserRepositoryUiModel(
+                    repo = repo,
+                    formattedLastUpdatedTime = repo.updated.formattedUpdateTime(clock)
+                )
             }
         }
 
+    // Events
+    val itemSelected = MutableSharedFlow<UserRepositoryUiModel>()
+
+    // Init logic
+    init {
         viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshUser()
             repo.refreshMyRepos()
+        }
+    }
+
+    // UI Callbacks
+    fun selectItem(userRepositoryUiModel: UserRepositoryUiModel) {
+        launchIO {
+            itemSelected.emit(userRepositoryUiModel)
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.data.environment
 
-import com.bottlerocketstudios.brarchitecture.data.model.EnvironmentConfig
-import com.bottlerocketstudios.brarchitecture.data.repository.Repository
+import com.bottlerocketstudios.brarchitecture.domain.models.EnvironmentConfig
+import com.bottlerocketstudios.brarchitecture.domain.models.EnvironmentType
+import com.bottlerocketstudios.brarchitecture.domain.models.Repository
 
 /**
  * Provides client environment related values.

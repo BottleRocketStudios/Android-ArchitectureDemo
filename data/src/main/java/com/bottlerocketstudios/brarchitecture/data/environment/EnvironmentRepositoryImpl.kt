@@ -3,7 +3,8 @@ package com.bottlerocketstudios.brarchitecture.data.environment
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
-import com.bottlerocketstudios.brarchitecture.data.model.EnvironmentConfig
+import com.bottlerocketstudios.brarchitecture.domain.models.EnvironmentConfig
+import com.bottlerocketstudios.brarchitecture.domain.models.EnvironmentType
 import timber.log.Timber
 
 class EnvironmentRepositoryImpl(private val sharedPrefs: SharedPreferences, private val buildConfigProvider: BuildConfigProvider) : EnvironmentRepository {

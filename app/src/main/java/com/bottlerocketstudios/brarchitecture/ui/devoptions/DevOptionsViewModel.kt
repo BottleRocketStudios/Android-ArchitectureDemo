@@ -3,25 +3,23 @@ package com.bottlerocketstudios.brarchitecture.ui.devoptions
 import android.app.Application
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.jakewharton.processphoenix.ProcessPhoenix
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.core.component.inject
 import timber.log.Timber
 
-class DevOptionsViewModel(
-    private val app: Application,
-    private val forceCrashLogicImpl: ForceCrashLogic,
-    private val applicationInfoManager: ApplicationInfoManager,
-    private val environmentRepository: EnvironmentRepository,
-    private val toaster: Toaster,
-) : BaseViewModel() {
+class DevOptionsViewModel : BaseViewModel() {
+    // DI
+    private val app: Application by inject()
+    private val forceCrashLogicImpl: ForceCrashLogic by inject()
+    private val applicationInfoManager: ApplicationInfoManager by inject()
+    private val environmentRepository: EnvironmentRepository by inject()
 
     // ////////////////// ENVIRONMENT SECTION ////////////////// //
     val environmentNames: StateFlow<List<String>> = MutableStateFlow(environmentRepository.environments.map { it.environmentType.shortName })
-    var environmentSpinnerPosition = environmentRepository.environments.indexOf(environmentRepository.selectedConfig)
-        private set
+    val environmentSpinnerPosition: StateFlow<Int> = MutableStateFlow(environmentRepository.environments.indexOf(environmentRepository.selectedConfig))
 
     val baseUrl: StateFlow<String> = MutableStateFlow("")
 
@@ -40,7 +38,7 @@ class DevOptionsViewModel(
         val oldEnvironment = environmentRepository.selectedConfig
         Timber.v("[onEnvironmentChanged] newEnvironment=$newEnvironment, oldEnvironment=$oldEnvironment")
         if (newEnvironment != oldEnvironment) {
-            environmentSpinnerPosition = newEnvironmentIndex
+            environmentSpinnerPosition.setValue(newEnvironmentIndex)
             environmentRepository.changeEnvironment(environmentRepository.environments[newEnvironmentIndex].environmentType)
             updateEnvironmentInfo()
             toaster.toast("!!! Restart required !!!")
@@ -60,6 +58,6 @@ class DevOptionsViewModel(
     }
 
     private fun updateEnvironmentInfo() {
-        baseUrl.set(environmentRepository.selectedConfig.baseUrl)
+        baseUrl.setValue(environmentRepository.selectedConfig.baseUrl)
     }
 }
