@@ -68,11 +68,11 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNav
     )
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun AuthCodeContent(state: AuthCodeState) {
     Column(
         modifier = Modifier
-            // .fillMaxHeight()
             .fillMaxSize()
             .background(Colors.background)
             .verticalScroll(rememberScrollState()),
