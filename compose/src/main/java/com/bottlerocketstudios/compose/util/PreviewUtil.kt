@@ -33,4 +33,3 @@ annotation class PreviewLightDark
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 annotation class PreviewComposable
-

@@ -42,12 +42,4 @@ class SnippetsViewModelTest : BaseTest() {
                 )
         }
     }
-
-    @Test
-    fun createClicked_onCreateClicked_shouldEmitUnit() = runTest {
-        viewModel.createClicked.test {
-            viewModel.onCreateClick()
-            assertThat(awaitItem()).isEqualTo(Unit)
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.compose.navdrawer
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -88,6 +89,7 @@ fun ColumnScope.NavDrawer(state: NavDrawerState) {
     )
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview(showSystemUi = true)
 @Composable
 fun ProfileScreenPreview() {

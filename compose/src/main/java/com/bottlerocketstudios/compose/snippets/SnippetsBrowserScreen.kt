@@ -74,4 +74,3 @@ fun SnippetsBrowserScreenPreview(
         SnippetsBrowserScreen(state)
     }
 }
-

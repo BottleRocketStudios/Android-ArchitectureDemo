@@ -48,7 +48,6 @@ fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
     }
 }
 
-
 // FIXME: javaScriptEnabled = true can result in removal from Play Store
 // https://support.google.com/faqs/answer/7668153?hl=en
 @SuppressLint("SetJavaScriptEnabled")
@@ -137,7 +136,6 @@ private fun AuthCodeContent(state: AuthCodeState) {
     }
 }
 
-
 @PreviewAll
 @Composable
 fun AuthCodePreview() {
@@ -156,4 +154,3 @@ fun AuthCodePreview() {
         )
     }
 }
-

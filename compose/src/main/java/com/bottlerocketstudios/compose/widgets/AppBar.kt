@@ -33,7 +33,6 @@ fun AppBar(
     )
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun PreviewAppBar() {

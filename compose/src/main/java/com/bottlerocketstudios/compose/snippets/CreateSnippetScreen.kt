@@ -154,7 +154,6 @@ fun CreateSnippetScreenPreview() {
     }
 }
 
-
 @Composable
 fun previewState() = CreateSnippetScreenState(
     title = "".asMutableState(),
@@ -169,5 +168,3 @@ fun previewState() = CreateSnippetScreenState(
     onContentsChanged = {},
     onPrivateChanged = {}
 )
-
-
