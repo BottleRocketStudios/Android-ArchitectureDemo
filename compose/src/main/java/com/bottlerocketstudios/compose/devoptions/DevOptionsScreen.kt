@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 package com.bottlerocketstudios.compose.devoptions
 
 import androidx.compose.foundation.clickable

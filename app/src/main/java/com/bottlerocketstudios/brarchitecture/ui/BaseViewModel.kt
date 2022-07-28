@@ -25,6 +25,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
+@Suppress("TooManyFunctions")
 /** Provides common utility functionality for ViewModels including [LiveEvent]s for external navigation */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected val dispatcherProvider: DispatcherProvider by inject()

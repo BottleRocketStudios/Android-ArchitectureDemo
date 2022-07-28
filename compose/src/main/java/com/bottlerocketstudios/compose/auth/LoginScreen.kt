@@ -208,6 +208,7 @@ fun LoginScreenUsernameTextField(
     )
 }
 
+@Suppress("LongMethod")
 @Composable
 fun LoginScreenPasswordTextField(
     modifier: Modifier,
