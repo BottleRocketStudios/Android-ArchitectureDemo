@@ -28,7 +28,6 @@ import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.brown_grey_three
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
@@ -84,7 +83,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
             if (expanded) {
                 file?.rawFile?.let { byteArray ->
                     Divider(
-                        color = brown_grey_three,
+                        color = Colors.onSurface,
                         modifier = Modifier
                             .padding(horizontal = Dimens.grid_2)
                             .wrapContentHeight()
