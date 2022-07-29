@@ -172,7 +172,7 @@ private val browserItems = listOf(
     ),
 )
 
-val previewState = RepositoryBrowserScreenState(
+private val previewState = RepositoryBrowserScreenState(
     path = mutableStateOf("/path/to/folder"),
     itemCount = mutableStateOf(browserItems.size),
     repositoryItems = mutableStateOf(browserItems),
