@@ -23,9 +23,8 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.br_red
-import com.bottlerocketstudios.compose.resources.greyish_brown
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.normal
 
@@ -33,15 +32,14 @@ import com.bottlerocketstudios.launchpad.compose.normal
 fun ProfileScreen(state: ProfileScreenState) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         ProfileDetailComponent(state.avatarUrl.value, state.displayName.value, state.nickname.value)
         OutlinedButton(
             onClick = { state.onEditClicked() },
             border = BorderStroke(1.dp, br_red),
             shape = RoundedCornerShape(Dimens.grid_1_5),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = br_red),
+            colors = ButtonDefaults.outlinedButtonColors(),
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_5_5
@@ -70,7 +68,6 @@ fun ProfileScreen(state: ProfileScreenState) {
         ) {
             Text(
                 stringResource(id = R.string.profile_logout),
-                color = greyish_brown,
                 style = MaterialTheme.typography.h3.bold()
             )
         }
@@ -110,7 +107,7 @@ fun ProfileDetailComponent(avatarUrl: String, displayName: String, nickname: Str
     )
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 fun ProfileScreenPreview() {
     Preview {

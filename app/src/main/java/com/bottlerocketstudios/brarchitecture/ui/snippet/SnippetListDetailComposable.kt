@@ -38,6 +38,7 @@ private val CreateSnippetItem = SnippetUiModel(
     formattedLastUpdatedTime = "".toStringIdHelper()
 )
 
+@Suppress("LongMethod")
 // TODO - Custom Animations for entrance of detail.   Try to use same animation spec for navigation side and visibility
 fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder, widthSize: WindowWidthSizeClass) {
     navGraphBuilder.composable(Routes.Snippets) {

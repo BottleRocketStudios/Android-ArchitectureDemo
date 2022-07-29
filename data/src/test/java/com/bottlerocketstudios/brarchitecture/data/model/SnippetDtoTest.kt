@@ -18,13 +18,15 @@ class SnippetDtoTest : BaseTest() {
 
     @Test
     fun commit_shouldHaveFields_whenConstructed() {
+        val workspace = WorkspaceDto()
         val user = UserDto()
         val updated = ZonedDateTime.parse("2022-07-09T17:09:43.365424Z[UTC]")
-        val snippet = SnippetDto("test_id", "test_title", true, user, updated)
+        val snippet = SnippetDto("test_id", workspace, "test_title", user, true, updated)
         assertThat(snippet.id).isEqualTo("test_id")
+        assertThat(snippet.workspace).isEqualTo(workspace)
         assertThat(snippet.title).isEqualTo("test_title")
-        assertThat(snippet.isPrivate).isTrue()
         assertThat(snippet.owner).isEqualTo(user)
+        assertThat(snippet.isPrivate).isTrue()
         assertThat(snippet.updated).isEqualTo(updated)
     }
 }

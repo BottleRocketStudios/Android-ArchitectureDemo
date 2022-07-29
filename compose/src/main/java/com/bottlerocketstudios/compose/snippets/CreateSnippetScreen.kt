@@ -15,7 +15,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,12 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedInputField
 import com.bottlerocketstudios.launchpad.compose.bold
@@ -145,38 +144,27 @@ fun LabelledCheckbox(isPrivate: Boolean, onCheckedChange: (Boolean) -> Unit) {
     }
 }
 
-@Preview(showSystemUi = true)
+@PreviewAll
 @Composable
 fun CreateSnippetScreenPreview() {
     Preview {
         CreateSnippetScreen(
-            state = CreateSnippetScreenState(
-                title = "".asMutableState(),
-                filename = "".asMutableState(),
-                contents = "".asMutableState(),
-                isPrivate = true.asMutableState(),
-                creationFailed = false.asMutableState(),
-                createEnabled = true.asMutableState(),
-                onCreateClicked = {},
-                onTitleChanged = {},
-                onFilenameChanged = {},
-                onContentsChanged = {},
-                onPrivateChanged = {}
-            )
+            state = previewState()
         )
     }
 }
 
-data class CreateSnippetScreenState(
-    val title: State<String>,
-    val filename: State<String>,
-    val contents: State<String>,
-    val isPrivate: State<Boolean>,
-    val creationFailed: State<Boolean>,
-    val createEnabled: State<Boolean>,
-    val onTitleChanged: (String) -> Unit,
-    val onFilenameChanged: (String) -> Unit,
-    val onContentsChanged: (String) -> Unit,
-    val onPrivateChanged: (Boolean) -> Unit,
-    val onCreateClicked: () -> Unit,
+@Composable
+private fun previewState() = CreateSnippetScreenState(
+    title = "".asMutableState(),
+    filename = "".asMutableState(),
+    contents = "".asMutableState(),
+    isPrivate = true.asMutableState(),
+    creationFailed = false.asMutableState(),
+    createEnabled = true.asMutableState(),
+    onCreateClicked = {},
+    onTitleChanged = {},
+    onFilenameChanged = {},
+    onContentsChanged = {},
+    onPrivateChanged = {}
 )

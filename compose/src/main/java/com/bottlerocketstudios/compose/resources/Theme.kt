@@ -1,6 +1,8 @@
 package com.bottlerocketstudios.compose.resources
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -36,10 +38,11 @@ private val LocalAppDimens = staticCompositionLocalOf {
 
 @Composable
 fun ArchitectureDemoTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     // TODO This should be updated later to support a dark mode check
-    val colors = lightColors
+    val colors = if (darkTheme) darkColors else lightColors
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= SMALL_SCREEN_WIDTH_DP) smallDimensions else sw360Dimensions
 
@@ -49,7 +52,9 @@ fun ArchitectureDemoTheme(
                 colors = colors.materialColors,
                 typography = typography
             ) {
-                content()
+                Surface(color = Colors.background) {
+                    content()
+                }
             }
         }
     }

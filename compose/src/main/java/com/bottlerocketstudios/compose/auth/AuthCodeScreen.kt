@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -20,9 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
@@ -46,25 +48,6 @@ fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
     }
 }
 
-@PreviewAllDevices
-@Composable
-fun AuthCodePreview() {
-    Preview {
-        AuthCodeScreen(
-            state = AuthCodeState(
-                requestUrl = "".asMutableState(),
-                devOptionsEnabled = true,
-                onAuthCode = {},
-                onLoginClicked = {},
-                onSignupClicked = {},
-                onDevOptionsClicked = {},
-                showToolbar = {}
-            ),
-            navigator = rememberWebViewNavigator()
-        )
-    }
-}
-
 // FIXME: javaScriptEnabled = true can result in removal from Play Store
 // https://support.google.com/faqs/answer/7668153?hl=en
 @SuppressLint("SetJavaScriptEnabled")
@@ -85,11 +68,13 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNav
     )
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun AuthCodeContent(state: AuthCodeState) {
     Column(
         modifier = Modifier
-            .fillMaxHeight()
+            .fillMaxSize()
+            .background(Colors.background)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -106,6 +91,7 @@ private fun AuthCodeContent(state: AuthCodeState) {
             text = stringResource(R.string.auth_code_subtitle),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h2,
+            color = Colors.onBackground,
         )
 
         Text(
@@ -114,6 +100,7 @@ private fun AuthCodeContent(state: AuthCodeState) {
                 .padding(start = Dimens.grid_2, end = Dimens.grid_2),
             text = stringResource(R.string.auth_code_description),
             style = MaterialTheme.typography.h3,
+            color = Colors.onBackground,
             textAlign = TextAlign.Center,
         )
 
@@ -146,5 +133,24 @@ private fun AuthCodeContent(state: AuthCodeState) {
                 )
             }
         }
+    }
+}
+
+@PreviewAll
+@Composable
+fun AuthCodePreview() {
+    Preview {
+        AuthCodeScreen(
+            state = AuthCodeState(
+                requestUrl = "".asMutableState(),
+                devOptionsEnabled = true,
+                onAuthCode = {},
+                onLoginClicked = {},
+                onSignupClicked = {},
+                onDevOptionsClicked = {},
+                showToolbar = {}
+            ),
+            navigator = rememberWebViewNavigator()
+        )
     }
 }

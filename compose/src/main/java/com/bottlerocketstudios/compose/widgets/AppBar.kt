@@ -12,18 +12,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.util.Preview
 
-@Preview(showBackground = true)
-@Composable
-private fun PreviewAppBar() {
-    Preview {
-        AppBar(
-            title = "Title",
-            navIcon = Icons.Default.ArrowBack,
-            onNavClicked = {}
-        )
-    }
-}
-
 @Composable
 fun AppBar(
     title: String,
@@ -43,4 +31,28 @@ fun AppBar(
             }
         },
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewAppBar() {
+    Preview {
+        AppBar(
+            title = "Title",
+            navIcon = Icons.Default.ArrowBack,
+            onNavClicked = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewDarkAppBar() {
+    Preview(darkTheme = true) {
+        AppBar(
+            title = "Title",
+            navIcon = Icons.Default.ArrowBack,
+            onNavClicked = {}
+        )
+    }
 }
