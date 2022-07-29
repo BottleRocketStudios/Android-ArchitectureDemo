@@ -28,7 +28,7 @@ fun CategoryHeader(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCategoryHeader() {
+private fun PreviewCategoryHeader() {
     Preview {
         CategoryHeader(header = "Category Header")
     }

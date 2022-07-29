@@ -19,7 +19,7 @@ import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
-fun SnippetDetailsPrimaryButton(
+fun SnippetDetailsButton(
     icon: ImageVector? = null,
     iconDescription: String? = "",
     buttonText: String,
@@ -53,9 +53,9 @@ fun SnippetDetailsPrimaryButton(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewSnippetDetailsPrimaryButton() {
+private fun PreviewSnippetDetailsPrimaryButton() {
     Preview {
-        SnippetDetailsPrimaryButton(buttonText = "Button Preview") {
+        SnippetDetailsButton(buttonText = "Button Preview") {
         }
     }
 }

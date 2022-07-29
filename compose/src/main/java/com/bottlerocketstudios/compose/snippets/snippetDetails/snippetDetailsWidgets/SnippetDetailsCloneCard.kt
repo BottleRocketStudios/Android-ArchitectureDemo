@@ -81,7 +81,7 @@ fun SnippetDetailsCloneCard(type: String, link: String) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCloneCard() {
+private fun PreviewCloneCard() {
     Preview {
         Column {
             SnippetDetailsCloneCard(

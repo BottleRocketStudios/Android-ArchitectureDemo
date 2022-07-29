@@ -100,7 +100,7 @@ internal interface BitbucketService {
     suspend fun isUserWatchingSnippet(
         @Path(value = "workspace_id") workspace: String,
         @Path(value = "encoded_id") encoded_id: String
-    ): Response<Unit>
+    ): Response<Int>
 
     /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-watch-put */
     @PUT(value = "/2.0/snippets/{workspace_id}/{encoded_id}/watch")

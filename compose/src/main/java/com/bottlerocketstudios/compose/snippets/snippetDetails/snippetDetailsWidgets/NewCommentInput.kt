@@ -50,7 +50,11 @@ fun NewCommentInput(
             modifier = Modifier
                 .padding(bottom = if (focusState) Dimens.grid_0_25 else Dimens.grid_1_5)
         ) {
-            CircleAvatarImage(imgUri = user?.avatarUrl, sizeDp = Dimens.grid_5)
+            CircleAvatarImage(
+                imgUri = user?.avatarUrl,
+                sizeDp = Dimens.grid_5,
+                contentDescription = R.string.description_avatar,
+                placeholder = R.drawable.ic_avatar_placeholder,)
 
             OutlinedInputField(
                 text = newComment,
@@ -67,7 +71,7 @@ fun NewCommentInput(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                SnippetDetailsPrimaryButton(
+                SnippetDetailsButton(
                     buttonText = stringResource(id = R.string.button_save),
                     onClick = {
                         onSaveClicked(parentId)
@@ -76,7 +80,7 @@ fun NewCommentInput(
                     textStyle = typography.body1,
                     buttonPadding = Dimens.grid_0_5
                 )
-                SnippetDetailsPrimaryButton(
+                SnippetDetailsButton(
                     buttonText = stringResource(id = R.string.button_cancel),
                     onClick = {
                         onCancelClicked()
@@ -93,7 +97,7 @@ fun NewCommentInput(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCommentInput() {
+private fun PreviewCommentInput() {
     val mockData = returnMockSnippetDetails()
     Preview {
         NewCommentInput(
@@ -109,7 +113,7 @@ fun PreviewCommentInput() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCommentInputWithContent() {
+private fun PreviewCommentInputWithContent() {
     val mockData = returnMockSnippetDetails()
     Preview {
         NewCommentInput(

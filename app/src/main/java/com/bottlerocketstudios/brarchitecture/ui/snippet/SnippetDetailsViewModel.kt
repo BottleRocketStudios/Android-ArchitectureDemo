@@ -19,20 +19,20 @@ class SnippetDetailsViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
 
-    // State
-    private val workspaceId by lazy { MutableStateFlow("") }
-    private val encodedId by lazy { MutableStateFlow("") }
+    // UI
+    private val workspaceId = MutableStateFlow("")
+    private val encodedId = MutableStateFlow("")
 
-    // State - User
+    // UI - User
     val currentUser = MutableStateFlow<User?>(null)
     val isWatchingSnippet = MutableStateFlow(false)
 
-    // State - Snippet
+    // UI - Snippet
     val snippetDetails = MutableStateFlow<SnippetDetailsUiModel?>(null)
     val snippetFiles = MutableStateFlow(mutableListOf<SnippetDetailsFile?>())
     val snippetComments = MutableStateFlow<List<SnippetComment>>(mutableListOf())
 
-    // UI
+    // UI - Comment onChange Values
     val newSnippetComment = MutableStateFlow("")
     val newReplyComment = MutableStateFlow("")
 
@@ -55,21 +55,25 @@ class SnippetDetailsViewModel : BaseViewModel() {
     }
 
     private fun getRawFiles(filePaths: List<String>) = launchIO {
-        snippetFiles.value = mutableListOf<SnippetDetailsFile?>().apply {
-            filePaths.forEach { path ->
-                repo.getSnippetFile(workspaceId.value, encodedId.value, path).handlingErrors(R.string.error_loading_file) {
-                    add(SnippetDetailsFile(fileName = path, links = null, it))
-                }
-            }
-        }
+        snippetFiles.value = filePaths.map { path ->
+            var rawFile: ByteArray? = null
+            repo.getSnippetFile(workspaceId.value, encodedId.value, path)
+                .handlingErrors(R.string.error_loading_file) { rawFile = it }
+            SnippetDetailsFile(fileName = path, rawFile = rawFile)
+        }.toMutableList()
     }
 
-    /** Coded Response: Api returns 204 if user is watching and a 404 if user is not, else an error has occured */
+    /** Coded Response: Api returns 204 if user is watching and a 404 if user is not, else an error has occurred */
     private fun isUserWatchingSnippet() {
         launchIO {
-            when (repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
+            when (val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
                 is Status.Success -> isWatchingSnippet.value = true
-                is Status.Failure.Server -> isWatchingSnippet.value = false
+                is Status.Failure.Server ->
+                    if (result.error?.httpErrorCode == 404) {
+                        isWatchingSnippet.value = false
+                    } else {
+                        handleError(R.string.snippet_watching_error)
+                    }
                 else -> handleError(R.string.snippet_watching_error)
             }
         }
@@ -125,7 +129,14 @@ class SnippetDetailsViewModel : BaseViewModel() {
         false -> startWatchingSnippet()
     }
 
-    fun onEditSnippetClick() {}
+    /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-put */
+    fun onEditSnippetClick() {
+        // TODO: Functionality not yet implemented.
+        //  Clicking the edit button should show "save" and "cancel" buttons allow the user to edit the snippet name and
+        //  delete files.
+        //  When the user "saves" this function should be called and updates the snippet edits
+        //  PUT /2.0/snippets/{workspace}/{encoded_id}
+    }
 
     fun onCommentSaveEvent(commentId: Int?) {
         when (commentId == null) {

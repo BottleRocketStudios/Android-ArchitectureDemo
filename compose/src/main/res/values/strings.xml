@@ -76,6 +76,8 @@
     <string name="button_reply">Reply</string>
     <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_file_raw">Raw</string>
+    <string name="button_file_close">Close</string>
     <string name="https">HTTPS</string>
     <string name="ssh">SSH</string>
     <string name="new_snippet_comment">New Comment</string>

@@ -72,51 +72,54 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
                     elevation = null
                 ) {
                     Text(
-                        text = if (expanded) "Close" else "RAW",
+                        text = stringResource(
+                            id = if (expanded)
+                                R.string.button_file_close else R.string.button_file_raw
+                        ),
                         style = typography.body1.copy(color = Colors.onSurface)
                     )
                 }
             }
 
             if (expanded) {
-                Divider(
-                    color = brown_grey_three,
-                    modifier = Modifier
-                        .padding(horizontal = Dimens.grid_2)
-                        .wrapContentHeight()
-                        .fillMaxWidth()
-                )
-                RawFileData(byteArray = file?.rawFile)
+                file?.rawFile?.let { byteArray ->
+                    Divider(
+                        color = brown_grey_three,
+                        modifier = Modifier
+                            .padding(horizontal = Dimens.grid_2)
+                            .wrapContentHeight()
+                            .fillMaxWidth()
+                    )
+                    RawFileData(byteArray = byteArray)
+                }
             }
         }
     }
 }
 
 @Composable
-fun RawFileData(byteArray: ByteArray?) {
-    byteArray?.let {
-        val imageBitmap = byteArray.convertToImageBitmap()
-        if (imageBitmap != null) {
-            Image(
-                imageBitmap,
-                contentDescription = stringResource(id = R.string.file_image_description),
-                modifier = Modifier.padding(Dimens.grid_2)
-            )
-        } else {
-            Text(
-                text = byteArray.decodeToString(),
-                style = MaterialTheme.typography.h5.light(),
-                modifier = Modifier
-                    .padding(Dimens.grid_2)
-                    .fillMaxWidth()
-            )
-        }
+fun RawFileData(byteArray: ByteArray) {
+    val imageBitmap = byteArray.convertToImageBitmap()
+    if (imageBitmap != null) {
+        Image(
+            imageBitmap,
+            contentDescription = stringResource(id = R.string.file_image_description),
+            modifier = Modifier.padding(Dimens.grid_2)
+        )
+    } else {
+        Text(
+            text = byteArray.decodeToString(),
+            style = MaterialTheme.typography.h5.light(),
+            modifier = Modifier
+                .padding(Dimens.grid_2)
+                .fillMaxWidth()
+        )
     }
 }
 
 @Preview(showSystemUi = true)
 @Composable
-fun PreviewFilesCard() {
+private fun PreviewFilesCard() {
     SnippetDetailsFilesCard(
         file = returnMockSnippetDetails().files.value[0]
     )

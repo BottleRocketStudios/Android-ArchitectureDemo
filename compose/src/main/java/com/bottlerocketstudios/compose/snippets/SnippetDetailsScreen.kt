@@ -39,9 +39,9 @@ import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippet
 import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.CategoryHeader
 import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.CommentCard
 import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.NewCommentInput
+import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.SnippetDetailsButton
 import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.SnippetDetailsCloneCard
 import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.SnippetDetailsFilesCard
-import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.SnippetDetailsPrimaryButton
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.CircleAvatarImage
 import com.bottlerocketstudios.launchpad.compose.bold
@@ -69,7 +69,11 @@ fun SnippetDetailsTitleLayout(state: SnippetDetailsScreenState) {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            CircleAvatarImage(imgUri = state.snippetDetails.value?.owner?.avatarUrl)
+            CircleAvatarImage(
+                imgUri = state.snippetDetails.value?.owner?.avatarUrl,
+                contentDescription = R.string.description_avatar,
+                placeholder = R.drawable.ic_avatar_placeholder,
+            )
             Column(
                 modifier = Modifier
                     .padding(start = Dimens.grid_2)
@@ -104,21 +108,21 @@ fun EditButtonsLayout(state: SnippetDetailsScreenState) {
         Row(
             modifier = Modifier.align(Alignment.End)
         ) {
-            SnippetDetailsPrimaryButton(
+            SnippetDetailsButton(
                 icon = if (state.isWatchingSnippet.value) Icons.Default.Visibility else Icons.Outlined.Visibility,
                 iconDescription = stringResource(id = R.string.description_eye_icon),
                 buttonText = stringResource(id = if (state.isWatchingSnippet.value) R.string.stop_watching else R.string.start_watching),
                 onClick = state.onSnippetWatchClick
             )
-            SnippetDetailsPrimaryButton(
+            SnippetDetailsButton(
                 buttonText = stringResource(id = R.string.button_clone),
                 onClick = { cloneExpanded = !cloneExpanded }
             )
-            SnippetDetailsPrimaryButton(
+            SnippetDetailsButton(
                 buttonText = stringResource(id = R.string.button_edit),
                 onClick = state.onSnippetEditClick
             )
-            SnippetDetailsPrimaryButton(
+            SnippetDetailsButton(
                 buttonText = stringResource(id = R.string.button_delete),
                 onClick = state.onSnippetDeleteClick
             )
