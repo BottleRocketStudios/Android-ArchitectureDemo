@@ -15,12 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
@@ -86,6 +87,7 @@ fun TextFileLayout(rawString: String) {
     Text(
         text = rawString,
         style = MaterialTheme.typography.h5.light(),
+        color = Colors.onBackground,
         modifier = Modifier
             .padding(
                 top = Dimens.grid_1
@@ -95,7 +97,7 @@ fun TextFileLayout(rawString: String) {
     )
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 fun FileBrowserScreenPreview() {
     Preview {

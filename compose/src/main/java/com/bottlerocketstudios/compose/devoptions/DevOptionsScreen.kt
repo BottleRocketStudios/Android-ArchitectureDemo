@@ -42,7 +42,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.light
@@ -282,7 +282,7 @@ fun EnvironmentList(text: String, expanded: Boolean, onClick: () -> Unit) {
 }
 
 @Preview
-@PreviewAllDevices
+@PreviewAll
 @Composable
 private fun PreviewDevOptions() {
     Preview {

@@ -10,14 +10,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 
 @Composable
 fun SplashScreen() {
-    Surface {
+    Surface(
+        color = Colors.background
+    ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -31,7 +33,7 @@ fun SplashScreen() {
     }
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 private fun PreviewOuterScreenContent() {
     Preview {

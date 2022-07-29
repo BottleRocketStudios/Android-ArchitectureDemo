@@ -9,10 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
-import com.bottlerocketstudios.compose.resources.sea_foam
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
@@ -25,13 +25,13 @@ fun HomeEmptyLayout() {
     ) {
         Text(
             text = stringResource(R.string.no_repositories),
-            color = sea_foam,
+            color = Colors.tertiary,
             style = MaterialTheme.typography.h1.bold()
         )
     }
 }
 
-@Preview(showSystemUi = true)
+@PreviewAll
 @Composable
 fun HomeEmptyPreview() {
     Preview {

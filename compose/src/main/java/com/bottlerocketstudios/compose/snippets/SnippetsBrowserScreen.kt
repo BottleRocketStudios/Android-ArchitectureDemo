@@ -10,15 +10,14 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.asMutableState
+import com.bottlerocketstudios.compose.util.PreviewAll
 
 @Composable
 fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
@@ -66,47 +65,12 @@ private fun SnippetsFabLayout(onFabClick: () -> Unit) {
     )
 }
 
-@Preview(showSystemUi = true)
+@PreviewAll
 @Composable
-fun SnippetsBrowserScreenPreview() {
+private fun SnippetsBrowserScreenPreview(
+    @PreviewParameter(SnippetBrowserPreviewProvider::class) state: SnippetsBrowserScreenState
+) {
     Preview {
-        SnippetsBrowserScreen(
-            state = SnippetsBrowserScreenState(
-                snippets = listOfMockSnippets.asMutableState(),
-                createVisible = true.asMutableState()
-            ) {}
-        )
+        SnippetsBrowserScreen(state)
     }
 }
-
-@Preview(showSystemUi = true)
-@Composable
-fun SnippetsBrowserScreenNoFabPreview() {
-    Preview {
-        SnippetsBrowserScreen(
-            state = SnippetsBrowserScreenState(
-                snippets = listOfMockSnippets.asMutableState(),
-                createVisible = false.asMutableState()
-            ) {}
-        )
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun SnippetsBrowserScreenEmptyPreview() {
-    Preview {
-        SnippetsBrowserScreen(
-            state = SnippetsBrowserScreenState(
-                snippets = emptyList<SnippetUiModel>().asMutableState(),
-                createVisible = true.asMutableState()
-            ) {}
-        )
-    }
-}
-
-data class SnippetsBrowserScreenState(
-    val snippets: State<List<SnippetUiModel>>,
-    val createVisible: State<Boolean>,
-    val onCreateSnippetClicked: () -> Unit
-)
