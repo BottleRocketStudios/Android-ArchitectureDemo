@@ -155,7 +155,7 @@ fun CreateSnippetScreenPreview() {
 }
 
 @Composable
-fun previewState() = CreateSnippetScreenState(
+private fun previewState() = CreateSnippetScreenState(
     title = "".asMutableState(),
     filename = "".asMutableState(),
     contents = "".asMutableState(),
