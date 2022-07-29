@@ -14,8 +14,6 @@ val white = Color(0xffffffff)
 val mostly_white = Color(0xfff8f8f8)
 val black = Color(0xff000000)
 val sea_foam = Color(0xff1fada8)
-// val brown_grey_two = Color(0xff797979)
-// val brown_grey_three = Color(0xff9e9e9e)
 
 val lightColors = ArchitectureDemoColors(
     tertiary = sea_foam,
