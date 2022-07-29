@@ -14,7 +14,7 @@ internal val mockSnippet1 = SnippetUiModel(
 
 internal val listOfMockSnippets = listOf(mockSnippet1, mockSnippet1)
 
-class SnippetBrowserPreviewProvider : PreviewParameterProvider<SnippetsBrowserScreenState> {
+internal class SnippetBrowserPreviewProvider : PreviewParameterProvider<SnippetsBrowserScreenState> {
     override val values: Sequence<SnippetsBrowserScreenState> = sequenceOf(
         SnippetsBrowserScreenState(
             snippets = listOfMockSnippets.asMutableState(),
