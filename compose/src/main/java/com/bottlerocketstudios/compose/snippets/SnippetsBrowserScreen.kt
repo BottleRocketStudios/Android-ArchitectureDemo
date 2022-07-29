@@ -67,7 +67,7 @@ private fun SnippetsFabLayout(onFabClick: () -> Unit) {
 
 @PreviewAll
 @Composable
-fun SnippetsBrowserScreenPreview(
+private fun SnippetsBrowserScreenPreview(
     @PreviewParameter(SnippetBrowserPreviewProvider::class) state: SnippetsBrowserScreenState
 ) {
     Preview {
