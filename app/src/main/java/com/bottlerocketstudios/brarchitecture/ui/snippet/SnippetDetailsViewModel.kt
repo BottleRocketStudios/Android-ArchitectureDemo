@@ -29,7 +29,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
 
     // UI - Snippet
     val snippetDetails = MutableStateFlow<SnippetDetailsUiModel?>(null)
-    val snippetFiles = MutableStateFlow(mutableListOf<SnippetDetailsFile?>())
+    val snippetFiles = MutableStateFlow(mutableListOf<SnippetDetailsFile>())
     val snippetComments = MutableStateFlow<List<SnippetComment>>(mutableListOf())
 
     // UI - Comment onChange Values
@@ -56,7 +56,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
 
     private fun getRawFiles(filePaths: List<String>) = launchIO {
         snippetFiles.value = filePaths.map { path ->
-            var rawFile: ByteArray? = null
+            var rawFile: ByteArray = ByteArray(1)
             repo.getSnippetFile(workspaceId.value, encodedId.value, path)
                 .handlingErrors(R.string.error_loading_file) { rawFile = it }
             SnippetDetailsFile(fileName = path, rawFile = rawFile)
@@ -96,9 +96,8 @@ class SnippetDetailsViewModel : BaseViewModel() {
     // TODO: Show dialog to confirm user wants to continue with deletion before calling this function
     fun onDeleteSnippetClick() = launchIO {
         repo.deleteSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.delete_snippet_error) {
-            // Using handleError here to inform the user that the snippet has been deleted; maybe use a branded messaging?
-            handleError(R.string.delete_snippet_success)
-        }
+                notifyUser(R.string.delete_snippet_success)
+            }
     }
 
     private fun createSnippetComment() = launchIO {
@@ -132,7 +131,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
     /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-put */
     fun onEditSnippetClick() {
         // TODO: Functionality not yet implemented.
-        //  Clicking the edit button should show "save" and "cancel" buttons allow the user to edit the snippet name and
+        //  Clicking the edit button should show "save" and "cancel" buttons; allow the user to edit the snippet name and/or
         //  delete files.
         //  When the user "saves" this function should be called and updates the snippet edits
         //  PUT /2.0/snippets/{workspace}/{encoded_id}

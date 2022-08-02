@@ -41,7 +41,7 @@ class ResponseToApiResultMapperImpl : ResponseToApiResultMapper {
         return when {
             response.isSuccessful -> Status.Success(Unit)
             else -> {
-                Timber.w("[toCodedResult] Api not successful: message ${response.message()} code: ${response.code()}")
+                Timber.w("[toEmptyResult] Api not successful: message ${response.message()} code: ${response.code()}")
                 Status.Failure.Server(generateServerError(response))
             }
         }

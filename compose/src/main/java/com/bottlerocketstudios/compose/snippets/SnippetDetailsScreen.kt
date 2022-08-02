@@ -143,7 +143,7 @@ fun EditButtonsLayout(state: SnippetDetailsScreenState) {
     }
 }
 
-fun LazyListScope.filesLayout(files: List<SnippetDetailsFile?>) {
+fun LazyListScope.filesLayout(files: List<SnippetDetailsFile>) {
     item { CategoryHeader(header = stringResource(id = R.string.header_snippet_files)) }
     items(files) { file ->
         SnippetDetailsFilesCard(file)

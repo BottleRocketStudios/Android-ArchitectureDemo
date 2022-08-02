@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.data.converter
+package com.bottlerocketstudios.brarchitecture.domain.utils
 
 import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit

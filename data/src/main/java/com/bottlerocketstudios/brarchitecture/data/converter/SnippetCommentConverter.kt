@@ -4,6 +4,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentContentDt
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetCommentContent
+import com.bottlerocketstudios.brarchitecture.domain.utils.convertToTimeAgoMessage
 
 fun SnippetCommentDto.convertToComment() = SnippetComment(
     id = id,
@@ -18,7 +19,6 @@ fun SnippetCommentDto.convertToComment() = SnippetComment(
     type = type,
     snippet = snippet?.convertToSnippet()
 )
-
 
 fun SnippetCommentContentDto.convertToCommentContent() = SnippetCommentContent(
     type = type,

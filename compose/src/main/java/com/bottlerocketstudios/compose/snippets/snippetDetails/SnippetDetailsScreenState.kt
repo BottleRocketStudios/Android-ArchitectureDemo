@@ -8,7 +8,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.User
 data class SnippetDetailsScreenState(
     val snippetDetails: State<SnippetDetailsUiModel?>,
     val currentUser: State<User?>,
-    val files: State<List<SnippetDetailsFile?>>,
+    val files: State<List<SnippetDetailsFile>>,
     val isWatchingSnippet: State<Boolean>,
     val onSnippetWatchClick: () -> Unit,
     val onSnippetEditClick: () -> Unit,

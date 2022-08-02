@@ -2,7 +2,8 @@ package com.bottlerocketstudios.brarchitecture.data.converter
 
 import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
-import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFileLinks
+import com.bottlerocketstudios.brarchitecture.domain.utils.convertToTimeAgoMessage
 import com.bottlerocketstudios.compose.snippets.snippetDetails.SnippetDetailsUiModel
 
 fun SnippetDetailsDto.convertToUiModel() =
@@ -20,10 +21,5 @@ fun SnippetDetailsDto.convertToUiModel() =
         sshCloneLink = links?.convertToLinks()?.clone?.find { it?.name == "ssh" }?.href,
     )
 
-fun Map<String, LinksDto?>?.convertToUiModel(): List<SnippetDetailsFile?>? =
-    this?.map { SnippetDetailsFile(it.key, it.value?.convertToLinks()) }
-
-
-
-
-
+fun Map<String, LinksDto>.convertToUiModel(): List<SnippetDetailsFileLinks> =
+    map { SnippetDetailsFileLinks(it.key, it.value.convertToLinks()) }

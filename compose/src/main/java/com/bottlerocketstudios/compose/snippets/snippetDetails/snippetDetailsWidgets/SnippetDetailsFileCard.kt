@@ -36,7 +36,7 @@ import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
 
 @Composable
-fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
+fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
@@ -62,7 +62,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
                 IconText(
                     iconRes = R.drawable.ic_file,
                     iconColor = Colors.tertiary,
-                    text = file?.fileName ?: "",
+                    text = file.fileName ?: "",
                     style = typography.h4.normal()
                 )
                 OutlinedButton(
@@ -81,7 +81,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile?) {
             }
 
             if (expanded) {
-                file?.rawFile?.let { byteArray ->
+                file.rawFile?.let { byteArray ->
                     Divider(
                         color = Colors.onSurface,
                         modifier = Modifier

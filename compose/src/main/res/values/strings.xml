@@ -60,11 +60,11 @@
     <string name="today">Today</string>
 
     <!-- Snippet Details -->
-    <string name="created_by">Created By %1s</string>
+    <string name="created_by_format">Created By %1s</string>
     <string name="owned_by">Owned By</string>
     <string name="last_modified">Last Modified</string>
     <string name="header_snippet_files">Snippet Files</string>
-    <string name="header_snippet_comments">Snippet Comments %1s</string>
+    <string name="header_snippet_comments_format">Snippet Comments %1s</string>
     <string name="description_eye_icon">Eye Icon on Watch Button</string>
     <string name="description_avatar">Image of user avatar</string>
     <string name="description_copy_icon">Clickable icon that copies text in adjacent text field to clipboard</string>

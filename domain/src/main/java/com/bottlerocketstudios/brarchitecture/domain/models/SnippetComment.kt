@@ -1,22 +1,22 @@
 package com.bottlerocketstudios.brarchitecture.domain.models
 
 class SnippetComment(
-    val id: Int?,
-    val created: String?,
-    val updated: String?,
-    val content: SnippetCommentContent?,
-    val user: User?,
-    val deleted: Boolean?,
-    val parentId: Int?,
+    val id: Int? = null,
+    val created: String? = null,
+    val updated: String? = null,
+    val content: SnippetCommentContent? = null,
+    val user: User? = null,
+    val deleted: Boolean? = null,
+    val parentId: Int? = null,
     val childrenComments: MutableList<SnippetComment> = mutableListOf(),
     val links: Links? = null,
-    val type: String?,
+    val type: String? = null,
     val snippet: Snippet? = null
 ): DomainModel
 
 data class SnippetCommentContent(
-    val type: String?,
-    val raw: String?,
-    val markup: String?,
-    val html: String?
+    val type: String? = null,
+    val raw: String? = null,
+    val markup: String? = null,
+    val html: String? = null
 ) : DomainModel

@@ -48,7 +48,7 @@ fun CircleAvatarImage(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCircleAvatarImage() {
+private fun PreviewCircleAvatarImage() {
     Preview {
         CircleAvatarImage(
             imgUri = returnMockSnippetDetails().currentUser.value?.avatarUrl,
@@ -60,7 +60,7 @@ fun PreviewCircleAvatarImage() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCircleAvatarImageWithBorder() {
+private fun PreviewCircleAvatarImageWithBorder() {
     Preview {
         CircleAvatarImage(
             imgUri = returnMockSnippetDetails().currentUser.value?.avatarUrl,
