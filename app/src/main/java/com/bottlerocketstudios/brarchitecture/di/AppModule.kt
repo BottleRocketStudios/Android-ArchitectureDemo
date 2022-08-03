@@ -11,6 +11,7 @@ import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManag
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
+import com.bottlerocketstudios.brarchitecture.ui.pullrequests.PullRequestViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
@@ -32,6 +33,7 @@ object AppModule {
         viewModel { CreateSnippetViewModel() }
         viewModel { ProfileViewModel() }
         viewModel { DevOptionsViewModel() }
+        viewModel { PullRequestViewModel() }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
         single<BuildConfigProvider> { BuildConfigProviderImpl() }

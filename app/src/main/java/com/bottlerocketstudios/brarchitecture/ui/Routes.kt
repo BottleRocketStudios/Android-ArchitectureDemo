@@ -12,6 +12,7 @@ object Routes {
     const val DevOptions = "devoptions"
     const val Snippets = "snippets"
     const val Profile = "profile"
+    const val PullRequests = "pullRequests"
 
     fun RepositoryBrowser(data: RepositoryBrowserData) =
         "repository?repoName=${data.repoName}" +

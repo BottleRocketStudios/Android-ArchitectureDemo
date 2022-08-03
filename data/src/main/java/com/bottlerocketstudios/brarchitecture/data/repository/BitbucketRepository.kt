@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import retrofit2.Response
@@ -38,6 +39,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
+    suspend fun getPullRequests(selectedUser: String): Status<ResponseBody>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
     fun clear()
 }
@@ -141,6 +143,12 @@ internal class BitbucketRepositoryImpl(
     override suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray> {
         return wrapRepoExceptions("getSourceFile") {
             bitbucketService.getRepositorySourceFile(workspaceSlug, repo, hash, path).toResult().map { it.byteStream().readBytes().asSuccess() }
+        }
+    }
+
+    override suspend fun getPullRequests(selectedUser: String): Status<ResponseBody> {
+        return wrapRepoExceptions("getSource") {
+            bitbucketService.getPullRequests(selectedUser).toResult()
         }
     }
 

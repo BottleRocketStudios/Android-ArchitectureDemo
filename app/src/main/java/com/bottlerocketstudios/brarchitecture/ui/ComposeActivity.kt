@@ -7,6 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
@@ -26,9 +29,6 @@ import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 
 class ComposeActivity : ComponentActivity() {
     val activityViewModel: ComposeActivityViewModel by viewModel()
@@ -149,6 +149,14 @@ class ComposeActivity : ComponentActivity() {
             ) {
                 scaffoldState.drawerState.close()
                 navController.navigate(Routes.Profile)
+            },
+            NavItemState(
+                icon = R.drawable.ic_pull_request,
+                itemText = R.string.pull_requests,
+                selected = currentRoute == Routes.PullRequests
+            ) {
+                scaffoldState.drawerState.close()
+                navController.navigate(Routes.PullRequests)
             }
         )
 }

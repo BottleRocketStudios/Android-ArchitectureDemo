@@ -57,6 +57,11 @@ internal interface BitbucketService {
         @Path(value = "path") path: String
     ): Response<ResponseBody>
 
+    @GET("2.0/pullrequests/{selected_user}")
+    suspend fun getPullRequests(
+        @Path(value = "selected_user") selectedUser: String
+    ): Response<ResponseBody>
+
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
     @GET(value = "2.0/snippets?role=owner")
     suspend fun getSnippets(): Response<BitbucketPagedResponse<List<SnippetDto>>>
