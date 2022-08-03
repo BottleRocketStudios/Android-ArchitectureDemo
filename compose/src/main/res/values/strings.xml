@@ -31,6 +31,8 @@
     <string name="no_repositories">No Repositories</string>
     <string name="home_repositories">Repositories</string>
     <string name="home_repository_icon">Repository Icon</string>
+    <string name="home_nav_source">Source</string>
+    <string name="home_nav_commits">Commits</string>
 
     <!-- Profile -->
     <string name="profile_edit">Edit</string>

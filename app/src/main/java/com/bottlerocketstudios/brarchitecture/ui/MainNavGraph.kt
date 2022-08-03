@@ -21,6 +21,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserDat
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.repositoryCommitsComposable
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
 import com.bottlerocketstudios.brarchitecture.ui.snippet.snippetListDetailComposable
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
@@ -171,6 +172,7 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
         }
 
         controls.title = data.folderPath ?: data.repoName
+        controls.topLevel = true
 
         viewModel.directoryClickedEvent.LaunchCollection {
             navController.navigate(Routes.RepositoryBrowser(it))
@@ -181,6 +183,23 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
         }
     }
 }
+
+// private fun ComposeActivity.repositoryCommitsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+//     navGraphBuilder.composable(
+//         "commits"
+//     ) {
+//         val activityViewModel: ComposeActivityViewModel = getViewModel()
+//         val viewModel: RepositoryCommitViewModel = getViewModel()
+//         val repoName = activityViewModel.selectedRepo.value.name ?: ""
+//         viewModel.ConnectBaseViewModel {
+//             RepositoryCommitScreen(state = it.toState())
+//             it.getRepoCommits(repoName)
+//         }
+//
+//         controls.title = repoName
+//         controls.topLevel = true
+//     }
+// }
 
 private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Profile) {
@@ -206,6 +225,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             devOptionsComposable(this, navController)
             homeComposable(this, navController)
             repositoryBrowserComposable(this, navController)
+            repositoryCommitsComposable(this)
             repositoryFileComposable(this)
             profileComposable(this, navController)
             snippetListDetailComposable(this, widthSize)
