@@ -1,6 +1,5 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
-import androidx.annotation.VisibleForTesting
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
@@ -26,8 +25,16 @@ class RepositoryCommitViewModel : BaseViewModel() {
 
     // State
     private val srcCommits = MutableStateFlow<List<CommitDto>>(emptyList())
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    var currentRepoName: String = ""
+    var currentRepoName = MutableStateFlow("")
+
+    init {
+        launchIO {
+            currentRepoName.collect {
+                repoName ->
+                getRepoCommits(repoName)
+            }
+        }
+    }
 
     // UI
     val path: StateFlow<String> = MutableStateFlow("")
@@ -50,9 +57,9 @@ class RepositoryCommitViewModel : BaseViewModel() {
     // Events
 
     // Load Logic
-    fun getRepoCommits(name: String) {
+    private fun getRepoCommits(name: String) {
         val selectedRepo = repo.repos.value.firstOrNull { it.name?.equals(name) ?: false }
-        currentRepoName = name
+        // currentRepoName = name
         path.setValue(name)
         selectedRepo?.let {
             val slug = it.workspaceDto?.slug ?: ""

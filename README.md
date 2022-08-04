@@ -46,7 +46,7 @@ The project is using the Gradle Versions plugin to do a lot of heavy lifting her
 
 *Note that you'll still need to manually check for dependency updates on all buildscript plugins (see `Dependencies.kt` -> `Config.BuildScriptPlugins` properties), including the Gradle Versions plugin.*
 
-##Adding Tabs to the Nav Drawer
+## Adding Tabs to the Nav Drawer
 This project uses the `generateNavDrawerItems` method in the `ComposeActivity` to draw items in the Nav Drawer.
 
 1. Prepare the ingredients for your new NavItemState

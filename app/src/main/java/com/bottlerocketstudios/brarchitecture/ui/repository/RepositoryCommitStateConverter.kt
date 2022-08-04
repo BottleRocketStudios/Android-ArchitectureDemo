@@ -9,7 +9,4 @@ fun RepositoryCommitViewModel.toState() = RepositoryCommitScreenState(
     path = path.collectAsState(),
     itemCount = itemCount.collectAsState(),
     commitItems = uiModels.collectAsState()
-    // onRepositoryItemClicked = { item ->
-    //     onRepoItemClicked(item)
-    // }
 )

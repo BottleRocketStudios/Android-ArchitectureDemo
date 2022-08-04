@@ -119,7 +119,7 @@ private fun ComposeActivity.homeComposable(navGraphBuilder: NavGraphBuilder, nav
 
 private fun ComposeActivity.repositoryFileComposable(navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = "file?hash={hash}&path={path}&mimeType={mimeType}",
+        route = Routes.RepositoryFile(),
         arguments = listOf(
             navArgument("hash") {},
             navArgument("path") {},
@@ -152,7 +152,7 @@ private fun ComposeActivity.repositoryFileComposable(navGraphBuilder: NavGraphBu
 
 private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(
-        "repository?repoName={repoName}&folderHash={folderHash}&folderPath={folderPath}",
+        route = Routes.RepositoryBrowser(),
         arguments = listOf(
             navArgument("repoName") { defaultValue = "" },
             navArgument("folderHash") { nullable = true },
@@ -183,23 +183,6 @@ private fun ComposeActivity.repositoryBrowserComposable(navGraphBuilder: NavGrap
         }
     }
 }
-
-// private fun ComposeActivity.repositoryCommitsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
-//     navGraphBuilder.composable(
-//         "commits"
-//     ) {
-//         val activityViewModel: ComposeActivityViewModel = getViewModel()
-//         val viewModel: RepositoryCommitViewModel = getViewModel()
-//         val repoName = activityViewModel.selectedRepo.value.name ?: ""
-//         viewModel.ConnectBaseViewModel {
-//             RepositoryCommitScreen(state = it.toState())
-//             it.getRepoCommits(repoName)
-//         }
-//
-//         controls.title = repoName
-//         controls.topLevel = true
-//     }
-// }
 
 private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
     navGraphBuilder.composable(Routes.Profile) {

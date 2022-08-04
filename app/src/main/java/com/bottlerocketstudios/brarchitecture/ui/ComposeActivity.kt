@@ -136,7 +136,7 @@ class ComposeActivity : ComponentActivity() {
                     NavItemState(
                         icon = R.drawable.ic_source,
                         itemText = R.string.home_nav_source,
-                        selected = getTopRoute(currentRoute) == Routes.Home,
+                        selected = currentRoute == Routes.RepositoryBrowser(),
                     ) {
                         scaffoldState.drawerState.close()
                         navController.navigate(Routes.RepositoryBrowser(RepositoryBrowserData(repoName = activityViewModel.selectedRepo.value.name ?: "")))
@@ -144,7 +144,7 @@ class ComposeActivity : ComponentActivity() {
                     NavItemState(
                         icon = R.drawable.ic_commit,
                         itemText = R.string.home_nav_commits,
-                        selected = getTopRoute(currentRoute) == Routes.Home,
+                        selected = currentRoute == Routes.Commits,
                     ) {
                         scaffoldState.drawerState.close()
                         navController.navigate(Routes.Commits)
