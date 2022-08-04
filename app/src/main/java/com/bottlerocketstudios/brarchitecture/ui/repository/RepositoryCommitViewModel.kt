@@ -59,7 +59,6 @@ class RepositoryCommitViewModel : BaseViewModel() {
     // Load Logic
     private fun getRepoCommits(name: String) {
         val selectedRepo = repo.repos.value.firstOrNull { it.name?.equals(name) ?: false }
-        // currentRepoName = name
         path.setValue(name)
         selectedRepo?.let {
             val slug = it.workspaceDto?.slug ?: ""
@@ -73,6 +72,4 @@ class RepositoryCommitViewModel : BaseViewModel() {
             }
         }
     }
-
-    // UI Callbacks
 }
