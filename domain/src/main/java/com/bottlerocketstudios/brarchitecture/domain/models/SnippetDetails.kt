@@ -1,11 +1,6 @@
-package com.bottlerocketstudios.compose.snippets.snippetDetails
+package com.bottlerocketstudios.brarchitecture.domain.models
 
-import com.bottlerocketstudios.brarchitecture.domain.models.DomainModel
-import com.bottlerocketstudios.brarchitecture.domain.models.Links
-import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFileLinks
-import com.bottlerocketstudios.brarchitecture.domain.models.User
-
-data class SnippetDetailsUiModel(
+data class SnippetDetails(
     val id: String? = "",
     val title: String? = "",
     val createdMessage: String? = "",

@@ -11,7 +11,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
-import com.bottlerocketstudios.compose.snippets.snippetDetails.SnippetDetailsUiModel
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
 
@@ -28,7 +28,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
     val isWatchingSnippet = MutableStateFlow(false)
 
     // UI - Snippet
-    val snippetDetails = MutableStateFlow<SnippetDetailsUiModel?>(null)
+    val snippetDetails = MutableStateFlow<SnippetDetails?>(null)
     val snippetFiles = MutableStateFlow(mutableListOf<SnippetDetailsFile>())
     val snippetComments = MutableStateFlow<List<SnippetComment>>(mutableListOf())
 

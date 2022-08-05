@@ -2,12 +2,12 @@ package com.bottlerocketstudios.brarchitecture.data.converter
 
 import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFileLinks
 import com.bottlerocketstudios.brarchitecture.domain.utils.convertToTimeAgoMessage
-import com.bottlerocketstudios.compose.snippets.snippetDetails.SnippetDetailsUiModel
 
 fun SnippetDetailsDto.convertToUiModel() =
-    SnippetDetailsUiModel(
+    SnippetDetails(
         id = id,
         title = title,
         createdMessage = created?.convertToTimeAgoMessage(),

@@ -83,7 +83,7 @@ fun SnippetDetailsTitleLayout(state: SnippetDetailsScreenState) {
                 Column {
                     SnippetDetailsSpan(stringResource(id = R.string.owned_by), state.snippetDetails.value?.owner?.displayName ?: "")
                     SnippetDetailsSpan(
-                        stringResource(id = R.string.created_by, state.snippetDetails.value?.creator?.displayName ?: ""),
+                        stringResource(id = R.string.created_by_format, state.snippetDetails.value?.creator?.displayName ?: ""),
                         state.snippetDetails.value?.createdMessage ?: ""
                     )
                     if (state.snippetDetails.value?.updatedMessage?.isNotEmpty() == true) {
@@ -154,9 +154,9 @@ fun LazyListScope.commentsLayout(state: SnippetDetailsScreenState) {
     item {
         CategoryHeader(
             header = if (state.comments.value.isEmpty())
-                stringResource(id = R.string.header_snippet_comments, "")
+                stringResource(id = R.string.header_snippet_comments_format, "")
             else
-                stringResource(id = R.string.header_snippet_comments, "(${state.comments.value.size})")
+                stringResource(id = R.string.header_snippet_comments_format, "(${state.comments.value.size})")
         )
     }
 
