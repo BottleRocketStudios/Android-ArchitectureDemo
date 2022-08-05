@@ -3,9 +3,8 @@ package com.bottlerocketstudios.compose.pullrequest
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -30,45 +29,34 @@ import com.bottlerocketstudios.compose.util.asMutableState
 fun PullRequestItemCard(state: PullRequestItemState) {
     Card(
         elevation = Dimens.plane_3,
-        modifier = Modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
+        modifier = Modifier.wrapContentWidth()
     ) {
-        Row {
+        Row (modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_repository),
                 contentDescription = stringResource(id = R.string.home_repository_icon),
                 tint = Colors.tertiary,
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 14.dp, top = 6.dp)
-                    .align(Alignment.Top)
+                modifier = Modifier.padding(start= 36.dp, end = 14.dp, top = 6.dp).align(Alignment.Top)
             )
-            Column {
-                Row(
-                    modifier = Modifier
-                        .padding(end = 37.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = state.prName.value, color = sea_foam, fontSize = 16.sp)
-                    Text(text = state.prCreation.value, color = greyish_brown, fontSize = 10.sp)
+            Column (modifier =  Modifier.wrapContentWidth().weight(2f)) {
+                Row {
+                    Text(text = state.prName.value, color = sea_foam, fontSize = 16.sp, modifier = Modifier.wrapContentWidth().padding(end = 8.dp))
                 }
-
                 Row(modifier = Modifier.padding(top = 4.dp)) {
                     Text(text = state.prState.value, color = greyish_brown, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 }
-                Row(
-                    modifier = Modifier
-                        .padding(top = 8.dp, bottom = 8.dp, end = 37.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                Row(modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(60.dp)
                 ) {
-                    Text(text = state.linesAdded.value.toString(), color = greyish_brown, fontSize = 10.sp)
-                    Text(text = state.linesRemoved.value.toString(), color = greyish_brown, fontSize = 10.sp)
+                    Text(text = state.linesAdded.value, color = greyish_brown, fontSize = 10.sp)
+                    Text(text = state.linesRemoved.value, color = greyish_brown, fontSize = 10.sp)
                 }
             }
+            Text(
+                text = state.prCreation.value,
+                color = greyish_brown,
+                fontSize = 10.sp,
+                modifier = Modifier.wrapContentWidth().weight(1f).padding(end = 37.dp))
         }
     }
 }
@@ -79,11 +67,11 @@ fun PullRequestsItemPreview() {
     Preview {
         PullRequestItemCard(
             PullRequestItemState(
-                prName = "ASAA-19/PR-Screen".asMutableState(),
+                prName = "ASAA-19/PR-Screen ASAA-19/PR-Screen ASAA-19/PR-Screen ASAA-19/PR-Screen ASAA-19/PR-Screen".asMutableState(),
                 prState = "Open".asMutableState(),
                 prCreation = "5 days ago".asMutableState(),
-                linesAdded = 5.asMutableState(),
-                linesRemoved = 10.asMutableState()
+                linesAdded = "0 Lines Added".asMutableState(),
+                linesRemoved = "0 Lines Removed".asMutableState()
             )
         )
     }

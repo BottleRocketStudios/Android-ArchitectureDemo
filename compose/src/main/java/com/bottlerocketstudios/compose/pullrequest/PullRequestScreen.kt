@@ -25,15 +25,15 @@ fun PullRequestScreen(state: PullRequestScreenState) {
             thickness = 1.dp
         )
         if (state.pullRequestList.value.isNotEmpty()) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(Dimens.grid_1_5),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(
-                items = state.pullRequestList.value,
-                itemContent = { item -> PullRequestItemCard(item) }
-            )
-        }
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(Dimens.grid_1_5),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(
+                    items = state.pullRequestList.value,
+                    itemContent = { item -> PullRequestItemCard(item) }
+                )
+            }
         } else {
             PullRequestEmptyScreen()
         }
@@ -57,29 +57,29 @@ fun PullRequestsPreview() {
                             prName = "ASAA-19/PR-Screen".asMutableState(),
                             prState = "Open".asMutableState(),
                             prCreation = "5 days ago".asMutableState(),
-                            linesAdded = 5.asMutableState(),
-                            linesRemoved = 10.asMutableState()
+                            linesAdded = "0 Lines Added".asMutableState(),
+                            linesRemoved = "0 Lines Removed".asMutableState()
                         ),
                         PullRequestItemState(
                             prName = "ASAA-20/PR-Screen".asMutableState(),
                             prState = "Open".asMutableState(),
                             prCreation = "4 days ago".asMutableState(),
-                            linesAdded = 5.asMutableState(),
-                            linesRemoved = 10.asMutableState()
+                            linesAdded = "0 Lines Added".asMutableState(),
+                            linesRemoved = "0 Lines Removed".asMutableState()
                         ),
                         PullRequestItemState(
                             prName = "ASAA-21/PR-Screen".asMutableState(),
                             prState = "Open".asMutableState(),
                             prCreation = "3 days ago".asMutableState(),
-                            linesAdded = 5.asMutableState(),
-                            linesRemoved = 10.asMutableState()
+                            linesAdded = "0 Lines Added".asMutableState(),
+                            linesRemoved = "0 Lines Removed".asMutableState()
                         ),
                         PullRequestItemState(
                             prName = "ASAA-22/PR-Screen".asMutableState(),
                             prState = "Open".asMutableState(),
                             prCreation = "2 days ago".asMutableState(),
-                            linesAdded = 5.asMutableState(),
-                            linesRemoved = 10.asMutableState()
+                            linesAdded = "0 Lines Added".asMutableState(),
+                            linesRemoved = "0 Lines Removed".asMutableState()
                         )
                     ).asMutableState()
                 )

@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
@@ -19,7 +20,6 @@ import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import retrofit2.Response
@@ -29,17 +29,19 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     val user: StateFlow<UserDto?>
     val repos: StateFlow<List<GitRepositoryDto>>
     val snippets: StateFlow<List<SnippetDto>>
+    val pullRequests: StateFlow<List<PullRequestDto>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
     suspend fun authenticate(authCode: String): Boolean
     suspend fun refreshUser(): Status<Unit>
     suspend fun refreshMyRepos(): Status<Unit>
     suspend fun refreshMySnippets(): Status<Unit>
+    suspend fun refreshPullRequests(selectedUser: String): Status<Unit>
     suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>>
     suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepositoryDto>
     suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
-    suspend fun getPullRequests(selectedUser: String): Status<ResponseBody>
+    suspend fun getPullRequests(selectedUser: String): Status<List<PullRequestDto>>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
     fun clear()
 }
@@ -57,12 +59,15 @@ internal class BitbucketRepositoryImpl(
     private val _user = MutableStateFlow<UserDto?>(null)
     private val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val _snippets = MutableStateFlow<List<SnippetDto>>(emptyList())
+    private val _pullRequests = MutableStateFlow<List<PullRequestDto>>(emptyList())
+
     var authenticated = false
         private set
 
     override val user: StateFlow<UserDto?> = _user
     override val repos: StateFlow<List<GitRepositoryDto>> = _repos
     override val snippets: StateFlow<List<SnippetDto>> = _snippets
+    override val pullRequests: StateFlow<List<PullRequestDto>> = _pullRequests
 
     override suspend fun authenticate(authCode: String): Boolean {
         Timber.v("[authenticate]")
@@ -116,6 +121,14 @@ internal class BitbucketRepositoryImpl(
         }
     }
 
+    override suspend fun refreshPullRequests(selectedUser: String): Status<Unit> {
+        return wrapRepoExceptions("refreshPullRequests") {
+            bitbucketService.getPullRequests(selectedUser).toResult().map { it.values.orEmpty().asSuccess() }.alsoOnSuccess { prs ->
+                _pullRequests.value = prs
+            }.map { Unit.asSuccess() }
+        }
+    }
+
     override suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>> {
         return wrapRepoExceptions("getRepositories") {
             bitbucketService.getRepositories(workspaceSlug).toResult().map { it.values.orEmpty().asSuccess() }
@@ -146,9 +159,11 @@ internal class BitbucketRepositoryImpl(
         }
     }
 
-    override suspend fun getPullRequests(selectedUser: String): Status<ResponseBody> {
-        return wrapRepoExceptions("getSource") {
-            bitbucketService.getPullRequests(selectedUser).toResult()
+    override suspend fun getPullRequests(selectedUser: String): Status<List<PullRequestDto>> {
+        return wrapRepoExceptions("getPullRequests") {
+            bitbucketService.getPullRequests(selectedUser).toResult().map {
+                it.values.orEmpty().asSuccess()
+            }.alsoOnSuccess { prs -> _pullRequests.value = prs }
         }
     }
 

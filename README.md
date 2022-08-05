@@ -14,6 +14,7 @@ Bottle Rocket Android Architecture Guidelines
         * **Account** read
         * **Snippets** read/write
         * **Repositories** read
+        * **Pull Request** read
 * Create a file in project root named "apikey.properties" with following format:
 
 ```

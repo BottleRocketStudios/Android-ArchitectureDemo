@@ -12,5 +12,6 @@ data class Commit(
     @Json(name = "date") val date: String?,
     @Json(name = "message") val message: String?,
     @Json(name = "type") val type: String?,
-    @Json(name = "hash") val hash: String?
+    @Json(name = "hash") val hash: String?,
+    @Json(name = "links") val links: LinksDto?,
 ) : Parcelable

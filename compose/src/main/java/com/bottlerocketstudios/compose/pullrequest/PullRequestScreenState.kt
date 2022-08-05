@@ -10,6 +10,6 @@ data class PullRequestItemState(
     val prName: State<String>,
     val prState: State<String>,
     val prCreation: State<String>,
-    val linesAdded: State<Int>,
-    val linesRemoved: State<Int>
+    val linesAdded: State<String>,
+    val linesRemoved: State<String>
 )
