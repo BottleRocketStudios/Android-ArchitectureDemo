@@ -25,12 +25,11 @@ class RepositoryCommitViewModel : BaseViewModel() {
 
     // State
     private val srcCommits = MutableStateFlow<List<CommitDto>>(emptyList())
-    var currentRepoName = MutableStateFlow("")
+    val currentRepoName = MutableStateFlow("")
 
     init {
         launchIO {
-            currentRepoName.collect {
-                repoName ->
+            currentRepoName.collect { repoName ->
                 getRepoCommits(repoName)
             }
         }
