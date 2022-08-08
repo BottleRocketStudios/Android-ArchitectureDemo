@@ -29,6 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 
 class ComposeActivity : ComponentActivity() {
     val activityViewModel: ComposeActivityViewModel by viewModel()
@@ -89,6 +90,7 @@ class ComposeActivity : ComponentActivity() {
                     navController = navController,
                     scaffoldState = scaffoldState,
                     currentRoute = currentRoute.orEmpty(),
+                    showHomeSubList = !activityViewModel.selectedRepo.value.name.isNullOrBlank()
                 )
             }
         }
@@ -124,12 +126,30 @@ class ComposeActivity : ComponentActivity() {
 
     // TODO - look into making objects under NavItem with predefined values.
     //  TODO - can we pass in NavController and route to simplify definitions??
-    private fun generateNavDrawerItems(navController: NavController, scaffoldState: ScaffoldState, currentRoute: String) =
+    private fun generateNavDrawerItems(navController: NavController, scaffoldState: ScaffoldState, currentRoute: String, showHomeSubList: Boolean) =
         listOf(
             NavItemState(
                 icon = R.drawable.ic_home,
                 itemText = R.string.home_title,
-                selected = currentRoute == Routes.Home
+                selected = getTopRoute(currentRoute) == Routes.Home,
+                nestedMenuItems = if (showHomeSubList && getTopRoute(currentRoute) == Routes.Home) listOf(
+                    NavItemState(
+                        icon = R.drawable.ic_source,
+                        itemText = R.string.home_nav_source,
+                        selected = currentRoute == Routes.RepositoryBrowser(),
+                    ) {
+                        scaffoldState.drawerState.close()
+                        navController.navigate(Routes.RepositoryBrowser(RepositoryBrowserData(repoName = activityViewModel.selectedRepo.value.name ?: "")))
+                    },
+                    NavItemState(
+                        icon = R.drawable.ic_commit,
+                        itemText = R.string.home_nav_commits,
+                        selected = currentRoute == Routes.Commits,
+                    ) {
+                        scaffoldState.drawerState.close()
+                        navController.navigate(Routes.Commits)
+                    }
+                ) else emptyList()
             ) {
                 scaffoldState.drawerState.close()
                 navController.navigate(Routes.Home)
@@ -151,4 +171,13 @@ class ComposeActivity : ComponentActivity() {
                 navController.navigate(Routes.Profile)
             }
         )
+
+    private fun getTopRoute(route: String) =
+        when (route) {
+            Routes.Home,
+            Routes.Commits,
+            Routes.RepositoryBrowser()
+            -> Routes.Home
+            else -> Routes.Main
+        }
 }

@@ -12,6 +12,7 @@ import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryCommitViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetDetailsViewModel
@@ -29,6 +30,7 @@ object AppModule {
         viewModel { HomeViewModel() }
         viewModel { RepositoryBrowserViewModel() }
         viewModel { RepositoryFileViewModel() }
+        viewModel { RepositoryCommitViewModel() }
         viewModel { SnippetsViewModel() }
         viewModel { CreateSnippetViewModel() }
         viewModel { ProfileViewModel() }

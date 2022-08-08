@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarHostState
@@ -71,6 +72,13 @@ fun ColumnScope.NavDrawer(state: NavDrawerState) {
 
     for (item in state.items.value) {
         NavDrawerItem(state = item)
+        Column(modifier = Modifier.padding(start = Dimens.grid_4)) {
+            ProvideTextStyle(value = MaterialTheme.typography.body1) {
+                for (nestedItem in item.nestedMenuItems) {
+                    NavDrawerItem(state = nestedItem)
+                }
+            }
+        }
     }
 
     Spacer(Modifier.weight(1f))
