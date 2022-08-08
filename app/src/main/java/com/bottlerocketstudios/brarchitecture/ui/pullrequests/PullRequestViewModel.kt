@@ -33,7 +33,7 @@ class PullRequestViewModel : BaseViewModel() {
     // Init logic
     init {
         viewModelScope.launch(dispatcherProvider.IO) {
-            val results = repo.getPullRequests("ddeleon92")
+            val results = repo.getPullRequests()
             when (results) {
                 is Status.Success -> {}
                 is Status.Failure -> {

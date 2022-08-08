@@ -23,16 +23,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.domain.utils.MutableStateFlowDelegate
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.compose.appbar.ArchAppBar
 import com.bottlerocketstudios.compose.navdrawer.NavDrawer
 import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 
 class ComposeActivity : ComponentActivity() {
     val activityViewModel: ComposeActivityViewModel by viewModel()
