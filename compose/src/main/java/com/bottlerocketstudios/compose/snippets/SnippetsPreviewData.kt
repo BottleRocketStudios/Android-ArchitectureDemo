@@ -6,7 +6,7 @@ import com.bottlerocketstudios.compose.util.asMutableState
 
 internal val mockSnippet1 = SnippetUiModel(
     id = "123456789XYZ",
-    workspaceSlug = "workspace_slug",
+    workspaceId = "workspace_slug",
     title = "Private",
     userName = "Bob Ross",
     formattedLastUpdatedTime = StringIdHelper.Raw(""),
@@ -18,15 +18,18 @@ internal class SnippetBrowserPreviewProvider : PreviewParameterProvider<Snippets
     override val values: Sequence<SnippetsBrowserScreenState> = sequenceOf(
         SnippetsBrowserScreenState(
             snippets = listOfMockSnippets.asMutableState(),
-            createVisible = true.asMutableState()
+            createVisible = true.asMutableState(),
+            onCreateSnippetClicked = {},
         ) {},
         SnippetsBrowserScreenState(
             snippets = listOfMockSnippets.asMutableState(),
-            createVisible = false.asMutableState()
+            createVisible = false.asMutableState(),
+            onCreateSnippetClicked = {},
         ) {},
         SnippetsBrowserScreenState(
             snippets = emptyList<SnippetUiModel>().asMutableState(),
-            createVisible = true.asMutableState()
+            createVisible = true.asMutableState(),
+            onCreateSnippetClicked = {},
         ) {},
     )
 }

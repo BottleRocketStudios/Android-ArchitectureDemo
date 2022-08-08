@@ -5,6 +5,7 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
@@ -20,7 +21,7 @@ class SnippetsViewModel : BaseViewModel() {
         it.map {
             SnippetUiModel(
                 id = it.id ?: "",
-                workspaceSlug = it.workspace?.slug ?: "",
+                workspaceId = it.workspace?.slug ?: it.workspace?.uuid ?: "",
                 title = it.title ?: "",
                 userName = it.owner?.displayName ?: "",
                 formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock = clock)
@@ -28,11 +29,18 @@ class SnippetsViewModel : BaseViewModel() {
         }
     }
 
+    val snippetClick: MutableSharedFlow<SnippetUiModel> = MutableSharedFlow()
     val showCreateCta = MutableStateFlow(true)
 
     fun refreshSnippets() {
         launchIO {
             repo.refreshMySnippets()
+        }
+    }
+
+    fun onSnippetClick(snippet: SnippetUiModel) {
+        launchIO {
+            snippetClick.emit(snippet)
         }
     }
 }
