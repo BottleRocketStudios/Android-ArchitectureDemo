@@ -5,8 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -14,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bottlerocketstudios.compose.filterdropdown.FilterDropDownState
 import com.bottlerocketstudios.compose.filterdropdown.PullRequestFilterBy
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
@@ -24,13 +22,16 @@ import com.bottlerocketstudios.compose.util.asMutableState
 @Composable
 fun PullRequestScreen(state: PullRequestScreenState) {
     Column {
-        Row (
+        Row(
             modifier = Modifier
                 .padding(start = 16.dp, top = 36.dp, bottom = 24.dp)
-                .wrapContentWidth()
-                .wrapContentHeight()
-            ) {
-            PullRequestFilterBy(state.filterDropDownState)
+                .wrapContentSize()
+        ) {
+            PullRequestFilterBy(
+                state.selectedText.value,
+                state.selectionList.value,
+                state.onFilterSelectionClicked
+            )
         }
 
         Divider(
@@ -96,10 +97,9 @@ fun PullRequestsPreview() {
                             linesRemoved = "0 Lines Removed".asMutableState()
                         )
                     ).asMutableState(),
-                    filterDropDownState = FilterDropDownState(
-                        selectionList = listOf("Open", "", ""),
-                        onFilterSelectionClicked = {}
-                    )
+                    selectedText = "Open".asMutableState(),
+                    selectionList = listOf("Open", "", "").asMutableState(),
+                    onFilterSelectionClicked = {}
                 )
             )
         )

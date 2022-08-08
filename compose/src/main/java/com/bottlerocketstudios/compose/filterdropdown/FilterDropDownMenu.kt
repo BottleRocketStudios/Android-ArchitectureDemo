@@ -2,10 +2,9 @@ package com.bottlerocketstudios.compose.filterdropdown
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -29,23 +28,26 @@ import androidx.compose.ui.unit.toSize
 import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
-fun PullRequestFilterBy(state: FilterDropDownState) {
+fun PullRequestFilterBy(
+    selectedText: String,
+    selectionList: List<String>,
+    onFilterSelectionClicked: (String) -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(state.selectionList.first()) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     Column {
         OutlinedTextField(
             value = selectedText,
+            singleLine = true,
             enabled = false,
-            onValueChange = { selectedText = it },
+            onValueChange = {},
             modifier = Modifier
-                .widthIn(max = 111.dp)
-                .heightIn(max = 40.dp)
                 .onGloballyPositioned { coordinates ->
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coordinates.size.toSize()
-                },
+                }
+                .wrapContentWidth(),
             trailingIcon = {
                 Icon(
                     if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
@@ -62,10 +64,9 @@ fun PullRequestFilterBy(state: FilterDropDownState) {
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
-            state.selectionList.forEach { label ->
+            selectionList.forEach { label ->
                 DropdownMenuItem(onClick = {
-                    selectedText = label
-                    state.onFilterSelectionClicked.invoke(selectedText)
+                    onFilterSelectionClicked.invoke(label)
                     expanded = !expanded
                 }) {
                     Text(text = label)
@@ -75,16 +76,14 @@ fun PullRequestFilterBy(state: FilterDropDownState) {
     }
 }
 
-
 @Preview
 @Composable
 fun FilterDropDownPreview() {
     Preview {
         PullRequestFilterBy(
-            FilterDropDownState(
-                selectionList = listOf("Open", "Closed", "Merged"),
-                onFilterSelectionClicked = {}
-            )
+            selectedText = "Open",
+            selectionList = listOf("Open", "Closed", "Merged"),
+            onFilterSelectionClicked = {}
         )
     }
 }

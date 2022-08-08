@@ -1,11 +1,12 @@
 package com.bottlerocketstudios.compose.pullrequest
 
 import androidx.compose.runtime.State
-import com.bottlerocketstudios.compose.filterdropdown.FilterDropDownState
 
 data class PullRequestScreenState(
     val pullRequestList: State<List<PullRequestItemState>>,
-    val filterDropDownState: FilterDropDownState,
+    val selectedText: State<String>,
+    val selectionList: State<List<String>>,
+    val onFilterSelectionClicked: (String) -> Unit,
 )
 
 data class PullRequestItemState(
