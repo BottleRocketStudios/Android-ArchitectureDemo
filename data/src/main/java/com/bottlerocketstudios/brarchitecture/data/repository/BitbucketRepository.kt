@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
+import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
@@ -36,6 +37,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>>
     suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepositoryDto>
     suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
+    suspend fun getCommits(workspaceSlug: String, repo: String): Status<List<CommitDto>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
@@ -129,6 +131,12 @@ internal class BitbucketRepositoryImpl(
     override suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>> {
         return wrapRepoExceptions("getSource") {
             bitbucketService.getRepositorySource(workspaceSlug, repo).toResult().map { it.values.orEmpty().asSuccess() }
+        }
+    }
+
+    override suspend fun getCommits(workspaceSlug: String, repo: String): Status<List<CommitDto>> {
+        return wrapRepoExceptions("getCommits") {
+            bitbucketService.getRepositoryCommits(workspaceSlug, repo).toResult().map { it.values.orEmpty().asSuccess() }
         }
     }
 

@@ -46,6 +46,22 @@ The project is using the Gradle Versions plugin to do a lot of heavy lifting her
 
 *Note that you'll still need to manually check for dependency updates on all buildscript plugins (see `Dependencies.kt` -> `Config.BuildScriptPlugins` properties), including the Gradle Versions plugin.*
 
+## Adding Tabs to the Nav Drawer
+This project uses the `generateNavDrawerItems` method in the `ComposeActivity` to draw items in the Nav Drawer.
+
+1. Prepare the ingredients for your new NavItemState
+    1. Prepare an Icon for your NavItemState
+    2. Create a string resource for your NavItemState's name
+    3. Setup a Route in the Routes.kt for your NavItemState to navigate to
+    4. Determine if your NavItemState will have a nested list
+2. Go to the `ComposeActivity` and locate the listOf(...) in `GenerateNavDrawerItems`
+3. Create your new NavItemState using the ingredients gathered
+4. Add it to the list in the order required
+5. If your NavItemState includes a nested list
+    1. Determine the criteria for which the nested menu appears (e.g Only show the nested menu when a repo is selected)
+    2. Set the nestedMenuItems variable in NavItemState to a listOf(NavItemState) made up of your nested menu items
+    3. The padding and styling of the nested list are handled by `NavDrawer.kt`, modify to requirements
+
 ## Future functionality
 *Note: Evaluate if the implementing something in this list is still best practice prior to coding it.*
 

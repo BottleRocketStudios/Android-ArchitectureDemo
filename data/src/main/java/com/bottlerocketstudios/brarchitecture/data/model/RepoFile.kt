@@ -13,5 +13,5 @@ data class RepoFile(
     @Json(name = "mimetype") val mimetype: String?,
     @Json(name = "attributes") val attributes: List<String>?,
     @Json(name = "size") val size: Int?,
-    @Json(name = "commit") val commit: Commit?
+    @Json(name = "commit") val commit: CommitDto?
 ) : Parcelable
