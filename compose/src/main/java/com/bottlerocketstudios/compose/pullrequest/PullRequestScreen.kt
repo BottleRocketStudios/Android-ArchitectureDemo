@@ -2,8 +2,11 @@ package com.bottlerocketstudios.compose.pullrequest
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -11,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bottlerocketstudios.compose.filterdropdown.FilterDropDownState
+import com.bottlerocketstudios.compose.filterdropdown.PullRequestFilterBy
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
@@ -18,7 +23,16 @@ import com.bottlerocketstudios.compose.util.asMutableState
 
 @Composable
 fun PullRequestScreen(state: PullRequestScreenState) {
-    Column() {
+    Column {
+        Row (
+            modifier = Modifier
+                .padding(start = 16.dp, top = 36.dp, bottom = 24.dp)
+                .wrapContentWidth()
+                .wrapContentHeight()
+            ) {
+            PullRequestFilterBy(state.filterDropDownState)
+        }
+
         Divider(
             modifier = Modifier.padding(start = 9.dp, end = 9.dp, top = 24.dp, bottom = 24.dp),
             color = brown_grey,
@@ -81,7 +95,11 @@ fun PullRequestsPreview() {
                             linesAdded = "0 Lines Added".asMutableState(),
                             linesRemoved = "0 Lines Removed".asMutableState()
                         )
-                    ).asMutableState()
+                    ).asMutableState(),
+                    filterDropDownState = FilterDropDownState(
+                        selectionList = listOf("Open", "", ""),
+                        onFilterSelectionClicked = {}
+                    )
                 )
             )
         )

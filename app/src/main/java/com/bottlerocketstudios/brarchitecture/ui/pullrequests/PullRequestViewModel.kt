@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 import java.time.Clock
+import java.util.Locale
 
 class PullRequestViewModel : BaseViewModel() {
 
@@ -33,8 +34,20 @@ class PullRequestViewModel : BaseViewModel() {
     // Init logic
     init {
         viewModelScope.launch(dispatcherProvider.IO) {
-            val results = repo.getPullRequests("ddeleon92")
-            when (results) {
+            when (val results = repo.getPullRequests()) {
+                is Status.Success -> {}
+                is Status.Failure -> {
+                    if (results is Status.Failure.GeneralFailure) {
+                        toaster.toast(results.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onFilterByStateClicked(state: String) {
+        viewModelScope.launch(dispatcherProvider.IO) {
+            when (val results = repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT))) {
                 is Status.Success -> {}
                 is Status.Failure -> {
                     if (results is Status.Failure.GeneralFailure) {
