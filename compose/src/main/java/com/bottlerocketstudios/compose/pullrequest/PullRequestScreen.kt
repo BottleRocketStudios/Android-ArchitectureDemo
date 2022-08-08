@@ -2,10 +2,8 @@ package com.bottlerocketstudios.compose.pullrequest
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -22,20 +20,15 @@ import com.bottlerocketstudios.compose.util.asMutableState
 @Composable
 fun PullRequestScreen(state: PullRequestScreenState) {
     Column {
-        Row(
-            modifier = Modifier
-                .padding(start = 16.dp, top = 36.dp, bottom = 24.dp)
-                .wrapContentSize()
-        ) {
-            PullRequestFilterBy(
-                state.selectedText.value,
-                state.selectionList.value,
-                state.onFilterSelectionClicked
-            )
-        }
+        PullRequestFilterBy(
+            Modifier.padding(start = 16.dp, top = 36.dp, bottom = 24.dp),
+            state.selectedText.value,
+            state.selectionList.value,
+            state.onFilterSelectionClicked
+        )
 
         Divider(
-            modifier = Modifier.padding(start = 9.dp, end = 9.dp, top = 24.dp, bottom = 24.dp),
+            modifier = Modifier.padding(start = 9.dp, end = 9.dp, bottom = 24.dp),
             color = brown_grey,
             thickness = 1.dp
         )

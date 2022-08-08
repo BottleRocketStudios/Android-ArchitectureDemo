@@ -1,18 +1,21 @@
 package com.bottlerocketstudios.compose.filterdropdown
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,11 +27,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
 fun PullRequestFilterBy(
+    modifier: Modifier = Modifier,
     selectedText: String,
     selectionList: List<String>,
     onFilterSelectionClicked: (String) -> Unit
@@ -36,28 +42,35 @@ fun PullRequestFilterBy(
     var expanded by remember { mutableStateOf(false) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
-    Column {
-        OutlinedTextField(
-            value = selectedText,
-            singleLine = true,
-            enabled = false,
-            onValueChange = {},
-            modifier = Modifier
-                .onGloballyPositioned { coordinates ->
-                    //This value is used to assign to the DropDown the same width
-                    textFieldSize = coordinates.size.toSize()
-                }
-                .wrapContentWidth(),
-            trailingIcon = {
+    Column(modifier = modifier) {
+        Card(
+            border = BorderStroke(1.dp, brown_grey),
+            modifier = Modifier.wrapContentWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .clickable { expanded = !expanded }
+                    .onGloballyPositioned { coordinates ->
+                        //This value is used to assign to the DropDown the same width
+                        textFieldSize = coordinates.size.toSize()
+                    }
+                    .wrapContentWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                Text(
+                    text = selectedText,
+                    color = brown_grey,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(start = 20.dp, top = 13.dp, bottom = 13.dp)
+                )
                 Icon(
-                    if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
-                    "contentDescription",
-                    Modifier
-                        .clickable { expanded = !expanded }
-                        .size(width = 24.dp, height = 24.dp)
+                    imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                    contentDescription = null,
+                    tint = brown_grey,
+                    modifier = Modifier.padding(top = 10.dp, bottom = 8.dp, end = 8.dp)
                 )
             }
-        )
+        }
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
@@ -69,7 +82,7 @@ fun PullRequestFilterBy(
                     onFilterSelectionClicked.invoke(label)
                     expanded = !expanded
                 }) {
-                    Text(text = label)
+                    Text(text = label, color = brown_grey, fontSize = 12.sp)
                 }
             }
         }
