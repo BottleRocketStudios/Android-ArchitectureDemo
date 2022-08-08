@@ -13,13 +13,14 @@ object Routes {
     const val Snippets = "snippets"
     const val Profile = "profile"
     const val PullRequests = "pullRequests"
+    const val Commits = "commits"
 
-    fun RepositoryBrowser(data: RepositoryBrowserData) =
+    fun RepositoryBrowser(data: RepositoryBrowserData = RepositoryBrowserData("{repoName}", "{folderHash}", "{folderPath}")) =
         "repository?repoName=${data.repoName}" +
             (if (data.folderHash.orEmpty().isNotEmpty()) "&folderHash=${data.folderHash}" else "") +
             (if (data.folderPath.orEmpty().isNotEmpty()) "&folderPath=${data.folderPath}" else "")
 
-    fun RepositoryFile(data: RepositoryFileData) =
+    fun RepositoryFile(data: RepositoryFileData = RepositoryFileData("{hash}", "{path}", "{mimeType}")) =
         "file?hash=${data.hash}&path=${data.path}" +
             if (data.mimeType.isNotEmpty()) "&mimeType=${data.mimeType}" else ""
 }

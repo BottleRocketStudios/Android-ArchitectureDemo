@@ -7,5 +7,6 @@ data class NavItemState(
     @DrawableRes val icon: Int,
     @StringRes val itemText: Int,
     val selected: Boolean,
+    val nestedMenuItems: List<NavItemState> = emptyList(),
     val onClick: suspend () -> Unit
 )
