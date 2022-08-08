@@ -29,12 +29,12 @@ fun SnippetsBrowserScreen(state: SnippetsBrowserScreenState) {
         }
     ) { paddingValues ->
         Modifier.padding(paddingValues)
-        SnippetsListLayout(snippets = state.snippets.value)
+        SnippetsListLayout(snippets = state.snippets.value, state.onSnippetClick)
     }
 }
 
 @Composable
-fun SnippetsListLayout(snippets: List<SnippetUiModel>) {
+fun SnippetsListLayout(snippets: List<SnippetUiModel>, onClick: (SnippetUiModel) -> Unit) {
     if (snippets.isNotEmpty()) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Dimens.grid_1_5),
@@ -44,7 +44,7 @@ fun SnippetsListLayout(snippets: List<SnippetUiModel>) {
         ) {
             items(
                 items = snippets,
-                itemContent = { item -> SnippetItem(item) }
+                itemContent = { item -> SnippetItem(item, onClick) }
             )
         }
     } else {

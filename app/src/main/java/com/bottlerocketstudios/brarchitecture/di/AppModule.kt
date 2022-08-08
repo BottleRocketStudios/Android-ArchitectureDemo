@@ -16,6 +16,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserVie
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryCommitViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetDetailsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -35,6 +36,7 @@ object AppModule {
         viewModel { CreateSnippetViewModel() }
         viewModel { ProfileViewModel() }
         viewModel { DevOptionsViewModel() }
+        viewModel { SnippetDetailsViewModel() }
         viewModel { PullRequestViewModel() }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
