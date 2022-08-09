@@ -32,6 +32,9 @@
     <!-- Repository File screen -->
     <string name="error_loading_file" tools:ignore="ExtraTranslation">Error loading file</string>
 
+    <!--    Pull Request-->
+    <string name="pull_request_error">Failed to get Pull Requests</string>
+
     <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>
 

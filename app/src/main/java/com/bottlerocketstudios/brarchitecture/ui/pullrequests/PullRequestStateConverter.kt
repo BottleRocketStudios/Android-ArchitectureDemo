@@ -6,5 +6,5 @@ import com.bottlerocketstudios.compose.pullrequest.PullRequestScreenState
 
 @Composable
 fun PullRequestViewModel.toState() = PullRequestScreenState(
-    pullRequestList = this.pullRequestRequestList.collectAsState(initial = emptyList())
+    pullRequestList = pullRequestList.collectAsState(initial = emptyList())
 )
