@@ -12,8 +12,6 @@ import org.koin.core.component.inject
 import java.time.Clock
 import java.util.Locale
 
-enum class PRState { OPEN, MERGED, DECLINED, SUPERSEDED }
-
 class PullRequestViewModel : BaseViewModel() {
 
     // DI
