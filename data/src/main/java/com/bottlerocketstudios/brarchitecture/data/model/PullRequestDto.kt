@@ -19,12 +19,10 @@ data class PullRequestDto(
     @Json(name = "links") val links: PrLinksDto?,
     @Json(name = "merge_commit") val merge_commit: String?,
     @Json(name = "reason") val reason: String?,
-    @Json(name = "source") val source: Source?,
+    @Json(name = "source") val source: SourceDto?,
     @Json(name = "state") val state: String?,
-    @Json(name = "summary") val summary: Summary?,
+    @Json(name = "summary") val summary: SummaryDto?,
     @Json(name = "task_count") val task_count: Long?,
     @Json(name = "title") val title: String?,
     @Json(name = "updated_on") val updated_on: ZonedDateTime?,
 ) : Parcelable, Dto
-
-

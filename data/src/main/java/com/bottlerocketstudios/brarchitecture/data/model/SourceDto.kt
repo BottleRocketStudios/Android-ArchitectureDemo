@@ -7,8 +7,8 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class Source(
-    @Json(name = "branch") val branch: Branch?,
-    @Json(name = "commit") val commit: Commit?,
+data class SourceDto(
+    @Json(name = "branch") val branch: BranchDto?,
+    @Json(name = "commit") val commit: CommitDto?,
     @Json(name = "repository") val prRepository: PrRepositoryDto?,
 ) : Parcelable
