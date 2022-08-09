@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.pullrequests
 
+import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
 import com.bottlerocketstudios.compose.util.asMutableState
@@ -21,7 +21,7 @@ class PullRequestViewModel : BaseViewModel() {
     val selectionList = MutableStateFlow(listOf("Open", "Merged", "Declined", "Superseded"))
     val selectedText = MutableStateFlow("Open")
 
-    val pullRequestRequestList = repo.pullRequests.map {
+    val pullRequestList = repo.pullRequests.map {
         it.map { dto ->
             PullRequestItemState(
                 prName = dto.title.orEmpty().asMutableState(),
@@ -44,14 +44,7 @@ class PullRequestViewModel : BaseViewModel() {
 
     private fun getPullRequestByState(state: String = "Open") {
         launchIO {
-            when (val results = repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT))) {
-                is Status.Success -> {}
-                is Status.Failure -> {
-                    if (results is Status.Failure.GeneralFailure) {
-                        toaster.toast(results.message)
-                    }
-                }
-            }
+        repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT)).handlingErrors(R.string.pull_request_error) {}
         }
     }
 }
