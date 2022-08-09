@@ -51,7 +51,7 @@ fun FilterDropDownMenu(
                 modifier = Modifier
                     .clickable { expanded = !expanded }
                     .onGloballyPositioned { coordinates ->
-                        //This value is used to assign to the DropDown the same width
+                        // This value is used to assign to the DropDown the same width
                         textFieldSize = coordinates.size.toSize()
                     }
                     .wrapContentWidth(),
