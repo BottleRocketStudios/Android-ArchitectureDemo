@@ -44,7 +44,8 @@ class PullRequestViewModel : BaseViewModel() {
 
     private fun getPullRequestByState(state: String = "Open") {
         launchIO {
-        repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT)).handlingErrors(R.string.pull_request_error) {}
+            repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT))
+                .handlingErrors(R.string.pull_request_error) {}
         }
     }
 }
