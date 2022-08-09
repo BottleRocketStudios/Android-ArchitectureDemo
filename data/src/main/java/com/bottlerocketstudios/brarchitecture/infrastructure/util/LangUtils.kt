@@ -1,5 +1,4 @@
 package com.bottlerocketstudios.brarchitecture.infrastructure.util
-
 /**
  * Forces exhaustive `when` statement (all cases MUST be listed) when added like `when (foo) {}.exhaustive`.
  * Useful when you don't need the result of the when (ie using `when` as a statement instead of an expression) but still want to enforce the exhaustive requirement.

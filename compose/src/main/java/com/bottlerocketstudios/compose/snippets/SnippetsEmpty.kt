@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.util.Preview

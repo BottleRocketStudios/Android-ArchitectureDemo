@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class Summary(
+data class SummaryDto(
     @Json(name = "type") val type: String?,
     @Json(name = "raw") val raw: String?,
     @Json(name = "markup") val markUp: String?,

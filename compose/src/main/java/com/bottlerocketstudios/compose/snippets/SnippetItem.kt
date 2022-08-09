@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.compose.snippets
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,10 +26,13 @@ import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
 
 @Composable
-fun SnippetItem(snippet: SnippetUiModel) {
+fun SnippetItem(snippet: SnippetUiModel, onClick: (SnippetUiModel) -> Unit) {
     Card(
         elevation = Dimens.plane_3,
         modifier = Modifier.wrapContentHeight()
+            .clickable {
+                onClick(snippet)
+            }
     ) {
         Row(
             modifier = Modifier
@@ -89,6 +93,6 @@ fun SnippetItem(snippet: SnippetUiModel) {
 @Composable
 fun SnippetItemPreview() {
     Preview {
-        SnippetItem(snippet = mockSnippet1)
+        SnippetItem(snippet = mockSnippet1, onClick = {})
     }
 }

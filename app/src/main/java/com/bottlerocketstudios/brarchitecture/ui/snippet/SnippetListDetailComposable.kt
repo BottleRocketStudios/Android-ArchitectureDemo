@@ -18,6 +18,7 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.ComposeActivity
 import com.bottlerocketstudios.brarchitecture.ui.Routes
 import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
+import com.bottlerocketstudios.compose.snippets.SnippetDetailsScreen
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreen
 import com.bottlerocketstudios.compose.snippets.SnippetsBrowserScreenState
@@ -31,7 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 // Used to represent create item in list so it can be "selected" for detail view
 private val CreateSnippetItem = SnippetUiModel(
     id = "CREATE_SNIPPET_SCREEN",
-    workspaceSlug = "",
+    workspaceId = "",
     title = "CREATE_SNIPPET_SCREEN",
     userName = "UI_MODEL",
     formattedLastUpdatedTime = "".toStringIdHelper()
@@ -66,6 +67,11 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
                             scope.launch {
                                 select("CREATE_SNIPPET_SCREEN")
                             }
+                        },
+                        onSnippetClick = {
+                            scope.launch {
+                                select(it.id)
+                            }
                         }
                     )
                 )
@@ -73,9 +79,9 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
 
             // Define Detail UI for create, detail, and empty states
             Detail { model ->
-                model?.also {
+                model?.also { snippetUiModel ->
                     // Show Create snippet in detail pane when applicable
-                    if (it == CreateSnippetItem) {
+                    if (snippetUiModel == CreateSnippetItem) {
                         val createSnippetViewModel: CreateSnippetViewModel = getViewModel()
                         CreateSnippetScreen(state = createSnippetViewModel.toState())
                         createSnippetViewModel.onSuccess.LaunchCollection {
@@ -83,7 +89,9 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
                             snippetsViewModel.refreshSnippets()
                         }
                     } else {
-                        //    TODO - Normal Detail screen.
+                        val snippetDetailsViewModel: SnippetDetailsViewModel = getViewModel()
+                        SnippetDetailsScreen(state = snippetDetailsViewModel.toState())
+                        snippetDetailsViewModel.getSnippetDetails(snippetUiModel)
                     }
                 } ?: run {
                     // Empty Detail State

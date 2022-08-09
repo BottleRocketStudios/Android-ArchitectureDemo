@@ -13,8 +13,10 @@ import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.pullrequests.PullRequestViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryCommitViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.CreateSnippetViewModel
+import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetDetailsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.snippet.SnippetsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,10 +31,12 @@ object AppModule {
         viewModel { HomeViewModel() }
         viewModel { RepositoryBrowserViewModel() }
         viewModel { RepositoryFileViewModel() }
+        viewModel { RepositoryCommitViewModel() }
         viewModel { SnippetsViewModel() }
         viewModel { CreateSnippetViewModel() }
         viewModel { ProfileViewModel() }
         viewModel { DevOptionsViewModel() }
+        viewModel { SnippetDetailsViewModel() }
         viewModel { PullRequestViewModel() }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }

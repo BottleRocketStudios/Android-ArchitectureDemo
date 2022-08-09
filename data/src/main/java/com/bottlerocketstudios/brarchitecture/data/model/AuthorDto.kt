@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class AuthorDto(
+    @Json(name = "user") val userInfo: UserDto?,
     @Json(name = "display_name") val displayName: String?,
     @Json(name = "links") val links: PrLinksDto?,
     @Json(name = "type") val type: String?,

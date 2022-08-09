@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.ServerError
+import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import retrofit2.Response
 import timber.log.Timber
 
@@ -12,6 +12,9 @@ interface ResponseToApiResultMapper {
 
     /** Convert from response to [Status] of Unit of the response. Use when you don't care about the actual success type. */
     fun <T : Any> toEmptyResult(response: Response<T>): Status<Unit>
+
+    /** Convert from response to [Status] of Unit of the response. Use when you don't care about the actual success type. */
+    fun <T : Any> toResponseCode(response: Response<T>): Status<Int>
 }
 
 class ResponseToApiResultMapperImpl : ResponseToApiResultMapper {
@@ -39,6 +42,16 @@ class ResponseToApiResultMapperImpl : ResponseToApiResultMapper {
             response.isSuccessful -> Status.Success(Unit)
             else -> {
                 Timber.w("[toEmptyResult] Api not successful: message ${response.message()} code: ${response.code()}")
+                Status.Failure.Server(generateServerError(response))
+            }
+        }
+    }
+
+    override fun <T : Any> toResponseCode(response: Response<T>): Status<Int> {
+        return when {
+            response.isSuccessful -> Status.Success(response.code())
+            else -> {
+                Timber.w("[toResponseCode] Api not successful: message ${response.message()} code: ${response.code()}")
                 Status.Failure.Server(generateServerError(response))
             }
         }

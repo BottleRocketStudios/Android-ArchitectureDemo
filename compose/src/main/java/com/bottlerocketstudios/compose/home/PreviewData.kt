@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.compose.home
 
+import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.Link
 import com.bottlerocketstudios.brarchitecture.domain.models.Links
-import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.models.Workspace
 import com.bottlerocketstudios.compose.util.StringIdHelper
@@ -21,7 +21,7 @@ internal val testCard1 = UserRepositoryUiModel(
             uuid = "uuid1",
             links = Links(
                 avatar = Link(
-                    href = "href1"
+                    href = "href1", name = ""
                 )
             ),
             avatarUrl = "avatarUrl1"
@@ -50,7 +50,7 @@ internal val testCard2 = UserRepositoryUiModel(
             uuid = "uuid2",
             links = Links(
                 avatar = Link(
-                    href = "href2"
+                    href = "href2", name = ""
                 )
             ),
             avatarUrl = "avatarUrl2"
