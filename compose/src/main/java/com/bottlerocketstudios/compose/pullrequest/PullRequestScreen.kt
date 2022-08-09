@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bottlerocketstudios.compose.filterdropdown.PullRequestFilterBy
+import com.bottlerocketstudios.compose.filterdropdown.FilterDropDownMenu
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
@@ -20,7 +20,7 @@ import com.bottlerocketstudios.compose.util.asMutableState
 @Composable
 fun PullRequestScreen(state: PullRequestScreenState) {
     Column {
-        PullRequestFilterBy(
+        FilterDropDownMenu(
             Modifier.padding(start = 16.dp, top = 36.dp, bottom = 24.dp),
             state.selectedText.value,
             state.selectionList.value,

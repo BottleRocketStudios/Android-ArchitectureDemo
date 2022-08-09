@@ -33,7 +33,7 @@ import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
 
 @Composable
-fun PullRequestFilterBy(
+fun FilterDropDownMenu(
     modifier: Modifier = Modifier,
     selectedText: String,
     selectionList: List<String>,
@@ -93,7 +93,7 @@ fun PullRequestFilterBy(
 @Composable
 fun FilterDropDownPreview() {
     Preview {
-        PullRequestFilterBy(
+        FilterDropDownMenu(
             selectedText = "Open",
             selectionList = listOf("Open", "Closed", "Merged"),
             onFilterSelectionClicked = {}
