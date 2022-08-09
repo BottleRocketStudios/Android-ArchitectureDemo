@@ -128,6 +128,14 @@ internal class BitbucketRepositoryImpl(
                 .map { Unit.asSuccess() }
         }
 
+    override suspend fun refreshMySnippets(): Status<Unit> =
+        wrapRepoExceptions("refreshMySnippets") {
+            bitbucketService.getSnippets().toResult()
+                .map { it.values.orEmpty().asSuccess() }
+                .alsoOnSuccess { snippets: List<SnippetDto> -> _snippets.value = snippets }
+                .map { Unit.asSuccess() }
+        }
+
     override suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>> =
         wrapRepoExceptions("getRepositories") {
             bitbucketService.getRepositories(workspaceSlug)
