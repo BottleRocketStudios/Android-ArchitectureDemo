@@ -6,6 +6,7 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
+    id(Config.ApplyPlugins.KARUMI_SHOT_TESTING)
 }
 
 extra.set("jacocoCoverageThreshold", 0.40.toBigDecimal()) // module specific code coverage verification threshold
@@ -34,7 +35,10 @@ android {
         targetSdk = Config.AndroidSdkVersions.TARGET_SDK
         versionCode = BuildInfoManager.APP_VERSION.versionCode
         versionName = BuildInfoManager.APP_VERSION.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -127,6 +131,11 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
+    shot {
+        applicationId = "com.bottlerocketstudios.brarchitecture"
+        tolerance = 1.1 //1.1%
+        showOnlyFailingTestsInReports = false
+    }
 }
 
 // Declare configurations per variant to use in the dependencies block below. See :data module for examples if needed here in the :app module.
@@ -178,4 +187,5 @@ dependencies {
     espressoDependencies()
     extJunitRunnerDependencies()
     androidxCoreDependencies()
+    composeUITestingDependencies()
 }

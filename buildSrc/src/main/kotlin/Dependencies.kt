@@ -1,3 +1,7 @@
+import Config.Compose.COMPOSE_VERSION
+import TestLibraries.COMPOSE_UI_JUNIT
+import TestLibraries.COMPOSE_UI_MANIFEST
+import TestLibraries.COMPOSE_UI_TEST
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import java.util.Locale
@@ -63,6 +67,10 @@ object Config {
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
+
+        // Gradle plugin and a core android library thought to run screenshot tests for Android
+        // https://github.com/pedrovgs/Shot
+        const val KARUMI_SCREENSHOT_TESTING = "com.karumi:shot:5.14.1"
     }
 
     /**
@@ -78,6 +86,7 @@ object Config {
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
         const val PARCELIZE = "kotlin-parcelize"
         const val KSP = "com.google.devtools.ksp"
+        const val KARUMI_SHOT_TESTING = "shot"
         object Kotlin {
             const val ANDROID = "android"
         }
@@ -313,6 +322,7 @@ private object TestLibraries {
     const val ANDROIDX_TEST_CORE = "androidx.test:core:1.4.0"
     const val ANDROIDX_TEST_CORE_KTX = "androidx.test:core-ktx:1.4.0"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
+    const val ESPRESSO_CONTRIB = "androidx.test.espresso:espresso-contrib:3.4.0"
     const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.3"
     const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
 
@@ -324,6 +334,12 @@ private object TestLibraries {
     // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
     // https://github.com/cashapp/turbine/releases
     const val TURBINE = "app.cash.turbine:turbine:0.8.0"
+
+    // Compose testing dependencies
+
+    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test:$COMPOSE_VERSION"
+    const val COMPOSE_UI_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
+    const val COMPOSE_UI_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
@@ -487,4 +503,10 @@ fun DependencyHandler.kotlinxCoroutineTestingDependencies() {
 
 fun DependencyHandler.turbineDependencies() {
     testImplementation(TestLibraries.TURBINE)
+}
+
+fun DependencyHandler.composeUITestingDependencies() {
+    androidTestImplementation(COMPOSE_UI_TEST)
+    androidTestImplementation(COMPOSE_UI_JUNIT)
+    debugImplementation(COMPOSE_UI_MANIFEST)
 }

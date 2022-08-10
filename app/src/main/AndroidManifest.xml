@@ -2,7 +2,8 @@
 <!-- TODO: TEMPLATE - Refactor this packagename when creating a new project -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bottlerocketstudios.brarchitecture">
+    package="com.bottlerocketstudios.brarchitecture"
+    android:sharedUserId="com.bottlerocketstudios.brarchitecture.uid">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
