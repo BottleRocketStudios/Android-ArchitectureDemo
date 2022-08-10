@@ -11,4 +11,4 @@ data class SourceDto(
     @Json(name = "branch") val branch: BranchDto?,
     @Json(name = "commit") val commit: CommitDto?,
     @Json(name = "repository") val prRepository: PrRepositoryDto?,
-) : Parcelable
+) : Parcelable, Dto

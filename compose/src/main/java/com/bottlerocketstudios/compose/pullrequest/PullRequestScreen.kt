@@ -47,7 +47,7 @@ fun PullRequestScreen(state: PullRequestScreenState) {
 
 @Preview
 @Composable
-fun PullRequestsPreview() {
+private fun PullRequestsPreview() {
     Preview {
         listOf(
             PullRequestScreen(

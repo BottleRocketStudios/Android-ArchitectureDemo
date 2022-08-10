@@ -11,5 +11,5 @@ data class SummaryDto(
     @Json(name = "type") val type: String?,
     @Json(name = "raw") val raw: String?,
     @Json(name = "markup") val markUp: String?,
-    @Json(name = "html") val created_on: String?,
-) : Parcelable
+    @Json(name = "html") val html: String?, // Note: value contains html paragraph tags <p> </p>
+) : Parcelable, Dto

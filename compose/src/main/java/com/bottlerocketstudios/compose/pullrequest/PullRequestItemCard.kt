@@ -82,7 +82,7 @@ fun PullRequestItemCard(state: PullRequestItemState) {
 
 @PreviewComposable
 @Composable
-fun PullRequestsItemPreview() {
+private fun PullRequestsItemPreview() {
     Preview {
         PullRequestItemCard(
             PullRequestItemState(
