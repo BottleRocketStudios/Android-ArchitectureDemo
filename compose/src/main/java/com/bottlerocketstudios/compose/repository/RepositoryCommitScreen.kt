@@ -21,7 +21,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import java.time.Clock
 import java.time.ZonedDateTime
@@ -104,7 +104,7 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
     }
 }
 
-@PreviewAllDevices
+@PreviewAll
 @Composable
 private fun PreviewOuterScreenContent() {
     Preview {

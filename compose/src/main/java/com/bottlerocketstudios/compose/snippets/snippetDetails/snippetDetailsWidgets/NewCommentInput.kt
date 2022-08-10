@@ -54,7 +54,8 @@ fun NewCommentInput(
                 imgUri = user?.avatarUrl,
                 sizeDp = Dimens.grid_5,
                 contentDescription = R.string.description_avatar,
-                placeholder = R.drawable.ic_avatar_placeholder,)
+                placeholder = R.drawable.ic_avatar_placeholder,
+            )
 
             OutlinedInputField(
                 text = newComment,
@@ -107,7 +108,7 @@ private fun PreviewCommentInput() {
             onCommentChanged = {},
             onSaveClicked = {},
             onCancelClicked = {},
-            )
+        )
     }
 }
 

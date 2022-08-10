@@ -12,4 +12,4 @@ data class SnippetDetails(
     val links: Links? = null,
     val httpsCloneLink: String? = "",
     val sshCloneLink: String? = "",
-): DomainModel
+) : DomainModel

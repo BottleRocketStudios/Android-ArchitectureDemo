@@ -8,9 +8,9 @@ package com.bottlerocketstudios.brarchitecture.domain.models
 data class SnippetDetailsFile(
     val fileName: String,
     val rawFile: ByteArray,
-): DomainModel
+) : DomainModel
 
 data class SnippetDetailsFileLinks(
     val fileName: String,
     val links: Links,
-): DomainModel
+) : DomainModel

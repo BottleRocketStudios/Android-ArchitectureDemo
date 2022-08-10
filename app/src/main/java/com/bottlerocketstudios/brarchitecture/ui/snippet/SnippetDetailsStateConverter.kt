@@ -24,4 +24,3 @@ fun SnippetDetailsViewModel.toState() =
         onEditCommentClick = ::commentEditClick,
         onDeleteCommentClick = ::commentDeleteClick,
     )
-
