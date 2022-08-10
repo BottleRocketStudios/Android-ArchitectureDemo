@@ -17,11 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.compose.util.PreviewAllDevices
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import java.time.Clock
 import java.time.ZonedDateTime
@@ -48,21 +49,18 @@ fun RepositoryCommitScreen(state: RepositoryCommitScreenState) {
 @Composable
 fun CommitItem(item: RepositoryCommitItemUiModel) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = Dimens.grid_1,
-                vertical = Dimens.grid_0_5
-            ),
+        modifier = Modifier.fillMaxWidth().padding(
+            horizontal = Dimens.grid_1,
+            vertical = Dimens.grid_0_5
+        ),
         elevation = Dimens.plane_3
     ) {
         Row {
             Icon(
-                modifier = Modifier
-                    .padding(
-                        start = Dimens.grid_2_5,
-                        top = Dimens.grid_2
-                    ),
+                modifier = Modifier.padding(
+                    start = Dimens.grid_2_5,
+                    top = Dimens.grid_2
+                ),
                 painter = painterResource(id = R.drawable.ic_user),
                 contentDescription = null,
                 tint = Colors.tertiary
@@ -78,33 +76,37 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
                     text = item.author,
                     style = MaterialTheme.typography.h3.copy(color = Colors.tertiary)
                 )
-                Text(
-                    text = item.hash,
-                    style = MaterialTheme.typography.h5
-                )
+                Row {
+                    Text(
+                        text = item.branchName,
+                        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
+                    )
+                }
                 Text(
                     text = item.message,
                     style = MaterialTheme.typography.h5
                 )
             }
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(
+                    top = Dimens.grid_2,
+                    end = Dimens.grid_2
+                ),
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    modifier = Modifier.padding(
-                        top = Dimens.grid_2,
-                        end = Dimens.grid_2
-                    ),
                     text = item.timeSinceCommitted.getString(),
                     style = MaterialTheme.typography.h5
+                )
+                Text(
+                    text = item.hash,
+                    style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
                 )
             }
         }
     }
 }
-
-@PreviewAllDevices
+@Preview
 @Composable
 private fun PreviewOuterScreenContent() {
     Preview {
@@ -125,6 +127,7 @@ private val commitItems = listOf(
         author = "Stuff",
         timeSinceCommitted = ZonedDateTime.now().formattedUpdateTime(Clock.systemDefaultZone()),
         hash = "ygdg872rsdfs",
-        message = "Test Message"
+        message = "Test Message",
+        branchName = "master"
     )
 )
