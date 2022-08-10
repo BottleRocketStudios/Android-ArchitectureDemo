@@ -33,7 +33,7 @@ fun PullRequestEmptyScreen() {
 
 @PreviewAll
 @Composable
-fun HomeEmptyPreview() {
+private fun PullRequestEmptyScreenPreview() {
     Preview {
         PullRequestEmptyScreen()
     }

@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class BranchDto(@Json(name = "name") val name: String?) : Parcelable
+data class BranchDto(@Json(name = "name") val name: String?) : Parcelable, Dto

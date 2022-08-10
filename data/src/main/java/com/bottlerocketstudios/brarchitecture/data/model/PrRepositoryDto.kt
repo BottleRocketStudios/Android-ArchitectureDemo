@@ -12,4 +12,4 @@ data class PrRepositoryDto(
     @Json(name = "full_name") val fullName: String?,
     @Json(name = "links") val links: LinksDto?,
     @Json(name = "uuid") val uuid: String?,
-) : Parcelable
+) : Parcelable, Dto

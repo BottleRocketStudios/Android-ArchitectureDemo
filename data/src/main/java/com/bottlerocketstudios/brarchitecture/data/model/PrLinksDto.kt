@@ -20,4 +20,4 @@ data class PrLinksDto(
     @Json(name = "merge") val merge: LinkDto?,
     @Json(name = "decline") val decline: LinkDto?,
     @Json(name = "statuses") val statuses: LinkDto?,
-) : Parcelable
+) : Parcelable, Dto
