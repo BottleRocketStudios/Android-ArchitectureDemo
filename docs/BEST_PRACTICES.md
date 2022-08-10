@@ -1,5 +1,4 @@
-Best Practices
-==============
+# Best Practices
 
 ## Summary
 The point of this doc is to share some best practices and processes within the team so that we are all on the same page regarding the points listed.
@@ -101,7 +100,7 @@ Useful gradle tasks that come with the gradle plugin:
 ./gradlew addKtlintFormatGitPreCommitHook
 ```
 
-More info at https://github.com/JLLeitschuh/ktlint-gradle#configuration
+More info at <https://github.com/JLLeitschuh/ktlint-gradle#configuration>
 
 #### General
 * **Do not use Hungarian notation!**. This means no `mUser` or `sUserManager`. Instead try `user` and `userManager`.
@@ -118,8 +117,8 @@ sealed class Foo {
 ```
 
 ##### References
-* Kotlin naming rules: http://kotlinlang.org/docs/reference/coding-conventions.html#naming-rules (shows examples for object)
-* Sealed class api docs: https://kotlinlang.org/docs/reference/sealed-classes.html (shows PascalCase/UpperCamelCase for objects in sealed class)
+* Kotlin naming rules: <http://kotlinlang.org/docs/reference/coding-conventions.html#naming-rules> (shows examples for object)
+* Sealed class api docs: <https://kotlinlang.org/docs/reference/sealed-classes.html (shows PascalCase/UpperCamelCase> for objects in sealed class)
 
 ### FIXME/TODO Comments
 * Use `FIXME` comments to leave "breadcrumbs" in cases where some specific code or condition needs to be revisited **before the next release**. You might leave a FIXME when using a placeholder value that needs to be updated with the real one later on down the road when it is created/obtained. During dev signoff, all FIXME entries should be evaluated and handled appropriately.
@@ -330,7 +329,7 @@ There are files in the project marked with either `<!-- TEMPLATE: ... -->` or `/
 ##### HTML with language injection
 ![ide_html_string_with_language_injection]
 
-* Full documentation at https://www.jetbrains.com/help/idea/using-language-injections.html#language_annotation
+* Full documentation at <https://www.jetbrains.com/help/idea/using-language-injections.html#language_annotation>
 
 
 ### TimeUnit suffixes
@@ -403,7 +402,7 @@ Currently the app is broken into two modules: `app` and `data`
 | internalRelease   | **com.bottlerocketstudios.brarchitecture.internal**       | Dev doesn't have much use for this variant but can use for proguard/R8 testing if attaching a debugger on device is not needed.      | Enabled                                                          | Enabled           | Yes                  | No          | Release           | Yes          | Yes                    | Yes                                       | Primary variant for QA testing                       |
 | productionRelease | **com.bottlerocketstudios.brarchitecture**                | Smoketest before release                                                                                                             | Disabled                                                         | Disabled          | No                   | No          | Release           | Yes          | Yes                    | Yes                                       | Primary after Feature Complete and until app release |
 
-*Generated with https://www.tablesgenerator.com/markdown_tables#*
+*Generated with <https://www.tablesgenerator.com/markdown_tables#>*
 
 ### Dev Highlights
 * Use the `internalDebugMini` variant to build a proguarded/R8 debuggable build for local testing/debugging.
@@ -417,13 +416,13 @@ Add when things come up.
 ## Gradle Kotlin DSL
 
 ### General Resources
-* https://github.com/gradle/kotlin-dsl
-* https://docs.gradle.org/current/userguide/kotlin_dsl.html
-* https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources
+* <https://github.com/gradle/kotlin-dsl>
+* <https://docs.gradle.org/current/userguide/kotlin_dsl.html>
+* <https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources>
 
 
 ### Tips for migrating from groovy scripts to kotlin gradle script
-* Full guide: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/
+* Full guide: <https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/>
 #### Takeaways
 * Change all single quotes to double quotes
 * Add parentheses in appropriate places for getters and = or () for setters
@@ -431,12 +430,12 @@ Add when things come up.
 * Change filename suffix from .gradle to .gradle.kts and sync -> manually tweak script to eliminate errors
 
 ### Api
-* Full kotlin gradle dsl api: https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/index.html
-* General kotlin build script api info at https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-build-script/index.html
-* General kotlin settings script api info at https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-settings-script/index.html
+* Full kotlin gradle dsl api: <https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/index.html>
+* General kotlin build script api info at <https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-build-script/index.html>
+* General kotlin settings script api info at <https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-settings-script/index.html>
 
 ### Default Build Script imports
-* https://docs.gradle.org/current/userguide/writing_build_scripts.html#script-default-imports
+* <https://docs.gradle.org/current/userguide/writing_build_scripts.html#script-default-imports>
 
 ### Dealing with task retrieval/creation
 Takeaways:
@@ -446,33 +445,33 @@ Takeaways:
 
 > There is one last syntax for extra properties that we should cover, one that treats extra as a map. We recommend against using this in general as you lose the benefits of Kotlin’s type checking and it prevents IDEs from providing as much support as they could. However, it is more succinct than the delegated properties syntax and can reasonably be used if you only need to set the value of an extra property without referencing it later.
 
-* https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:containers
+* <https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:containers>
 
 ### Interoperability
-* Tips/info on dealing with groovy <-> kotlin build script nuances/syntax: https://docs.gradle.org/current/userguide/kotlin_dsl.html#sec:interoperability
-* Groovy interop sample: https://github.com/gradle/kotlin-dsl/tree/master/samples/groovy-interop
+* Tips/info on dealing with groovy <-> kotlin build script nuances/syntax: <https://docs.gradle.org/current/userguide/kotlin_dsl.html#sec:interoperability>
+* Groovy interop sample: <https://github.com/gradle/kotlin-dsl/tree/master/samples/groovy-interop>
 
 ### Limitations
-* https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:limitations
+* <https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:limitations>
 * Don't use `org.gradle.configureondemand=true` (see below):
 
 > We recommend against enabling the incubating configuration on demand feature as it can lead to very hard-to-diagnose problems.
 
 ### Dependencies.kt
-* https://antonioleiva.com/kotlin-dsl-gradle/
-* https://proandroiddev.com/migrating-android-build-scripts-from-groovy-to-kotlin-dsl-f8db79dd6737
-* https://handstandsam.com/2018/02/11/kotlin-buildsrc-for-better-gradle-dependency-management/
+* <https://antonioleiva.com/kotlin-dsl-gradle/>
+* <https://proandroiddev.com/migrating-android-build-scripts-from-groovy-to-kotlin-dsl-f8db79dd6737>
+* <https://handstandsam.com/2018/02/11/kotlin-buildsrc-for-better-gradle-dependency-management/>
 
 ## Miscellaneous
 
 ### Viewing/Editing shared preferences (using AS Device File Explorer)
-See https://stackoverflow.com/a/52352741/201939 as well as comments to see how to save as/upload edits on top of the original files.
+See <https://stackoverflow.com/a/52352741/201939> as well as comments to see how to save as/upload edits on top of the original files.
 
 ### Inspect/Query/Modify databases (using AS App Inspection / Database Inspector on api 26+ device/emulator)
-See https://developer.android.com/studio/inspect/database
+See <https://developer.android.com/studio/inspect/database>
 
 ### Counting lines of code (using [cloc][cloc])
-* Install using homebrew: `brew install cloc` (or your package manager of choice: https://github.com/AlDanial/cloc#install-via-package-manager)
+* Install using homebrew: `brew install cloc` (or your package manager of choice: <https://github.com/AlDanial/cloc#install-via-package-manager>)
 * Execute the following snippet via command line from the root project directory:
 ```bash
 # From root project directory:

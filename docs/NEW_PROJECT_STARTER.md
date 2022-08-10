@@ -1,5 +1,4 @@
-New Project Starter
-===================
+# New Project Starter
 
 ## Loose overview of New Project setup steps
 1. Copy architecture demo source to an empty git repository
@@ -47,7 +46,7 @@ Things you should have prior to starting the new project setup. These can be cha
 ### Update other relevant project data
 * Update version number to appropriate starting point if not `1.0.0` in the app `build.gradle.kts`
 * Update the `MIN_SDK` value in `Dependencies.kt` (as needed)
-* Replace existing `debug.keystore` with a newly generated a new debug keystore (optional). See https://gist.github.com/henriquemenezes/70feb8fff20a19a65346e48786bedb8f#debug-keystore
+* Replace existing `debug.keystore` with a newly generated a new debug keystore (optional). See <https://gist.github.com/henriquemenezes/70feb8fff20a19a65346e48786bedb8f#debug-keystore>
 
 ### Gradual replacement of unused data once project specific data is added (classes, dependencies, Android resources)
 * As the new project grows over time, all of the architecture demo specific code and dependencies (relating to bitbucket repository management) should be removed.

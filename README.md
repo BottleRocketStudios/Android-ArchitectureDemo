@@ -1,5 +1,4 @@
-Bottle Rocket Android Architecture Guidelines
-=============================================
+# Bottle Rocket Android Architecture Guidelines
 
 ## How to Open Project in Android Studio
 * Clone project to local machine
@@ -8,8 +7,8 @@ Bottle Rocket Android Architecture Guidelines
 * Project should open and Gradle should sync without any issues.
 
 ## OAuth consumer key creation and setup steps
-* Generate a Bitbucket OAuth consumer key at https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api
-    * You must specify a callback url with the following value for auth code login to work: https://www.bottlerocketstudios.com/
+* Generate a Bitbucket OAuth consumer key at <https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api>
+    * You must specify a callback url with the following value for auth code login to work: <https://www.bottlerocketstudios.com/>
     * You must enable the following permissions (at a minimum) to ensure proper functioning of the app:
         * **Account** read
         * **Snippets** read/write
@@ -68,7 +67,7 @@ This project uses the `generateNavDrawerItems` method in the `ComposeActivity` t
 *Made up example: If kotlin releases native date/time support (and becomes the go to date time solution for Android), don't implement java 8 date/time libs if it is still not implemented but in the list below*
 
 #### To Do List
-* Android 12 Splash screen support (using androidx core-splashscreen lib at https://developer.android.com/jetpack/androidx/releases/core)
+* Android 12 Splash screen support (using androidx core-splashscreen lib at <https://developer.android.com/jetpack/androidx/releases/core)>
 * Base/custom/generic dialog support with:
     * title (visible/gone) - res id or string (see StringIdHelper below)
     * body - res id or string (see StringIdHelper below)
