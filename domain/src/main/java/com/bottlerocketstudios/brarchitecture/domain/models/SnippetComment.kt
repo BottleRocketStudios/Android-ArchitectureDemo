@@ -12,7 +12,7 @@ class SnippetComment(
     val links: Links? = null,
     val type: String? = null,
     val snippet: Snippet? = null
-): DomainModel
+) : DomainModel
 
 data class SnippetCommentContent(
     val type: String? = null,

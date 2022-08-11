@@ -40,7 +40,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
         currentUser.value = repo.user.value?.convertToUser()
     }
 
-    /////////////////////  API Calls /////////////////////
+    // ///////////////////  API Calls /////////////////////
     fun getSnippetDetails(snippet: SnippetUiModel) = launchIO {
         if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty()) {
             repo.getSnippetDetails(snippet.workspaceId, snippet.id).handlingErrors(R.string.snippets_error) { snippetDetailsDto ->
@@ -96,8 +96,8 @@ class SnippetDetailsViewModel : BaseViewModel() {
     // TODO: Show dialog to confirm user wants to continue with deletion before calling this function
     fun onDeleteSnippetClick() = launchIO {
         repo.deleteSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.delete_snippet_error) {
-                notifyUser(R.string.delete_snippet_success)
-            }
+            notifyUser(R.string.delete_snippet_success)
+        }
     }
 
     private fun createSnippetComment() = launchIO {
@@ -122,7 +122,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
         repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId).handlingErrors(R.string.delete_comment_error) { getSnippetComments() }
     }
 
-    /////////////////////  Callbacks /////////////////////
+    // ///////////////////  Callbacks /////////////////////
     fun changeSnippetWatching() = when (isWatchingSnippet.value) {
         true -> stopWatchingSnippet()
         false -> startWatchingSnippet()
@@ -144,7 +144,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
         }
     }
 
-    /////////////////////  Helper Functions /////////////////////
+    // ///////////////////  Helper Functions /////////////////////
     fun clearCommentValues() {
         newSnippetComment.value = ""
         newReplyComment.value = ""
@@ -190,5 +190,3 @@ class SnippetDetailsViewModel : BaseViewModel() {
         }
     }
 }
-
-

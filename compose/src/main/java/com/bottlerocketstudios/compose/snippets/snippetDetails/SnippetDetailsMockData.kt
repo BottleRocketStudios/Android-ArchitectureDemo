@@ -122,5 +122,3 @@ internal val snippetComment = SnippetComment(
     updated = mockCreationMsg,
     deleted = false
 )
-
-
