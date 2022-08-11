@@ -44,7 +44,7 @@ object MockBitBucketRepo {
         username = TEST_USER_NAME,
         displayName = TEST_USER_DISPLAY_NAME,
         nickname = TEST_USER_NICKNAME,
-        linksDto = LinksDto(avatar = LinkDto(href = TEST_USER_LINK))
+        linksDto = LinksDto(avatar = LinkDto(href = TEST_USER_LINK, name = "user"))
     )
     var snippetDto = SnippetDto(
         id = SNIPPET_ID,

@@ -19,12 +19,12 @@ data class LinksDto(
     @Json(name = "avatar") val avatar: LinkDto? = null,
     @Json(name = "followers") val followers: LinkDto? = null,
     @Json(name = "following") val following: LinkDto? = null,
-    @Json(name = "repositories") val repositories: LinkDto? = null
+    @Json(name = "repositories") val repositories: LinkDto? = null,
 ) : Parcelable, Dto
 
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class LinkDto(
     @Json(name = "href") val href: String? = null,
-    @Json(name = "name") val name: String? = null
+    @Json(name = "name") val name: String? = null,
 ) : Parcelable, Dto
