@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
@@ -37,13 +36,15 @@ fun PullRequestItemCard(state: PullRequestItemState) {
                 contentDescription = stringResource(id = R.string.home_repository_icon),
                 tint = Colors.tertiary,
                 modifier = Modifier
-                    .padding(start = Dimens.grid_4_5, end = 14.dp, top = 6.dp)
+                    .padding(start = Dimens.grid_4_5, end = Dimens.grid_1_75, top = Dimens.grid_0_75)
                     .align(Alignment.Top)
                     .weight(1f)
             )
-            Column(modifier = Modifier
-                .wrapContentWidth()
-                .weight(3f)) {
+            Column(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .weight(3f)
+            ) {
                 Row {
                     ResponsiveText(
                         text = state.prName.value,

@@ -67,7 +67,7 @@ fun FilterDropDownMenu(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
                     tint = brown_grey,
-                    modifier = Modifier.padding(top = 10.dp, bottom = Dimens.grid_1, end = Dimens.grid_1)
+                    modifier = Modifier.padding(top = Dimens.grid_1_25, bottom = Dimens.grid_1, end = Dimens.grid_1)
                 )
             }
         }
