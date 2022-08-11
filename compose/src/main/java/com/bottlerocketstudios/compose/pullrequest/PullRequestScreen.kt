@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bottlerocketstudios.compose.filterdropdown.FilterDropDownMenu
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
 import com.bottlerocketstudios.compose.util.asMutableState
@@ -29,7 +29,7 @@ fun PullRequestScreen(state: PullRequestScreenState) {
 
         Divider(
             modifier = Modifier.padding(start = Dimens.grid_1, end = Dimens.grid_1, bottom = Dimens.grid_3),
-            color = brown_grey,
+            color = Colors.borderColor,
             thickness = 1.dp
         )
         if (state.pullRequestList.value.isNotEmpty()) {
@@ -47,7 +47,7 @@ fun PullRequestScreen(state: PullRequestScreenState) {
         }
         Divider(
             modifier = Modifier.padding(start = Dimens.grid_1, end = Dimens.grid_1, top = Dimens.grid_3, bottom = Dimens.grid_3),
-            color = brown_grey,
+            color = Colors.borderColor,
             thickness = 1.dp
         )
     }

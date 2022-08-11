@@ -27,8 +27,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
@@ -45,7 +45,7 @@ fun FilterDropDownMenu(
 
     Column(modifier = modifier) {
         Card(
-            border = BorderStroke(1.dp, brown_grey),
+            border = BorderStroke(1.dp, Colors.borderColor),
             modifier = Modifier.wrapContentWidth()
         ) {
             Row(
@@ -66,7 +66,7 @@ fun FilterDropDownMenu(
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
-                    tint = brown_grey,
+                    tint = Colors.borderColor,
                     modifier = Modifier.padding(top = Dimens.grid_1_25, bottom = Dimens.grid_1, end = Dimens.grid_1)
                 )
             }

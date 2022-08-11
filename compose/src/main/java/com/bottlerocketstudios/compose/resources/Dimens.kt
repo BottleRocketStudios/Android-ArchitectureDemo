@@ -1,4 +1,5 @@
 @file:Suppress("ConstructorParameterNaming", "MatchingDeclarationName", "LongParameterList")
+
 package com.bottlerocketstudios.compose.resources
 
 import androidx.compose.ui.unit.Dp
@@ -48,11 +49,11 @@ class Dimensions(
 val smallDimensions = Dimensions(
     grid_0_25 = 1.5f.dp,
     grid_0_5 = 3.dp,
-    grid_0_75 = 5.dp,
+    grid_0_75 = (4.5).dp,
     grid_1 = 6.dp,
-    grid_1_25 = 8.dp,
+    grid_1_25 = (7.5).dp,
     grid_1_5 = 9.dp,
-    grid_1_75 = 11.dp,
+    grid_1_75 = (10.5).dp,
     grid_2 = 12.dp,
     grid_2_5 = 15.dp,
     grid_3 = 18.dp,
