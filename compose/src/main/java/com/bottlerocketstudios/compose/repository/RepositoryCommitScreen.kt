@@ -106,6 +106,7 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
         }
     }
 }
+
 @Preview
 @Composable
 private fun PreviewOuterScreenContent() {
@@ -116,6 +117,9 @@ private fun PreviewOuterScreenContent() {
                 itemCount = remember { mutableStateOf(commitItems.size) },
                 commitItems = remember {
                     mutableStateOf(commitItems)
+                },
+                branchNames = remember {
+                    mutableStateOf(listOf("Master"))
                 }
             )
         )

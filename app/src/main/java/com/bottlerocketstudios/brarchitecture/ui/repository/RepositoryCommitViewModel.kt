@@ -24,6 +24,7 @@ class RepositoryCommitViewModel : BaseViewModel() {
 
     // State
     private val srcCommits = MutableStateFlow<List<CommitDto>>(emptyList())
+    private val branchNames = MutableStateFlow<List<String>>(emptyList())
     val currentRepoName = MutableStateFlow("")
 
     init {
@@ -52,6 +53,7 @@ class RepositoryCommitViewModel : BaseViewModel() {
             }
         }
         .groundState(emptyList())
+    val branchItems: StateFlow<List<String>> = branchNames
 
     // Events
 
@@ -67,6 +69,7 @@ class RepositoryCommitViewModel : BaseViewModel() {
                 when (val branchCallResult = repo.getBranches(slug, repoName)) {
                     is Status.Success -> {
                         val branchList = branchCallResult.data
+                        branchNames.value = branchList.map { branch -> branch.branchName ?: "" }
                         branchList.forEach { repoBranch ->
                             val branch = repoBranch.branchName ?: ""
                             when (val commitCallResult = repo.getCommits(slug, repoName, branch)) {
