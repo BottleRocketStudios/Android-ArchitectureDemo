@@ -53,7 +53,7 @@ Here is an example flow to add a new configuration to `DependencyHandlerUtils.kt
 
 1. In `Dependencies.kt`, you want to add the following block but see a compilation error (`unresolved reference: compileOnly`):
 
-```
+```kotlin
 fun DependencyHandler.fooDependencies() {
     compileOnly(Libraries.FOO)
 }
@@ -84,7 +84,7 @@ To prevent ci failures, your development process should include running `ktlintF
 
 Useful gradle tasks that come with the gradle plugin:
 
-```
+```shell
 // Verification/auto-format
 ./gradlew ktlintCheck
 ./gradlew ktlintFormat
@@ -473,7 +473,7 @@ See <https://developer.android.com/studio/inspect/database>
 ### Counting lines of code (using [cloc][cloc])
 * Install using homebrew: `brew install cloc` (or your package manager of choice: <https://github.com/AlDanial/cloc#install-via-package-manager>)
 * Execute the following snippet via command line from the root project directory:
-```bash
+```shell
 # From root project directory:
 cloc app/src --by-file-by-lang
 ```

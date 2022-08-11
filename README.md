@@ -15,7 +15,7 @@
         * **Repositories** read
 * Create a file in project root named "apikey.properties" with following format:
 
-```
+```text
 BITBUCKET_KEY="[oauth_consumer_key]"
 BITBUCKET_SECRET="[oauth_consumer_secret]"
 ```
@@ -36,7 +36,7 @@ BITBUCKET_SECRET="[oauth_consumer_secret]"
 The project is using the Gradle Versions plugin to do a lot of heavy lifting here!
 
 1. Execute the `dependencyUpdates` task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates.
-2. View the generated report that mentions any library dependency updates (as well as Gradle updates). 
+2. View the generated report that mentions any library dependency updates (as well as Gradle updates).
 3. For each dependency update list:
     1. View the release notes to see relevant bug fixes, breaking changes (api modification, removal or replacement), and deprecations
     2. Update the version
@@ -66,7 +66,7 @@ This project uses the `generateNavDrawerItems` method in the `ComposeActivity` t
 
 *Made up example: If kotlin releases native date/time support (and becomes the go to date time solution for Android), don't implement java 8 date/time libs if it is still not implemented but in the list below*
 
-#### To Do List
+### To Do List
 * Android 12 Splash screen support (using androidx core-splashscreen lib at <https://developer.android.com/jetpack/androidx/releases/core)>
 * Base/custom/generic dialog support with:
     * title (visible/gone) - res id or string (see StringIdHelper below)
@@ -74,6 +74,6 @@ This project uses the `generateNavDrawerItems` method in the `ComposeActivity` t
     * positive CTA text/click callback
     * (optional) negative CTA text/click callback
     * cancelOnTouchOutside (Boolean)
-    
+
 ## LaunchPad Development
 Uncomment mavenLocal in main build.gradle.kts to test local library changes.
