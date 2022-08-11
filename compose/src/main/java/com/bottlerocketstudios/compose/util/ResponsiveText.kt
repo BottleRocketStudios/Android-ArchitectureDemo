@@ -12,7 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.bottlerocketstudios.compose.resources.sea_foam
+import com.bottlerocketstudios.compose.resources.Colors
 
 private const val TEXT_SCALE_REDUCTION_INTERVAL = 0.9f
 
@@ -20,7 +20,7 @@ private const val TEXT_SCALE_REDUCTION_INTERVAL = 0.9f
 fun ResponsiveText(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = sea_foam,
+    color: Color = Colors.tertiary,
     textAlign: TextAlign = TextAlign.Start,
     textStyle: TextStyle,
     targetTextSizeHeight: TextUnit = textStyle.fontSize,

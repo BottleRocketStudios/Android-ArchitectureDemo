@@ -25,12 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
+import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewComposable
 
 @Composable
 fun FilterDropDownMenu(
@@ -55,19 +56,18 @@ fun FilterDropDownMenu(
                         textFieldSize = coordinates.size.toSize()
                     }
                     .wrapContentWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.grid_2),
             ) {
                 Text(
                     text = selectedText,
-                    color = brown_grey,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(start = 20.dp, top = 13.dp, bottom = 13.dp)
+                    style = typography.body1,
+                    modifier = Modifier.padding(start = Dimens.grid_2_5, top = Dimens.grid_1_5, bottom = Dimens.grid_1_5)
                 )
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
                     tint = brown_grey,
-                    modifier = Modifier.padding(top = 10.dp, bottom = 8.dp, end = 8.dp)
+                    modifier = Modifier.padding(top = 10.dp, bottom = Dimens.grid_1, end = Dimens.grid_1)
                 )
             }
         }
@@ -82,14 +82,14 @@ fun FilterDropDownMenu(
                     onFilterSelectionClicked.invoke(label)
                     expanded = !expanded
                 }) {
-                    Text(text = label, color = brown_grey, fontSize = 12.sp)
+                    Text(text = label, style = typography.body1)
                 }
             }
         }
     }
 }
 
-@Preview
+@PreviewComposable
 @Composable
 fun FilterDropDownPreview() {
     Preview {

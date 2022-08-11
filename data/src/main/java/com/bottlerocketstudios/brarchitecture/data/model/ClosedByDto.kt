@@ -14,4 +14,4 @@ data class ClosedByDto(
     @Json(name = "uuid") val uuid: String?,
     @Json(name = "account_id") val accountId: String?,
     @Json(name = "nickname") val nickName: String?,
-) : Parcelable
+) : Parcelable, Dto

@@ -11,4 +11,4 @@ data class MergeCommitDto(
     @Json(name = "type") val type: String?,
     @Json(name = "hash") val hash: String?,
     @Json(name = "links") val links: PrLinksDto?
-) : Parcelable
+) : Parcelable, Dto
