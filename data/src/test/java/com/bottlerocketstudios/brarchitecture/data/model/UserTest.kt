@@ -5,10 +5,20 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class UserTest : BaseTest() {
+    private val linksDto: LinksDto
+        get() = LinksDto(avatar = LinkDto(href = "link_dto"))
 
     @Test
     fun user_shouldHaveFields_whenConstructed() {
-        val user = UserDto("username", "nickname", "account_status", "display_name", "created_on", "uuid", linksDto = LinksDto(avatar = LinkDto("link_dto")))
+        val user = UserDto(
+            username = "username",
+            nickname = "nickname",
+            accountStatus = "account_status",
+            displayName = "display_name",
+            createdOn = "created_on",
+            uuid = "uuid",
+            linksDto = linksDto
+        )
         assertThat(user.username).isEqualTo("username")
         assertThat(user.nickname).isEqualTo("nickname")
         assertThat(user.accountStatus).isEqualTo("account_status")
