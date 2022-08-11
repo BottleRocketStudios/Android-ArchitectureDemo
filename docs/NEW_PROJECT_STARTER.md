@@ -35,13 +35,13 @@ Things you should have prior to starting the new project setup. These can be cha
 
 ### Refactor project names in the codebase
 * Replace existing applicationId with new applicationId in app `build.gradle.kts` productFlavors block
-* Update project build types/variants table application ids in [BEST_PRACTICES.md](BEST_PRACTICES.md)
+* Update project build types/variants table application IDs in [BEST_PRACTICES.md](BEST_PRACTICES.md)
 * Update brand name used for the apk in the app `build.gradle.kts`
 * Refactor app and data packagenames, including the values inside both `AndroidManifest.xml` files.
 * Refactor `BitbucketApplication` to a brand specific name.
 * Adjust project name in `settings.gradle.kts`
 * Adjust app name in `strings.xml`
-* Perform a project wide string search for `bottle`, `rocket`, and `bitbucket` and refactor any class/comment/file names as needed.
+* Perform a project wide string search for `bottle`, `rocket`, and `bitbucket` and refactor any class/comment/filenames as needed.
 
 ### Update other relevant project data
 * Update version number to appropriate starting point if not `1.0.0` in the app `build.gradle.kts`
