@@ -51,7 +51,7 @@ fun ArchAppBar(
                     }
                 }
             ) {
-                Icon(imageVector = navIcon, contentDescription = navIcon.name.split(".").firstOrNull())
+                Icon(imageVector = navIcon, contentDescription = navIcon.name.split(".").lastOrNull())
             }
         },
     )
