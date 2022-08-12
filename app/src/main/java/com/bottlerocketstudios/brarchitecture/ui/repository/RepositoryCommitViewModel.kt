@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.ui.repository
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.repository.RepositoryCommitItemUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
@@ -66,22 +65,15 @@ class RepositoryCommitViewModel : BaseViewModel() {
             val slug = it.workspaceDto?.slug ?: ""
             val repoName = it.name ?: ""
             launchIO {
-                when (val branchCallResult = repo.getBranches(slug, repoName)) {
-                    is Status.Success -> {
-                        val branchList = branchCallResult.data
-                        branchNames.value = branchList.map { branch -> branch.branchName ?: "" }
-                        branchList.forEach { repoBranch ->
-                            val branch = repoBranch.branchName ?: ""
-                            when (val commitCallResult = repo.getCommits(slug, repoName, branch)) {
-                                is Status.Success -> {
-                                    commitCallResult.data.forEach { commit -> commit.branchName = repoBranch.branchName }
-                                    commitList.addAll(commitCallResult.data)
-                                }
-                                is Status.Failure -> handleError(R.string.error_loading_commits)
-                            }
+                repo.getBranches(slug, repoName).handlingErrors(R.string.error_loading_commits) { branchCallResult ->
+                    branchNames.value = branchCallResult.map { branch -> branch.branchName ?: "" }
+                    branchCallResult.forEach { repoBranch ->
+                        val branch = repoBranch.branchName ?: ""
+                        repo.getCommits(slug, repoName, branch).handlingErrors(R.string.error_loading_commits) { commitCallResult ->
+                            commitCallResult.forEach { commit -> commit.branchName = repoBranch.branchName }
+                            commitList.addAll(commitCallResult)
                         }
                     }
-                    is Status.Failure -> handleError(R.string.error_loading_commits)
                 }
                 srcCommits.value = commitList
             }

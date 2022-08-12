@@ -17,13 +17,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
+import com.bottlerocketstudios.launchpad.compose.bold
 import java.time.Clock
 import java.time.ZonedDateTime
 
@@ -80,7 +80,7 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
                 )
                 Text(
                     text = item.branchName,
-                    style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
+                    style = MaterialTheme.typography.h5.bold()
                 )
                 Text(
                     text = item.message,
@@ -100,7 +100,7 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
                 )
                 Text(
                     text = item.hash,
-                    style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
+                    style = MaterialTheme.typography.h5.bold()
                 )
             }
         }
