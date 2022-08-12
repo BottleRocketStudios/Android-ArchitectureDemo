@@ -1,12 +1,12 @@
 package com.bottlerocketstudios.brarchitecture.domain.models
 
 data class User(
-    val username: String?,
-    val nickname: String?,
-    val accountStatus: String?,
-    val displayName: String?,
-    val createdOn: String?,
-    val uuid: String?,
-    val links: Links?,
-    val avatarUrl: String?,
+    val username: String? = null,
+    val nickname: String? = null,
+    val accountStatus: String? = null,
+    val displayName: String? = null,
+    val createdOn: String? = null,
+    val uuid: String? = null,
+    val links: Links? = null,
+    val avatarUrl: String? = null,
 ) : DomainModel

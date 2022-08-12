@@ -23,6 +23,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import java.time.Clock
 import java.time.ZonedDateTime
@@ -49,10 +50,12 @@ fun RepositoryCommitScreen(state: RepositoryCommitScreenState) {
 @Composable
 fun CommitItem(item: RepositoryCommitItemUiModel) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(
-            horizontal = Dimens.grid_1,
-            vertical = Dimens.grid_0_5
-        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = Dimens.grid_1,
+                vertical = Dimens.grid_0_5
+            ),
         elevation = Dimens.plane_3
     ) {
         Row {
@@ -107,7 +110,7 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
     }
 }
 
-@Preview
+@PreviewAll
 @Composable
 private fun PreviewOuterScreenContent() {
     Preview {
