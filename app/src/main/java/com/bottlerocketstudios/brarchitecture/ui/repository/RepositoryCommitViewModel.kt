@@ -22,7 +22,7 @@ class RepositoryCommitViewModel : BaseViewModel() {
     }
 
     // State
-    private val srcCommits = MutableStateFlow<List<CommitDto>>(emptyList())
+    private val srcCommits = MutableStateFlow<List<CommitDtoWithBranch>>(emptyList())
     private val branchNames = MutableStateFlow<List<String>>(emptyList())
     val currentRepoName = MutableStateFlow("")
 
@@ -43,11 +43,11 @@ class RepositoryCommitViewModel : BaseViewModel() {
         .map { commits ->
             commits.map { commit ->
                 RepositoryCommitItemUiModel(
-                    author = commit.author?.userInfo?.displayName ?: "",
-                    timeSinceCommitted = commit.date.formattedUpdateTime(clock),
-                    hash = commit.hash?.take(HASH_LENGTH) ?: "",
-                    message = commit.message ?: "",
-                    branchName = commit.branchName ?: ""
+                    author = commit.commitDto.author?.userInfo?.displayName ?: "",
+                    timeSinceCommitted = commit.commitDto.date.formattedUpdateTime(clock),
+                    hash = commit.commitDto.hash?.take(HASH_LENGTH) ?: "",
+                    message = commit.commitDto.message ?: "",
+                    branchName = commit.branchName,
                 )
             }
         }
@@ -59,19 +59,17 @@ class RepositoryCommitViewModel : BaseViewModel() {
     // Load Logic
     private fun getRepoCommits(name: String) {
         val selectedRepo = repo.repos.value.firstOrNull { it.name?.equals(name) ?: false }
-        val commitList = mutableListOf<CommitDto>()
+        val commitList = mutableListOf<CommitDtoWithBranch>()
         path.setValue(name)
         selectedRepo?.let {
             val slug = it.workspaceDto?.slug ?: ""
             val repoName = it.name ?: ""
             launchIO {
                 repo.getBranches(slug, repoName).handlingErrors(R.string.error_loading_commits) { branchCallResult ->
-                    branchNames.value = branchCallResult.map { branch -> branch.branchName ?: "" }
-                    branchCallResult.forEach { repoBranch ->
-                        val branch = repoBranch.branchName ?: ""
+                    branchNames.value = branchCallResult.mapNotNull { branch -> branch.branchName }.filter { branch -> branch.isNotBlank() } // only care about non-null/non-blank branches
+                    branchNames.value.forEach { branch ->
                         repo.getCommits(slug, repoName, branch).handlingErrors(R.string.error_loading_commits) { commitCallResult ->
-                            commitCallResult.forEach { commit -> commit.branchName = repoBranch.branchName }
-                            commitList.addAll(commitCallResult)
+                            commitList.addAll(commitCallResult.map { commitDto -> CommitDtoWithBranch(commitDto, branch) })
                         }
                     }
                 }
@@ -79,4 +77,10 @@ class RepositoryCommitViewModel : BaseViewModel() {
             }
         }
     }
+
+    /** Used in place of Pair to provide additional context to the properties. */
+    private data class CommitDtoWithBranch(
+        val commitDto: CommitDto,
+        val branchName: String,
+    )
 }
