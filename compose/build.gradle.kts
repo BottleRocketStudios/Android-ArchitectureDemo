@@ -23,7 +23,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true
+        isCoreLibraryDesugaringEnabled = false
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()

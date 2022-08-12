@@ -132,9 +132,8 @@ android {
         unitTests.isIncludeAndroidResources = true
     }
     shot {
-        applicationId = "com.bottlerocketstudios.brarchitecture"
-        tolerance = 1.1 //1.1%
-        showOnlyFailingTestsInReports = false
+        applicationId = "com.bottlerocketstudios.brarchitecture.test"
+        // tolerance = 1.1
     }
 }
 

@@ -70,7 +70,7 @@ object Config {
 
         // Gradle plugin and a core android library thought to run screenshot tests for Android
         // https://github.com/pedrovgs/Shot
-        const val KARUMI_SCREENSHOT_TESTING = "com.karumi:shot:5.14.1"
+        const val KARUMI_SCREENSHOT_TESTING = "com.karumi:shot:5.14.0"
     }
 
     /**
