@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
@@ -79,12 +78,10 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
                     text = item.author,
                     style = MaterialTheme.typography.h3.copy(color = Colors.tertiary)
                 )
-                Row {
-                    Text(
-                        text = item.branchName,
-                        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
-                    )
-                }
+                Text(
+                    text = item.branchName,
+                    style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
+                )
                 Text(
                     text = item.message,
                     style = MaterialTheme.typography.h5
