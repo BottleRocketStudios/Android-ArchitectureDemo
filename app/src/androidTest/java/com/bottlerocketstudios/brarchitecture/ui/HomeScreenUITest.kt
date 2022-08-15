@@ -11,6 +11,7 @@ import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.home.HomeScreenState
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.StringIdHelper
+import com.bottlerocketstudios.compose.util.asMutableState
 import com.karumi.shot.ScreenshotTest
 import org.junit.Rule
 import org.junit.Test
@@ -22,9 +23,24 @@ class HomeScreenUITest : ScreenshotTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun doIrun() {
+    fun homeScreenWithListItemsScreenshot() {
         renderComponent(
+            HomeScreenState(
+                repositories = listOf(testCard1, testCard2).asMutableState(),
+                itemSelected = {}
+            )
+        )
 
+        compareScreenshot(composeRule.onRoot())
+    }
+
+    @Test
+    fun homeScreenNoResultItemsScreenshot() {
+        renderComponent(
+            HomeScreenState(
+                repositories = emptyList<UserRepositoryUiModel>().asMutableState(),
+                itemSelected = {}
+            )
         )
 
         compareScreenshot(composeRule.onRoot())
@@ -94,5 +110,4 @@ class HomeScreenUITest : ScreenshotTest {
         ),
         formattedLastUpdatedTime = StringIdHelper.Raw("")
     )
-
 }
