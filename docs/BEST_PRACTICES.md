@@ -1,5 +1,4 @@
-Best Practices
-==============
+# Best Practices
 
 ## Summary
 The point of this doc is to share some best practices and processes within the team so that we are all on the same page regarding the points listed.
@@ -31,7 +30,7 @@ Dev team :)
 | `testInternalDebugUnitTestCoverage`                                  | Low                  |                                       | Executes a custom jacoco gradle task that generates separate jacoco reports per module. Prefer executing `testInternalDebugCombinedUnitTestCoverage` instead.                | Prefer executing `testInternalDebugCombinedUnitTestCoverage` instead.                                                                                                                                                                                          |
 | `testInternalDebugUnitTestCoverageVerification`                      | Low                  |                                       | Executes a custom jacoco gradle task that fails the build when the minimum code coverage threshold is NOT met (per module).                                                  | Run locally to ensure that the build won't fail due to minimum code coverage thresholds NOT being met.                                                                                                                                                         |
 | `ktlintFormat`                                                       | High                 | Prior to pushing to remote            | Executes ktlint format gradle task to automatically fix most ktlint errors. Manual error resolution might still be required.                                                 | Run locally prior to pushing local commits to the remote git repository to automatically fix most ktlint errors. Remediate issues found until task executes successfully.                                                                                      |
-| `lintInternalDebug`                                                  | Low                  |                                       | Executes android lint gradle task. Build will fail on lint error.                                                                                                            | Run locally to ensure build won't fail on CI. Remediate issues found until task executes successfully.                                                                                                                                                         |
+| `lintInternalDebug`                                                  | Low                  |                                       | Executes Android lint gradle task. Build will fail on lint error.                                                                                                            | Run locally to ensure build won't fail on CI. Remediate issues found until task executes successfully.                                                                                                                                                         |
 | `dependencyUpdates`                                                  | High                 | When updating project dependencies    | Executes dependency updates gradle task which reports which dependencies have updates available.                                                                             | Run to see what dependency updates are available when desiring to update dependencies.                                                                                                                                                                         |
 | `:app - testInternalDebugUnitTest`                                   | Low                  |                                       | Executes all `:app` module unit tests                                                                                                                                        | Run to validate success/failure of all `:app` module unit tests with AS unit test run UI.                                                                                                                                                                      |
 | `:data - testInternalDebugUnitTest`                                  | Low                  |                                       | Executes all `:data` module unit tests                                                                                                                                       | Run to validate success/failure of all `:data` module unit tests with AS unit test run UI.                                                                                                                                                                     |
@@ -39,9 +38,9 @@ Dev team :)
 | `ci - internalRelease (minus clean) - qa build`                      | Low                  |                                       | Executes all gradle tasks that would be run on CI for the `internalRelease` variant. If this task succeeds, there is a 99.9% chance the build will succeed on CI.            | Run locally to ensure build won't fail on CI prior to pushing local commits to the remote git repository. Remediate issues found until task executes successfully.                                                                                             |
 | `ci - productionRelease (minus clean) - CI store build w/ fake data` | Low                  |                                       | Executes all gradle tasks that would be run on CI for the `productionRelease` variant. If this task succeeds, there is a 99.9% chance the build will succeed on CI.          | Run locally to ensure build won't fail on CI prior to pushing local commits to the remote git repository. Remediate issues found until task executes successfully.                                                                                             |
 | `ktlintCheck`                                                        | Low                  |                                       | Executes ktlint check task to show any ktlint code style/formatting errors.                                                                                                  | Run locally to ensure build won't fail on CI. Remediate issues found until task executes successfully.                                                                                                                                                         |
-| `Open Jacoco Report - internalDebug`                                 | Medium               | Viewing/increasing unit test coverage | Executes shell script to open the `internalDebug` variant html jacoco reports (unified, `:app`, and `:data`) in your system's default browser                                | After executing any `ci - *` or `testInternalDebugCombinedUnitTestCoverage` task, run this task to launch the jacoco reports for viewing.                                                                                                                      |
+| `Open Jacoco Report - internalDebug`                                 | Medium               | Viewing/increasing unit test coverage | Executes shell script to open the `internalDebug` variant HTML jacoco reports (unified, `:app`, and `:data`) in your system's default browser                                | After executing any `ci - *` or `testInternalDebugCombinedUnitTestCoverage` task, run this task to launch the jacoco reports for viewing.                                                                                                                      |
 
-### .idea folder values checked into the git repo
+### .idea folder values checked into the git repository
 * `.idea/codeStyles/*` - This folder contains all of the shared project codestyle files and is crucial to ensure the whole team is using the same code style.
 * `.idea/runConfigurations/*`- This folder contains all of the shared project run configurations. To share a Run Configuration with the team, check the `Store as project file` checkbox in the Edit Run Configuration window.
 
@@ -54,7 +53,7 @@ Here is an example flow to add a new configuration to `DependencyHandlerUtils.kt
 
 1. In `Dependencies.kt`, you want to add the following block but see a compilation error (`unresolved reference: compileOnly`):
 
-```
+```kotlin
 fun DependencyHandler.fooDependencies() {
     compileOnly(Libraries.FOO)
 }
@@ -74,7 +73,7 @@ fun DependencyHandler.fooDependencies() {
 ## Code
 ### Style
 #### ktlint
-Kotlin linter for kotlin code against the android kotlin style guide to guard against style violations that should be run on the CI and fails builds on a `ktlintCheck` error.
+Kotlin linter for kotlin code against the Android kotlin style guide to guard against style violations that should be run on the CI and fails builds on a `ktlintCheck` error.
 
 To prevent ci failures, your development process should include running `ktlintFormat` prior to pushing any commits to the remote. Example below:
 
@@ -85,7 +84,7 @@ To prevent ci failures, your development process should include running `ktlintF
 
 Useful gradle tasks that come with the gradle plugin:
 
-```
+```shell
 // Verification/auto-format
 ./gradlew ktlintCheck
 ./gradlew ktlintFormat
@@ -101,7 +100,7 @@ Useful gradle tasks that come with the gradle plugin:
 ./gradlew addKtlintFormatGitPreCommitHook
 ```
 
-More info at https://github.com/JLLeitschuh/ktlint-gradle#configuration
+More info at <https://github.com/JLLeitschuh/ktlint-gradle#configuration>
 
 #### General
 * **Do not use Hungarian notation!**. This means no `mUser` or `sUserManager`. Instead try `user` and `userManager`.
@@ -118,8 +117,8 @@ sealed class Foo {
 ```
 
 ##### References
-* Kotlin naming rules: http://kotlinlang.org/docs/reference/coding-conventions.html#naming-rules (shows examples for object)
-* Sealed class api docs: https://kotlinlang.org/docs/reference/sealed-classes.html (shows PascalCase/UpperCamelCase for objects in sealed class)
+* Kotlin naming rules: <http://kotlinlang.org/docs/reference/coding-conventions.html#naming-rules> (shows examples for object)
+* Sealed class API docs: <https://kotlinlang.org/docs/reference/sealed-classes.html (shows PascalCase/UpperCamelCase> for objects in sealed class)
 
 ### FIXME/TODO Comments
 * Use `FIXME` comments to leave "breadcrumbs" in cases where some specific code or condition needs to be revisited **before the next release**. You might leave a FIXME when using a placeholder value that needs to be updated with the real one later on down the road when it is created/obtained. During dev signoff, all FIXME entries should be evaluated and handled appropriately.
@@ -330,7 +329,7 @@ There are files in the project marked with either `<!-- TEMPLATE: ... -->` or `/
 ##### HTML with language injection
 ![ide_html_string_with_language_injection]
 
-* Full documentation at https://www.jetbrains.com/help/idea/using-language-injections.html#language_annotation
+* Full documentation at <https://www.jetbrains.com/help/idea/using-language-injections.html#language_annotation>
 
 
 ### TimeUnit suffixes
@@ -349,7 +348,7 @@ If using a type that abstracts the need for a unit such as `org.threeten.bp.Dura
 Use `StringIdHelper.*` types (representing string resources, format strings, and plurals as well as raw strings) in `ViewModel`s (or other classes) to avoid needing a `Context`. This allows for **simpler unit testing** and **prevents the need for `Context` in places it shouldn't be used** by pushing the resolution of the final String to the view layer (using the `textByStringIdHelper` DataBinding custom BindingAdapter function that takes in a `Context`).
 
 ## Inject `Clock`
-Pass the `java.time.Clock` instance from Koin to any java 8 date/time apis that can use it in order **to allow control of the clock in unit tests**. This will typically be the `.now(clock: Clock)` api on `Instant`, `ZonedDateTime`, `LocalDateTime`, `LocalDate`, `LocalTime`, and so on.
+Pass the `java.time.Clock` instance from Koin to any java 8 date/time APIs that can use it in order **to allow control of the clock in unit tests**. This will typically be the `.now(clock: Clock)` API on `Instant`, `ZonedDateTime`, `LocalDateTime`, `LocalDate`, `LocalTime`, and so on.
 
 ## Jacoco
 1. **Generate a combined jacoco report of all modules (as well as a report per module)** by executing the `testInternalDebugCombinedUnitTestCoverage` gradle task (or included Android Studio Run Configuration). More info in [jacocoRoot.gradle](../jacocoRoot.gradle)
@@ -384,7 +383,7 @@ Currently the app is broken into two modules: `app` and `data`
 * Database
 * General Utilities including top level functions and objects
 * DI Data/Networking/Domain Modules
-* **Minimal (or nonexistent) use of context and other android framework apis**
+* **Minimal (or nonexistent) use of context and other Android framework APIs**
 
 #### What should not be in it
 * Any Android Resources (including usage of Android Resources)
@@ -403,7 +402,7 @@ Currently the app is broken into two modules: `app` and `data`
 | internalRelease   | **com.bottlerocketstudios.brarchitecture.internal**       | Dev doesn't have much use for this variant but can use for proguard/R8 testing if attaching a debugger on device is not needed.      | Enabled                                                          | Enabled           | Yes                  | No          | Release           | Yes          | Yes                    | Yes                                       | Primary variant for QA testing                       |
 | productionRelease | **com.bottlerocketstudios.brarchitecture**                | Smoketest before release                                                                                                             | Disabled                                                         | Disabled          | No                   | No          | Release           | Yes          | Yes                    | Yes                                       | Primary after Feature Complete and until app release |
 
-*Generated with https://www.tablesgenerator.com/markdown_tables#*
+*Generated with <https://www.tablesgenerator.com/markdown_tables#>*
 
 ### Dev Highlights
 * Use the `internalDebugMini` variant to build a proguarded/R8 debuggable build for local testing/debugging.
@@ -417,64 +416,64 @@ Add when things come up.
 ## Gradle Kotlin DSL
 
 ### General Resources
-* https://github.com/gradle/kotlin-dsl
-* https://docs.gradle.org/current/userguide/kotlin_dsl.html
-* https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources
+* <https://github.com/gradle/kotlin-dsl>
+* <https://docs.gradle.org/current/userguide/kotlin_dsl.html>
+* <https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources>
 
 
 ### Tips for migrating from groovy scripts to kotlin gradle script
-* Full guide: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/
+* Full guide: <https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/>
 #### Takeaways
 * Change all single quotes to double quotes
 * Add parentheses in appropriate places for getters and = or () for setters
 * Ensure groovy scripts still compile
 * Change filename suffix from .gradle to .gradle.kts and sync -> manually tweak script to eliminate errors
 
-### Api
-* Full kotlin gradle dsl api: https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/index.html
-* General kotlin build script api info at https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-build-script/index.html
-* General kotlin settings script api info at https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-settings-script/index.html
+### API
+* Full kotlin gradle dsl api: <https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/index.html>
+* General kotlin build script API info at <https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-build-script/index.html>
+* General kotlin settings script API info at <https://gradle.github.io/kotlin-dsl-docs/api/org.gradle.kotlin.dsl/-kotlin-settings-script/index.html>
 
 ### Default Build Script imports
-* https://docs.gradle.org/current/userguide/writing_build_scripts.html#script-default-imports
+* <https://docs.gradle.org/current/userguide/writing_build_scripts.html#script-default-imports>
 
 ### Dealing with task retrieval/creation
 Takeaways:
 
-* Use delegation apis available for extras/properties set/get
+* Use delegation APIs available for extras/properties set/get
 * Don't use map syntax for extra set/get (see below):
 
 > There is one last syntax for extra properties that we should cover, one that treats extra as a map. We recommend against using this in general as you lose the benefits of Kotlin’s type checking and it prevents IDEs from providing as much support as they could. However, it is more succinct than the delegated properties syntax and can reasonably be used if you only need to set the value of an extra property without referencing it later.
 
-* https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:containers
+* <https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:containers>
 
 ### Interoperability
-* Tips/info on dealing with groovy <-> kotlin build script nuances/syntax: https://docs.gradle.org/current/userguide/kotlin_dsl.html#sec:interoperability
-* Groovy interop sample: https://github.com/gradle/kotlin-dsl/tree/master/samples/groovy-interop
+* Tips/info on dealing with groovy <-> kotlin build script nuances/syntax: <https://docs.gradle.org/current/userguide/kotlin_dsl.html#sec:interoperability>
+* Groovy interop sample: <https://github.com/gradle/kotlin-dsl/tree/master/samples/groovy-interop>
 
 ### Limitations
-* https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:limitations
+* <https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:limitations>
 * Don't use `org.gradle.configureondemand=true` (see below):
 
 > We recommend against enabling the incubating configuration on demand feature as it can lead to very hard-to-diagnose problems.
 
 ### Dependencies.kt
-* https://antonioleiva.com/kotlin-dsl-gradle/
-* https://proandroiddev.com/migrating-android-build-scripts-from-groovy-to-kotlin-dsl-f8db79dd6737
-* https://handstandsam.com/2018/02/11/kotlin-buildsrc-for-better-gradle-dependency-management/
+* <https://antonioleiva.com/kotlin-dsl-gradle/>
+* <https://proandroiddev.com/migrating-android-build-scripts-from-groovy-to-kotlin-dsl-f8db79dd6737>
+* <https://handstandsam.com/2018/02/11/kotlin-buildsrc-for-better-gradle-dependency-management/>
 
 ## Miscellaneous
 
 ### Viewing/Editing shared preferences (using AS Device File Explorer)
-See https://stackoverflow.com/a/52352741/201939 as well as comments to see how to save as/upload edits on top of the original files.
+See <https://stackoverflow.com/a/52352741/201939> as well as comments to see how to save as/upload edits on top of the original files.
 
-### Inspect/Query/Modify databases (using AS App Inspection / Database Inspector on api 26+ device/emulator)
-See https://developer.android.com/studio/inspect/database
+### Inspect/Query/Modify databases (using AS App Inspection / Database Inspector on API 26+ device/emulator)
+See <https://developer.android.com/studio/inspect/database>
 
 ### Counting lines of code (using [cloc][cloc])
-* Install using homebrew: `brew install cloc` (or your package manager of choice: https://github.com/AlDanial/cloc#install-via-package-manager)
-* Execute the following snippet via command line from the root project directory:
-```bash
+* Install using homebrew: `brew install cloc` (or your package manager of choice: <https://github.com/AlDanial/cloc#install-via-package-manager>)
+* Execute the following snippet via command-line from the root project directory:
+```shell
 # From root project directory:
 cloc app/src --by-file-by-lang
 ```
