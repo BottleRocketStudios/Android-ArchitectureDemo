@@ -6,15 +6,20 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 import java.time.Clock
+import java.util.Locale
 
 class PullRequestViewModel : BaseViewModel() {
 
     // DI
     private val repo: BitbucketRepository by inject()
     private val clock by inject<Clock>()
+
+    val selectionList = MutableStateFlow(listOf("Open", "Merged", "Declined", "Superseded"))
+    val selectedText = MutableStateFlow("Open")
 
     val pullRequestList = repo.pullRequests.map {
         it.map { dto ->
@@ -32,7 +37,16 @@ class PullRequestViewModel : BaseViewModel() {
     // Init logic
     init {
         launchIO {
-            repo.getPullRequests().handlingErrors(R.string.pull_request_error) {}
+            selectedText.collect {
+                getPullRequestByState(it)
+            }
+        }
+    }
+
+    private fun getPullRequestByState(state: String = "Open") {
+        launchIO {
+            repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT))
+                .handlingErrors(R.string.pull_request_error) {}
         }
     }
 }

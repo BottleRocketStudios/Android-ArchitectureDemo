@@ -9,19 +9,27 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bottlerocketstudios.compose.filterdropdown.FilterDropDownMenu
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
+import com.bottlerocketstudios.compose.util.PreviewComposable
 import com.bottlerocketstudios.compose.util.asMutableState
 
 @Composable
 fun PullRequestScreen(state: PullRequestScreenState) {
-    Column() {
+    Column {
+        FilterDropDownMenu(
+            Modifier.padding(start = Dimens.grid_2, top = Dimens.grid_4_5, bottom = Dimens.grid_3),
+            state.selectedText.value,
+            state.selectionList.value,
+            state.onFilterSelectionClicked
+        )
+
         Divider(
-            modifier = Modifier.padding(start = 9.dp, end = 9.dp, top = 24.dp, bottom = 24.dp),
-            color = brown_grey,
+            modifier = Modifier.padding(start = Dimens.grid_1, end = Dimens.grid_1, bottom = Dimens.grid_3),
+            color = Colors.borderColor,
             thickness = 1.dp
         )
         if (state.pullRequestList.value.isNotEmpty()) {
@@ -38,14 +46,14 @@ fun PullRequestScreen(state: PullRequestScreenState) {
             PullRequestEmptyScreen()
         }
         Divider(
-            modifier = Modifier.padding(start = 9.dp, end = 9.dp, top = 24.dp, bottom = 24.dp),
-            color = brown_grey,
+            modifier = Modifier.padding(start = Dimens.grid_1, end = Dimens.grid_1, top = Dimens.grid_3, bottom = Dimens.grid_3),
+            color = Colors.borderColor,
             thickness = 1.dp
         )
     }
 }
 
-@Preview
+@PreviewComposable
 @Composable
 private fun PullRequestsPreview() {
     Preview {
@@ -81,7 +89,10 @@ private fun PullRequestsPreview() {
                             linesAdded = "0 Lines Added".asMutableState(),
                             linesRemoved = "0 Lines Removed".asMutableState()
                         )
-                    ).asMutableState()
+                    ).asMutableState(),
+                    selectedText = "Open".asMutableState(),
+                    selectionList = listOf("Open", "", "").asMutableState(),
+                    onFilterSelectionClicked = {}
                 )
             )
         )

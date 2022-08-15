@@ -13,18 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
-import com.bottlerocketstudios.compose.resources.greyish_brown
+import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
 import com.bottlerocketstudios.compose.util.ResponsiveText
 import com.bottlerocketstudios.compose.util.asMutableState
+import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
 fun PullRequestItemCard(state: PullRequestItemState) {
@@ -32,13 +30,13 @@ fun PullRequestItemCard(state: PullRequestItemState) {
         elevation = Dimens.plane_3,
         modifier = Modifier.wrapContentWidth()
     ) {
-        Row(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
+        Row(modifier = Modifier.padding(top = Dimens.grid_2, bottom = Dimens.grid_2)) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_repository),
                 contentDescription = stringResource(id = R.string.home_repository_icon),
                 tint = Colors.tertiary,
                 modifier = Modifier
-                    .padding(start = 36.dp, end = 14.dp, top = 6.dp)
+                    .padding(start = Dimens.grid_4_5, end = Dimens.grid_1_75, top = Dimens.grid_0_75)
                     .align(Alignment.Top)
                     .weight(1f)
             )
@@ -50,31 +48,29 @@ fun PullRequestItemCard(state: PullRequestItemState) {
                 Row {
                     ResponsiveText(
                         text = state.prName.value,
-                        textStyle = TextStyle(fontSize = 16.sp),
+                        textStyle = typography.h3,
                         modifier = Modifier
                             .wrapContentWidth()
-                            .padding(end = 8.dp)
+                            .padding(end = Dimens.grid_1)
                     )
                 }
-                Row(modifier = Modifier.padding(top = 4.dp)) {
-                    Text(text = state.prState.value, color = greyish_brown, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Row(modifier = Modifier.padding(top = Dimens.grid_0_5)) {
+                    Text(text = state.prState.value, style = typography.body1.bold())
                 }
                 Row(
-                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(60.dp)
+                    modifier = Modifier.padding(top = Dimens.grid_1, bottom = Dimens.grid_1),
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.grid_7)
                 ) {
-                    Text(text = state.linesAdded.value, color = greyish_brown, fontSize = 10.sp)
-                    Text(text = state.linesRemoved.value, color = greyish_brown, fontSize = 10.sp)
+                    Text(text = state.linesAdded.value, style = typography.body1)
+                    Text(text = state.linesRemoved.value, style = typography.body1)
                 }
             }
             Text(
                 text = state.prCreation.value,
-                color = greyish_brown,
                 fontSize = 10.sp,
                 modifier = Modifier
                     .wrapContentWidth()
-                    .weight(2f)
-                    .padding(end = 37.dp)
+                    .padding(end = Dimens.grid_4_5)
             )
         }
     }

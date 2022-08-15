@@ -4,6 +4,9 @@ import androidx.compose.runtime.State
 
 data class PullRequestScreenState(
     val pullRequestList: State<List<PullRequestItemState>>,
+    val selectedText: State<String>,
+    val selectionList: State<List<String>>,
+    val onFilterSelectionClicked: (String) -> Unit,
 )
 
 data class PullRequestItemState(

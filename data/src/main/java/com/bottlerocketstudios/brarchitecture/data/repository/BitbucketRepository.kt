@@ -47,6 +47,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
     suspend fun getPullRequests(): Status<List<PullRequestDto>>
+    suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequestDto>>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
     suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit>
     suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto>
@@ -177,6 +178,14 @@ internal class BitbucketRepositoryImpl(
     override suspend fun getPullRequests(): Status<List<PullRequestDto>> {
         return wrapRepoExceptions("getPullRequests") {
             bitbucketService.getPullRequests(_user.value?.username.orEmpty()).toResult().map {
+                it.values.orEmpty().asSuccess()
+            }.alsoOnSuccess { prs -> _pullRequests.value = prs }
+        }
+    }
+
+    override suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequestDto>> {
+        return wrapRepoExceptions("getPullRequestsWithQuery") {
+            bitbucketService.getPullRequestsWithQuery(_user.value?.username.orEmpty(), state).toResult().map {
                 it.values.orEmpty().asSuccess()
             }.alsoOnSuccess { prs -> _pullRequests.value = prs }
         }

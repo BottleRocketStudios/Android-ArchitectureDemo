@@ -6,5 +6,8 @@ import com.bottlerocketstudios.compose.pullrequest.PullRequestScreenState
 
 @Composable
 fun PullRequestViewModel.toState() = PullRequestScreenState(
-    pullRequestList = pullRequestList.collectAsState(initial = emptyList())
+    pullRequestList = pullRequestList.collectAsState(initial = emptyList()),
+    selectedText = selectedText.collectAsState(),
+    selectionList = selectionList.collectAsState(initial = emptyList()),
+    onFilterSelectionClicked = { selectedText.value = it }
 )
