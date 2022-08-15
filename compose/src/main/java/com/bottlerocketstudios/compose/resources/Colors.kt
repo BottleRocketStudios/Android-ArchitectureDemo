@@ -17,6 +17,7 @@ val sea_foam = Color(0xff1fada8)
 
 val lightColors = ArchitectureDemoColors(
     tertiary = sea_foam,
+    borderColor = brown_grey,
     materialColors = lightColors(
         primary = br_red,
         primaryVariant = br_dark_red,
@@ -32,6 +33,7 @@ val lightColors = ArchitectureDemoColors(
 
 val darkColors = ArchitectureDemoColors(
     tertiary = Color.Green,
+    borderColor = Color.White,
     materialColors = darkColors(
         primary = br_red,
         primaryVariant = br_dark_red,
@@ -47,6 +49,7 @@ val darkColors = ArchitectureDemoColors(
 
 data class ArchitectureDemoColors(
     val tertiary: Color,
+    val borderColor: Color,
     val materialColors: Colors
 ) {
     val primary: Color
