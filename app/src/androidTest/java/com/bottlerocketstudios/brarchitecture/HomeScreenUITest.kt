@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.ui
+package com.bottlerocketstudios.brarchitecture
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
