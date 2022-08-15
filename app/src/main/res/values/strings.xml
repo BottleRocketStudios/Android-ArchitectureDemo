@@ -32,6 +32,9 @@
     <!-- Repository File screen -->
     <string name="error_loading_file" tools:ignore="ExtraTranslation">Error loading file</string>
 
+    <!--    Pull Request-->
+    <string name="pull_request_error">Failed to get Pull Requests</string>
+
     <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>
 
@@ -39,6 +42,7 @@
 
     <!-- Values added to exercise unit tests -->
     <string name="sample_format">Sample %1$s</string>
+    <string name="pull_requests">Pull Requests</string>
     <plurals name="sample_plural_format">
         <item quantity="one">%1$s was updated %2$d day ago</item>
         <item quantity="other">%1$s was updated %2$d days ago</item>

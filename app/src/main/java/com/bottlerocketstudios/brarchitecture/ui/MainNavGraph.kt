@@ -17,6 +17,8 @@ import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.toState
 import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.profile.toState
+import com.bottlerocketstudios.brarchitecture.ui.pullrequests.PullRequestViewModel
+import com.bottlerocketstudios.brarchitecture.ui.pullrequests.toState
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
@@ -30,6 +32,7 @@ import com.bottlerocketstudios.compose.auth.AuthCodeScreen
 import com.bottlerocketstudios.compose.devoptions.DevOptionsScreen
 import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.profile.ProfileScreen
+import com.bottlerocketstudios.compose.pullrequest.PullRequestScreen
 import com.bottlerocketstudios.compose.repository.FileBrowserScreen
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
@@ -200,6 +203,18 @@ private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, 
     }
 }
 
+private fun ComposeActivity.pullRequestsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+    navGraphBuilder.composable(Routes.PullRequests) {
+        val vm: PullRequestViewModel = getViewModel()
+        vm.ConnectBaseViewModel {
+            PullRequestScreen(state = it.toState())
+        }
+
+        controls.title = stringResource(id = R.string.pull_requests)
+        controls.topLevel = true
+    }
+}
+
 fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: ComposeActivity, widthSize: WindowWidthSizeClass) {
     with(activity) {
         navigation(startDestination = Routes.Splash, route = Routes.Main) {
@@ -212,6 +227,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             repositoryFileComposable(this)
             profileComposable(this, navController)
             snippetListDetailComposable(this, widthSize)
+            pullRequestsComposable(this, navController)
         }
     }
 }

@@ -2,6 +2,7 @@ package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
@@ -68,6 +69,11 @@ internal interface BitbucketService {
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
     ): Response<ResponseBody>
+
+    @GET("2.0/pullrequests/{selected_user}")
+    suspend fun getPullRequests(
+        @Path(value = "selected_user") selectedUser: String
+    ): Response<BitbucketPagedResponse<List<PullRequestDto>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
     @GET(value = "2.0/snippets?role=owner")

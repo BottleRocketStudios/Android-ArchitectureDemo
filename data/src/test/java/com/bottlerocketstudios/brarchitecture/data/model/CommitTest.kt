@@ -7,7 +7,7 @@ import org.junit.Test
 class CommitTest : BaseTest() {
     @Test
     fun commit_defaultFields_whenDefaultConstructor() {
-        val commit = CommitDto(null, null, null, null, null, null, null)
+        val commit = CommitDto(null, null, null, null, null, null, null, null)
         assertThat(commit.parents).isNull()
         assertThat(commit.date).isNull()
         assertThat(commit.message).isNull()
@@ -15,5 +15,6 @@ class CommitTest : BaseTest() {
         assertThat(commit.hash).isNull()
         assertThat(commit.author).isNull()
         assertThat(commit.commitRepository).isNull()
+        assertThat(commit.links).isNull()
     }
 }
