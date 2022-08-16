@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
+import com.bottlerocketstudios.brarchitecture.data.model.BranchDto
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.ParentSnippetCommentDto
@@ -43,7 +44,8 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>>
     suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepositoryDto>
     suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
-    suspend fun getCommits(workspaceSlug: String, repo: String): Status<List<CommitDto>>
+    suspend fun getCommits(workspaceSlug: String, repo: String, branch: String): Status<List<CommitDto>>
+    suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<BranchDto>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
     suspend fun getPullRequests(): Status<List<PullRequestDto>>
@@ -162,9 +164,15 @@ internal class BitbucketRepositoryImpl(
                 .map { it.values.orEmpty().asSuccess() }
         }
 
-    override suspend fun getCommits(workspaceSlug: String, repo: String): Status<List<CommitDto>> {
+    override suspend fun getCommits(workspaceSlug: String, repo: String, branch: String): Status<List<CommitDto>> {
         return wrapRepoExceptions("getCommits") {
-            bitbucketService.getRepositoryCommits(workspaceSlug, repo).toResult().map { it.values.orEmpty().asSuccess() }
+            bitbucketService.getRepositoryCommits(workspaceSlug, repo, branch).toResult().map { it.values.orEmpty().asSuccess() }
+        }
+    }
+
+    override suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<BranchDto>> {
+        return wrapRepoExceptions("getBranches") {
+            bitbucketService.getRepositoryBranches(workspaceSlug, repo).toResult().map { it.values.orEmpty().asSuccess() }
         }
     }
 

@@ -23,6 +23,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
+import com.bottlerocketstudios.launchpad.compose.bold
 import java.time.Clock
 import java.time.ZonedDateTime
 
@@ -58,11 +59,10 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
     ) {
         Row {
             Icon(
-                modifier = Modifier
-                    .padding(
-                        start = Dimens.grid_2_5,
-                        top = Dimens.grid_2
-                    ),
+                modifier = Modifier.padding(
+                    start = Dimens.grid_2_5,
+                    top = Dimens.grid_2
+                ),
                 painter = painterResource(id = R.drawable.ic_user),
                 contentDescription = null,
                 tint = Colors.tertiary
@@ -79,8 +79,8 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
                     style = MaterialTheme.typography.h3.copy(color = Colors.tertiary)
                 )
                 Text(
-                    text = item.hash,
-                    style = MaterialTheme.typography.h5
+                    text = item.branchName,
+                    style = MaterialTheme.typography.h5.bold()
                 )
                 Text(
                     text = item.message,
@@ -88,16 +88,19 @@ fun CommitItem(item: RepositoryCommitItemUiModel) {
                 )
             }
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(
+                    top = Dimens.grid_2,
+                    end = Dimens.grid_2
+                ),
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    modifier = Modifier.padding(
-                        top = Dimens.grid_2,
-                        end = Dimens.grid_2
-                    ),
                     text = item.timeSinceCommitted.getString(),
                     style = MaterialTheme.typography.h5
+                )
+                Text(
+                    text = item.hash,
+                    style = MaterialTheme.typography.h5.bold()
                 )
             }
         }
@@ -114,6 +117,9 @@ private fun PreviewOuterScreenContent() {
                 itemCount = remember { mutableStateOf(commitItems.size) },
                 commitItems = remember {
                     mutableStateOf(commitItems)
+                },
+                branchNames = remember {
+                    mutableStateOf(listOf("Master"))
                 }
             )
         )
@@ -125,6 +131,7 @@ private val commitItems = listOf(
         author = "Stuff",
         timeSinceCommitted = ZonedDateTime.now().formattedUpdateTime(Clock.systemDefaultZone()),
         hash = "ygdg872rsdfs",
-        message = "Test Message"
+        message = "Test Message",
+        branchName = "master"
     )
 )
