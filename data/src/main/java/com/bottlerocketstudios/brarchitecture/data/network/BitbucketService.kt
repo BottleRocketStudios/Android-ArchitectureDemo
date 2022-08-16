@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.data.network
 import com.bottlerocketstudios.brarchitecture.data.model.BranchDto
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
@@ -19,6 +20,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /** Primary apis to interact with bitbucket. See https://developer.atlassian.com/bitbucket/api/2/reference */
 internal interface BitbucketService {
@@ -77,6 +79,17 @@ internal interface BitbucketService {
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
     ): Response<ResponseBody>
+
+    @GET("2.0/pullrequests/{selected_user}")
+    suspend fun getPullRequests(
+        @Path(value = "selected_user") selectedUser: String
+    ): Response<BitbucketPagedResponse<List<PullRequestDto>>>
+
+    @GET("2.0/pullrequests/{selected_user}")
+    suspend fun getPullRequestsWithQuery(
+        @Path(value = "selected_user") selectedUser: String,
+        @Query(value = "state") state: String,
+    ): Response<BitbucketPagedResponse<List<PullRequestDto>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/snippets */
     @GET(value = "2.0/snippets?role=owner")

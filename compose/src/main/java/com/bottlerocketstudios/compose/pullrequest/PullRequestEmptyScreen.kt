@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.compose.snippets
+package com.bottlerocketstudios.compose.pullrequest
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,13 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.bottlerocketstudios.compose.R
-import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
+import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
-fun SnippetsEmptyLayout() {
+fun PullRequestEmptyScreen() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -24,8 +24,8 @@ fun SnippetsEmptyLayout() {
             .fillMaxSize()
     ) {
         Text(
-            text = stringResource(R.string.no_snippets),
-            color = ArchitectureDemoTheme.colors.tertiary,
+            text = stringResource(R.string.no_pull_requests),
+            color = Colors.tertiary,
             style = MaterialTheme.typography.h1.bold()
         )
     }
@@ -33,8 +33,8 @@ fun SnippetsEmptyLayout() {
 
 @PreviewAll
 @Composable
-fun HomeEmptyPreview() {
+private fun PullRequestEmptyScreenPreview() {
     Preview {
-        SnippetsEmptyLayout()
+        PullRequestEmptyScreen()
     }
 }

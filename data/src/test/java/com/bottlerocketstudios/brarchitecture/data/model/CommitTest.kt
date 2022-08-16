@@ -16,5 +16,6 @@ class CommitTest : BaseTest() {
         assertThat(commit.author).isNull()
         assertThat(commit.commitRepository).isNull()
         assertThat(commit.branchName).isNull()
+        assertThat(commit.links).isNull()
     }
 }

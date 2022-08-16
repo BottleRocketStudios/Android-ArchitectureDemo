@@ -7,4 +7,8 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class BranchDto(@Json(name = "name") val name: String?) : Parcelable, Dto
+data class MergeCommitDto(
+    @Json(name = "type") val type: String?,
+    @Json(name = "hash") val hash: String?,
+    @Json(name = "links") val links: PrLinksDto?
+) : Parcelable, Dto

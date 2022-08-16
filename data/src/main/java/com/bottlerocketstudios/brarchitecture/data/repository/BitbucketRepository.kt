@@ -4,6 +4,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.BranchDto
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.ParentSnippetCommentDto
+import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentContentDto
@@ -34,6 +35,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     val user: StateFlow<UserDto?>
     val repos: StateFlow<List<GitRepositoryDto>>
     val snippets: StateFlow<List<SnippetDto>>
+    val pullRequests: StateFlow<List<PullRequestDto>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
     suspend fun authenticate(authCode: String): Boolean
     suspend fun refreshUser(): Status<Unit>
@@ -46,6 +48,8 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<BranchDto>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
+    suspend fun getPullRequests(): Status<List<PullRequestDto>>
+    suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequestDto>>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
     suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit>
     suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto>
@@ -74,12 +78,15 @@ internal class BitbucketRepositoryImpl(
     private val _user = MutableStateFlow<UserDto?>(null)
     private val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val _snippets = MutableStateFlow<List<SnippetDto>>(emptyList())
+    private val _pullRequests = MutableStateFlow<List<PullRequestDto>>(emptyList())
+
     var authenticated = false
         private set
 
     override val user: StateFlow<UserDto?> = _user
     override val repos: StateFlow<List<GitRepositoryDto>> = _repos
     override val snippets: StateFlow<List<SnippetDto>> = _snippets
+    override val pullRequests: StateFlow<List<PullRequestDto>> = _pullRequests
 
     override suspend fun authenticate(authCode: String): Boolean {
         Timber.v("[authenticate]")
@@ -175,6 +182,22 @@ internal class BitbucketRepositoryImpl(
                 .toResult()
                 .map { it.byteStream().readBytes().asSuccess() }
         }
+
+    override suspend fun getPullRequests(): Status<List<PullRequestDto>> {
+        return wrapRepoExceptions("getPullRequests") {
+            bitbucketService.getPullRequests(_user.value?.username.orEmpty()).toResult().map {
+                it.values.orEmpty().asSuccess()
+            }.alsoOnSuccess { prs -> _pullRequests.value = prs }
+        }
+    }
+
+    override suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequestDto>> {
+        return wrapRepoExceptions("getPullRequestsWithQuery") {
+            bitbucketService.getPullRequestsWithQuery(_user.value?.username.orEmpty(), state).toResult().map {
+                it.values.orEmpty().asSuccess()
+            }.alsoOnSuccess { prs -> _pullRequests.value = prs }
+        }
+    }
 
     override suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit> =
         wrapRepoExceptions("createSnippet") {

@@ -16,4 +16,5 @@ data class CommitDto(
     @Json(name = "hash") val hash: String?,
     @Json(name = "author") val author: AuthorDto?,
     @Json(name = "repository") val commitRepository: CommitRepositoryDto?,
+    @Json(name = "links") val links: LinksDto?,
 ) : Parcelable, Dto

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import com.bottlerocketstudios.brarchitecture.domain.models.Links
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetCommentContent
-import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.utils.convertToTimeAgoMessage
 import com.bottlerocketstudios.compose.util.asMutableState

@@ -6,12 +6,12 @@ import com.bottlerocketstudios.brarchitecture.data.converter.convertToUiModel
 import com.bottlerocketstudios.brarchitecture.data.converter.convertToUser
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
-import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
 
