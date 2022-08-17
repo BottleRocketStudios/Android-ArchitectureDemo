@@ -52,6 +52,8 @@ class HomeScreenUITest : ScreenshotTest {
         }
     }
 
+    // todo move somewhere that both UI test and Compose Preview
+    //  can share it instead of setting it twice.
     internal val testCard1 = UserRepositoryUiModel(
         GitRepository(
             scm = "scm1",
