@@ -8,5 +8,6 @@ import com.bottlerocketstudios.compose.repository.RepositoryCommitScreenState
 fun RepositoryCommitViewModel.toState() = RepositoryCommitScreenState(
     path = path.collectAsState(),
     itemCount = itemCount.collectAsState(),
-    commitItems = uiModels.collectAsState()
+    commitItems = uiModels.collectAsState(),
+    branchNames = branchItems.collectAsState()
 )

@@ -25,8 +25,6 @@ internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthServi
             val call = tokenAuthService.getToken(credentials?.id?.value.orEmpty(), credentials?.password?.value.orEmpty())
             val response = call.execute()
             val newToken = response.body()
-            // Uncomment this line, and the authInterceptor will always start out with an expired token
-            // token = AccessToken(access_token="mdAoLW3_ug7IPJHSdnn2s_J67sPAnxNbOvVq6ePlOszhqWBxsUUWS4v_ItvhdVnkUxaaxQKn_2jrsXVqDlg=", scopes="project pullrequest", expires_in=7200, refresh_token="WLcfLY3tdXRukHq7kJ", token_type="bearer")
 
             if (newToken == null) {
                 response.errorBody()?.string()?.also { Timber.w("getToken error=$it") }

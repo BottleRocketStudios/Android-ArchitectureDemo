@@ -1,5 +1,4 @@
-New Project Starter
-===================
+# New Project Starter
 
 ## Loose overview of New Project setup steps
 1. Copy architecture demo source to an empty git repository
@@ -36,18 +35,18 @@ Things you should have prior to starting the new project setup. These can be cha
 
 ### Refactor project names in the codebase
 * Replace existing applicationId with new applicationId in app `build.gradle.kts` productFlavors block
-* Update project build types/variants table application ids in [BEST_PRACTICES.md](BEST_PRACTICES.md)
+* Update project build types/variants table application IDs in [BEST_PRACTICES.md](BEST_PRACTICES.md)
 * Update brand name used for the apk in the app `build.gradle.kts`
 * Refactor app and data packagenames, including the values inside both `AndroidManifest.xml` files.
 * Refactor `BitbucketApplication` to a brand specific name.
 * Adjust project name in `settings.gradle.kts`
 * Adjust app name in `strings.xml`
-* Perform a project wide string search for `bottle`, `rocket`, and `bitbucket` and refactor any class/comment/file names as needed.
+* Perform a project wide string search for `bottle`, `rocket`, and `bitbucket` and refactor any class/comment/filenames as needed.
 
 ### Update other relevant project data
 * Update version number to appropriate starting point if not `1.0.0` in the app `build.gradle.kts`
 * Update the `MIN_SDK` value in `Dependencies.kt` (as needed)
-* Replace existing `debug.keystore` with a newly generated a new debug keystore (optional). See https://gist.github.com/henriquemenezes/70feb8fff20a19a65346e48786bedb8f#debug-keystore
+* Replace existing `debug.keystore` with a newly generated a new debug keystore (optional). See <https://gist.github.com/henriquemenezes/70feb8fff20a19a65346e48786bedb8f#debug-keystore>
 
 ### Gradual replacement of unused data once project specific data is added (classes, dependencies, Android resources)
 * As the new project grows over time, all of the architecture demo specific code and dependencies (relating to bitbucket repository management) should be removed.

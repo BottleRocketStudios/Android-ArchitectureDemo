@@ -1,5 +1,4 @@
-Bottle Rocket Android Architecture Guidelines
-=============================================
+# Bottle Rocket Android Architecture Guidelines
 
 ## How to Open Project in Android Studio
 * Clone project to local machine
@@ -8,8 +7,10 @@ Bottle Rocket Android Architecture Guidelines
 * Project should open and Gradle should sync without any issues.
 
 ## OAuth consumer key creation and setup steps
-* Generate a Bitbucket OAuth consumer key at https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api
-    * You must specify a callback url with the following value for auth code login to work: https://www.bottlerocketstudios.com/
+<!-- textlint-disable terminology --><!-- Disabling to prevent terminology changes in urls, resulting in invalid urls -->
+
+* Generate a Bitbucket OAuth consumer key at <https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api>
+    * You must specify a callback URL with the following value for auth code login to work: <https://www.bottlerocketstudios.com/>
     * You must enable the following permissions (at a minimum) to ensure proper functioning of the app:
         * **Account** read
         * **Snippets** read/write
@@ -17,7 +18,8 @@ Bottle Rocket Android Architecture Guidelines
         * **Pull Request** read
 * Create a file in project root named "apikey.properties" with following format:
 
-```
+<!-- textlint-enable terminology -->
+```text
 BITBUCKET_KEY="[oauth_consumer_key]"
 BITBUCKET_SECRET="[oauth_consumer_secret]"
 ```
@@ -38,9 +40,9 @@ BITBUCKET_SECRET="[oauth_consumer_secret]"
 The project is using the Gradle Versions plugin to do a lot of heavy lifting here!
 
 1. Execute the `dependencyUpdates` task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates.
-2. View the generated report that mentions any library dependency updates (as well as Gradle updates). 
+2. View the generated report that mentions any library dependency updates (as well as Gradle updates).
 3. For each dependency update list:
-    1. View the release notes to see relevant bug fixes, breaking changes (api modification, removal or replacement), and deprecations
+    1. View the release notes to see relevant bugfixes, breaking changes (API modification, removal or replacement), and deprecations
     2. Update the version
     3. Make any necessary changes to code, build files, and/or unit tests.
     4. Follow steps in the Pre-PR Creation Checklist, especially ensuring the app still compiles and is smoke tested with the new changes.
@@ -59,7 +61,7 @@ This project uses the `generateNavDrawerItems` method in the `ComposeActivity` t
 3. Create your new NavItemState using the ingredients gathered
 4. Add it to the list in the order required
 5. If your NavItemState includes a nested list
-    1. Determine the criteria for which the nested menu appears (e.g Only show the nested menu when a repo is selected)
+    1. Determine the criteria for which the nested menu appears (e.g Only show the nested menu when a repository is selected)
     2. Set the nestedMenuItems variable in NavItemState to a listOf(NavItemState) made up of your nested menu items
     3. The padding and styling of the nested list are handled by `NavDrawer.kt`, modify to requirements
 
@@ -68,14 +70,14 @@ This project uses the `generateNavDrawerItems` method in the `ComposeActivity` t
 
 *Made up example: If kotlin releases native date/time support (and becomes the go to date time solution for Android), don't implement java 8 date/time libs if it is still not implemented but in the list below*
 
-#### To Do List
-* Android 12 Splash screen support (using androidx core-splashscreen lib at https://developer.android.com/jetpack/androidx/releases/core)
+### To Do List
+* Android 12 Splash screen support (using androidx core-splashscreen lib at <https://developer.android.com/jetpack/androidx/releases/core)>
 * Base/custom/generic dialog support with:
-    * title (visible/gone) - res id or string (see StringIdHelper below)
-    * body - res id or string (see StringIdHelper below)
+    * title (visible/gone) - res ID or string (see StringIdHelper below)
+    * body - res ID or string (see StringIdHelper below)
     * positive CTA text/click callback
     * (optional) negative CTA text/click callback
     * cancelOnTouchOutside (Boolean)
-    
+
 ## LaunchPad Development
 Uncomment mavenLocal in main build.gradle.kts to test local library changes.

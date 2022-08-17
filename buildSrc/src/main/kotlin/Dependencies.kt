@@ -251,7 +251,8 @@ private object Libraries {
     // https://github.com/square/moshi/releases
     private const val MOSHI_VERSION = "1.13.0"
 
-    // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`. Instead, rely on moshi and the ksp `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
+    // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`.
+    // Instead, rely on moshi and the ksp `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
     const val MOSHI = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
 
@@ -452,8 +453,10 @@ fun DependencyHandler.commonsCodecDependencies() {
 }
 
 fun DependencyHandler.leakCanaryDependencies() {
-    debugImplementation(Libraries.LEAK_CANARY) // note the debugImplementation usage (no releaseImplementation) - intentionally bypass adding to internalRelease build unless QA has a reason to need it
-    implementation(Libraries.LEAK_CANARY_PLUMBER) // note that plumber is expected to be used for all build types (debug and release): https://square.github.io/leakcanary/changelog/#more-leak-fixes-in-plumber
+    // note the debugImplementation usage (no releaseImplementation) - intentionally bypass adding to internalRelease build unless QA has a reason to need it
+    debugImplementation(Libraries.LEAK_CANARY)
+    // note that plumber is expected to be used for all build types (debug and release): https://square.github.io/leakcanary/changelog/#more-leak-fixes-in-plumber
+    implementation(Libraries.LEAK_CANARY_PLUMBER)
 }
 
 fun DependencyHandler.chuckerDependencies(devConfigurations: List<Configuration>, productionConfiguration: Configuration) {
