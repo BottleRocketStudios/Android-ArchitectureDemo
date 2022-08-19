@@ -69,8 +69,8 @@ object Config {
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
 
         // Gradle plugin and a core android library thought to run screenshot tests for Android
-        // https://github.com/pedrovgs/Shot
-        const val KARUMI_SCREENSHOT_TESTING = "com.karumi:shot:5.14.0"
+        // https://github.com/pedrovgs/Shot/releases
+        const val KARUMI_SCREENSHOT_TESTING = "com.karumi:shot:5.14.1"
     }
 
     /**
