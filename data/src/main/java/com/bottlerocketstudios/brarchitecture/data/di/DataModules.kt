@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.data.di
 
+import BitbucketRepository
 import android.content.Context
 import android.content.SharedPreferences
 import com.bottlerocketstudios.brarchitecture.data.crashreporting.ForceCrashLogic
@@ -11,7 +12,6 @@ import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapp
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService

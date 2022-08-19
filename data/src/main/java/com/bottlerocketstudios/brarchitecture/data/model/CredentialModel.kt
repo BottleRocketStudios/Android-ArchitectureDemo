@@ -1,5 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
+import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
 import com.squareup.moshi.JsonClass
 
 data class CredentialModel(val id: ProtectedProperty<String>, val password: ProtectedProperty<String>) {
