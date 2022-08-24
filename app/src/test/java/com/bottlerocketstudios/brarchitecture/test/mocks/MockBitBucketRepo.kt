@@ -3,11 +3,11 @@ package com.bottlerocketstudios.brarchitecture.test.mocks
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.LinkDto
 import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
-import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFileDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.mockito.kotlin.mock
 import java.time.ZonedDateTime
@@ -37,7 +37,7 @@ object MockBitBucketRepo {
     var isPrivate = false
     var causeFailure = false
 
-    var testRepoFile = RepoFile(TEST_TYPE, TEST_PATH, "", listOf(""), 0, null)
+    var testRepoFile = RepoFileDto(TEST_TYPE, TEST_PATH, "", listOf(""), 0, null)
     var testGitRepositoryDto = GitRepositoryDto(name = TEST_REPO, updated = ZonedDateTime.parse(ZONE_DATE_TIME))
     var testGitRepositoryDtoList = listOf(testGitRepositoryDto)
     var testUserDto = UserDto(

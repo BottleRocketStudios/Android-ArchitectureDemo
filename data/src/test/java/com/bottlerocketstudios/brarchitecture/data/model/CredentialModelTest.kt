@@ -1,6 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.models.CredentialModel
+import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 

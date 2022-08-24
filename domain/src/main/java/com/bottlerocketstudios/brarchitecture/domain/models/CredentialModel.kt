@@ -1,7 +1,7 @@
-package com.bottlerocketstudios.brarchitecture.data.model
+package com.bottlerocketstudios.brarchitecture.domain.models
 
 import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
-import com.squareup.moshi.JsonClass
+// import com.squareup.moshi.JsonClass
 
 data class CredentialModel(val id: ProtectedProperty<String>, val password: ProtectedProperty<String>) {
     private val isIdValid: Boolean = id.value.length > MINIMUM_ID_LENGTH
@@ -13,5 +13,5 @@ data class CredentialModel(val id: ProtectedProperty<String>, val password: Prot
 private const val MINIMUM_ID_LENGTH = 3
 private const val MINIMUM_PASSWORD_LENGTH = 8
 
-@JsonClass(generateAdapter = true)
+// @JsonClass(generateAdapter = true)
 data class ValidCredentialModel(val id: ProtectedProperty<String>, val password: ProtectedProperty<String>)

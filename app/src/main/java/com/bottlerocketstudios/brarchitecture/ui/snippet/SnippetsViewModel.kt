@@ -1,6 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime

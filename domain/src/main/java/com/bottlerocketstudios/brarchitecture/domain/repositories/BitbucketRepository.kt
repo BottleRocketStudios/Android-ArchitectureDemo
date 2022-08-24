@@ -1,9 +1,16 @@
+package com.bottlerocketstudios.brarchitecture.domain.repositories
+
+import com.bottlerocketstudios.brarchitecture.domain.models.Branch
+import com.bottlerocketstudios.brarchitecture.domain.models.Commit
 import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.PullRequest
+import com.bottlerocketstudios.brarchitecture.domain.models.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Snippet
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.User
+import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -21,7 +28,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepository>
     suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
     suspend fun getCommits(workspaceSlug: String, repo: String, branch: String): Status<List<Commit>>
-    suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<Branch>
+    suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<Branch>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
     suspend fun getPullRequests(): Status<List<PullRequest>>

@@ -4,7 +4,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.BranchDto
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
-import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFileDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
@@ -46,7 +46,7 @@ internal interface BitbucketService {
     suspend fun getRepositorySource(
         @Path(value = "workspace") workspace: String,
         @Path(value = "repo") repo: String
-    ): Response<BitbucketPagedResponse<List<RepoFile>>>
+    ): Response<BitbucketPagedResponse<List<RepoFileDto>>>
 
     @GET(value = "2.0/repositories/{workspace}/{repo}/commits/{branch}")
     suspend fun getRepositoryCommits(
@@ -69,7 +69,7 @@ internal interface BitbucketService {
         @Path(value = "repo") repo: String,
         @Path(value = "hash") hash: String,
         @Path(value = "path") path: String
-    ): Response<BitbucketPagedResponse<List<RepoFile>>>
+    ): Response<BitbucketPagedResponse<List<RepoFileDto>>>
 
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/src/%7Bnode%7D/%7Bpath%7D */
     @GET(value = "2.0/repositories/{workspace}/{repo}/src/{hash}/{path}")

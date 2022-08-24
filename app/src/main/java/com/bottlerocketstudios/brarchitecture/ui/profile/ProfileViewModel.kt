@@ -2,8 +2,7 @@ package com.bottlerocketstudios.brarchitecture.ui.profile
 
 import android.content.Intent
 import androidx.core.net.toUri
-import com.bottlerocketstudios.brarchitecture.data.converter.convertToUser
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +15,7 @@ class ProfileViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // UI
-    val avatarUrl: Flow<String> = repo.user.map { it?.convertToUser()?.avatarUrl.orEmpty() }
+    val avatarUrl: Flow<String> = repo.user.map { it?.avatarUrl.orEmpty() }
     val displayName: Flow<String> = repo.user.map { it?.displayName.orEmpty() }
     val nickname: Flow<String> = repo.user.map { it?.nickname.orEmpty() }
 

@@ -1,9 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
-import com.bottlerocketstudios.brarchitecture.data.converter.convertToUser
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
@@ -23,7 +22,7 @@ class ComposeActivityViewModel : BaseViewModel() {
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
 
     // Profile info
-    val avatarUrl = repo.user.map { it?.convertToUser()?.avatarUrl.orEmpty() }.groundState("")
+    val avatarUrl = repo.user.map { it?.avatarUrl.orEmpty() }.groundState("")
     val displayName = repo.user.map { it?.displayName.orEmpty() }.groundState("")
     val username = repo.user.map { it?.username.orEmpty() }.groundState("")
 }

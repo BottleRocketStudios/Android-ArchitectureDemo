@@ -1,8 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.network
 
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
-import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
-import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
+import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
@@ -10,6 +9,7 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthS
 import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import com.google.common.truth.Truth.assertThat
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.test.runTest
