@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth.token
 
 import com.bottlerocketstudios.brarchitecture.data.BuildConfig
-import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.network.auth.getBasicAuthHeader
+import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Field

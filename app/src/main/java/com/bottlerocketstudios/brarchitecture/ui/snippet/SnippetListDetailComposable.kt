@@ -56,7 +56,7 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
         ) {
 
             // Define List UI and connect to VM
-            List { list ->
+            List { list, _ ->
                 // TODO - Use selected to highlight item
                 SnippetsBrowserScreen(
                     state = SnippetsBrowserScreenState(

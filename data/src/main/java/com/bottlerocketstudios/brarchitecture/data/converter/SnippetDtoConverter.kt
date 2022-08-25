@@ -9,4 +9,5 @@ fun SnippetDto.convertToSnippet() = Snippet(
     isPrivate = isPrivate,
     owner = owner?.toUser(),
     updated = updated,
+    workspace = workspace?.convertToWorkspace(),
 )
