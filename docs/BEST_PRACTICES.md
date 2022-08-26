@@ -19,6 +19,7 @@ Dev team :)
 * Medium - Task expected to be used occasionally.
 * Low - Task available but not expected to be used very frequently.
 
+<!-- markdownlint-disable line-length -->
 | Run Configuration                                                    | Relative Importance? | Typical execution cadence?            | Description                                                                                                                                                                  | Use Case                                                                                                                                                                                                                                                       |
 |----------------------------------------------------------------------|----------------------|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `bundleInternalDebug`                                                | Low                  |                                       | Executes the gradle task to create an `internalDebug` variant app bundle                                                                                                     | Validate app bundle built locally.                                                                                                                                                                                                                             |
@@ -39,6 +40,7 @@ Dev team :)
 | `ci - productionRelease (minus clean) - CI store build w/ fake data` | Low                  |                                       | Executes all gradle tasks that would be run on CI for the `productionRelease` variant. If this task succeeds, there is a 99.9% chance the build will succeed on CI.          | Run locally to ensure build won't fail on CI prior to pushing local commits to the remote git repository. Remediate issues found until task executes successfully.                                                                                             |
 | `ktlintCheck`                                                        | Low                  |                                       | Executes ktlint check task to show any ktlint code style/formatting errors.                                                                                                  | Run locally to ensure build won't fail on CI. Remediate issues found until task executes successfully.                                                                                                                                                         |
 | `Open Jacoco Report - internalDebug`                                 | Medium               | Viewing/increasing unit test coverage | Executes shell script to open the `internalDebug` variant HTML jacoco reports (unified, `:app`, and `:data`) in your system's default browser                                | After executing any `ci - *` or `testInternalDebugCombinedUnitTestCoverage` task, run this task to launch the jacoco reports for viewing.                                                                                                                      |
+<!-- markdownlint-enable line-length -->
 
 ### .idea folder values checked into the git repository
 * `.idea/codeStyles/*` - This folder contains all of the shared project codestyle files and is crucial to ensure the whole team is using the same code style.
@@ -46,7 +48,10 @@ Dev team :)
 
 ## Build
 ### Using dependency configurations in `buildSrc/.../Dependencies.kt`
-As you add new dependencies, you might run across a configuration not supported in the Dependencies.kt `fun DependencyHandler.fooDependencies() {...}` function body (such as `compileOnly`). If you cmd+click on any existing configuration (such as `deubgImplementation` or `api`), you will see that the implementation actually lives in `DependencyHandlerUtils.kt`. This was copy/pasted from the source file that backs the configuration present in a standard build.gradle.kts dependencies block that is unfortunately inaccessible in `buildSrc` kotlin files. These configurations must be brought in as mentioned below.
+As you add new dependencies, you might run across a configuration not supported in the Dependencies.kt `fun DependencyHandler.fooDependencies() {...}` function body (such as `compileOnly`).
+If you cmd+click on any existing configuration (such as `debugImplementation` or `api`), you will see that the implementation actually lives in `DependencyHandlerUtils.kt`.
+This was copy/pasted from the source file that backs the configuration present in a standard build.gradle.kts dependencies block that is unfortunately inaccessible in `buildSrc` kotlin files.
+These configurations must be brought in as mentioned below.
 
 ### Adding a new configuration
 Here is an example flow to add a new configuration to `DependencyHandlerUtils.kt`
@@ -118,7 +123,7 @@ sealed class Foo {
 
 ##### References
 * Kotlin naming rules: <http://kotlinlang.org/docs/reference/coding-conventions.html#naming-rules> (shows examples for object)
-* Sealed class API docs: <https://kotlinlang.org/docs/reference/sealed-classes.html (shows PascalCase/UpperCamelCase> for objects in sealed class)
+* Sealed class API docs: <https://kotlinlang.org/docs/reference/sealed-classes.html> (shows PascalCase/UpperCamelCase for objects in sealed class)
 
 ### FIXME/TODO Comments
 * Use `FIXME` comments to leave "breadcrumbs" in cases where some specific code or condition needs to be revisited **before the next release**. You might leave a FIXME when using a placeholder value that needs to be updated with the real one later on down the road when it is created/obtained. During dev signoff, all FIXME entries should be evaluated and handled appropriately.
@@ -307,26 +312,28 @@ fun AuthCodePreview() {
 ```
 
 ### Template Items
-There are files in the project marked with either `<!-- TEMPLATE: ... -->` or `// TEMPLATE: ...`. You can copy whole files or snippets marked with these tags as a basis for a new feature/screen/etc. The point of these existing is to provide a skeleton implementation of a thing(feature/screen/etc) to help speedup development and provide a common/somewhat uniform baseline expectation. To find them easily, you can use Find in Path -> TEMPLATE: or add a filter for TEMPLATE in View -> Tools Windows -> TODO.
+There are files in the project marked with either `<!-- TEMPLATE: ... -->` or `// TEMPLATE: ...`. You can copy whole files or snippets marked with these tags as a basis for a new feature/screen/etc.
+The point of these existing is to provide a skeleton implementation of a thing(feature/screen/etc) to help speedup development and provide a common/somewhat uniform baseline expectation.
+To find them easily, you can use Find in Path -> TEMPLATE: or add a filter for TEMPLATE in View -> Tools Windows -> TODO.
 
 ### [KDoc][kdoc]
-* Add KDoc headers to new interfaces/classes that you create to define what it represents and what it does. 
+* Add KDoc headers to new interfaces/classes that you create to define what it represents and what it does.
 * Add KDoc to non-trivial methods explaining expected input and output where appropriate.
 
 ### Language Injections
 * Use the @Language("JSON") annotation to add syntax highlighting/editing assistance/error handling to string literals.
 * Definitely use for **JSON** and **HTML** string literals in the app.
 
-##### No language injection
+#### No language injection
 ![ide_json_string_no_language_injection]
 
-##### With language injection you have nice syntax highlighting ...
+#### With language injection you have nice syntax highlighting
 ![ide_json_string_with_language_injection]
 
-##### ... and also language specific error handling
+#### ... and also language specific error handling
 ![ide_json_string_with_language_injection_showing_error]
 
-##### HTML with language injection
+#### HTML with language injection
 ![ide_html_string_with_language_injection]
 
 * Full documentation at <https://www.jetbrains.com/help/idea/using-language-injections.html#language_annotation>
@@ -344,8 +351,9 @@ It is a good practice to add the appropriate Time Unit suffix to methods, parame
 
 If using a type that abstracts the need for a unit such as `org.threeten.bp.Duration`, then you don't need to specify a suffix on that object. If you pull out the ms value of the duration as a variable, then add the suffix.
 
-## Use `StringIdHelper` to avoid depending on `Context` 
-Use `StringIdHelper.*` types (representing string resources, format strings, and plurals as well as raw strings) in `ViewModel`s (or other classes) to avoid needing a `Context`. This allows for **simpler unit testing** and **prevents the need for `Context` in places it shouldn't be used** by pushing the resolution of the final String to the view layer (using the `textByStringIdHelper` DataBinding custom BindingAdapter function that takes in a `Context`).
+## Use `StringIdHelper` to avoid depending on `Context`
+Use `StringIdHelper.*` types (representing string resources, format strings, and plurals as well as raw strings) in `ViewModel`s (or other classes) to avoid needing a `Context`.
+This allows for **simpler unit testing** and **prevents the need for `Context` in places it shouldn't be used** by pushing the resolution of the final String to the view layer (using the `textByStringIdHelper` DataBinding custom BindingAdapter function that takes in a `Context`).
 
 ## Inject `Clock`
 Pass the `java.time.Clock` instance from Koin to any java 8 date/time APIs that can use it in order **to allow control of the clock in unit tests**. This will typically be the `.now(clock: Clock)` API on `Instant`, `ZonedDateTime`, `LocalDateTime`, `LocalDate`, `LocalTime`, and so on.
@@ -395,12 +403,14 @@ Currently the app is broken into two modules: `app` and `data`
 ## Build Types/Variants Table
 <!-- TODO: TEMPLATE - Replace with appropriate base applicationIds (leave .internal and .internal.debug) -->
 
+<!-- markdownlint-disable line-length -->
 | Variant           | Application ID                                            | Dev use?                                                                                                                             | Dev functionality (environment picker, dev options screen, etc)? | Logging (logcat)? | Proxyable? (Charles) | Debuggable? | Signing Keystore? | Proguard/R8? | Built by CI (Jenkins)? | Artifacts Stored (Artifactory/AppCenter)? | QA use?                                              |
 |-------------------|-----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|-------------------|----------------------|-------------|-------------------|--------------|------------------------|-------------------------------------------|------------------------------------------------------|
 | internalDebug     | **com.bottlerocketstudios.brarchitecture.internal.debug** | Primary local dev machine build                                                                                                      | Enabled                                                          | Enabled           | Yes                  | Yes         | Debug             | No           | No                     | No                                        | Rarely/never                                         |
 | internalDebugMini | **com.bottlerocketstudios.brarchitecture.internal.debug** | Use this variant to enable proguard/R8 (minification/obfuscation) on a debug build. Attaching debugger only allowed on debug builds. | Enabled                                                          | Enabled           | Yes                  | Yes         | Debug             | Yes          | No                     | No                                        | Never                                                |
 | internalRelease   | **com.bottlerocketstudios.brarchitecture.internal**       | Dev doesn't have much use for this variant but can use for proguard/R8 testing if attaching a debugger on device is not needed.      | Enabled                                                          | Enabled           | Yes                  | No          | Release           | Yes          | Yes                    | Yes                                       | Primary variant for QA testing                       |
 | productionRelease | **com.bottlerocketstudios.brarchitecture**                | Smoketest before release                                                                                                             | Disabled                                                         | Disabled          | No                   | No          | Release           | Yes          | Yes                    | Yes                                       | Primary after Feature Complete and until app release |
+<!-- markdownlint-enable line-length -->
 
 *Generated with <https://www.tablesgenerator.com/markdown_tables#>*
 
@@ -443,7 +453,9 @@ Takeaways:
 * Use delegation APIs available for extras/properties set/get
 * Don't use map syntax for extra set/get (see below):
 
-> There is one last syntax for extra properties that we should cover, one that treats extra as a map. We recommend against using this in general as you lose the benefits of Kotlin’s type checking and it prevents IDEs from providing as much support as they could. However, it is more succinct than the delegated properties syntax and can reasonably be used if you only need to set the value of an extra property without referencing it later.
+> There is one last syntax for extra properties that we should cover, one that treats extra as a map.
+We recommend against using this in general as you lose the benefits of Kotlin’s type checking and it prevents IDEs from providing as much support as they could.
+However, it is more succinct than the delegated properties syntax and can reasonably be used if you only need to set the value of an extra property without referencing it later.
 
 * <https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:containers>
 
