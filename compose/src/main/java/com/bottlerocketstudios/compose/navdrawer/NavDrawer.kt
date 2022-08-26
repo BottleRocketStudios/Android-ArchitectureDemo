@@ -100,7 +100,7 @@ fun ColumnScope.NavDrawer(state: NavDrawerState) {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview(showSystemUi = true)
 @Composable
-fun ProfileScreenPreview() {
+private fun ProfileScreenPreview() {
     Preview {
         Scaffold(
             scaffoldState = ScaffoldState(
@@ -126,7 +126,7 @@ fun ProfileScreenPreview() {
 }
 
 @Composable
-fun generateItemListPreview(): List<NavItemState> {
+private fun generateItemListPreview(): List<NavItemState> {
     val itemList by remember {
         mutableStateOf(
             listOf(

@@ -99,6 +99,7 @@ fun SnippetDetailsTitleLayout(state: SnippetDetailsScreenState) {
 @Composable
 fun EditButtonsLayout(state: SnippetDetailsScreenState) {
     var cloneExpanded by remember { mutableStateOf(false) }
+    @Suppress("MagicNumber")
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -205,7 +206,7 @@ fun SnippetDetailsSpan(
 
 @Preview(showSystemUi = true)
 @Composable
-fun SnippetDetailsScreenPreview() {
+private fun SnippetDetailsScreenPreview() {
     Preview {
         SnippetDetailsScreen(
             returnMockSnippetDetails()

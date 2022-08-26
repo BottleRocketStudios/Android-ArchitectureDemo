@@ -12,15 +12,26 @@ fun ZonedDateTime.convertToTimeAgoMessage(): String {
     val elapsedDays = TimeUnit.MINUTES.toDays(elapsedMinutes)
 
     return when {
-        elapsedMinutes in 5..59 -> "$elapsedMinutes Minutes Ago"
-        elapsedHours in 1..23 -> elapsedHours.toInt().timePluralizer("Hour")
-        elapsedDays in 1..6 -> elapsedDays.toInt().timePluralizer("Day")
-        elapsedDays in 7..30 -> (elapsedDays / 7).toInt().timePluralizer("Week")
-        elapsedDays in 31..365 -> (elapsedDays / 30.4).roundToInt().timePluralizer("Month")
-        elapsedDays > 364 -> (elapsedDays / 365).toInt().timePluralizer("Year")
+        elapsedMinutes in FIVE_MINUTES until ONE_HOUR_IN_MINUTES -> "$elapsedMinutes Minutes Ago"
+        elapsedHours in ONE_HOUR until ONE_DAY_IN_HOURS -> elapsedHours.toInt().timePluralizer("Hour")
+        elapsedDays in ONE_DAY until ONE_WEEK_IN_DAYS -> elapsedDays.toInt().timePluralizer("Day")
+        elapsedDays in ONE_WEEK_IN_DAYS until ONE_TYPICAL_MONTH_IN_DAYS -> (elapsedDays / ONE_WEEK_IN_DAYS).toInt().timePluralizer("Week")
+        elapsedDays in ONE_TYPICAL_MONTH_IN_DAYS until ONE_TYPICAL_YEAR_IN_DAYS -> (elapsedDays / PRECISE_DAYS_IN_ONE_MONTH).roundToInt().timePluralizer("Month")
+        elapsedDays >= ONE_TYPICAL_YEAR_IN_DAYS -> (elapsedDays / ONE_TYPICAL_YEAR_IN_DAYS).toInt().timePluralizer("Year")
         else -> "Just Now"
     }
 }
+
+private const val FIVE_MINUTES = 5
+private const val ONE_HOUR = 1
+private const val ONE_DAY = 1
+private const val ONE_HOUR_IN_MINUTES = 60
+private const val ONE_DAY_IN_HOURS = 24
+private const val ONE_WEEK_IN_DAYS = 7
+private const val ONE_TYPICAL_MONTH_IN_DAYS = 31
+private const val ONE_TYPICAL_YEAR_IN_DAYS = 365
+private const val MONTHS_IN_A_YEAR = 12
+private const val PRECISE_DAYS_IN_ONE_MONTH: Double = ONE_TYPICAL_YEAR_IN_DAYS.toDouble() / MONTHS_IN_A_YEAR.toDouble()
 
 private fun Int.timePluralizer(timeUnit: String) =
     when (this > 1) {

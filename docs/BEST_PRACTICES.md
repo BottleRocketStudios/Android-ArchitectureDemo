@@ -257,7 +257,7 @@ Every screen should be previewed as well.  Try to preview as many state combinat
 ```kotlin
 @Preview(showSystemUi = true)
 @Composable
-fun CreateSnippetScreenPreview() {
+private fun CreateSnippetScreenPreview() {
     Preview {
         CreateSnippetScreen(
             state = CreateSnippetScreenState(
@@ -293,7 +293,7 @@ The annotation can be used in the following manner.
 ```kotlin
 @PreviewAllDevices
 @Composable
-fun AuthCodePreview() {
+private fun AuthCodePreview() {
     Preview {
         AuthCodeScreen(
             state = AuthCodeState(

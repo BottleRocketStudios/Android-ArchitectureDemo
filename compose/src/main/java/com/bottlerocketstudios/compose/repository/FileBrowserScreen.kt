@@ -99,7 +99,7 @@ fun TextFileLayout(rawString: String) {
 
 @PreviewAll
 @Composable
-fun FileBrowserScreenPreview() {
+private fun FileBrowserScreenPreview() {
     Preview {
         FileBrowserScreen(
             state = fileBrowserMockData

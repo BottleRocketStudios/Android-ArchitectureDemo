@@ -129,9 +129,10 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
     }
 }
 
+@Suppress("UnusedPrivateMember")
 @PreviewComposable
 @Composable
-fun HomeCardPreview() {
+private fun HomeCardPreview() {
     Preview {
         CardLayout(userRepositoryUiModel = testCard1) {}
     }

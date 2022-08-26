@@ -33,7 +33,7 @@ fun SnippetsEmptyLayout() {
 
 @PreviewAll
 @Composable
-fun HomeEmptyPreview() {
+private fun HomeEmptyPreview() {
     Preview {
         SnippetsEmptyLayout()
     }

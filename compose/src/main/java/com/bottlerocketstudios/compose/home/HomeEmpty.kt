@@ -33,7 +33,7 @@ fun HomeEmptyLayout() {
 
 @PreviewAll
 @Composable
-fun HomeEmptyPreview() {
+private fun HomeEmptyPreview() {
     Preview {
         HomeEmptyLayout()
     }

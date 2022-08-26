@@ -14,6 +14,7 @@ import java.time.ZonedDateTime
 val mockCreationMsg = ZonedDateTime.now().minusDays(30).convertToTimeAgoMessage()
 val mockUpdatedMsg = ZonedDateTime.now().minusHours(18).convertToTimeAgoMessage()
 
+@Suppress("LongMethod")
 @Composable
 internal fun returnMockSnippetDetails() =
     SnippetDetailsScreenState(

@@ -227,7 +227,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             repositoryFileComposable(this)
             profileComposable(this, navController)
             snippetListDetailComposable(this, widthSize)
-            pullRequestsComposable(this, navController)
+            pullRequestsComposable(this)
         }
     }
 }

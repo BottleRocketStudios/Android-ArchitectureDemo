@@ -46,6 +46,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
             .wrapContentHeight()
             .padding(vertical = Dimens.grid_1, horizontal = Dimens.grid_2)
     ) {
+        @Suppress("MagicNumber")
         Column(
             modifier = Modifier.animateContentSize(tween(1000))
         ) {

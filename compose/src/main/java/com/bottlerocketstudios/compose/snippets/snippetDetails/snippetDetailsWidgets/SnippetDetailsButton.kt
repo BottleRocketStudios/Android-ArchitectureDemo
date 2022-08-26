@@ -18,6 +18,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
 
+@Suppress("LongParameterList")
 @Composable
 fun SnippetDetailsButton(
     icon: ImageVector? = null,

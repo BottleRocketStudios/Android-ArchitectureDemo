@@ -28,6 +28,7 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.CircleAvatarImage
 import com.bottlerocketstudios.compose.widgets.OutlinedInputField
 
+@Suppress("LongParameterList")
 @Composable
 fun NewCommentInput(
     user: User?,
@@ -40,6 +41,7 @@ fun NewCommentInput(
     var focusState by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
+    @Suppress("MagicNumber")
     Column(
         modifier = Modifier
             .animateContentSize(tween(1000))

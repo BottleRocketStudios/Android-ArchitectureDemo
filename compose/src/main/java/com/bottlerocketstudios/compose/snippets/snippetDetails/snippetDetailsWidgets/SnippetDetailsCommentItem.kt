@@ -28,6 +28,7 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.CircleAvatarImage
 import com.bottlerocketstudios.launchpad.compose.light
 
+@Suppress("LongMethod", "LongParameterList")
 @Composable
 fun CommentCard(
     user: User?,
@@ -42,8 +43,9 @@ fun CommentCard(
 
     var expanded by remember { mutableStateOf(false) }
 
+    @Suppress("MagicNumber")
     Column(
-        Modifier
+        modifier = Modifier
             .animateContentSize(tween(1000))
             .padding(horizontal = Dimens.grid_2)
     ) {
