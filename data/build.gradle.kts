@@ -8,7 +8,7 @@ plugins {
     id(Config.ApplyPlugins.PARCELIZE)
 }
 
-extra.set("jacocoCoverageThreshold", 0.40.toBigDecimal()) // module specific code coverage verification threshold
+extra.set("jacocoCoverageThreshold", 0.30.toBigDecimal()) // module specific code coverage verification threshold
 apply(from = "../jacocoModule.gradle")
 
 val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject) // TODO: TEMPLATE - Remove this value when creating a new project

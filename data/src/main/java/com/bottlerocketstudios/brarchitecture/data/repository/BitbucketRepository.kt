@@ -31,6 +31,7 @@ import org.koin.core.component.inject
 import retrofit2.Response
 import timber.log.Timber
 
+@Suppress("TooManyFunctions")
 interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.models.Repository {
     val user: StateFlow<UserDto?>
     val repos: StateFlow<List<GitRepositoryDto>>

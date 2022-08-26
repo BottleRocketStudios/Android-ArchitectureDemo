@@ -66,7 +66,7 @@ class RepositoryCommitViewModel : BaseViewModel() {
             val repoName = it.name ?: ""
             launchIO {
                 repo.getBranches(slug, repoName).handlingErrors(R.string.error_loading_commits) { branchCallResult ->
-                    branchNames.value = branchCallResult.mapNotNull { branch -> branch.branchName }.filter { branch -> branch.isNotBlank() } // only care about non-null/non-blank branches
+                    branchNames.value = branchCallResult.mapNotNull { branch -> branch.name }.filter { branch -> branch.isNotBlank() } // only care about non-null/non-blank branches
                     branchNames.value.forEach { branch ->
                         repo.getCommits(slug, repoName, branch).handlingErrors(R.string.error_loading_commits) { commitCallResult ->
                             commitList.addAll(commitCallResult.map { commitDto -> CommitDtoWithBranch(commitDto, branch) })

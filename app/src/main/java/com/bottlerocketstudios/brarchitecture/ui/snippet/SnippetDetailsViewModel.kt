@@ -14,7 +14,9 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
+import java.net.HttpURLConnection
 
+@Suppress("TooManyFunctions")
 class SnippetDetailsViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
@@ -69,7 +71,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
             when (val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
                 is Status.Success -> isWatchingSnippet.value = true
                 is Status.Failure.Server ->
-                    if (result.error?.httpErrorCode == 404) {
+                    if (result.error?.httpErrorCode == HttpURLConnection.HTTP_NOT_FOUND) {
                         isWatchingSnippet.value = false
                     } else {
                         handleError(R.string.snippet_watching_error)
@@ -162,7 +164,8 @@ class SnippetDetailsViewModel : BaseViewModel() {
         snippetComments.value = parentComments.reversed()
     }
 
-    /** Functions for optimized sort theory */
+    @Suppress("UnusedPrivateMember")
+    /** Functions for optimized sort theory. */
     private fun sortWithRecursion(comments: List<SnippetComment>) {
         val sortedComments = comments.filter { it.parentId == null }.toMutableList()
         val unsortedComments = comments.filter { it.parentId != null }.toMutableList()
@@ -171,6 +174,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
         snippetComments.value = sortedComments.reversed()
     }
 
+    @Suppress("NestedBlockDepth", "UnusedPrivateMember")
     private fun recursiveSort(
         sortedComments: MutableList<SnippetComment>,
         unsortedComments: MutableList<SnippetComment>
