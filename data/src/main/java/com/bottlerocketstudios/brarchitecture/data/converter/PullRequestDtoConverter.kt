@@ -6,5 +6,5 @@ import com.bottlerocketstudios.brarchitecture.domain.models.PullRequest
 fun PullRequestDto.toPullRequest() = PullRequest(
     title = title.orEmpty(),
     state = state.orEmpty(),
-    createdOn = created_on
+    createdOn = createdOn
 )

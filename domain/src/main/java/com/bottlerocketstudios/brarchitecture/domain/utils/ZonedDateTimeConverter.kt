@@ -4,6 +4,7 @@ import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
+@Suppress("MagicNumber")
 fun ZonedDateTime.convertToTimeAgoMessage(): String {
     val elapsedMinutes = TimeUnit.SECONDS.toMinutes(
         ZonedDateTime.now().toEpochSecond() - this.toEpochSecond()

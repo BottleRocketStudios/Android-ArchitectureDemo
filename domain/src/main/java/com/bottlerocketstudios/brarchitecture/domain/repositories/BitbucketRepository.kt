@@ -12,8 +12,8 @@ import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
+@Suppress("TooManyFunctions")
 interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.models.Repository {
     val user: Flow<User?>
     val repos: Flow<List<GitRepository>>

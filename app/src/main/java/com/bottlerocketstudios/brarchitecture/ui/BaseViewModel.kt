@@ -116,5 +116,5 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     }
 
     // Ties flow to viewModelScope to give StateFlow.
-    fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Lazily, initialValue)
+    fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Eagerly, initialValue)
 }

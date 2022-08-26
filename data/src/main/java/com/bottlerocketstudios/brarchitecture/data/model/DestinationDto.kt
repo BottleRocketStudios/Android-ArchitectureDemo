@@ -11,5 +11,5 @@ data class DestinationDto(
     @Json(name = "type") val type: String?,
     @Json(name = "raw") val raw: String?,
     @Json(name = "markup") val markUp: String?,
-    @Json(name = "html") val created_on: String?,
+    @Json(name = "html") val createdOn: String?,
 ) : Parcelable, Dto

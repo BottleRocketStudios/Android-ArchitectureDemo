@@ -15,7 +15,7 @@ class ProfileViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // UI
-    val avatarUrl: Flow<String> = repo.user.map { it?.avatarUrl.orEmpty() }
+    val avatarUrl: Flow<String> = repo.user.map { it?.avatarUrl.orEmpty() }.groundState("")
     val displayName: Flow<String> = repo.user.map { it?.displayName.orEmpty() }
     val nickname: Flow<String> = repo.user.map { it?.nickname.orEmpty() }
 

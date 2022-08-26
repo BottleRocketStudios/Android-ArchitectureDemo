@@ -1,5 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.test.mocks
 
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToGitRepository
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToSnippet
+import com.bottlerocketstudios.brarchitecture.data.converter.toRepoFile
+import com.bottlerocketstudios.brarchitecture.data.converter.toUser
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.LinkDto
 import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
@@ -9,6 +13,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.UserDto
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import org.mockito.kotlin.mock
 import java.time.ZonedDateTime
 
@@ -55,9 +60,9 @@ object MockBitBucketRepo {
     )
 
     val bitbucketRepository: BitbucketRepository = mock {
-        on { user }.then { _user }
-        on { repos }.then { _repos }
-        on { snippets }.then { _snippets }
+        on { user }.then { _user.map { it?.toUser() } }
+        on { repos }.then { _repos.map { list -> list.map { it.convertToGitRepository() } } }
+        on { snippets }.then { _snippets.map { list -> list.map { it.convertToSnippet() } } }
 
         onBlocking { authenticate("") }.then { authenticated }
         onBlocking { authenticate(null) }.then { authenticated }
@@ -78,13 +83,13 @@ object MockBitBucketRepo {
         }
         onBlocking { refreshMySnippets() }.then {
             _snippets.value = listOf(snippetDto)
-            Status.Success(listOf(snippetDto))
+            Status.Success(listOf(snippetDto.convertToSnippet()))
         }
         onBlocking { getSourceFolder("", TEST_REPO, TEST_HASH, TEST_PATH) }.then {
-            Status.Success(listOf(testRepoFile))
+            Status.Success(listOf(testRepoFile.toRepoFile()))
         }
         onBlocking { getSource("", TEST_REPO) }.then {
-            Status.Success(listOf(testRepoFile))
+            Status.Success(listOf(testRepoFile.toRepoFile()))
         }
         onBlocking { getSourceFile("", TEST_REPO_ID, TEST_HASH, TEST_PATH) }.then {
             Status.Success(byteArrayOf(1, 2, 3, 4))

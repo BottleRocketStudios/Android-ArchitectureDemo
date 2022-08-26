@@ -26,6 +26,7 @@ import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
 
+@Suppress("LongMethod")
 @Composable
 fun SnippetItem(snippet: SnippetUiModel, onClick: (SnippetUiModel) -> Unit) {
     Card(

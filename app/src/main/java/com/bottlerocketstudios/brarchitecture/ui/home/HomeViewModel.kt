@@ -18,8 +18,8 @@ class HomeViewModel : BaseViewModel() {
     private val clock by inject<Clock>()
 
     // Setup
-    val user = repo.user
-    val repos = repo.repos
+    val user = repo.user.groundState(null)
+    val repos = repo.repos.groundState(emptyList())
 
     // UI
     val userRepositoryState: Flow<List<UserRepositoryUiModel>> =

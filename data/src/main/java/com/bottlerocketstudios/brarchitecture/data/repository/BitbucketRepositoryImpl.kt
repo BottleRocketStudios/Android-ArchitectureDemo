@@ -47,7 +47,6 @@ import org.koin.core.component.inject
 import retrofit2.Response
 import timber.log.Timber
 
-
 @Suppress("TooManyFunctions")
 class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
     // DI

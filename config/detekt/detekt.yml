@@ -776,6 +776,7 @@ style:
     allowedNames: '(_|ignored|expected|serialVersionUID)'
     ignoreAnnotated:
       - 'Preview'
+      - 'PreviewComposable'
       - 'PreviewAll' # https://detekt.github.io/detekt/compose.html#unusedprivatemember
       - 'PreviewLightDark' # https://detekt.github.io/detekt/compose.html#unusedprivatemember
   UseAnyOrNoneInsteadOfFind:

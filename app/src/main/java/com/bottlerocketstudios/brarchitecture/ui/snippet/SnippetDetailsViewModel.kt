@@ -11,6 +11,7 @@ import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
 
+@Suppress("TooManyFunctions")
 class SnippetDetailsViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
@@ -31,7 +32,6 @@ class SnippetDetailsViewModel : BaseViewModel() {
     // UI - Comment onChange Values
     val newSnippetComment = MutableStateFlow("")
     val newReplyComment = MutableStateFlow("")
-
 
     // ///////////////////  API Calls /////////////////////
     fun getSnippetDetails(snippet: SnippetUiModel) = launchIO {
@@ -57,6 +57,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
     }
 
     /** Coded Response: Api returns 204 if user is watching and a 404 if user is not, else an error has occurred */
+    @Suppress("MagicNumber")
     private fun isUserWatchingSnippet() {
         launchIO {
             when (val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
@@ -156,30 +157,30 @@ class SnippetDetailsViewModel : BaseViewModel() {
     }
 
     /** Functions for optimized sort theory */
-    private fun sortWithRecursion(comments: List<SnippetComment>) {
-        val sortedComments = comments.filter { it.parentId == null }.toMutableList()
-        val unsortedComments = comments.filter { it.parentId != null }.toMutableList()
+    // private fun sortWithRecursion(comments: List<SnippetComment>) {
+    //     val sortedComments = comments.filter { it.parentId == null }.toMutableList()
+    //     val unsortedComments = comments.filter { it.parentId != null }.toMutableList()
+    //
+    //     recursiveSort(sortedComments, unsortedComments)
+    //     snippetComments.value = sortedComments.reversed()
+    // }
 
-        recursiveSort(sortedComments, unsortedComments)
-        snippetComments.value = sortedComments.reversed()
-    }
-
-    private fun recursiveSort(
-        sortedComments: MutableList<SnippetComment>,
-        unsortedComments: MutableList<SnippetComment>
-    ) {
-        if (unsortedComments.isNotEmpty()) {
-            sortedComments.forEach { parent ->
-                val toBeRemoved = mutableListOf<SnippetComment>()
-                unsortedComments.forEach { child ->
-                    if (child.parentId == parent.id) {
-                        parent.childrenComments.add(child)
-                        toBeRemoved.add(child)
-                    }
-                }
-                unsortedComments.removeAll(toBeRemoved)
-                recursiveSort(parent.childrenComments, unsortedComments)
-            }
-        }
-    }
+    // private fun recursiveSort(
+    //     sortedComments: MutableList<SnippetComment>,
+    //     unsortedComments: MutableList<SnippetComment>
+    // ) {
+    //     if (unsortedComments.isNotEmpty()) {
+    //         sortedComments.forEach { parent ->
+    //             val toBeRemoved = mutableListOf<SnippetComment>()
+    //             unsortedComments.forEach { child ->
+    //                 if (child.parentId == parent.id) {
+    //                     parent.childrenComments.add(child)
+    //                     toBeRemoved.add(child)
+    //                 }
+    //             }
+    //             unsortedComments.removeAll(toBeRemoved)
+    //             recursiveSort(parent.childrenComments, unsortedComments)
+    //         }
+    //     }
+    // }
 }

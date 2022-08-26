@@ -23,6 +23,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 /** Primary apis to interact with bitbucket. See https://developer.atlassian.com/bitbucket/api/2/reference */
+@Suppress("TooManyFunctions")
 internal interface BitbucketService {
     /** https://developer.atlassian.com/bitbucket/api/2/reference/resource/user */
     @GET(value = "2.0/user")
@@ -107,20 +108,20 @@ internal interface BitbucketService {
     @DELETE(value = "/2.0/snippets/{workspace}/{encoded_id}")
     suspend fun deleteSnippet(
         @Path(value = "workspace") workspace: String,
-        @Path(value = "encoded_id") encoded_id: String
+        @Path(value = "encoded_id") encodedId: String
     ): Response<Unit>
 
     /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-get */
     @GET(value = "2.0/snippets/{workspace_id}/{encoded_id}")
     suspend fun getSnippetDetails(
         @Path(value = "workspace_id") workspace: String,
-        @Path(value = "encoded_id") encoded_id: String
+        @Path(value = "encoded_id") encodedId: String
     ): Response<SnippetDetailsDto>
 
     @GET(value = "/2.0/snippets/{workspace_id}/{encoded_id}/files/{path}")
     suspend fun getSnippetFile(
         @Path(value = "workspace_id") workspace: String,
-        @Path(value = "encoded_id") encoded_id: String,
+        @Path(value = "encoded_id") encodedId: String,
         @Path(value = "path") path: String
     ): Response<ResponseBody>
 
@@ -128,28 +129,28 @@ internal interface BitbucketService {
     @GET(value = "/2.0/snippets/{workspace_id}/{encoded_id}/watch")
     suspend fun isUserWatchingSnippet(
         @Path(value = "workspace_id") workspace: String,
-        @Path(value = "encoded_id") encoded_id: String
+        @Path(value = "encoded_id") encodedId: String
     ): Response<Int>
 
     /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-watch-put */
     @PUT(value = "/2.0/snippets/{workspace_id}/{encoded_id}/watch")
     suspend fun startWatchingSnippet(
         @Path(value = "workspace_id") workspace: String,
-        @Path(value = "encoded_id") encoded_id: String
+        @Path(value = "encoded_id") encodedId: String
     ): Response<Unit>
 
     /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-watch-delete */
     @DELETE(value = "/2.0/snippets/{workspace_id}/{encoded_id}/watch")
     suspend fun stopWatchingSnippet(
         @Path(value = "workspace_id") workspace: String,
-        @Path(value = "encoded_id") encoded_id: String
+        @Path(value = "encoded_id") encodedId: String
     ): Response<Unit>
 
     /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-comments-get */
     @GET(value = "/2.0/snippets/{workspace_id}/{encoded_id}/comments")
     suspend fun getSnippetComments(
         @Path(value = "workspace_id") workspace: String,
-        @Path(value = "encoded_id") encoded_id: String
+        @Path(value = "encoded_id") encodedId: String
     ): Response<BitbucketPagedResponse<List<SnippetCommentDto>>>
 
     @POST(value = "/2.0/snippets/{workspace_id}/{encoded_id}/comments")
