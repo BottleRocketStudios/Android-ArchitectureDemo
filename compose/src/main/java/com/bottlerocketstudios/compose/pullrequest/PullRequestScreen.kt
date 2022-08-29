@@ -53,7 +53,6 @@ fun PullRequestScreen(state: PullRequestScreenState) {
     }
 }
 
-@Suppress("UnusedPrivateMember")
 @PreviewComposable
 @Composable
 private fun PullRequestsPreview() {

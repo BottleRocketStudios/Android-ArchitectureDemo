@@ -1,15 +1,11 @@
 package com.bottlerocketstudios.brarchitecture.ui.snippet
 
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.data.converter.convertToComment
-import com.bottlerocketstudios.brarchitecture.data.converter.convertToUiModel
-import com.bottlerocketstudios.brarchitecture.data.converter.convertToUser
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
-import com.bottlerocketstudios.brarchitecture.domain.models.User
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +22,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
     private val encodedId = MutableStateFlow("")
 
     // UI - User
-    val currentUser = MutableStateFlow<User?>(null)
+    val currentUser = repo.user
     val isWatchingSnippet = MutableStateFlow(false)
 
     // UI - Snippet
@@ -38,20 +34,16 @@ class SnippetDetailsViewModel : BaseViewModel() {
     val newSnippetComment = MutableStateFlow("")
     val newReplyComment = MutableStateFlow("")
 
-    init {
-        currentUser.value = repo.user.value?.convertToUser()
-    }
-
     // ///////////////////  API Calls /////////////////////
     fun getSnippetDetails(snippet: SnippetUiModel) = launchIO {
         if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty()) {
-            repo.getSnippetDetails(snippet.workspaceId, snippet.id).handlingErrors(R.string.snippets_error) { snippetDetailsDto ->
+            repo.getSnippetDetails(snippet.workspaceId, snippet.id).handlingErrors(R.string.snippets_error) { details ->
+                snippetDetails.value = details
                 workspaceId.value = snippet.workspaceId
                 encodedId.value = snippet.id
-                snippetDetails.value = snippetDetailsDto.convertToUiModel() // Pass just UI model
-                getSnippetComments()
-                snippetDetailsDto.files?.keys?.toList()?.let { getRawFiles(it) }
                 isUserWatchingSnippet()
+                getSnippetComments()
+                details.files?.map { file -> file.fileName }?.let { fileNameList -> getRawFiles(fileNameList) }
             }
         }
     }
@@ -83,7 +75,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
 
     private fun getSnippetComments() = launchIO {
         repo.getSnippetComments(workspaceId.value, encodedId.value).handlingErrors(R.string.snippet_comments_error) { commentList ->
-            sortComments(commentList.map { it.convertToComment() })
+            sortComments(commentList)
         }
     }
 
@@ -165,7 +157,7 @@ class SnippetDetailsViewModel : BaseViewModel() {
     }
 
     @Suppress("UnusedPrivateMember")
-    /** Functions for optimized sort theory. */
+    /** Functions for optimized sort theory. Keeping for example purposes. */
     private fun sortWithRecursion(comments: List<SnippetComment>) {
         val sortedComments = comments.filter { it.parentId == null }.toMutableList()
         val unsortedComments = comments.filter { it.parentId != null }.toMutableList()

@@ -12,35 +12,35 @@ class UserDtoConverterTest : BaseTest() {
     @Test
     fun user_shouldCreateUser_whenConvertToUser() {
         val userDto = UserDto("username", "nickname", "account_status", "display_name", "created_on", "uuid", linksDto)
-        val user = userDto.convertToUser()
+        val user = userDto.toUser()
         assertThat(user.username).isEqualTo(userDto.username)
         assertThat(user.nickname).isEqualTo(userDto.nickname)
         assertThat(user.accountStatus).isEqualTo(userDto.accountStatus)
         assertThat(user.displayName).isEqualTo(userDto.displayName)
         assertThat(user.createdOn).isEqualTo(userDto.createdOn)
         assertThat(user.uuid).isEqualTo(userDto.uuid)
-        assertThat(user.links).isEqualTo(userDto.linksDto?.convertToLinks())
-        assertThat(user.avatarUrl).isEqualTo(userDto.linksDto?.convertToLinks()?.avatar?.href)
+        assertThat(user.links).isEqualTo(userDto.linksDto?.toLinks())
+        assertThat(user.avatarUrl).isEqualTo(userDto.linksDto?.toLinks()?.avatar?.href)
     }
 
     @Test
     fun user_defaultFields_onDefaultConstruction() {
         val userDto = UserDto()
-        val user = userDto.convertToUser()
+        val user = userDto.toUser()
         assertThat(user.username).isEqualTo(userDto.username)
         assertThat(user.nickname).isEqualTo(userDto.nickname)
         assertThat(user.accountStatus).isEqualTo(userDto.accountStatus)
         assertThat(user.displayName).isEqualTo(userDto.displayName)
         assertThat(user.createdOn).isEqualTo(userDto.createdOn)
         assertThat(user.uuid).isEqualTo(userDto.uuid)
-        assertThat(user.links).isEqualTo(userDto.linksDto?.convertToLinks())
-        assertThat(user.avatarUrl).isEqualTo(userDto.linksDto?.convertToLinks()?.avatar?.href)
+        assertThat(user.links).isEqualTo(userDto.linksDto?.toLinks())
+        assertThat(user.avatarUrl).isEqualTo(userDto.linksDto?.toLinks()?.avatar?.href)
     }
 
     @Test
     fun user_linkDefault_returnLinkDefault() {
         val userDto = UserDto(linksDto = LinksDto(LinkDto()))
-        val user = userDto.convertToUser()
-        assertThat(user.avatarUrl).isEqualTo(userDto.linksDto?.convertToLinks()?.avatar?.href)
+        val user = userDto.toUser()
+        assertThat(user.avatarUrl).isEqualTo(userDto.linksDto?.toLinks()?.avatar?.href)
     }
 }

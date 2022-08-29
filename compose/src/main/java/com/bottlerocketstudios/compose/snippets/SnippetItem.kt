@@ -91,7 +91,6 @@ fun SnippetItem(snippet: SnippetUiModel, onClick: (SnippetUiModel) -> Unit) {
     }
 }
 
-@Suppress("UnusedPrivateMember")
 @PreviewComposable
 @Composable
 private fun SnippetItemPreview() {

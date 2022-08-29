@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.pullrequests
 
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
 import com.bottlerocketstudios.compose.util.asMutableState
@@ -24,9 +24,9 @@ class PullRequestViewModel : BaseViewModel() {
     val pullRequestList = repo.pullRequests.map {
         it.map { dto ->
             PullRequestItemState(
-                prName = dto.title.orEmpty().asMutableState(),
-                prState = dto.state.orEmpty().asMutableState(),
-                prCreation = dto.createdOn.formattedUpdateTime(clock).getString().asMutableState(),
+                prName = dto.title.asMutableState(),
+                prState = dto.state.asMutableState(),
+                prCreation = dto.createdOn?.formattedUpdateTime(clock)?.getString().orEmpty().asMutableState(),
                 // FIXME Pull Request api doesn't return the below values. Get data from another api call later.
                 linesAdded = "0 Lines Added".asMutableState(),
                 linesRemoved = "0 Lines Removed".asMutableState()

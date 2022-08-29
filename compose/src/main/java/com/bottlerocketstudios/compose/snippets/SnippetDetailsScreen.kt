@@ -32,6 +32,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.resources.ONE_SECOND_MILLIS
 import com.bottlerocketstudios.compose.resources.lightColors
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.snippets.snippetDetails.SnippetDetailsScreenState
@@ -99,11 +100,10 @@ fun SnippetDetailsTitleLayout(state: SnippetDetailsScreenState) {
 @Composable
 fun EditButtonsLayout(state: SnippetDetailsScreenState) {
     var cloneExpanded by remember { mutableStateOf(false) }
-    @Suppress("MagicNumber")
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .animateContentSize(tween(1000))
+            .animateContentSize(tween(ONE_SECOND_MILLIS))
             .padding(top = Dimens.grid_1)
     ) {
         Row(

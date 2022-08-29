@@ -1,6 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.splash
 
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

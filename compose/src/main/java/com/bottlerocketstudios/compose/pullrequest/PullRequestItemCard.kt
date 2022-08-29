@@ -77,7 +77,6 @@ fun PullRequestItemCard(state: PullRequestItemState) {
     }
 }
 
-@Suppress("UnusedPrivateMember")
 @PreviewComposable
 @Composable
 private fun PullRequestsItemPreview() {

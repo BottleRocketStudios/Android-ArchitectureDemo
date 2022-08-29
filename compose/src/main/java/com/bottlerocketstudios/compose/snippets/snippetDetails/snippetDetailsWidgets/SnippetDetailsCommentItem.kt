@@ -22,6 +22,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.resources.ONE_SECOND_MILLIS
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
 import com.bottlerocketstudios.compose.util.Preview
@@ -43,10 +44,9 @@ fun CommentCard(
 
     var expanded by remember { mutableStateOf(false) }
 
-    @Suppress("MagicNumber")
     Column(
         modifier = Modifier
-            .animateContentSize(tween(1000))
+            .animateContentSize(tween(ONE_SECOND_MILLIS))
             .padding(horizontal = Dimens.grid_2)
     ) {
         Row(

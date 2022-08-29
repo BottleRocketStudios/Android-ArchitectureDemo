@@ -8,7 +8,7 @@ import com.bottlerocketstudios.compose.snippets.snippetDetails.SnippetDetailsScr
 fun SnippetDetailsViewModel.toState() =
     SnippetDetailsScreenState(
         snippetDetails = snippetDetails.collectAsState(),
-        currentUser = currentUser.collectAsState(),
+        currentUser = currentUser.collectAsState(null),
         files = snippetFiles.collectAsState(),
         isWatchingSnippet = isWatchingSnippet.collectAsState(),
         onSnippetWatchClick = ::changeSnippetWatching,

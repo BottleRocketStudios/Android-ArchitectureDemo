@@ -5,7 +5,7 @@ import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
 import com.bottlerocketstudios.brarchitecture.domain.models.Link
 import com.bottlerocketstudios.brarchitecture.domain.models.Links
 
-fun LinksDto.convertToLinks() = Links(
+fun LinksDto.toLinks() = Links(
     self = self?.convertToLink(),
     html = html?.convertToLink(),
     comments = comments?.convertToLink(),

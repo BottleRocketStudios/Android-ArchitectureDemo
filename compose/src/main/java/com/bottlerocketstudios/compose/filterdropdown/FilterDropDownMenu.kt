@@ -89,7 +89,6 @@ fun FilterDropDownMenu(
     }
 }
 
-@Suppress("UnusedPrivateMember")
 @PreviewComposable
 @Composable
 private fun FilterDropDownPreview() {

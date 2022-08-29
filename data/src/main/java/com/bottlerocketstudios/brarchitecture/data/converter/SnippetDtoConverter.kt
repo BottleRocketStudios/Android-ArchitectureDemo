@@ -7,6 +7,7 @@ fun SnippetDto.convertToSnippet() = Snippet(
     id = id,
     title = title,
     isPrivate = isPrivate,
-    owner = owner?.convertToUser(),
+    owner = owner?.toUser(),
     updated = updated,
+    workspace = workspace?.convertToWorkspace(),
 )
