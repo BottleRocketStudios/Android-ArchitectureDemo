@@ -6,7 +6,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
 fun GitRepositoryDto.convertToGitRepository() = GitRepository(
     scm = scm,
     name = name,
-    owner = owner?.convertToUser(),
+    owner = owner?.toUser(),
     workspace = workspaceDto?.convertToWorkspace(),
     isPrivate = isPrivate,
     description = description,

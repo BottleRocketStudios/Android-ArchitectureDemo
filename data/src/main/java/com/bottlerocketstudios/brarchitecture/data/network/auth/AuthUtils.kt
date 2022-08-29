@@ -1,6 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth
 
-import com.bottlerocketstudios.brarchitecture.data.model.ProtectedProperty
+import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
 import org.apache.commons.codec.binary.Base64
 
 internal fun getBasicAuthHeader(username: ProtectedProperty<String>, password: ProtectedProperty<String>): String {

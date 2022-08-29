@@ -7,7 +7,7 @@ import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO
-import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_NAME
+import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_DISPLAY_NAME
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import com.google.common.truth.Truth.assertThat
@@ -28,13 +28,9 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun user_onVMInit_shouldReturnMatchingUserName() = runTest {
-        assertThat(viewModel.user).isNotNull()
-        assertThat(viewModel.user.value?.username).isEqualTo(TEST_USER_NAME)
-    }
-
-    @Test
-    fun repos_onVMInit_shouldReturnMatchingListSize() = runTest {
-        assertThat(viewModel.repos.value).hasSize(bitbucketRepository.repos.value.size)
+        viewModel.user.test {
+            assertThat(awaitItem()?.displayName).isEqualTo(TEST_USER_DISPLAY_NAME)
+        }
     }
 
     @Test

@@ -1,28 +1,44 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
-import com.bottlerocketstudios.brarchitecture.data.model.BranchDto
-import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToComment
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToGitRepository
+import com.bottlerocketstudios.brarchitecture.data.converter.convertToSnippet
+import com.bottlerocketstudios.brarchitecture.data.converter.toSnippetDetails
+import com.bottlerocketstudios.brarchitecture.data.converter.toUser
+import com.bottlerocketstudios.brarchitecture.data.converter.toBranch
+import com.bottlerocketstudios.brarchitecture.data.converter.toCommit
+import com.bottlerocketstudios.brarchitecture.data.converter.toPullRequest
+import com.bottlerocketstudios.brarchitecture.data.converter.toRepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.ParentSnippetCommentDto
 import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
-import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentContentDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
-import com.bottlerocketstudios.brarchitecture.data.model.SnippetDetailsDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
-import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.domain.models.Branch
+import com.bottlerocketstudios.brarchitecture.domain.models.Commit
+import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.PullRequest
+import com.bottlerocketstudios.brarchitecture.domain.models.RepoFile
+import com.bottlerocketstudios.brarchitecture.domain.models.Snippet
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
+import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
+import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.models.alsoOnSuccess
 import com.bottlerocketstudios.brarchitecture.domain.models.asSuccess
 import com.bottlerocketstudios.brarchitecture.domain.models.logWrappedExceptions
 import com.bottlerocketstudios.brarchitecture.domain.models.map
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -31,47 +47,12 @@ import org.koin.core.component.inject
 import retrofit2.Response
 import timber.log.Timber
 
-interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.models.Repository {
-    val user: StateFlow<UserDto?>
-    val repos: StateFlow<List<GitRepositoryDto>>
-    val snippets: StateFlow<List<SnippetDto>>
-    val pullRequests: StateFlow<List<PullRequestDto>>
-    suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
-    suspend fun authenticate(authCode: String): Boolean
-    suspend fun refreshUser(): Status<Unit>
-    suspend fun refreshMyRepos(): Status<Unit>
-    suspend fun refreshMySnippets(): Status<Unit>
-    suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>>
-    suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepositoryDto>
-    suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
-    suspend fun getCommits(workspaceSlug: String, repo: String, branch: String): Status<List<CommitDto>>
-    suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<BranchDto>>
-    suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
-    suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
-    suspend fun getPullRequests(): Status<List<PullRequestDto>>
-    suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequestDto>>
-    suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
-    suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit>
-    suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto>
-    suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetCommentDto>>
-    suspend fun createSnippetComment(workspaceId: String, encodedId: String, comment: String): Status<Unit>
-    suspend fun createCommentReply(workspaceId: String, encodedId: String, comment: String, commentId: Int): Status<Unit>
-    suspend fun editSnippetComment(workspaceId: String, encodedId: String, comment: String, commentId: Int): Status<Unit>
-    suspend fun deleteSnippetComment(workspaceId: String, encodedId: String, commentId: Int): Status<Unit>
-    suspend fun getSnippetFile(workspaceId: String, encodedId: String, filePath: String): Status<ByteArray>
-    suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Status<Int>
-    suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
-    suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
-    fun clear()
-}
-
 @Suppress("TooManyFunctions")
-internal class BitbucketRepositoryImpl(
-    private val bitbucketService: BitbucketService,
-    private val bitbucketCredentialsRepository: BitbucketCredentialsRepository,
-    private val responseToApiResultMapper: ResponseToApiResultMapper
-) : BitbucketRepository, KoinComponent {
+class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
     // DI
+    private val bitbucketService: BitbucketService by inject()
+    private val bitbucketCredentialsRepository: BitbucketCredentialsRepository by inject()
+    private val responseToApiResultMapper: ResponseToApiResultMapper by inject()
     private val tokenService: TokenAuthService by inject()
 
     // TODO: Move user specific logic to a separate UserRepository
@@ -83,10 +64,10 @@ internal class BitbucketRepositoryImpl(
     var authenticated = false
         private set
 
-    override val user: StateFlow<UserDto?> = _user
-    override val repos: StateFlow<List<GitRepositoryDto>> = _repos
-    override val snippets: StateFlow<List<SnippetDto>> = _snippets
-    override val pullRequests: StateFlow<List<PullRequestDto>> = _pullRequests
+    override val user: Flow<User?> = _user.map { it?.toUser() }
+    override val repos: Flow<List<GitRepository>> = _repos.map { list -> list.map { it.convertToGitRepository() } }
+    override val snippets: Flow<List<Snippet>> = _snippets.map { list -> list.map { it.convertToSnippet() } }
+    override val pullRequests: Flow<List<PullRequest>> = _pullRequests.map { list -> list.map { it.toPullRequest() } }
 
     override suspend fun authenticate(authCode: String): Boolean {
         Timber.v("[authenticate]")
@@ -138,41 +119,53 @@ internal class BitbucketRepositoryImpl(
                 .map { Unit.asSuccess() }
         }
 
-    override suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepositoryDto>> =
+    override suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepository>> =
         wrapRepoExceptions("getRepositories") {
             bitbucketService.getRepositories(workspaceSlug)
                 .toResult()
-                .map { it.values.orEmpty().asSuccess() }
+                .map { response ->
+                    response.values.orEmpty().map { list ->
+                        list.convertToGitRepository()
+                    }.asSuccess()
+                }
         }
 
-    override suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepositoryDto> =
+    override suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepository> =
         wrapRepoExceptions("getRepository") {
-            bitbucketService.getRepository(workspaceSlug, repo).toResult()
+            bitbucketService.getRepository(workspaceSlug, repo).toResult().map { it.convertToGitRepository().asSuccess() }
         }
 
     override suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>> =
         wrapRepoExceptions("getSource") {
-            bitbucketService.getRepositorySource(workspaceSlug, repo)
-                .toResult()
-                .map { it.values.orEmpty().asSuccess() }
+            bitbucketService.getRepositorySource(workspaceSlug, repo).toResult().map { list ->
+                list.values.orEmpty().map {
+                    it.toRepoFile()
+                }.asSuccess()
+            }
         }
 
     override suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>> =
         wrapRepoExceptions("getSourceFolder") {
-            bitbucketService.getRepositorySourceFolder(workspaceSlug, repo, hash, path)
-                .toResult()
-                .map { it.values.orEmpty().asSuccess() }
+            bitbucketService.getRepositorySourceFolder(workspaceSlug, repo, hash, path).toResult().map { pagedResponse ->
+                pagedResponse.values.orEmpty().map {
+                    it.toRepoFile()
+                }.asSuccess()
+            }
         }
 
-    override suspend fun getCommits(workspaceSlug: String, repo: String, branch: String): Status<List<CommitDto>> {
-        return wrapRepoExceptions("getCommits") {
-            bitbucketService.getRepositoryCommits(workspaceSlug, repo, branch).toResult().map { it.values.orEmpty().asSuccess() }
+    override suspend fun getCommits(workspaceSlug: String, repo: String, branch: String): Status<List<Commit>> = wrapRepoExceptions("getCommits") {
+        bitbucketService.getRepositoryCommits(workspaceSlug, repo, branch).toResult().map { pagedResponse ->
+            pagedResponse.values.orEmpty().map {
+                it.toCommit()
+            }.asSuccess()
         }
     }
 
-    override suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<BranchDto>> {
-        return wrapRepoExceptions("getBranches") {
-            bitbucketService.getRepositoryBranches(workspaceSlug, repo).toResult().map { it.values.orEmpty().asSuccess() }
+    override suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<Branch>> = wrapRepoExceptions("getBranches") {
+        bitbucketService.getRepositoryBranches(workspaceSlug, repo).toResult().map { pagedResponse ->
+            pagedResponse.values.orEmpty().map {
+                it.toBranch()
+            }.asSuccess()
         }
     }
 
@@ -183,21 +176,29 @@ internal class BitbucketRepositoryImpl(
                 .map { it.byteStream().readBytes().asSuccess() }
         }
 
-    override suspend fun getPullRequests(): Status<List<PullRequestDto>> {
-        return wrapRepoExceptions("getPullRequests") {
-            bitbucketService.getPullRequests(_user.value?.username.orEmpty()).toResult().map {
-                it.values.orEmpty().asSuccess()
-            }.alsoOnSuccess { prs -> _pullRequests.value = prs }
+    override suspend fun getPullRequests(): Status<List<PullRequest>> =
+        wrapRepoExceptions("getPullRequests") {
+            bitbucketService.getPullRequests(_user.value?.username.orEmpty()).toResult()
+                .map { pagedResponse ->
+                    pagedResponse.values.orEmpty().also {
+                        _pullRequests.value = it
+                    }.map {
+                        it.toPullRequest()
+                    }.asSuccess()
+                }
         }
-    }
 
-    override suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequestDto>> {
-        return wrapRepoExceptions("getPullRequestsWithQuery") {
-            bitbucketService.getPullRequestsWithQuery(_user.value?.username.orEmpty(), state).toResult().map {
-                it.values.orEmpty().asSuccess()
-            }.alsoOnSuccess { prs -> _pullRequests.value = prs }
+    override suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequest>> =
+        wrapRepoExceptions("getPullRequestsWithQuery") {
+            bitbucketService.getPullRequestsWithQuery(_user.value?.username.orEmpty(), state).toResult()
+                .map { pagedResponse ->
+                    pagedResponse.values.orEmpty().also {
+                        _pullRequests.value = it
+                    }.map {
+                        it.toPullRequest()
+                    }.asSuccess()
+                }
         }
-    }
 
     override suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit> =
         wrapRepoExceptions("createSnippet") {
@@ -210,16 +211,20 @@ internal class BitbucketRepositoryImpl(
             bitbucketService.deleteSnippet(workspaceId, encodedId).toEmptyResult()
         }
 
-    override suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetailsDto> =
+    override suspend fun getSnippetDetails(workspaceId: String, encodedId: String): Status<SnippetDetails> =
         wrapRepoExceptions("getSnippetDetails") {
-            bitbucketService.getSnippetDetails(workspaceId, encodedId).toResult()
+            bitbucketService.getSnippetDetails(workspaceId, encodedId).toResult().map { it.toSnippetDetails().asSuccess() }
         }
 
-    override suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetCommentDto>> =
+    override suspend fun getSnippetComments(workspaceId: String, encodedId: String): Status<List<SnippetComment>> =
         wrapRepoExceptions("getSnippetComments") {
             bitbucketService.getSnippetComments(workspaceId, encodedId)
                 .toResult()
-                .map { it.values.orEmpty().asSuccess() }
+                .map { response ->
+                    response.values.orEmpty().map {
+                        it.convertToComment()
+                    }.asSuccess()
+                }
         }
 
     override suspend fun createSnippetComment(workspaceId: String, encodedId: String, comment: String): Status<Unit> =
@@ -277,7 +282,7 @@ internal class BitbucketRepositoryImpl(
 
     /** Delegates to [wrapRepoExceptions], passing in the class name here instead of requiring it of all callers */
     private suspend fun <T : Any> wrapRepoExceptions(methodName: String, block: suspend () -> Status<T>): Status<T> {
-        return logWrappedExceptions("BitbucketRepository", methodName, block)
+        return logWrappedExceptions("BitbucketRepositoryImpl.kt", methodName, block)
     }
 
     private fun <T : Any> Response<T>.toResult(): Status<T> {

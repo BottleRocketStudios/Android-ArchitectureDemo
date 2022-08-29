@@ -203,7 +203,7 @@ private fun ComposeActivity.profileComposable(navGraphBuilder: NavGraphBuilder, 
     }
 }
 
-private fun ComposeActivity.pullRequestsComposable(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+private fun ComposeActivity.pullRequestsComposable(navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(Routes.PullRequests) {
         val vm: PullRequestViewModel = getViewModel()
         vm.ConnectBaseViewModel {
@@ -227,7 +227,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             repositoryFileComposable(this)
             profileComposable(this, navController)
             snippetListDetailComposable(this, widthSize)
-            pullRequestsComposable(this, navController)
+            pullRequestsComposable(this)
         }
     }
 }

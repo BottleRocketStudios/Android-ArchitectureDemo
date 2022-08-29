@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth.token
 
-import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import com.google.common.truth.Truth.assertThat
 import com.squareup.moshi.Moshi
 import org.junit.Test

@@ -7,11 +7,11 @@ import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class RepoFile(
+data class RepoFileDto(
     @Json(name = "type") val type: String?,
     @Json(name = "path") val path: String?,
     @Json(name = "mimetype") val mimetype: String?,
     @Json(name = "attributes") val attributes: List<String>?,
     @Json(name = "size") val size: Int?,
     @Json(name = "commit") val commit: CommitDto?
-) : Parcelable
+) : Parcelable, Dto

@@ -6,20 +6,20 @@ import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFileLinks
 import com.bottlerocketstudios.brarchitecture.domain.utils.convertToTimeAgoMessage
 
-fun SnippetDetailsDto.convertToUiModel() =
+fun SnippetDetailsDto.toSnippetDetails() =
     SnippetDetails(
         id = id,
         title = title,
         createdMessage = created?.convertToTimeAgoMessage(),
         updatedMessage = updated?.convertToTimeAgoMessage(),
         isPrivate = isPrivate,
-        files = files?.convertToUiModel(),
-        owner = owner?.convertToUser(),
-        creator = creator?.convertToUser(),
-        links = links?.convertToLinks(),
-        httpsCloneLink = links?.convertToLinks()?.clone?.find { it?.name == "https" }?.href,
-        sshCloneLink = links?.convertToLinks()?.clone?.find { it?.name == "ssh" }?.href,
+        files = files?.toSnippetDetails(),
+        owner = owner?.toUser(),
+        creator = creator?.toUser(),
+        links = links?.toLinks(),
+        httpsCloneLink = links?.toLinks()?.clone?.find { it?.name == "https" }?.href,
+        sshCloneLink = links?.toLinks()?.clone?.find { it?.name == "ssh" }?.href,
     )
 
-fun Map<String, LinksDto>.convertToUiModel(): List<SnippetDetailsFileLinks> =
-    map { SnippetDetailsFileLinks(it.key, it.value.convertToLinks()) }
+fun Map<String, LinksDto>.toSnippetDetails(): List<SnippetDetailsFileLinks> =
+    map { SnippetDetailsFileLinks(it.key, it.value.toLinks()) }

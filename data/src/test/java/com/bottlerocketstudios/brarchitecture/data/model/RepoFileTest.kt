@@ -7,7 +7,7 @@ import org.junit.Test
 class RepoFileTest : BaseTest() {
     @Test
     fun repoFile_defaultFields_whenDefaultConstructor() {
-        val repoFile = RepoFile(null, null, null, null, null, null)
+        val repoFile = RepoFileDto(null, null, null, null, null, null)
         assertThat(repoFile.type).isNull()
         assertThat(repoFile.path).isNull()
         assertThat(repoFile.mimetype).isNull()

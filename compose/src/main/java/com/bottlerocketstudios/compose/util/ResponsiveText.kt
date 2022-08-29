@@ -16,6 +16,7 @@ import com.bottlerocketstudios.compose.resources.Colors
 
 private const val TEXT_SCALE_REDUCTION_INTERVAL = 0.9f
 
+@Suppress("LongParameterList")
 @Composable
 fun ResponsiveText(
     modifier: Modifier = Modifier,

@@ -1,6 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.domain.models
 
-class SnippetComment(
+data class SnippetComment(
     val id: Int? = null,
     val created: String? = null,
     val updated: String? = null,

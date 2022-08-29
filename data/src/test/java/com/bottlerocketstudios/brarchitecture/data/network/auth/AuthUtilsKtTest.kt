@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth
 
-import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import com.google.common.truth.Truth.assertThat
 
 import org.junit.Test

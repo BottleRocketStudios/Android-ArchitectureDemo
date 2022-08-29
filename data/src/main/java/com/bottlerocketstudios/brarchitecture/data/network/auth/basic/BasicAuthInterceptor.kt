@@ -1,8 +1,8 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth.basic
 
-import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.getBasicAuthHeader
+import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import okhttp3.Interceptor
 import okhttp3.Response
 
