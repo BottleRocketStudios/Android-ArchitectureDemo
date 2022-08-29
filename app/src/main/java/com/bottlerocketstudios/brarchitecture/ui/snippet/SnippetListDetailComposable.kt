@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -26,7 +25,6 @@ import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.util.toStringIdHelper
 import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
 import com.bottlerocketstudios.launchpad.compose.widgets.listdetail.AnimatedListDetail
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 // Used to represent create item in list so it can be "selected" for detail view
@@ -39,10 +37,8 @@ private val CreateSnippetItem = SnippetUiModel(
 )
 
 @Suppress("LongMethod")
-// TODO - Custom Animations for entrance of detail.   Try to use same animation spec for navigation side and visibility
 fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder, widthSize: WindowWidthSizeClass) {
     navGraphBuilder.composable(Routes.Snippets) {
-        val scope = rememberCoroutineScope()
         val snippetsViewModel: SnippetsViewModel = getViewModel()
 
         val list = snippetsViewModel.snippets.collectAsState(initial = emptyList())
@@ -56,22 +52,17 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
         ) {
 
             // Define List UI and connect to VM
-            List { list, _ ->
-                // TODO - Use selected to highlight item
+            List { list ->
                 SnippetsBrowserScreen(
                     state = SnippetsBrowserScreenState(
                         // Don't display CreateSnippetPlaceHolder
                         snippets = (list - CreateSnippetItem).asMutableState(),
                         createVisible = snippetsViewModel.showCreateCta.collectAsState(),
                         onCreateSnippetClicked = {
-                            scope.launch {
-                                select("CREATE_SNIPPET_SCREEN")
-                            }
+                            select("CREATE_SNIPPET_SCREEN")
                         },
                         onSnippetClick = {
-                            scope.launch {
-                                select(it.id)
-                            }
+                            select(it.id)
                         }
                     )
                 )
@@ -114,7 +105,7 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
                 // If detail showing, provide app bar nav interceptor, otherwise null
                 navIntercept.value = if (detailShowing) (
                     {
-                        scope.launch { select(null) }
+                        select(null)
                         true
                     }
                     ) else null
