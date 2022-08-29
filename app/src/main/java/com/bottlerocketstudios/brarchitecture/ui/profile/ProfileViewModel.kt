@@ -7,6 +7,7 @@ import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
@@ -15,7 +16,7 @@ class ProfileViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // UI
-    val avatarUrl: Flow<String> = repo.user.map { it?.avatarUrl.orEmpty() }.groundState("")
+    val avatarUrl: StateFlow<String> = repo.user.map { it?.avatarUrl.orEmpty() }.groundState("")
     val displayName: Flow<String> = repo.user.map { it?.displayName.orEmpty() }
     val nickname: Flow<String> = repo.user.map { it?.nickname.orEmpty() }
 
