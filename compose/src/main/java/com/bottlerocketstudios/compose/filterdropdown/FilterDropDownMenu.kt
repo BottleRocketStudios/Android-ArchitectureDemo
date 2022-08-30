@@ -91,7 +91,7 @@ fun FilterDropDownMenu(
 
 @PreviewComposable
 @Composable
-fun FilterDropDownPreview() {
+private fun FilterDropDownPreview() {
     Preview {
         FilterDropDownMenu(
             selectedText = "Open",

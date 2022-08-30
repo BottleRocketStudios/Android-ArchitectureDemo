@@ -138,7 +138,7 @@ private fun AuthCodeContent(state: AuthCodeState) {
 
 @PreviewAll
 @Composable
-fun AuthCodePreview() {
+private fun AuthCodePreview() {
     Preview {
         AuthCodeScreen(
             state = AuthCodeState(

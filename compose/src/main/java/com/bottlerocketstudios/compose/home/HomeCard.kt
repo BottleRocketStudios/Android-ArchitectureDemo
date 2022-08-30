@@ -131,7 +131,7 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
 
 @PreviewComposable
 @Composable
-fun HomeCardPreview() {
+private fun HomeCardPreview() {
     Preview {
         CardLayout(userRepositoryUiModel = testCard1) {}
     }

@@ -10,6 +10,7 @@ import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
+import java.net.HttpURLConnection
 
 @Suppress("TooManyFunctions")
 class SnippetDetailsViewModel : BaseViewModel() {
@@ -57,13 +58,12 @@ class SnippetDetailsViewModel : BaseViewModel() {
     }
 
     /** Coded Response: Api returns 204 if user is watching and a 404 if user is not, else an error has occurred */
-    @Suppress("MagicNumber")
     private fun isUserWatchingSnippet() {
         launchIO {
             when (val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
                 is Status.Success -> isWatchingSnippet.value = true
                 is Status.Failure.Server ->
-                    if (result.error?.httpErrorCode == 404) {
+                    if (result.error?.httpErrorCode == HttpURLConnection.HTTP_NOT_FOUND) {
                         isWatchingSnippet.value = false
                     } else {
                         handleError(R.string.snippet_watching_error)
@@ -156,31 +156,33 @@ class SnippetDetailsViewModel : BaseViewModel() {
         snippetComments.value = parentComments.reversed()
     }
 
-    /** Functions for optimized sort theory */
-    // private fun sortWithRecursion(comments: List<SnippetComment>) {
-    //     val sortedComments = comments.filter { it.parentId == null }.toMutableList()
-    //     val unsortedComments = comments.filter { it.parentId != null }.toMutableList()
-    //
-    //     recursiveSort(sortedComments, unsortedComments)
-    //     snippetComments.value = sortedComments.reversed()
-    // }
+    @Suppress("UnusedPrivateMember")
+    /** Functions for optimized sort theory. Keeping for example purposes. */
+    private fun sortWithRecursion(comments: List<SnippetComment>) {
+        val sortedComments = comments.filter { it.parentId == null }.toMutableList()
+        val unsortedComments = comments.filter { it.parentId != null }.toMutableList()
 
-    // private fun recursiveSort(
-    //     sortedComments: MutableList<SnippetComment>,
-    //     unsortedComments: MutableList<SnippetComment>
-    // ) {
-    //     if (unsortedComments.isNotEmpty()) {
-    //         sortedComments.forEach { parent ->
-    //             val toBeRemoved = mutableListOf<SnippetComment>()
-    //             unsortedComments.forEach { child ->
-    //                 if (child.parentId == parent.id) {
-    //                     parent.childrenComments.add(child)
-    //                     toBeRemoved.add(child)
-    //                 }
-    //             }
-    //             unsortedComments.removeAll(toBeRemoved)
-    //             recursiveSort(parent.childrenComments, unsortedComments)
-    //         }
-    //     }
-    // }
+        recursiveSort(sortedComments, unsortedComments)
+        snippetComments.value = sortedComments.reversed()
+    }
+
+    @Suppress("NestedBlockDepth", "UnusedPrivateMember")
+    private fun recursiveSort(
+        sortedComments: MutableList<SnippetComment>,
+        unsortedComments: MutableList<SnippetComment>
+    ) {
+        if (unsortedComments.isNotEmpty()) {
+            sortedComments.forEach { parent ->
+                val toBeRemoved = mutableListOf<SnippetComment>()
+                unsortedComments.forEach { child ->
+                    if (child.parentId == parent.id) {
+                        parent.childrenComments.add(child)
+                        toBeRemoved.add(child)
+                    }
+                }
+                unsortedComments.removeAll(toBeRemoved)
+                recursiveSort(parent.childrenComments, unsortedComments)
+            }
+        }
+    }
 }

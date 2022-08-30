@@ -77,7 +77,7 @@ fun HomeScreen(state: HomeScreenState) {
 
 @PreviewAll
 @Composable
-fun HomeScreenPreview() {
+private fun HomeScreenPreview() {
     Preview {
         HomeScreen(
             state = HomeScreenState(

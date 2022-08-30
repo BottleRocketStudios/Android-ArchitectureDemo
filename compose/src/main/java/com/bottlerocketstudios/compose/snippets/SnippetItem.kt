@@ -93,7 +93,7 @@ fun SnippetItem(snippet: SnippetUiModel, onClick: (SnippetUiModel) -> Unit) {
 
 @PreviewComposable
 @Composable
-fun SnippetItemPreview() {
+private fun SnippetItemPreview() {
     Preview {
         SnippetItem(snippet = mockSnippet1, onClick = {})
     }

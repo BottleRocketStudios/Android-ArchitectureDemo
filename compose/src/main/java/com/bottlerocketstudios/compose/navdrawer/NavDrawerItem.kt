@@ -60,7 +60,7 @@ fun NavDrawerItem(
 
 @Preview(showBackground = true)
 @Composable
-fun NavItemPreview() {
+private fun NavItemPreview() {
     Preview {
         Column {
             NavDrawerItem(
@@ -76,7 +76,7 @@ fun NavItemPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun NavItemSelectedPreview() {
+private fun NavItemSelectedPreview() {
     Preview {
         Column {
             NavDrawerItem(

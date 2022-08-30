@@ -45,7 +45,7 @@ fun CommentCard(
     var expanded by remember { mutableStateOf(false) }
 
     Column(
-        Modifier
+        modifier = Modifier
             .animateContentSize(tween(ONE_SECOND_MILLIS))
             .padding(horizontal = Dimens.grid_2)
     ) {

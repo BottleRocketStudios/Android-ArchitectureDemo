@@ -24,7 +24,6 @@ import com.bottlerocketstudios.compose.util.ResponsiveText
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.launchpad.compose.bold
 
-@Suppress("MagicNumber")
 @Composable
 fun PullRequestItemCard(state: PullRequestItemState) {
     Card(
@@ -41,6 +40,7 @@ fun PullRequestItemCard(state: PullRequestItemState) {
                     .align(Alignment.Top)
                     .weight(1f)
             )
+            @Suppress("MagicNumber")
             Column(
                 modifier = Modifier
                     .wrapContentWidth()

@@ -206,7 +206,7 @@ fun SnippetDetailsSpan(
 
 @Preview(showSystemUi = true)
 @Composable
-fun SnippetDetailsScreenPreview() {
+private fun SnippetDetailsScreenPreview() {
     Preview {
         SnippetDetailsScreen(
             returnMockSnippetDetails()
