@@ -27,11 +27,7 @@ class PullRequestScreenshotTest : ScreenshotTest {
         compareScreenshot(composeRule.onRoot())
     }
 
-    fun renderComponent(state: PullRequestScreenState? = null) {
-        composeRule.setContent {
-            if (state != null) PullRequestScreen(state)
-        }
-    }
+    fun renderComponent(state: PullRequestScreenState) { composeRule.setContent { PullRequestScreen(state) } }
 
     // todo move somewhere that both UI test and Compose Preview
     //  can share it instead of setting it twice.

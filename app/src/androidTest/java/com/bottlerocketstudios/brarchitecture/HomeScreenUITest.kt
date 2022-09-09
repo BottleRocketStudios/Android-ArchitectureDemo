@@ -46,11 +46,7 @@ class HomeScreenUITest : ScreenshotTest {
         compareScreenshot(composeRule.onRoot())
     }
 
-    fun renderComponent(state: HomeScreenState? = null) {
-        composeRule.setContent {
-            if (state != null) HomeScreen(state)
-        }
-    }
+    fun renderComponent(state: HomeScreenState) { composeRule.setContent { HomeScreen(state) } }
 
     // todo move somewhere that both UI test and Compose Preview
     //  can share it instead of setting it twice.

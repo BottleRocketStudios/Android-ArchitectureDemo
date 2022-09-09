@@ -508,7 +508,7 @@ fun DependencyHandler.turbineDependencies() {
     testImplementation(TestLibraries.TURBINE)
 }
 
-fun DependencyHandler.composeUITestingDependencies() {
+fun DependencyHandler.composeUiTestingDependencies() {
     androidTestImplementation(COMPOSE_UI_TEST)
     androidTestImplementation(COMPOSE_UI_JUNIT)
     debugImplementation(COMPOSE_UI_MANIFEST)

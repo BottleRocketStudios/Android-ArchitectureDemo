@@ -186,5 +186,5 @@ dependencies {
     espressoDependencies()
     extJunitRunnerDependencies()
     androidxCoreDependencies()
-    composeUITestingDependencies()
+    composeUiTestingDependencies()
 }
