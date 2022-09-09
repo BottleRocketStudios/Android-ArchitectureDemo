@@ -9,7 +9,7 @@ plugins {
     id(Config.ApplyPlugins.KARUMI_SHOT_TESTING)
 }
 
-extra.set("jacocoCoverageThreshold", 0.40.toBigDecimal()) // module specific code coverage verification threshold
+extra.set("jacocoCoverageThreshold", 0.30.toBigDecimal()) // module specific code coverage verification threshold
 apply(from = "../jacocoModule.gradle")
 
 apply(from = "../renameAppBundle.gradle.kts") // configures additional gradle tasks to rename app bundles (when needed)

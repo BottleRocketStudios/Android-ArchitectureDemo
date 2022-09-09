@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import app.cash.turbine.test
-import com.bottlerocketstudios.brarchitecture.data.model.RepoFile
+import com.bottlerocketstudios.brarchitecture.data.model.RepoFileDto
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_HASH
@@ -38,7 +38,7 @@ class RepositoryBrowserViewModelTest : BaseTest() {
     @Test
     fun srcFiles_initialState_shouldReturnEmptyList() = runTest {
         viewModel.srcFiles.test {
-            assertThat(awaitItem()).isEqualTo(emptyList<RepoFile>())
+            assertThat(awaitItem()).isEqualTo(emptyList<RepoFileDto>())
         }
     }
 

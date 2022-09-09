@@ -1,7 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth.token
 
-import com.bottlerocketstudios.brarchitecture.data.model.ProtectedProperty
-import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
+import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
+import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

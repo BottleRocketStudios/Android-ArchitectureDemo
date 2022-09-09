@@ -24,12 +24,27 @@ fun <T> T.asMutableState() = mutableStateOf(this)
 @Preview(showSystemUi = true, device = Devices.FOLDABLE, group = "Foldable")
 @Preview(showSystemUi = true, device = Devices.TABLET, group = "Tablet")
 @PreviewLightDark
+@Retention(AnnotationRetention.SOURCE)
+@Target(
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.FUNCTION
+)
 annotation class PreviewAll
 
 @Preview(showSystemUi = true, device = Devices.DEFAULT, group = "Default")
 @Preview(showSystemUi = true, device = Devices.DEFAULT, group = "Default", uiMode = UI_MODE_NIGHT_YES)
+@Retention(AnnotationRetention.SOURCE)
+@Target(
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.FUNCTION
+)
 annotation class PreviewLightDark
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Retention(AnnotationRetention.SOURCE)
+@Target(
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.FUNCTION
+)
 annotation class PreviewComposable

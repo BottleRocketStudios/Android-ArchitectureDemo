@@ -1,4 +1,4 @@
-package com.bottlerocketstudios.brarchitecture.data.model
+package com.bottlerocketstudios.brarchitecture.domain.utils
 
 /**
  * Wrapper around [value] that doesn't print sensitive information via toString in logs/exception stacktraces/etc

@@ -109,7 +109,7 @@ fun ProfileDetailComponent(avatarUrl: String, displayName: String, nickname: Str
 
 @PreviewAll
 @Composable
-fun ProfileScreenPreview() {
+private fun ProfileScreenPreview() {
     Preview {
         ProfileScreen(
             state = profileMockData

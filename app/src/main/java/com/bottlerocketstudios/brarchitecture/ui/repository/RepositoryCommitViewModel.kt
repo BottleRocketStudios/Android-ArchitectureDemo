@@ -1,8 +1,9 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.Branch
+import com.bottlerocketstudios.brarchitecture.domain.models.Commit
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.repository.RepositoryCommitItemUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
@@ -22,9 +23,12 @@ class RepositoryCommitViewModel : BaseViewModel() {
     }
 
     // State
-    private val srcCommits = MutableStateFlow<List<CommitDtoWithBranch>>(emptyList())
+    private val srcCommits = MutableStateFlow<List<CommitWithBranch>>(emptyList())
     private val branchNames = MutableStateFlow<List<String>>(emptyList())
     val currentRepoName = MutableStateFlow("")
+
+    // Internal state
+    val repos = repo.repos.groundState(emptyList())
 
     init {
         launchIO {
@@ -43,10 +47,10 @@ class RepositoryCommitViewModel : BaseViewModel() {
         .map { commits ->
             commits.map { commit ->
                 RepositoryCommitItemUiModel(
-                    author = commit.commitDto.author?.userInfo?.displayName ?: "",
-                    timeSinceCommitted = commit.commitDto.date.formattedUpdateTime(clock),
-                    hash = commit.commitDto.hash?.take(HASH_LENGTH) ?: "",
-                    message = commit.commitDto.message ?: "",
+                    author = commit.commit.author?.user?.displayName.orEmpty(),
+                    timeSinceCommitted = commit.commit.date.formattedUpdateTime(clock),
+                    hash = commit.commit.hash.take(HASH_LENGTH),
+                    message = commit.commit.message,
                     branchName = commit.branchName,
                 )
             }
@@ -58,18 +62,18 @@ class RepositoryCommitViewModel : BaseViewModel() {
 
     // Load Logic
     private fun getRepoCommits(name: String) {
-        val selectedRepo = repo.repos.value.firstOrNull { it.name?.equals(name) ?: false }
-        val commitList = mutableListOf<CommitDtoWithBranch>()
+        val selectedRepo = repos.value.firstOrNull { it.name?.equals(name) ?: false }
+        val commitList = mutableListOf<CommitWithBranch>()
         path.setValue(name)
         selectedRepo?.let {
-            val slug = it.workspaceDto?.slug ?: ""
+            val slug = it.workspace?.slug ?: ""
             val repoName = it.name ?: ""
             launchIO {
-                repo.getBranches(slug, repoName).handlingErrors(R.string.error_loading_commits) { branchCallResult ->
+                repo.getBranches(slug, repoName).handlingErrors(R.string.error_loading_commits) { branchCallResult: List<Branch> ->
                     branchNames.value = branchCallResult.mapNotNull { branch -> branch.name }.filter { branch -> branch.isNotBlank() } // only care about non-null/non-blank branches
                     branchNames.value.forEach { branch ->
                         repo.getCommits(slug, repoName, branch).handlingErrors(R.string.error_loading_commits) { commitCallResult ->
-                            commitList.addAll(commitCallResult.map { commitDto -> CommitDtoWithBranch(commitDto, branch) })
+                            commitList.addAll(commitCallResult.map { commit -> CommitWithBranch(commit, branch) })
                         }
                     }
                 }
@@ -79,8 +83,8 @@ class RepositoryCommitViewModel : BaseViewModel() {
     }
 
     /** Used in place of Pair to provide additional context to the properties. */
-    private data class CommitDtoWithBranch(
-        val commitDto: CommitDto,
+    private data class CommitWithBranch(
+        val commit: Commit,
         val branchName: String,
     )
 }

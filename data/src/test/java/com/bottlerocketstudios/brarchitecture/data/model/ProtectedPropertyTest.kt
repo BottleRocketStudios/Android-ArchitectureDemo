@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
 import com.google.common.truth.Truth.assertThat
 
 import org.junit.Test

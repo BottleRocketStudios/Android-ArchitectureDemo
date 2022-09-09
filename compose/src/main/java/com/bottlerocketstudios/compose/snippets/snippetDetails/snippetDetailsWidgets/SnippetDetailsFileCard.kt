@@ -28,6 +28,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.resources.ONE_SECOND_MILLIS
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
@@ -47,7 +48,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
             .padding(vertical = Dimens.grid_1, horizontal = Dimens.grid_2)
     ) {
         Column(
-            modifier = Modifier.animateContentSize(tween(1000))
+            modifier = Modifier.animateContentSize(tween(ONE_SECOND_MILLIS))
         ) {
             Row(
                 modifier = Modifier
@@ -62,7 +63,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
                 IconText(
                     iconRes = R.drawable.ic_file,
                     iconColor = Colors.tertiary,
-                    text = file.fileName ?: "",
+                    text = file.fileName,
                     style = typography.h4.normal()
                 )
                 OutlinedButton(
@@ -81,7 +82,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
             }
 
             if (expanded) {
-                file.rawFile?.let { byteArray ->
+                file.rawFile.let { byteArray ->
                     Divider(
                         color = Colors.onSurface,
                         modifier = Modifier

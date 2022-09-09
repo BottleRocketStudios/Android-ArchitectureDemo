@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.ui.profile
 import app.cash.turbine.test
 import com.bottlerocketstudios.brarchitecture.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo
-import com.bottlerocketstudios.brarchitecture.test.mocks.MockBitBucketRepo.bitbucketRepository
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_DISPLAY_NAME
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_LINK
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_USER_NICKNAME
@@ -65,8 +64,5 @@ class ProfileViewModelTest : BaseTest() {
     fun onLogout_onLogout_onLogoutClicked_repoShouldBeCleared() = runTest {
         viewModel.onLogoutClicked()
         assertThat(MockBitBucketRepo.authenticated).isEqualTo(false)
-        assertThat(bitbucketRepository.user.value).isEqualTo(null)
-        assertThat(bitbucketRepository.repos.value.isEmpty()).isEqualTo(true)
-        assertThat(bitbucketRepository.snippets.value.isEmpty()).isEqualTo(true)
     }
 }

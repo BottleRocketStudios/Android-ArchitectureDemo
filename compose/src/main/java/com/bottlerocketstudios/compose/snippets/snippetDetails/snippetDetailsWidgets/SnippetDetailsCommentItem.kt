@@ -22,12 +22,14 @@ import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.resources.ONE_SECOND_MILLIS
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.CircleAvatarImage
 import com.bottlerocketstudios.launchpad.compose.light
 
+@Suppress("LongMethod", "LongParameterList")
 @Composable
 fun CommentCard(
     user: User?,
@@ -43,8 +45,8 @@ fun CommentCard(
     var expanded by remember { mutableStateOf(false) }
 
     Column(
-        Modifier
-            .animateContentSize(tween(1000))
+        modifier = Modifier
+            .animateContentSize(tween(ONE_SECOND_MILLIS))
             .padding(horizontal = Dimens.grid_2)
     ) {
         Row(

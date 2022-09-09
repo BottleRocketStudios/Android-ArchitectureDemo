@@ -55,7 +55,7 @@ fun OutlinedInputField(
 
 @Preview(showBackground = true)
 @Composable
-fun OutlinedInputFieldPreview() {
+private fun OutlinedInputFieldPreview() {
     Preview {
         OutlinedInputField(
             text = "",
@@ -74,7 +74,7 @@ fun OutlinedInputFieldPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun OutlinedInputFieldPreFilledPreview() {
+private fun OutlinedInputFieldPreFilledPreview() {
     Preview {
         OutlinedInputField(
             text = "BobRoss@gmail.com",

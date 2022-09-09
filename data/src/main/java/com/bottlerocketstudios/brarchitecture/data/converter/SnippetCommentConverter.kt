@@ -11,11 +11,11 @@ fun SnippetCommentDto.convertToComment() = SnippetComment(
     created = created?.convertToTimeAgoMessage(),
     updated = updated?.convertToTimeAgoMessage(),
     content = content?.convertToCommentContent(),
-    user = user?.convertToUser(),
+    user = user?.toUser(),
     deleted = deleted,
     parentId = parent?.id,
     childrenComments = mutableListOf<SnippetComment>(),
-    links = links?.convertToLinks(),
+    links = links?.toLinks(),
     type = type,
     snippet = snippet?.convertToSnippet()
 )

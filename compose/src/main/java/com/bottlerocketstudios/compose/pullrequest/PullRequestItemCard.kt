@@ -40,6 +40,7 @@ fun PullRequestItemCard(state: PullRequestItemState) {
                     .align(Alignment.Top)
                     .weight(1f)
             )
+            @Suppress("MagicNumber")
             Column(
                 modifier = Modifier
                     .wrapContentWidth()

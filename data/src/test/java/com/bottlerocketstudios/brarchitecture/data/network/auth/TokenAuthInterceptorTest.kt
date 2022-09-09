@@ -1,12 +1,12 @@
 package com.bottlerocketstudios.brarchitecture.data.network.auth
 
-import com.bottlerocketstudios.brarchitecture.data.model.ValidCredentialModel
-import com.bottlerocketstudios.brarchitecture.data.model.toProtectedProperty
+import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.HeaderInterceptorMock
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
+import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import com.google.common.truth.Truth.assertWithMessage
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor

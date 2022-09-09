@@ -1,8 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.bottlerocketstudios.brarchitecture.data.converter.convertToGitRepository
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
@@ -19,17 +18,16 @@ class HomeViewModel : BaseViewModel() {
     private val clock by inject<Clock>()
 
     // Setup
-    val user = repo.user
-    val repos = repo.repos
+    val user = repo.user.groundState(null)
+    val repos = repo.repos.groundState(emptyList())
 
     // UI
     val userRepositoryState: Flow<List<UserRepositoryUiModel>> =
-        repos.map {
-            it.map {
-                val repo = it.convertToGitRepository()
+        repos.map { repoList ->
+            repoList.map {
                 UserRepositoryUiModel(
-                    repo = repo,
-                    formattedLastUpdatedTime = repo.updated.formattedUpdateTime(clock)
+                    repo = it,
+                    formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock)
                 )
             }
         }

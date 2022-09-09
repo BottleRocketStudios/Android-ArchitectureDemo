@@ -146,7 +146,7 @@ fun LabelledCheckbox(isPrivate: Boolean, onCheckedChange: (Boolean) -> Unit) {
 
 @PreviewAll
 @Composable
-fun CreateSnippetScreenPreview() {
+private fun CreateSnippetScreenPreview() {
     Preview {
         CreateSnippetScreen(
             state = previewState()
