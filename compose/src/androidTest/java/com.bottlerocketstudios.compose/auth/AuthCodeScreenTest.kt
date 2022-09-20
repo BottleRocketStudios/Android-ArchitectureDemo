@@ -26,7 +26,7 @@ class AuthCodeScreenTest {
     private val webViewNavigator = WebViewNavigator(testScope)
 
     @Test
-    fun authCodeScreenImage_doesHaveContentDescription() {
+    fun authCodeScreenImage_containsContentDescription_andIsDisplayed() {
         // State
         val state = AuthCodeState(
             requestUrl = "".asMutableState(),

@@ -15,7 +15,7 @@ class SplashTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun splashImage_doesExist_andIsDisplayed() {
+    fun splashImage_containsContentDescription_andIsDisplayed() {
         composeTestRule.setContent {
             ArchitectureDemoTheme {
                 SplashScreen()
