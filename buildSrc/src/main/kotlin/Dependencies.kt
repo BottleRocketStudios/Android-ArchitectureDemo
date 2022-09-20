@@ -503,3 +503,7 @@ fun DependencyHandler.composeTestDependencies() {
     androidTestImplementation(TestLibraries.JUNIT_COMPOSE_TESTING)
     debugImplementation(TestLibraries.MANIFEST_COMPOSE_TESTING)
 }
+
+fun DependencyHandler.truthAndroidTestDependencies() {
+    androidTestImplementation(TestLibraries.TRUTH)
+}

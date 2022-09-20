@@ -107,4 +107,5 @@ dependencies {
     truthDependencies()
     coreLibraryDesugaringDependencies()
     composeTestDependencies()
+    truthAndroidTestDependencies()
 }

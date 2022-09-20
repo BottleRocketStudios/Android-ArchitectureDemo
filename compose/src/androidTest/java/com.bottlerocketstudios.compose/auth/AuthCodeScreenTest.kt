@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import org.junit.Rule
 import org.junit.Test
+import com.google.common.truth.Truth.assertThat
 
 class AuthCodeScreenTest {
 
@@ -126,6 +127,6 @@ class AuthCodeScreenTest {
         val loginButton = composeTestRule.onNodeWithText(loginButtonText)
         loginButton.performClick()
         loginButton.assertTextEquals(loginButtonText)
-        assert(onLoginWasClicked)
+        assertThat(onLoginWasClicked).isTrue()
     }
 }
