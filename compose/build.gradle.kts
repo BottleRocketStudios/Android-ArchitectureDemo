@@ -105,4 +105,6 @@ dependencies {
     junitDependencies()
     mockitoKotlinDependencies()
     truthDependencies()
+    coreLibraryDesugaringDependencies()
+    composeTestDependencies()
 }

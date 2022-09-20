@@ -325,6 +325,13 @@ private object TestLibraries {
     // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
     // https://github.com/cashapp/turbine/releases
     const val TURBINE = "app.cash.turbine:turbine:0.8.0"
+
+    // Compose - Testing
+    // https://developer.android.com/jetpack/compose/testing
+    // Test rules and transitive dependencies:
+    const val JUNIT_COMPOSE_TESTING = "androidx.compose.ui:ui-test-junit4:${Config.Compose.COMPOSE_VERSION}"
+    // Needed for createComposeRule, but not createAndroidComposeRule:
+    const val MANIFEST_COMPOSE_TESTING = "androidx.compose.ui:ui-test-manifest:${Config.Compose.COMPOSE_VERSION}"
 }
 
 //// Dependency Groups - to be used inside dependencies {} block instead of declaring all necessary lines for a particular dependency
@@ -490,4 +497,9 @@ fun DependencyHandler.kotlinxCoroutineTestingDependencies() {
 
 fun DependencyHandler.turbineDependencies() {
     testImplementation(TestLibraries.TURBINE)
+}
+
+fun DependencyHandler.composeTestDependencies() {
+    androidTestImplementation(TestLibraries.JUNIT_COMPOSE_TESTING)
+    debugImplementation(TestLibraries.MANIFEST_COMPOSE_TESTING)
 }
