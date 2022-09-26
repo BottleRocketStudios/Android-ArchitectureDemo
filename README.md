@@ -81,3 +81,8 @@ This project uses the `generateNavDrawerItems` method in the `ComposeActivity` t
 
 ## LaunchPad Development
 Uncomment mavenLocal in main build.gradle.kts to test local library changes.
+
+## Compose UI Testing x Karumi Shots
+* Requires API 30+
+* Must re-install app prior to running any tests to get updated Manifest
+* Complete setup can be found here <https://confluence.bottlerocketapps.com/display/BKB/Screenshot+Testing%3A+Compose+UI+x+Karumi>
