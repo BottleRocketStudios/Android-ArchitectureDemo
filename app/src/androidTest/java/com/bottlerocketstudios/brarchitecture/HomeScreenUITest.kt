@@ -10,6 +10,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.Workspace
 import com.bottlerocketstudios.compose.home.HomeScreen
 import com.bottlerocketstudios.compose.home.HomeScreenState
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
+import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.util.StringIdHelper
 import com.bottlerocketstudios.compose.util.asMutableState
 import org.junit.Rule
@@ -45,7 +46,7 @@ class HomeScreenUITest : BaseUIScreenshotTest() {
         compareScreenshot(composeRule.onRoot())
     }
 
-    fun renderComponent(state: HomeScreenState) { composeRule.setContent { HomeScreen(state) } }
+    fun renderComponent(state: HomeScreenState) { composeRule.setContent { ArchitectureDemoTheme { HomeScreen(state) } } }
 
     // todo move somewhere that both UI test and Compose Preview
     //  can share it instead of setting it twice.

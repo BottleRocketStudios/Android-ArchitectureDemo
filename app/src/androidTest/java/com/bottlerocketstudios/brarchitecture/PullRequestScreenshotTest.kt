@@ -5,6 +5,7 @@ import androidx.compose.ui.test.onRoot
 import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
 import com.bottlerocketstudios.compose.pullrequest.PullRequestScreen
 import com.bottlerocketstudios.compose.pullrequest.PullRequestScreenState
+import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.util.asMutableState
 import org.junit.Rule
 import org.junit.Test
@@ -26,7 +27,7 @@ class PullRequestScreenshotTest : BaseUIScreenshotTest() {
         compareScreenshot(composeRule.onRoot())
     }
 
-    fun renderComponent(state: PullRequestScreenState) { composeRule.setContent { PullRequestScreen(state) } }
+    fun renderComponent(state: PullRequestScreenState) { composeRule.setContent { ArchitectureDemoTheme { PullRequestScreen(state) } } }
 
     // todo move somewhere that both UI test and Compose Preview
     //  can share it instead of setting it twice.

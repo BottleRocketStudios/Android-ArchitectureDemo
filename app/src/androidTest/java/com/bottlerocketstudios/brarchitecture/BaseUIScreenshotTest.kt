@@ -8,6 +8,5 @@ import com.karumi.shot.ScreenshotTest
  * Please see the Confluence page for setup, troubleshooting and more information on Compose UI x Karumi screenshot testing.
  *
  * https://confluence.bottlerocketapps.com/display/BKB/Screenshot+Testing%3A+Compose+UI+x+Karumi
- *
  */
 open class BaseUIScreenshotTest : ScreenshotTest
