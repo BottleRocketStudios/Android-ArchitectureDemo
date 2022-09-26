@@ -6,11 +6,10 @@ import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
 import com.bottlerocketstudios.compose.pullrequest.PullRequestScreen
 import com.bottlerocketstudios.compose.pullrequest.PullRequestScreenState
 import com.bottlerocketstudios.compose.util.asMutableState
-import com.karumi.shot.ScreenshotTest
 import org.junit.Rule
 import org.junit.Test
 
-class PullRequestScreenshotTest : ScreenshotTest {
+class PullRequestScreenshotTest : BaseUIScreenshotTest() {
 
     @get:Rule
     val composeRule = createComposeRule()

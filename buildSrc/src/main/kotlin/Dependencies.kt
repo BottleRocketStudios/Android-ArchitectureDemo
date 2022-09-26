@@ -1,6 +1,3 @@
-import Config.Compose.COMPOSE_VERSION
-import TestLibraries.COMPOSE_UI_JUNIT
-import TestLibraries.COMPOSE_UI_MANIFEST
 import TestLibraries.COMPOSE_UI_TEST
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -339,6 +336,7 @@ private object TestLibraries {
     // Compose - Testing
     // https://developer.android.com/jetpack/compose/testing
     // Test rules and transitive dependencies:
+    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test:${Config.Compose.COMPOSE_VERSION}"
     const val JUNIT_COMPOSE_TESTING = "androidx.compose.ui:ui-test-junit4:${Config.Compose.COMPOSE_VERSION}"
     // Needed for createComposeRule, but not createAndroidComposeRule:
     const val MANIFEST_COMPOSE_TESTING = "androidx.compose.ui:ui-test-manifest:${Config.Compose.COMPOSE_VERSION}"
@@ -510,16 +508,11 @@ fun DependencyHandler.turbineDependencies() {
 }
 
 fun DependencyHandler.composeTestDependencies() {
+    androidTestImplementation(COMPOSE_UI_TEST)
     androidTestImplementation(TestLibraries.JUNIT_COMPOSE_TESTING)
     debugImplementation(TestLibraries.MANIFEST_COMPOSE_TESTING)
 }
 
 fun DependencyHandler.truthAndroidTestDependencies() {
     androidTestImplementation(TestLibraries.TRUTH)
-}
-
-fun DependencyHandler.composeUiTestingDependencies() {
-    androidTestImplementation(COMPOSE_UI_TEST)
-    androidTestImplementation(COMPOSE_UI_JUNIT)
-    debugImplementation(COMPOSE_UI_MANIFEST)
 }

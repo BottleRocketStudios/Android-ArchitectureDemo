@@ -29,6 +29,8 @@
                   <entry key="Pixel_3a_API_31" value="120" />
                   <entry key="Pixel_3a_API_33_x86_64" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="adb-R58M97JJKKD-Hkb9wa._adb-tls-connect._tcp." value="120" />
+                  <entry key="samsung&#10; SM-N970U" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -114,6 +116,20 @@
                   <entry key="Pixel_3a_API_31" value="120" />
                   <entry key="Pixel_3a_API_33_x86_64" value="120" />
                   <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="2078923013">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="adb-R58M97JJKKD-Hkb9wa._adb-tls-connect._tcp." value="120" />
+                  <entry key="samsung&#10; SM-N970U" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>

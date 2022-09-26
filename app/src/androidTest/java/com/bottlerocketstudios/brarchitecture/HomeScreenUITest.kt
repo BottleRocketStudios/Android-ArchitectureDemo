@@ -12,12 +12,11 @@ import com.bottlerocketstudios.compose.home.HomeScreenState
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.StringIdHelper
 import com.bottlerocketstudios.compose.util.asMutableState
-import com.karumi.shot.ScreenshotTest
 import org.junit.Rule
 import org.junit.Test
 import java.time.ZonedDateTime
 
-class HomeScreenUITest : ScreenshotTest {
+class HomeScreenUITest : BaseUIScreenshotTest() {
 
     @get:Rule
     val composeRule = createComposeRule()
