@@ -2,11 +2,13 @@ package com.bottlerocketstudios.brarchitecture.test.mocks
 
 import com.bottlerocketstudios.brarchitecture.data.converter.convertToGitRepository
 import com.bottlerocketstudios.brarchitecture.data.converter.convertToSnippet
+import com.bottlerocketstudios.brarchitecture.data.converter.toPullRequest
 import com.bottlerocketstudios.brarchitecture.data.converter.toRepoFile
 import com.bottlerocketstudios.brarchitecture.data.converter.toUser
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.LinkDto
 import com.bottlerocketstudios.brarchitecture.data.model.LinksDto
+import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFileDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
@@ -35,6 +37,7 @@ const val ZONE_DATE_TIME = "2022-07-09T17:09:43.365424Z[UTC]"
 
 object MockBitBucketRepo {
     private val _user = MutableStateFlow<UserDto?>(null)
+    private val _pullRequests = MutableStateFlow<List<PullRequestDto>>(emptyList())
     private val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val _snippets = MutableStateFlow<List<SnippetDto>>(emptyList())
 
@@ -61,6 +64,7 @@ object MockBitBucketRepo {
 
     val bitbucketRepository: BitbucketRepository = mock {
         on { user }.then { _user.map { it?.toUser() } }
+        on { pullRequests }.then { _pullRequests.map { list -> list.map { it.toPullRequest() } } }
         on { repos }.then { _repos.map { list -> list.map { it.convertToGitRepository() } } }
         on { snippets }.then { _snippets.map { list -> list.map { it.convertToSnippet() } } }
 
@@ -71,6 +75,7 @@ object MockBitBucketRepo {
             _user.value = null
             _repos.value = emptyList()
             _snippets.value = emptyList()
+            _pullRequests.value = emptyList()
             Unit
         }
         onBlocking { refreshUser() }.then {

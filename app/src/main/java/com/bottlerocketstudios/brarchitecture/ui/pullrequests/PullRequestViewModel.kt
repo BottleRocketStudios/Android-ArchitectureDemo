@@ -27,9 +27,13 @@ class PullRequestViewModel : BaseViewModel() {
                 prName = dto.title.asMutableState(),
                 prState = dto.state.asMutableState(),
                 prCreation = dto.createdOn?.formattedUpdateTime(clock)?.getString().orEmpty().asMutableState(),
+                author = dto.author.asMutableState(),
+                source = dto.source.asMutableState(),
+                destination = dto.destination.asMutableState(),
                 // FIXME Pull Request api doesn't return the below values. Get data from another api call later.
                 linesAdded = "0 Lines Added".asMutableState(),
-                linesRemoved = "0 Lines Removed".asMutableState()
+                linesRemoved = "0 Lines Removed".asMutableState(),
+                reviewers = "No Reviewers".asMutableState(),
             )
         }
     }

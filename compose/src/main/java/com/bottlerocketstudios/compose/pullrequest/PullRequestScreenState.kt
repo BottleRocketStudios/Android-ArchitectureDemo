@@ -14,5 +14,9 @@ data class PullRequestItemState(
     val prState: State<String>,
     val prCreation: State<String>,
     val linesAdded: State<String>,
-    val linesRemoved: State<String>
+    val linesRemoved: State<String>,
+    val author: State<String>,
+    val source: State<String>,
+    val destination: State<String>,
+    val reviewers: State<String>
 )

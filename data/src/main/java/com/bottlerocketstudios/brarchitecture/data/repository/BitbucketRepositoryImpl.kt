@@ -176,9 +176,9 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 .map { it.byteStream().readBytes().asSuccess() }
         }
 
-    override suspend fun getPullRequests(): Status<List<PullRequest>> =
+    override suspend fun getPullRequests(workspaceSlug: String): Status<List<PullRequest>> =
         wrapRepoExceptions("getPullRequests") {
-            bitbucketService.getPullRequests(_user.value?.username.orEmpty()).toResult()
+            bitbucketService.getPullRequests(workspaceSlug).toResult()
                 .map { pagedResponse ->
                     pagedResponse.values.orEmpty().also {
                         _pullRequests.value = it

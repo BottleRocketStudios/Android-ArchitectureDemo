@@ -16,7 +16,7 @@ import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.launchpad.compose.bold
 
 @Composable
-fun HomeEmptyLayout() {
+fun HomePullRequestEmptyLayout() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -24,7 +24,7 @@ fun HomeEmptyLayout() {
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(R.string.no_repositories),
+            text = stringResource(R.string.no_pull_requests),
             color = Colors.tertiary,
             style = MaterialTheme.typography.h1.bold()
         )
@@ -33,8 +33,8 @@ fun HomeEmptyLayout() {
 
 @PreviewAll
 @Composable
-private fun HomeEmptyPreview() {
+private fun HomePullRequestPreview() {
     Preview {
-        HomeEmptyLayout()
+        HomePullRequestEmptyLayout()
     }
 }

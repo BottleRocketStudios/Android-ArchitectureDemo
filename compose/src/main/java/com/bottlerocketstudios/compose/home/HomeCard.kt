@@ -1,6 +1,8 @@
 package com.bottlerocketstudios.compose.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -17,11 +20,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import com.bottlerocketstudios.compose.R
+import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
+import com.bottlerocketstudios.compose.resources.brown_grey
+import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
+import com.bottlerocketstudios.compose.util.ResponsiveText
 import com.bottlerocketstudios.launchpad.compose.bold
 import com.bottlerocketstudios.launchpad.compose.light
 import com.bottlerocketstudios.launchpad.compose.normal
@@ -82,6 +92,62 @@ fun CardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRe
                             .wrapContentHeight()
                             .fillMaxWidth()
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun HomePullRequestItemCard(state: PullRequestItemState) {
+    Card(
+        elevation = Dimens.plane_3,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(modifier = Modifier.padding(top = Dimens.grid_2, bottom = Dimens.grid_2)) {
+            @Suppress("MagicNumber")
+            Column(
+                modifier = Modifier.padding(start = Dimens.grid_2_5, end = Dimens.grid_2_5)
+            ) {
+                Row {
+                    ResponsiveText(
+                        text = state.prName.value,
+                        textStyle = typography.h3,
+                        modifier = Modifier
+                            .padding(end = Dimens.grid_1)
+                            .weight(3f)
+                    )
+                    Text(
+                        text = state.prCreation.value,
+                        fontSize = 10.sp
+                    )
+                }
+                Row(
+                    modifier = Modifier.padding(top = Dimens.grid_0_5),
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.grid_2)
+                ) {
+                    Text(
+                        text = state.source.value,
+                        style = typography.body1,
+                        color = Colors.onBackground,
+                        modifier = Modifier
+                            .background(color = brown_grey, shape = RoundedCornerShape(Dimens.grid_0_5))
+                            .padding(Dimens.grid_0_75)
+                    )
+                    Text(text = "→", style = typography.body1)
+                    Text(
+                        text = state.destination.value,
+                        style = typography.body1,
+                        color = Colors.onBackground,
+                        modifier = Modifier
+                            .background(color = brown_grey, shape = RoundedCornerShape(Dimens.grid_0_5))
+                            .padding(Dimens.grid_0_75),
+                        textAlign = TextAlign.End
+                    )
+                }
+                Row(Modifier.fillMaxWidth().padding(top = Dimens.grid_1)) {
+                    Text(text = state.author.value, style = typography.body1.bold())
+                    Text(text = state.reviewers.value, style = typography.body1, modifier = Modifier.weight(1f), textAlign = TextAlign.End, fontStyle = FontStyle.Italic)
                 }
             }
         }
