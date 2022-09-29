@@ -8,5 +8,6 @@ data class PullRequest(
     val createdOn: ZonedDateTime?,
     val author: String,
     val source: String,
-    val destination: String
+    val destination: String,
+    val reviewers: String = "No Reviewers"
 )

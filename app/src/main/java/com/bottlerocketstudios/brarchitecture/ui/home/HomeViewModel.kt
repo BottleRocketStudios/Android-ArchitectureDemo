@@ -3,9 +3,8 @@ package com.bottlerocketstudios.brarchitecture.ui.home
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
+import com.bottlerocketstudios.compose.home.UserPullRequestUIModel
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
-import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
-import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,20 +25,12 @@ class HomeViewModel : BaseViewModel() {
 
     // UI
 
-    val userPullRequestState: Flow<List<PullRequestItemState>> =
+    val userPullRequestState: Flow<List<UserPullRequestUIModel>> =
         pullRequests.map { pullList ->
-            pullList.map { dto ->
-                PullRequestItemState(
-                    prName = dto.title.asMutableState(),
-                    prState = dto.state.asMutableState(),
-                    prCreation = dto.createdOn?.formattedUpdateTime(clock)?.getString().orEmpty().asMutableState(),
-                    author = dto.author.asMutableState(),
-                    source = dto.source.asMutableState(),
-                    destination = dto.destination.asMutableState(),
-                    // FIXME Pull Request api doesn't return the below values. Get data from another api call later.
-                    linesAdded = "0 Lines Added".asMutableState(),
-                    linesRemoved = "0 Lines Removed".asMutableState(),
-                    reviewers = "No Reviewers".asMutableState()
+            pullList.map {
+                UserPullRequestUIModel(
+                    pullRequest = it,
+                    formattedLastUpdatedTime = it.createdOn.formattedUpdateTime(clock)
                 )
             }
         }

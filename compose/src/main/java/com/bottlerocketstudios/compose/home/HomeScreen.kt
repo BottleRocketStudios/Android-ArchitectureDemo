@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.bottlerocketstudios.compose.R
-import com.bottlerocketstudios.compose.pullrequest.PullRequestItemState
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.brown_grey
@@ -74,7 +73,7 @@ fun HomeScreen(state: HomeScreenState) {
             ) {
                 items(
                     items = state.pullRequests.value,
-                    itemContent = { item -> HomePullRequestItemCard(item) }
+                    itemContent = { item -> PullRequestCardLayout(item) }
                 )
             }
         } else {
@@ -116,7 +115,7 @@ fun HomeScreen(state: HomeScreenState) {
             ) {
                 items(
                     items = state.repositories.value,
-                    itemContent = { item -> CardLayout(item, state.itemSelected) }
+                    itemContent = { item -> RepositoryCardLayout(item, state.itemSelected) }
                 )
             }
         } else {
@@ -131,7 +130,7 @@ private fun HomeScreenPreview() {
     Preview {
         HomeScreen(
             state = HomeScreenState(
-                emptyList<PullRequestItemState>().asMutableState(),
+                emptyList<UserPullRequestUIModel>().asMutableState(),
                 listOf(testCard1, testCard2).asMutableState()
             ) {}
         )
