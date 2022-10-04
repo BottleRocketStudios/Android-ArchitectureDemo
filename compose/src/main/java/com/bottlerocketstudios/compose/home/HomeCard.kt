@@ -134,7 +134,7 @@ fun PullRequestCardLayout(userPullRequestUIModel: UserPullRequestUIModel) {
                             .background(color = brown_grey, shape = RoundedCornerShape(Dimens.grid_0_5))
                             .padding(Dimens.grid_0_75)
                     )
-                    Text(text = "→", style = typography.body1)
+                    Text(text = "\u2192", style = typography.body1)
                     Text(
                         text = userPullRequestUIModel.pullRequest.destination,
                         style = typography.body1,
