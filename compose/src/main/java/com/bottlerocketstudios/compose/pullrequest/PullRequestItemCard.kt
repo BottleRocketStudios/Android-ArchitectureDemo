@@ -87,7 +87,11 @@ private fun PullRequestsItemPreview() {
                 prState = "Open".asMutableState(),
                 prCreation = "5 days ago".asMutableState(),
                 linesAdded = "0 Lines Added".asMutableState(),
-                linesRemoved = "0 Lines Removed".asMutableState()
+                linesRemoved = "0 Lines Removed".asMutableState(),
+                author = "Arthur Mogran".asMutableState(),
+                source = "Branch".asMutableState(),
+                destination = "master".asMutableState(),
+                reviewers = "No Reviewers".asMutableState(),
             )
         )
     }

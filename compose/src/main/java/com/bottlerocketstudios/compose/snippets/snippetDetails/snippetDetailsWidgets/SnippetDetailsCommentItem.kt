@@ -79,7 +79,7 @@ fun CommentCard(
                         style = typography.body1.copy(color = Colors.tertiary),
                         onClick = { expanded = true }
                     )
-                    Text(text = "  •  ")
+                    Text(text = "  \u2022  ")
                     ClickableText(
                         text = AnnotatedString(stringResource(id = R.string.button_edit)),
                         style = typography.body1.copy(color = Colors.tertiary),

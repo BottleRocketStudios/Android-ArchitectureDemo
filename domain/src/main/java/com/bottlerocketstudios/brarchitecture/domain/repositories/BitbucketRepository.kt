@@ -31,7 +31,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<Branch>>
     suspend fun getSourceFolder(workspaceSlug: String, repo: String, hash: String, path: String): Status<List<RepoFile>>
     suspend fun getSourceFile(workspaceSlug: String, repo: String, hash: String, path: String): Status<ByteArray>
-    suspend fun getPullRequests(): Status<List<PullRequest>>
+    suspend fun getPullRequests(workspaceSlug: String): Status<List<PullRequest>>
     suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequest>>
     suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit>
     suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit>

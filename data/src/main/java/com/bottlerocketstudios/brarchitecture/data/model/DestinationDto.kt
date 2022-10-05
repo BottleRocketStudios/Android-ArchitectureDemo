@@ -12,4 +12,5 @@ data class DestinationDto(
     @Json(name = "raw") val raw: String?,
     @Json(name = "markup") val markUp: String?,
     @Json(name = "html") val createdOn: String?,
+    @Json(name = "branch") val branch: BranchDto?,
 ) : Parcelable, Dto

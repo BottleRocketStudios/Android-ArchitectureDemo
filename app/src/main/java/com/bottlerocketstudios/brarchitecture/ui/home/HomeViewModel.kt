@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.ui.home
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
+import com.bottlerocketstudios.compose.home.UserPullRequestUIModel
 import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +21,20 @@ class HomeViewModel : BaseViewModel() {
     // Setup
     val user = repo.user.groundState(null)
     val repos = repo.repos.groundState(emptyList())
+    val pullRequests = repo.pullRequests.groundState(emptyList())
 
     // UI
+
+    val userPullRequestState: Flow<List<UserPullRequestUIModel>> =
+        pullRequests.map { pullList ->
+            pullList.map {
+                UserPullRequestUIModel(
+                    pullRequest = it,
+                    formattedLastUpdatedTime = it.createdOn.formattedUpdateTime(clock)
+                )
+            }
+        }
+
     val userRepositoryState: Flow<List<UserRepositoryUiModel>> =
         repos.map { repoList ->
             repoList.map {
@@ -40,6 +53,7 @@ class HomeViewModel : BaseViewModel() {
         viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshUser()
             repo.refreshMyRepos()
+            repo.getPullRequests(user.value?.username ?: "")
         }
     }
 

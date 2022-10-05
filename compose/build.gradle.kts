@@ -99,6 +99,7 @@ dependencies {
     coilDependencies()
 
     // Utility
+    brCustomAndroidLintRules()
     timberDependencies()
 
     // Test

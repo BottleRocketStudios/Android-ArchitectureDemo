@@ -66,28 +66,44 @@ private fun PullRequestsPreview() {
                             prState = "Open".asMutableState(),
                             prCreation = "5 days ago".asMutableState(),
                             linesAdded = "0 Lines Added".asMutableState(),
-                            linesRemoved = "0 Lines Removed".asMutableState()
+                            linesRemoved = "0 Lines Removed".asMutableState(),
+                            author = "Arthur Morgan".asMutableState(),
+                            source = "Branch".asMutableState(),
+                            destination = "master".asMutableState(),
+                            reviewers = "No Reviewers".asMutableState(),
                         ),
                         PullRequestItemState(
                             prName = "ASAA-20/PR-Screen".asMutableState(),
                             prState = "Open".asMutableState(),
                             prCreation = "4 days ago".asMutableState(),
                             linesAdded = "0 Lines Added".asMutableState(),
-                            linesRemoved = "0 Lines Removed".asMutableState()
+                            linesRemoved = "0 Lines Removed".asMutableState(),
+                            author = "Jeff Robbman".asMutableState(),
+                            source = "Branch".asMutableState(),
+                            destination = "master".asMutableState(),
+                            reviewers = "No Reviewers".asMutableState(),
                         ),
                         PullRequestItemState(
                             prName = "ASAA-21/PR-Screen".asMutableState(),
                             prState = "Open".asMutableState(),
                             prCreation = "3 days ago".asMutableState(),
                             linesAdded = "0 Lines Added".asMutableState(),
-                            linesRemoved = "0 Lines Removed".asMutableState()
+                            linesRemoved = "0 Lines Removed".asMutableState(),
+                            author = "Ash Ketchem".asMutableState(),
+                            source = "Branch".asMutableState(),
+                            destination = "master".asMutableState(),
+                            reviewers = "No Reviewers".asMutableState(),
                         ),
                         PullRequestItemState(
                             prName = "ASAA-22/PR-Screen".asMutableState(),
                             prState = "Open".asMutableState(),
                             prCreation = "2 days ago".asMutableState(),
                             linesAdded = "0 Lines Added".asMutableState(),
-                            linesRemoved = "0 Lines Removed".asMutableState()
+                            linesRemoved = "0 Lines Removed".asMutableState(),
+                            author = "Sans Undertale".asMutableState(),
+                            source = "Branch".asMutableState(),
+                            destination = "master".asMutableState(),
+                            reviewers = "No Reviewers".asMutableState(),
                         )
                     ).asMutableState(),
                     selectedText = "Open".asMutableState(),
