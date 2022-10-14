@@ -14,6 +14,7 @@ object Routes {
     const val Profile = "profile"
     const val PullRequests = "pullRequests"
     const val Commits = "commits"
+    const val Branches = "branches"
 
     fun RepositoryBrowser(data: RepositoryBrowserData = RepositoryBrowserData("{repoName}", "{folderHash}", "{folderPath}")) =
         "repository?repoName=${data.repoName}" +

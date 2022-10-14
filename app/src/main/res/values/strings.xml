@@ -29,6 +29,9 @@
     <!-- Repository Commits Screen -->
     <string name="error_loading_commits" tools:ignore="ExtraTranslation">Error loading commits</string>
 
+    <!-- Repository Branches Screen -->
+    <string name="error_loading_branches" tools:ignore="ExtraTranslation">Error loading branches</string>
+
     <!-- Repository File screen -->
     <string name="error_loading_file" tools:ignore="ExtraTranslation">Error loading file</string>
 
