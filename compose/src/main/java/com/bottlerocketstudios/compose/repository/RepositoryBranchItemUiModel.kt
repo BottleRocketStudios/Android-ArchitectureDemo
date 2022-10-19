@@ -5,5 +5,5 @@ import com.bottlerocketstudios.compose.util.StringIdHelper
 data class RepositoryBranchItemUiModel(
     val name: String,
     val timeSinceCreated: StringIdHelper,
-    val status: String,
+    val status: StringIdHelper,
 )

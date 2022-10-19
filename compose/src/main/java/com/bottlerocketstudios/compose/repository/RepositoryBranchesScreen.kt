@@ -127,7 +127,7 @@ fun BranchItem(item: RepositoryBranchItemUiModel) {
                     modifier = Modifier.padding(bottom = Dimens.grid_0_5)
                 )
                 Text(
-                    text = item.status,
+                    text = item.status.getString(),
                     style = MaterialTheme.typography.h5.bold()
                 )
             }

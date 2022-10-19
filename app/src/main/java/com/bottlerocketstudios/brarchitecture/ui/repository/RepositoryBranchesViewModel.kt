@@ -5,12 +5,12 @@ import com.bottlerocketstudios.brarchitecture.domain.models.Branch
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.repository.RepositoryBranchItemUiModel
+import com.bottlerocketstudios.compose.util.StringIdHelper
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
-import timber.log.Timber
 import java.time.Clock
 
 class RepositoryBranchesViewModel : BaseViewModel() {
@@ -44,7 +44,7 @@ class RepositoryBranchesViewModel : BaseViewModel() {
                 RepositoryBranchItemUiModel(
                     name = branch.name,
                     timeSinceCreated = branch.date.formattedUpdateTime(clock),
-                    status = "#1(OPEN)"
+                    status = StringIdHelper.Id(R.string.home_branches_status_placeholder)
                 )
             }
         }
@@ -56,7 +56,6 @@ class RepositoryBranchesViewModel : BaseViewModel() {
         path.setValue(name)
         selectedRepo?.let {
             val slug = it.workspace?.slug ?: ""
-            Timber.d(slug + " " + selectedRepo.name.orEmpty())
             val repoName = it.name ?: ""
             launchIO {
                 repo.getBranches(slug, repoName).handlingErrors(R.string.error_loading_branches) { branchCallResult: List<Branch> ->
