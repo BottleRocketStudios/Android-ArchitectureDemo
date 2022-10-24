@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalTextStyle
@@ -23,8 +25,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.bottlerocketstudios.compose.R
@@ -69,6 +73,7 @@ fun SearchView(
     state: MutableState<TextFieldValue>,
     placeHolder: String
 ) {
+    val focusManager = LocalFocusManager.current
     Box(
         modifier = Modifier
             .padding(Dimens.grid_0_25)
@@ -78,17 +83,22 @@ fun SearchView(
             modifier = Modifier
                 .fillMaxWidth(),
             singleLine = true,
+            maxLines = 1,
             placeholder = { Text(placeHolder) },
             textStyle = LocalTextStyle.current.copy(color = Colors.onBackground),
             value = state.value,
             onValueChange = { searchStr ->
-                state.value = searchStr
+                if (!searchStr.text.contains("\n")) {
+                    state.value = searchStr
+                }
             },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = transparent,
                 unfocusedIndicatorColor = transparent,
                 cursorColor = Colors.onBackground
-            )
+            ),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
         )
     }
 }
