@@ -4,10 +4,10 @@ import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import java.time.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
 @Parcelize
-data class BranchDto(
-    @Json(name = "name") val name: String?,
-    @Json(name = "target") val target: TargetDto?
+data class TargetDto(
+    @Json(name = "date") val date: ZonedDateTime?
 ) : Parcelable, Dto

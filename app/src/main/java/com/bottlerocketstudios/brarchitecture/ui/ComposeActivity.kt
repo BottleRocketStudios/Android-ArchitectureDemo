@@ -126,6 +126,7 @@ class ComposeActivity : ComponentActivity() {
 
     // TODO - look into making objects under NavItem with predefined values.
     //  TODO - can we pass in NavController and route to simplify definitions??
+    @Suppress("LongMethod")
     private fun generateNavDrawerItems(navController: NavController, scaffoldState: ScaffoldState, currentRoute: String, showHomeSubList: Boolean) =
         listOf(
             NavItemState(
@@ -148,6 +149,14 @@ class ComposeActivity : ComponentActivity() {
                     ) {
                         scaffoldState.drawerState.close()
                         navController.navigate(Routes.Commits)
+                    },
+                    NavItemState(
+                        icon = R.drawable.ic_branch,
+                        itemText = R.string.home_nav_branches,
+                        selected = currentRoute == Routes.Branches,
+                    ) {
+                        scaffoldState.drawerState.close()
+                        navController.navigate(Routes.Branches)
                     }
                 ) else emptyList()
             ) {
@@ -184,6 +193,7 @@ class ComposeActivity : ComponentActivity() {
         when (route) {
             Routes.Home,
             Routes.Commits,
+            Routes.Branches,
             Routes.RepositoryBrowser()
             -> Routes.Home
             else -> Routes.Main

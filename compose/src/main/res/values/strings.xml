@@ -33,6 +33,9 @@
     <string name="home_repository_icon">Repository Icon</string>
     <string name="home_nav_source">Source</string>
     <string name="home_nav_commits">Commits</string>
+    <string name="home_nav_branches">Branches</string>
+    <string name="home_branches_search">Search Branches</string>
+    <string name="home_branches_status_placeholder">#1(OPEN)</string>
 
     <!-- Profile -->
     <string name="profile_edit">Edit</string>

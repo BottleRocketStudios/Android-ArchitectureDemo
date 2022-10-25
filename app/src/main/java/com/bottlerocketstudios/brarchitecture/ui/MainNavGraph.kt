@@ -23,6 +23,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserDat
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
+import com.bottlerocketstudios.brarchitecture.ui.repository.repositoryBranchesComposable
 import com.bottlerocketstudios.brarchitecture.ui.repository.repositoryCommitsComposable
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
 import com.bottlerocketstudios.brarchitecture.ui.snippet.snippetListDetailComposable
@@ -224,6 +225,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             homeComposable(this, navController)
             repositoryBrowserComposable(this, navController)
             repositoryCommitsComposable(this)
+            repositoryBranchesComposable(this)
             repositoryFileComposable(this)
             profileComposable(this, navController)
             snippetListDetailComposable(this, widthSize)
