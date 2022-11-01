@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.domain.repositories
 import com.bottlerocketstudios.brarchitecture.domain.models.Branch
 import com.bottlerocketstudios.brarchitecture.domain.models.Commit
 import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.Project
 import com.bottlerocketstudios.brarchitecture.domain.models.PullRequest
 import com.bottlerocketstudios.brarchitecture.domain.models.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Snippet
@@ -19,6 +20,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     val repos: Flow<List<GitRepository>>
     val snippets: Flow<List<Snippet>>
     val pullRequests: Flow<List<PullRequest>>
+    val projects: Flow<List<Project>>
     suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
     suspend fun authenticate(authCode: String): Boolean
     suspend fun refreshUser(): Status<Unit>
@@ -45,5 +47,6 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
     suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Status<Int>
     suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
     suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
+    suspend fun getProjects(): Status<List<Project>>
     fun clear()
 }

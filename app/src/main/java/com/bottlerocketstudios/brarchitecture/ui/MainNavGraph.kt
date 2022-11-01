@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.ComposeActivity.Companion.EMPTY_TOOLBAR_TITLE
+import com.bottlerocketstudios.brarchitecture.ui.projects.projectsComposable
 import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.toState
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
@@ -230,6 +231,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             profileComposable(this, navController)
             snippetListDetailComposable(this, widthSize)
             pullRequestsComposable(this)
+            projectsComposable(this)
         }
     }
 }

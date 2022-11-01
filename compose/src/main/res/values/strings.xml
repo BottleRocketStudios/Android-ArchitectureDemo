@@ -93,6 +93,7 @@
     <!-- Values added to exercise unit tests -->
     <string name="sample_format">Sample %1$s</string>
     <string name="no_pull_requests">User currently has no Pull Requests.</string>
+    <string name="no_projects">User currently has no Projects.</string>
     <string name="home_pull_requests">Pull Requests</string>
     <plurals name="sample_plural_format">
         <item quantity="one">%1$s was updated %2$d day ago</item>

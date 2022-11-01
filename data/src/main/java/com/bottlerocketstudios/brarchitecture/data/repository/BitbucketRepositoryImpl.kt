@@ -7,10 +7,12 @@ import com.bottlerocketstudios.brarchitecture.data.converter.toSnippetDetails
 import com.bottlerocketstudios.brarchitecture.data.converter.toUser
 import com.bottlerocketstudios.brarchitecture.data.converter.toBranch
 import com.bottlerocketstudios.brarchitecture.data.converter.toCommit
+import com.bottlerocketstudios.brarchitecture.data.converter.toProject
 import com.bottlerocketstudios.brarchitecture.data.converter.toPullRequest
 import com.bottlerocketstudios.brarchitecture.data.converter.toRepoFile
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
 import com.bottlerocketstudios.brarchitecture.data.model.ParentSnippetCommentDto
+import com.bottlerocketstudios.brarchitecture.data.model.ProjectDto
 import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentContentDto
@@ -24,6 +26,7 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthS
 import com.bottlerocketstudios.brarchitecture.domain.models.Branch
 import com.bottlerocketstudios.brarchitecture.domain.models.Commit
 import com.bottlerocketstudios.brarchitecture.domain.models.GitRepository
+import com.bottlerocketstudios.brarchitecture.domain.models.Project
 import com.bottlerocketstudios.brarchitecture.domain.models.PullRequest
 import com.bottlerocketstudios.brarchitecture.domain.models.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Snippet
@@ -60,6 +63,7 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
     private val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
     private val _snippets = MutableStateFlow<List<SnippetDto>>(emptyList())
     private val _pullRequests = MutableStateFlow<List<PullRequestDto>>(emptyList())
+    private val _projects = MutableStateFlow<List<ProjectDto>>(emptyList())
 
     var authenticated = false
         private set
@@ -68,6 +72,7 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
     override val repos: Flow<List<GitRepository>> = _repos.map { list -> list.map { it.convertToGitRepository() } }
     override val snippets: Flow<List<Snippet>> = _snippets.map { list -> list.map { it.convertToSnippet() } }
     override val pullRequests: Flow<List<PullRequest>> = _pullRequests.map { list -> list.map { it.toPullRequest() } }
+    override val projects: Flow<List<Project>> = _projects.map { list -> list.map { it.toProject() } }
 
     override suspend fun authenticate(authCode: String): Boolean {
         Timber.v("[authenticate]")
@@ -270,6 +275,18 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
     override suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit> =
         wrapRepoExceptions("stopWatchingSnippet") {
             bitbucketService.stopWatchingSnippet(workspaceId, encodedId).toEmptyResult()
+        }
+
+    override suspend fun getProjects(): Status<List<Project>> =
+        wrapRepoExceptions("getProjects") {
+            bitbucketService.getProjects(_user.value?.username.orEmpty()).toResult()
+                .map { response ->
+                    response.values.orEmpty().also {
+                        _projects.value = it
+                    }.map {
+                        it.toProject()
+                    }.asSuccess()
+                }
         }
 
     override fun clear() {

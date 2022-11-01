@@ -5,6 +5,7 @@ import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvid
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.ToasterImpl
 import com.bottlerocketstudios.brarchitecture.ui.ComposeActivityViewModel
+import com.bottlerocketstudios.brarchitecture.ui.projects.ProjectsViewModel
 import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManager
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
@@ -40,6 +41,7 @@ object AppModule {
         viewModel { DevOptionsViewModel() }
         viewModel { SnippetDetailsViewModel() }
         viewModel { PullRequestViewModel() }
+        viewModel { ProjectsViewModel() }
 
         single<ApplicationInfoManager> { ApplicationInfoManagerImpl(app = get(), buildConfigProvider = get()) }
         single<BuildConfigProvider> { BuildConfigProviderImpl() }
