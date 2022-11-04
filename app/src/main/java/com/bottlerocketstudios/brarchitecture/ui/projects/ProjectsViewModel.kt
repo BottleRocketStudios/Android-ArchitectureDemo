@@ -29,12 +29,6 @@ class ProjectsViewModel : BaseViewModel() {
     // Init logic
     init {
         launchIO {
-            getProjects()
-        }
-    }
-
-    private fun getProjects() {
-        launchIO {
             repo.getProjects()
         }
     }
