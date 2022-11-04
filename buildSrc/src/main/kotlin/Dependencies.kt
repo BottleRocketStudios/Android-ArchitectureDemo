@@ -10,8 +10,8 @@ import java.util.Locale
 // https://kotlinlang.org/docs/reference/whatsnew15.html
 // https://kotlinlang.org/docs/releases.html#release-details
 // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-private const val KOTLIN_VERSION = "1.7.0"
-private const val KOTLIN_COROUTINES_VERSION = "1.6.0"
+private const val KOTLIN_VERSION = "1.7.20"
+private const val KOTLIN_COROUTINES_VERSION = "1.6.4"
 
 /**
  * Provides the source of truth for version/configuration information to any gradle build file (project and app module build.gradle.kts)
@@ -19,7 +19,7 @@ private const val KOTLIN_COROUTINES_VERSION = "1.6.0"
 object Config {
     // https://github.com/JLLeitschuh/ktlint-gradle/blob/master/CHANGELOG.md
     // https://github.com/JLLeitschuh/ktlint-gradle/releases
-    const val KTLINT_GRADLE_VERSION = "10.2.1"
+    const val KTLINT_GRADLE_VERSION = "11.0.0"
 
     // https://github.com/pinterest/ktlint/blob/master/CHANGELOG.md
     // https://github.com/pinterest/ktlint/releases
@@ -42,14 +42,14 @@ object Config {
     //   https://detekt.github.io/detekt/performance.html
     //   https://detekt.github.io/detekt/style.html
     // Release info: https://github.com/detekt/detekt/releases
-    const val DETEKT_VERSION = "1.19.0"
+    const val DETEKT_VERSION = "1.21.0"
     // https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
     // Supported libs: https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
     // https://kotlinlang.org/docs/ksp-overview.html
     // https://kotlinlang.org/docs/ksp-quickstart.html
     // https://github.com/google/ksp/releases
     // TODO: First part of version should match version of kotlin - see https://github.com/google/ksp/blob/main/docs/faq.md
-    const val KSP_VERSION = "1.7.0-1.0.6"
+    const val KSP_VERSION = "1.7.20-1.0.8"
 
     /**
      * Called from root project buildscript block in the project root build.gradle.kts
@@ -57,12 +57,12 @@ object Config {
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.2.0"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.3.0"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
-        const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
+        const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.43.0"
     }
 
     /**
@@ -85,7 +85,7 @@ object Config {
 
     // What each version represents - https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
     object AndroidSdkVersions {
-        const val COMPILE_SDK = 32
+        const val COMPILE_SDK = 33
 
         // https://developer.android.com/studio/releases/build-tools
         const val BUILD_TOOLS = "31.0.0"
@@ -96,8 +96,8 @@ object Config {
     }
 
     object Compose {
-        const val COMPOSE_VERSION = "1.2.0-rc03"
-        const val COMPOSE_COMPILER_VERSION = "1.2.0"
+        const val COMPOSE_VERSION = "1.3.0"
+        const val COMPOSE_COMPILER_VERSION = "1.3.2"
     }
 
     // Gradle versions plugin configuration: https://github.com/ben-manes/gradle-versions-plugin#revisions
@@ -122,21 +122,21 @@ private object Libraries {
     // https://developer.android.com/kotlin/ktx
 
     // https://developer.android.com/jetpack/androidx/releases/core
-    const val CORE_KTX = "androidx.core:core-ktx:1.7.0"
+    const val CORE_KTX = "androidx.core:core-ktx:1.9.0"
 
     // Lifecycle
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
-    private const val LIFECYCLE_VERSION = "2.4.0"
+    private const val LIFECYCLE_VERSION = "2.5.1"
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
     const val LIFECYCLE_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:$LIFECYCLE_VERSION"
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
-    const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
+    const val APP_COMPAT = "androidx.appcompat:appcompat:1.5.1"
 
     // https://developer.android.com/jetpack/androidx/releases/startup
-    const val STARTUP = "androidx.startup:startup-runtime:1.1.0"
+    const val STARTUP = "androidx.startup:startup-runtime:1.1.1"
 
-    private const val ACTIVITY_VERSION = "1.4.0"
+    private const val ACTIVITY_VERSION = "1.6.1"
 
     // https://developer.android.com/jetpack/androidx/releases/activity
     const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:$ACTIVITY_VERSION"
@@ -174,7 +174,7 @@ private object Libraries {
 
     // Accompanist
     // https://github.com/google/accompanist/releases
-    private const val ACCOMPANIST_VERSION = "0.24.5-alpha"
+    private const val ACCOMPANIST_VERSION = "0.27.0"
     const val ACCOMPANIST_WEBVIEW = "com.google.accompanist:accompanist-webview:$ACCOMPANIST_VERSION"
     const val ACCOMPANIST_NAVIGATION_ANIMATION = "com.google.accompanist:accompanist-navigation-animation:$ACCOMPANIST_VERSION"
 
@@ -182,13 +182,13 @@ private object Libraries {
     // Coil
     // https://coil-kt.github.io/coil/
     // https://coil-kt.github.io/coil/changelog/#full-release-notes
-    private const val COIL_VERSION = "2.0.0-rc02"
+    private const val COIL_VERSION = "2.2.2"
     const val COIL = "io.coil-kt:coil:$COIL_VERSION"
     const val COIL_COMPOSE_EXT = "io.coil-kt:coil-compose:$COIL_VERSION"
 
     // Navigation
     // https://developer.android.com/jetpack/androidx/releases/navigation
-    const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:2.4.0-rc01"
+    const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:2.5.3"
 
     // https://security.googleblog.com/2020/02/data-encryption-on-android-with-jetpack.html
     // https://developer.android.com/topic/security/data
@@ -197,11 +197,11 @@ private object Libraries {
 
     //// Material
     // https://github.com/material-components/material-components-android/releases
-    const val MATERIAL = "com.google.android.material:material:1.5.0"
+    const val MATERIAL = "com.google.android.material:material:1.7.0"
 
     // https://github.com/material-components/material-components-android-compose-theme-adapter/releases/
     // Navigate to above link, search for latest material-vX.Y.Z that supports a matching version of Compose, and just use the X.Y.Z in the dependency version below
-    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.1.3"
+    const val MATERIAL_COMPOSE_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.1.21"
 
     //// Kotlin
     const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -218,7 +218,7 @@ private object Libraries {
     //// Koin
     // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
     // https://github.com/InsertKoinIO/koin/tags
-    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.1.5"
+    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.2.2"
 
     //// Core Library Desugaring
     // https://developer.android.com/studio/write/java8-support#library-desugaring
@@ -240,7 +240,7 @@ private object Libraries {
     //// Moshi
     // https://github.com/square/moshi/blob/master/CHANGELOG.md
     // https://github.com/square/moshi/releases
-    private const val MOSHI_VERSION = "1.13.0"
+    private const val MOSHI_VERSION = "1.14.0"
 
     // Note: DO NOT USE moshi-kotlin as it uses reflection via `KotlinJsonAdapterFactory`.
     // Instead, rely on moshi and the ksp `moshi-kotlin-codegen` dependency AND annotate relevant classes with @JsonClass(generateAdapter = true)
@@ -253,7 +253,7 @@ private object Libraries {
 
     // Blog: https://proandroiddev.com/livedata-with-single-events-2395dea972a8
     // https://github.com/hadilq/LiveEvent/releases
-    const val LIVE_EVENT = "com.github.hadilq.liveevent:liveevent:1.2.0"
+    const val LIVE_EVENT = "com.github.hadilq:liveevent:1.3.0"
 
     // https://github.com/JakeWharton/timber/blob/master/CHANGELOG.md
     // https://github.com/JakeWharton/timber/releases
@@ -270,7 +270,7 @@ private object Libraries {
 
     // https://square.github.io/leakcanary/changelog/
     // https://github.com/square/leakcanary/releases
-    private const val LEAK_CANARY_VERSION = "2.8.1"
+    private const val LEAK_CANARY_VERSION = "2.9.1"
 
     /** Use only on debugImplementation builds */
     // Using leakcanary-android-startup since we're using the androidx startup lib: https://square.github.io/leakcanary/changelog/#androidx-app-startup
@@ -324,7 +324,7 @@ private object TestLibraries {
     // Turbine - small emission testing lib for flows (hot or cold)
     // https://github.com/cashapp/turbine/blob/trunk/CHANGELOG.md
     // https://github.com/cashapp/turbine/releases
-    const val TURBINE = "app.cash.turbine:turbine:0.8.0"
+    const val TURBINE = "app.cash.turbine:turbine:0.12.1"
 
     // Compose - Testing
     // https://developer.android.com/jetpack/compose/testing
