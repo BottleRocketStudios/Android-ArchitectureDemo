@@ -3,6 +3,7 @@ package com.bottlerocketstudios.brarchitecture.data.network
 import com.bottlerocketstudios.brarchitecture.data.model.BranchDto
 import com.bottlerocketstudios.brarchitecture.data.model.CommitDto
 import com.bottlerocketstudios.brarchitecture.data.model.GitRepositoryDto
+import com.bottlerocketstudios.brarchitecture.data.model.ProjectDto
 import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFileDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetCommentDto
@@ -181,4 +182,9 @@ internal interface BitbucketService {
         @Path(value = "encoded_id") encodedId: String,
         @Path(value = "comment_id") commentId: Int
     ): Response<Unit>
+
+    @GET(value = "https://api.bitbucket.org/2.0/workspaces/{workspace}/projects")
+    suspend fun getProjects(
+        @Path(value = "workspace") workspace: String
+    ): Response<BitbucketPagedResponse<List<ProjectDto>>>
 }

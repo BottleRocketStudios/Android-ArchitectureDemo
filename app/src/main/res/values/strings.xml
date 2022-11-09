@@ -38,6 +38,9 @@
     <!--    Pull Request-->
     <string name="pull_request_error">Failed to get Pull Requests</string>
 
+    <!-- Projects -->
+    <string name="projects">Projects</string>
+
     <!-- Misc -->
     <string name="dev_options_button">Dev Options</string>
 

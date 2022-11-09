@@ -164,6 +164,14 @@ class ComposeActivity : ComponentActivity() {
                 navController.navigate(Routes.Home)
             },
             NavItemState(
+                icon = R.drawable.ic_projects,
+                itemText = R.string.projects,
+                selected = currentRoute == Routes.Projects
+            ) {
+                scaffoldState.drawerState.close()
+                navController.navigate(Routes.Projects)
+            },
+            NavItemState(
                 icon = R.drawable.ic_snippet,
                 itemText = R.string.snippets_title,
                 selected = currentRoute == Routes.Snippets
@@ -186,7 +194,7 @@ class ComposeActivity : ComponentActivity() {
             ) {
                 scaffoldState.drawerState.close()
                 navController.navigate(Routes.PullRequests)
-            }
+            },
         )
 
     private fun getTopRoute(route: String) =
