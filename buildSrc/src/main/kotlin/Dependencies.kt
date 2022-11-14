@@ -42,7 +42,7 @@ object Config {
     //   https://detekt.github.io/detekt/performance.html
     //   https://detekt.github.io/detekt/style.html
     // Release info: https://github.com/detekt/detekt/releases
-    const val DETEKT_VERSION = "1.21.0"
+    const val DETEKT_VERSION = "1.22.0-RC3"
     // https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
     // Supported libs: https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
     // https://kotlinlang.org/docs/ksp-overview.html
@@ -57,7 +57,7 @@ object Config {
     object BuildScriptPlugins {
         // https://developer.android.com/studio/releases/gradle-plugin
         // TODO: Update corresponding buildSrc/build.gradle.kts value when updating this version!
-        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.3.0"
+        const val ANDROID_GRADLE = "com.android.tools.build:gradle:7.3.1"
         const val KOTLIN_GRADLE = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
 
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
