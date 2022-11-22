@@ -1,3 +1,4 @@
+import TestLibraries.COMPOSE_UI_TEST
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import java.util.Locale
@@ -63,6 +64,10 @@ object Config {
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.41.0"
+
+        // Gradle plugin and a core android library thought to run screenshot tests for Android
+        // https://github.com/pedrovgs/Shot/releases
+        const val KARUMI_SCREENSHOT_TESTING = "com.karumi:shot:5.14.1"
     }
 
     /**
@@ -78,6 +83,7 @@ object Config {
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
         const val PARCELIZE = "kotlin-parcelize"
         const val KSP = "com.google.devtools.ksp"
+        const val KARUMI_SHOT_TESTING = "shot"
         object Kotlin {
             const val ANDROID = "android"
         }
@@ -314,6 +320,7 @@ private object TestLibraries {
     const val ANDROIDX_TEST_CORE = "androidx.test:core:1.4.0"
     const val ANDROIDX_TEST_CORE_KTX = "androidx.test:core-ktx:1.4.0"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core:3.4.0"
+    const val ESPRESSO_CONTRIB = "androidx.test.espresso:espresso-contrib:3.4.0"
     const val JUNIT_EXT_RUNNER = "androidx.test.ext:junit:1.1.3"
     const val JUNIT_EXT_RUNNER_KTX = "androidx.test.ext:junit-ktx:1.1.3"
 
@@ -329,6 +336,7 @@ private object TestLibraries {
     // Compose - Testing
     // https://developer.android.com/jetpack/compose/testing
     // Test rules and transitive dependencies:
+    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test:${Config.Compose.COMPOSE_VERSION}"
     const val JUNIT_COMPOSE_TESTING = "androidx.compose.ui:ui-test-junit4:${Config.Compose.COMPOSE_VERSION}"
     // Needed for createComposeRule, but not createAndroidComposeRule:
     const val MANIFEST_COMPOSE_TESTING = "androidx.compose.ui:ui-test-manifest:${Config.Compose.COMPOSE_VERSION}"
@@ -500,6 +508,7 @@ fun DependencyHandler.turbineDependencies() {
 }
 
 fun DependencyHandler.composeTestDependencies() {
+    androidTestImplementation(COMPOSE_UI_TEST)
     androidTestImplementation(TestLibraries.JUNIT_COMPOSE_TESTING)
     debugImplementation(TestLibraries.MANIFEST_COMPOSE_TESTING)
 }
