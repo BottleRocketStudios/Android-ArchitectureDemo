@@ -13,18 +13,18 @@ object MockEnvironmentRepository {
     val ENVIRONMENT_STG = EnvironmentConfig(EnvironmentType.STG, BASE_URL_STG)
     val ENVIRONMENT_PROD = EnvironmentConfig(EnvironmentType.PRODUCTION, BASE_URL_PROD)
 
-    var _selectedConfig: EnvironmentConfig = ENVIRONMENT_STG
-    var _environments = listOf(ENVIRONMENT_STG, ENVIRONMENT_PROD)
+    var selectedConfig: EnvironmentConfig = ENVIRONMENT_STG
+    var environments = listOf(ENVIRONMENT_STG, ENVIRONMENT_PROD)
 
     val newEnvironment = MutableStateFlow(ENVIRONMENT_STG)
 
     @Suppress("MemberNameEqualsClassName")
     val mockEnvironmentRepository: EnvironmentRepository = mock {
-        on { selectedConfig }.then { _selectedConfig }
-        on { environments }.then { _environments }
+        on { selectedConfig }.then { selectedConfig }
+        on { environments }.then { environments }
 
         on { changeEnvironment(newEnvironment.value.environmentType) }.then {
-            _selectedConfig = newEnvironment.value
+            selectedConfig = newEnvironment.value
             Unit
         }
     }

@@ -44,11 +44,11 @@ class DevOptionsViewModelTest : BaseTest() {
 
     @Test
     fun environmentSpinnerPosition_changePosition_shouldReturnNewIndex() = runTest {
-        MockEnvironmentRepository._selectedConfig = MockEnvironmentRepository._environments[1]
+        MockEnvironmentRepository.selectedConfig = MockEnvironmentRepository.environments[1]
         viewModel = DevOptionsViewModel()
         viewModel.environmentSpinnerPosition.test {
             assertThat(awaitItem())
-                .isEqualTo(MockEnvironmentRepository._environments.indexOf(MockEnvironmentRepository._selectedConfig))
+                .isEqualTo(MockEnvironmentRepository.environments.indexOf(MockEnvironmentRepository.selectedConfig))
         }
     }
 
@@ -58,7 +58,7 @@ class DevOptionsViewModelTest : BaseTest() {
         MockEnvironmentRepository.newEnvironment.value = ENVIRONMENT_PROD
         // Call function to change environment
         viewModel.onEnvironmentChanged(
-            MockEnvironmentRepository._environments.indexOf(
+            MockEnvironmentRepository.environments.indexOf(
                 MockEnvironmentRepository.newEnvironment.value
             )
         )
@@ -76,7 +76,7 @@ class DevOptionsViewModelTest : BaseTest() {
     @Test
     fun basUrl_initWithPROD_shouldReturnProdBaseUrl() = runTest {
         // Change init environment
-        MockEnvironmentRepository._selectedConfig = ENVIRONMENT_PROD
+        MockEnvironmentRepository.selectedConfig = ENVIRONMENT_PROD
         // Re "init" viewModel
         viewModel = DevOptionsViewModel()
         // Assert environment has changed
@@ -87,7 +87,7 @@ class DevOptionsViewModelTest : BaseTest() {
     fun baseUrl_onEnvironmentChanged_urlShouldUpdate() = runTest {
         // Change environment to PROD
         MockEnvironmentRepository.newEnvironment.value = ENVIRONMENT_PROD
-        viewModel.onEnvironmentChanged(MockEnvironmentRepository._environments.indexOf(ENVIRONMENT_PROD))
+        viewModel.onEnvironmentChanged(MockEnvironmentRepository.environments.indexOf(ENVIRONMENT_PROD))
 
         // Assert that baseUrl value has updated to PROD
         assertThat(viewModel.baseUrl.value).isEqualTo(BASE_URL_PROD)

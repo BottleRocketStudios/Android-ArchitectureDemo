@@ -17,14 +17,14 @@ class SnippetsViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // UI
-    val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { it ->
-        it.map {
+    val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { snippets ->
+        snippets.map { snippet ->
             SnippetUiModel(
-                id = it.id ?: "",
-                workspaceId = it.workspace?.slug ?: it.workspace?.uuid ?: "",
-                title = it.title ?: "",
-                userName = it.owner?.displayName ?: "",
-                formattedLastUpdatedTime = it.updated.formattedUpdateTime(clock = clock)
+                id = snippet.id ?: "",
+                workspaceId = snippet.workspace?.slug ?: snippet.workspace?.uuid ?: "",
+                title = snippet.title ?: "",
+                userName = snippet.owner?.displayName ?: "",
+                formattedLastUpdatedTime = snippet.updated.formattedUpdateTime(clock = clock)
             )
         }
     }

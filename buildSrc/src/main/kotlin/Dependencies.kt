@@ -42,7 +42,7 @@ object Config {
     //   https://detekt.github.io/detekt/performance.html
     //   https://detekt.github.io/detekt/style.html
     // Release info: https://github.com/detekt/detekt/releases
-    const val DETEKT_VERSION = "1.22.0-RC3"
+    const val DETEKT_VERSION = "1.22.0"
     // https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
     // Supported libs: https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html
     // https://kotlinlang.org/docs/ksp-overview.html
