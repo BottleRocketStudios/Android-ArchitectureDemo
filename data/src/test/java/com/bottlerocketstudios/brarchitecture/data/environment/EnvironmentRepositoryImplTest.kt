@@ -18,10 +18,14 @@ import org.junit.Test
 
 class EnvironmentRepositoryImplTest : BaseTest() {
 
+    @Suppress("VariableNaming") // constant
     private val ENVIRONMENT_STG = EnvironmentConfig(EnvironmentType.STG, "https://REPLACE-THIS-HARDCODED-URL.STAGE.CLIENT.com")
+    @Suppress("VariableNaming") // constant
     private val ENVIRONMENT_PROD = EnvironmentConfig(EnvironmentType.PRODUCTION, "https://REPLACE-THIS-HARDCODED-URL.PROD.CLIENT.com")
 
+    @Suppress("VariableNaming") // constant
     private val DEV_ENVIRONMENT_CONFIGS = listOf(ENVIRONMENT_STG, ENVIRONMENT_PROD)
+    @Suppress("VariableNaming") // constant
     private val PROD_ENVIRONMENT_CONFIGS = listOf(ENVIRONMENT_PROD)
 
     @Test

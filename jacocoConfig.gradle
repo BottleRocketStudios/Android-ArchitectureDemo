@@ -1,4 +1,4 @@
 project.ext {
     jacocoCoverageThresholdDefault = 0.80 // value used in jacocoModule.gradle
-    jacocoVersion = "0.8.7" // value used in jacocoRoot.gradle and jacocoModule.gradle
+    jacocoVersion = "0.8.8" // value used in jacocoRoot.gradle and jacocoModule.gradle
 }
