@@ -1,0 +1,14 @@
+[
+    {
+      "name": "SHOW_SNIPPETS",
+      "value": false,
+      "defaultValue": true,
+      "requireRestart": false
+    },
+    {
+      "name": "SHOW_PULL_REQUESTS",
+      "value": false,
+      "defaultValue": true,
+      "requireRestart": false
+    }
+]

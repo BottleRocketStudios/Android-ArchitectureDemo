@@ -14,9 +14,11 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthI
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.data.repository.FeatureToggleRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -38,6 +40,7 @@ object DataModule {
         single<DispatcherProvider> { DispatcherProviderImpl() }
         single<Moshi> { Moshi.Builder().add(DateTimeAdapter(clock = get())).add(ProtectedPropertyAdapter()).build() }
         single<BitbucketRepository> { BitbucketRepositoryImpl() }
+        single<FeatureToggleRepository> { FeatureToggleRepositoryImpl(moshi = get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
         single { BitbucketCredentialsRepository(context = androidContext(), moshi = get()) }

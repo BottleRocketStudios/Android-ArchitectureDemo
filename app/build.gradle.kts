@@ -8,7 +8,7 @@ plugins {
     id(Config.ApplyPlugins.PARCELIZE)
 }
 
-extra.set("jacocoCoverageThreshold", 0.30.toBigDecimal()) // module specific code coverage verification threshold
+extra.set("jacocoCoverageThreshold", 0.20.toBigDecimal()) // module specific code coverage verification threshold
 apply(from = "../jacocoModule.gradle")
 
 apply(from = "../renameAppBundle.gradle.kts") // configures additional gradle tasks to rename app bundles (when needed)

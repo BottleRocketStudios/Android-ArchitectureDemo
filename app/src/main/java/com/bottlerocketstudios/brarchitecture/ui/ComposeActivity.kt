@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bottlerocketstudios.brarchitecture.R
+import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.bottlerocketstudios.brarchitecture.domain.utils.MutableStateFlowDelegate
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.compose.appbar.ArchAppBar
@@ -29,10 +30,12 @@ import com.bottlerocketstudios.compose.navdrawer.NavDrawer
 import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ComposeActivity : ComponentActivity() {
     val activityViewModel: ComposeActivityViewModel by viewModel()
+    private val featureToggleRepository: FeatureToggleRepository by inject()
 
     /**
      *   EMPTY_TOOLBAR_TITLE is used to show toolbar without a title.
@@ -128,7 +131,7 @@ class ComposeActivity : ComponentActivity() {
     //  TODO - can we pass in NavController and route to simplify definitions??
     @Suppress("LongMethod")
     private fun generateNavDrawerItems(navController: NavController, scaffoldState: ScaffoldState, currentRoute: String, showHomeSubList: Boolean) =
-        listOf(
+        listOfNotNull(
             NavItemState(
                 icon = R.drawable.ic_home,
                 itemText = R.string.home_title,
@@ -178,7 +181,7 @@ class ComposeActivity : ComponentActivity() {
             ) {
                 scaffoldState.drawerState.close()
                 navController.navigate(Routes.Snippets)
-            },
+            }.takeIf { featureToggleRepository.getFeatureToggle("SHOW_SNIPPETS") },
             NavItemState(
                 icon = R.drawable.ic_nav_profile,
                 itemText = R.string.profile_title,
