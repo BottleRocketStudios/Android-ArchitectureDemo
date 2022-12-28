@@ -6,6 +6,7 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
+    id(Config.ApplyPlugins.GOOGLE_SERVICES)
 }
 
 extra.set("jacocoCoverageThreshold", 0.30.toBigDecimal()) // module specific code coverage verification threshold
@@ -139,4 +140,7 @@ dependencies {
     archCoreTestingDependencies()
     kotlinxCoroutineTestingDependencies()
     turbineDependencies()
+
+    // Firebase
+    firebaseDependencies()
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- To use local defaults, enable "Use in-app default" in Firebase Remote Config for the parameter(s) desired.-->
+<defaults>
+  <entry>
+    <key>SHOW_SNIPPETS</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>SHOW_PULL_REQUESTS</key>
+    <value>true</value>
+  </entry>
+</defaults>
