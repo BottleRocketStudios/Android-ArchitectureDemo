@@ -6,49 +6,81 @@ import com.bottlerocketstudios.brarchitecture.domain.models.FeatureToggle
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.StateFlow
 import org.intellij.lang.annotations.Language
 import org.koin.core.component.KoinComponent
 
 @Suppress("TooManyFunctions")
 class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepository, KoinComponent {
     // DI
-    private val _featureToggles = MutableStateFlow<List<FeatureToggleDto>>(emptyList())
-    override val featureToggles: Flow<List<FeatureToggle>> = _featureToggles.map { list -> list.map { it.toFeatureToggle() } }
+    private val _featureToggles = MutableStateFlow<Set<FeatureToggle>>(emptySet())
+    override val featureToggles: StateFlow<Set<FeatureToggle>> = _featureToggles
 
     init {
         getFeatureTogglesFromJson()
+        resetTogglesToDefaultValues()
     }
 
-    override fun getFeatureTogglesFromJson() {
-        val listType = Types.newParameterizedType(List::class.java, FeatureToggleDto::class.java)
-        val adapter: JsonAdapter<List<FeatureToggleDto>> = moshi.adapter(listType)
-        _featureToggles.value = adapter.fromJson(FEATURE_TOGGLE_JSON) ?: emptyList()
+    private fun getFeatureTogglesFromJson() {
+        _featureToggles.value = getAdaptedToggles()
     }
 
-    override fun getFeatureToggle(name: String): Boolean {
-        return _featureToggles.value.find { it.name == name }?.value == true
+    private fun getAdaptedToggles(): Set<FeatureToggle> {
+        val adapter: JsonAdapter<FeatureToggleDto> = moshi.adapter(FeatureToggleDto::class.java)
+        return mutableSetOf<FeatureToggle>().apply {
+            addAll(adapter.fromJson(FEATURE_TOGGLE_JSON)?.booleanFlags?.map { it.toFeatureToggle() }?.toSet() ?: emptySet())
+            addAll(adapter.fromJson(FEATURE_TOGGLE_JSON)?.stringFlags?.map { it.toFeatureToggle() }?.toSet() ?: emptySet())
+        }
+    }
+
+    override fun overrideFeatureToggleValue(toggleWithUpdateValue: FeatureToggle) {
+        TODO("Not yet impl - use DataStore to accomplish local overrides.")
+    }
+
+    override fun resetTogglesToDefaultValues() {
+        val adaptedToggles = getAdaptedToggles()
+        adaptedToggles.map {
+            // Using a when so that if we want to play with more feature toggles for the demo, we can just add to the cases
+            when (it) {
+                is FeatureToggle.ToggleValueBoolean-> {
+                    it.value = it.defaultValue
+                }
+                else -> {
+                    (it as FeatureToggle.ToggleValueEnum).value = it.defaultValue
+                }
+            }
+        }
+        _featureToggles.value = adaptedToggles
     }
 }
 
 @Language("JSON")
 private const val FEATURE_TOGGLE_JSON =
-    """
+    """{
+        "booleanFlags" :
         [
             {
-              "name": "SHOW_SNIPPETS",
-              "value": false,
-              "defaultValue": true,
-              "requireRestart": false
+                "name": "SHOW_SNIPPETS",
+                "value": true,
+                "defaultValue": true,
+                "requireRestart": false
             },
             {
-              "name": "SHOW_PULL_REQUESTS",
-              "value": false,
-              "defaultValue": true,
-              "requireRestart": false
+                "name": "SHOW_PULL_REQUESTS",
+                "value": true,
+                "defaultValue": true,
+                "requireRestart": false
             }
+        ],
+        "stringFlags" :
+        [
+            {
+                "name": "WEBVIEW_CONFIGURATION",
+                "value": "WEBVIEW",
+                "defaultValue": "EXTERNAL_BROWSER",
+                "requireRestart": false
+            }
+
         ]
-    """
+    }"""
