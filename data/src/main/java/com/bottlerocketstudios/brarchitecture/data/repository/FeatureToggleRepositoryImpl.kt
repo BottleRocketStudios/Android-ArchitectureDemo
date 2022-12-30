@@ -19,7 +19,6 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
 
     init {
         getFeatureTogglesFromJson()
-        resetTogglesToDefaultValues()
     }
 
     private fun getFeatureTogglesFromJson() {
