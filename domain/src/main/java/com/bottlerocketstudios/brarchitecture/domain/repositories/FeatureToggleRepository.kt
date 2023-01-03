@@ -15,5 +15,5 @@ interface FeatureToggleRepository : com.bottlerocketstudios.brarchitecture.domai
     fun resetTogglesToDefaultValues()
 
     /** Flow of all feature toggles when using Remote Config option. */
-    val featureTogglesByRemoteConfig: StateFlow<Map<String, Any>>
+    val featureTogglesByRemoteConfig: StateFlow<Set<FeatureToggle>>
 }

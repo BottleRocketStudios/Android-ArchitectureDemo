@@ -21,8 +21,8 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
     private val _featureToggles = MutableStateFlow<Set<FeatureToggle>>(emptySet())
     override val featureToggles: StateFlow<Set<FeatureToggle>> = _featureToggles
 
-    private val _featureTogglesByConfig = MutableStateFlow<Map<String, Any>>(mapOf())
-    override val featureTogglesByRemoteConfig: StateFlow<Map<String, Any>> = _featureTogglesByConfig
+    private val _featureTogglesByConfig = MutableStateFlow<Set<FeatureToggle>>(emptySet())
+    override val featureTogglesByRemoteConfig: StateFlow<Set<FeatureToggle>> = _featureTogglesByConfig
     private val remoteConfig by inject<FirebaseRemoteConfig>()
 
     init {
@@ -64,37 +64,41 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
 
     private fun initRemoteConfigSettings() {
         remoteConfig.run {
-            setConfigSettingsAsync(
-                remoteConfigSettings {
-                    // interval used for dev testing, in PROD it is preferable to use higher intervals like 12hrs (43200s)
-                    minimumFetchIntervalInSeconds = 60
-                    build()
-                })
+            setConfigSettingsAsync(remoteConfigSettings {
+                // interval used for dev testing, in PROD it is preferable to use higher intervals like 12hrs (43200s)
+                minimumFetchIntervalInSeconds = 60
+                build()
+            })
             setDefaultsAsync(R.xml.remote_config_defaults)
-            fetchAndActivate()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val updated = task.result
-                        Timber.d("Config params updated: $updated.")
-                        _featureTogglesByConfig.value = all.mapValues {
+            fetchAndActivate().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Timber.d("Config params updated: $updated.")
+                    val remoteConfigSet = mutableSetOf<FeatureToggle>().apply {
+                        all.forEach {
                             if (it.key == "WEBVIEW_CONFIGURATION") {
-                                FeatureToggle.ToggleValueEnum.ToggleEnum.valueOf(it.value.asString())
+                                val enumValue = FeatureToggle.ToggleValueEnum.ToggleEnum.valueOf(it.value.asString())
+                                add(
+                                    FeatureToggle.ToggleValueEnum(
+                                        name = it.key, value = enumValue, defaultValue = FeatureToggle.ToggleValueEnum.ToggleEnum.EXTERNAL_BROWSER, requireRestart = false
+                                    )
+                                )
                             } else {
-                                it.value.asBoolean()
+                                add(FeatureToggle.ToggleValueBoolean(name = it.key, value = it.value.asBoolean(), defaultValue = it.value.asBoolean(), requireRestart = false))
                             }
                         }
                     }
+                    _featureTogglesByConfig.value = remoteConfigSet
                 }
-        }
-            .addOnFailureListener {
-                Timber.e(it)
             }
+        }.addOnFailureListener {
+            Timber.e(it)
+        }
     }
 }
 
 @Language("JSON")
-private const val FEATURE_TOGGLE_JSON =
-    """{
+private const val FEATURE_TOGGLE_JSON = """{
         "booleanFlags" :
         [
             {
