@@ -49,9 +49,10 @@ class ComposeActivity : ComponentActivity() {
     /**
      * Same as above set, but using remote config to fetch values.
      */
-    /* private val showSnippetsRemote = featureToggleRepository.featureTogglesByRemoteConfig.value["SHOW_SNIPPETS"] as Boolean
-    private val showPullsRemote = featureToggleRepository.featureTogglesByRemoteConfig.value["SHOW_PULL_REQUESTS"] as Boolean
-    private val webviewConfigRemote = featureToggleRepository.featureTogglesByRemoteConfig.value["WEBVIEW_CONFIGURATION"] as FeatureToggle.ToggleValueEnum.ToggleEnum */
+    /*private val booleanFeatureFlagsRemote = featureToggleRepository.featureToggles.value.filterIsInstance<FeatureToggle.ToggleValueBoolean>()
+    private val showSnippetsRemote = booleanFeatureFlagsRemote.find { it.name == "SHOW_SNIPPETS" }?.value ?: false
+    private val showPullsRemote = booleanFeatureFlagsRemote.find { it.name == "SHOW_PULL_REQUESTS" } ?: false
+    private val webviewConfigRemote = featureToggleRepository.featureTogglesByRemoteConfig.value.filterIsInstance<FeatureToggle.ToggleValueEnum>().find { it.name == "WEBVIEW_CONFIGURATION" }?.value*/
 
     /**
      *   EMPTY_TOOLBAR_TITLE is used to show toolbar without a title.
