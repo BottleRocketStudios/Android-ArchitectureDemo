@@ -16,14 +16,13 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
-@Suppress("TooManyFunctions")
 class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepository, KoinComponent {
     // DI
     private val _featureToggles = MutableStateFlow<Set<FeatureToggle>>(emptySet())
     override val featureToggles: StateFlow<Set<FeatureToggle>> = _featureToggles
 
-    private val _featureTogglesByConfig = MutableStateFlow<Map<String, Boolean>>(mapOf())
-    override val featureTogglesByRemoteConfig: Flow<Map<String, Boolean>> = _featureTogglesByConfig
+    private val _featureTogglesByConfig = MutableStateFlow<Map<String, Any>>(mapOf())
+    override val featureTogglesByRemoteConfig: StateFlow<Map<String, Any>> = _featureTogglesByConfig
     private val remoteConfig by inject<FirebaseRemoteConfig>()
 
     init {
@@ -52,7 +51,7 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
         adaptedToggles.map {
             // Using a when so that if we want to play with more feature toggles for the demo, we can just add to the cases
             when (it) {
-                is FeatureToggle.ToggleValueBoolean-> {
+                is FeatureToggle.ToggleValueBoolean -> {
                     it.value = it.defaultValue
                 }
                 else -> {
@@ -63,7 +62,7 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
         _featureToggles.value = adaptedToggles
     }
 
-    override fun initRemoteConfigSettings() {
+    private fun initRemoteConfigSettings() {
         remoteConfig.run {
             setConfigSettingsAsync(
                 remoteConfigSettings {
@@ -77,17 +76,19 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
                     if (task.isSuccessful) {
                         val updated = task.result
                         Timber.d("Config params updated: $updated.")
-                        _featureTogglesByConfig.value = all.mapValues { it.value.asBoolean() }
+                        _featureTogglesByConfig.value = all.mapValues {
+                            if (it.key == "WEBVIEW_CONFIGURATION") {
+                                FeatureToggle.ToggleValueEnum.ToggleEnum.valueOf(it.value.asString())
+                            } else {
+                                it.value.asBoolean()
+                            }
+                        }
                     }
                 }
-                .addOnFailureListener {
-                    Timber.e(it)
-                }
         }
-    }
-
-    override fun getFeatureToggleFromConfig(name: String): Boolean {
-        return _featureTogglesByConfig.value[name] == true
+            .addOnFailureListener {
+                Timber.e(it)
+            }
     }
 }
 
