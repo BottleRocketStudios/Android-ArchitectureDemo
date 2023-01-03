@@ -51,7 +51,7 @@ class ComposeActivity : ComponentActivity() {
      */
     /*private val booleanFeatureFlagsRemote = featureToggleRepository.featureToggles.value.filterIsInstance<FeatureToggle.ToggleValueBoolean>()
     private val showSnippetsRemote = booleanFeatureFlagsRemote.find { it.name == "SHOW_SNIPPETS" }?.value ?: false
-    private val showPullsRemote = booleanFeatureFlagsRemote.find { it.name == "SHOW_PULL_REQUESTS" } ?: false
+    private val showPullsRemote = booleanFeatureFlagsRemote.find { it.name == "SHOW_PULL_REQUESTS" }?.value ?: false
     private val webviewConfigRemote = featureToggleRepository.featureTogglesByRemoteConfig.value.filterIsInstance<FeatureToggle.ToggleValueEnum>().find { it.name == "WEBVIEW_CONFIGURATION" }?.value*/
 
     /**
