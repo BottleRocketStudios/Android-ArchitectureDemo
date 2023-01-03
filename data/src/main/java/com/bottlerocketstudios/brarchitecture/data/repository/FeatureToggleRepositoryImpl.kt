@@ -98,7 +98,8 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
 }
 
 @Language("JSON")
-private const val FEATURE_TOGGLE_JSON = """{
+private const val FEATURE_TOGGLE_JSON =
+    """{
         "booleanFlags" :
         [
             {
