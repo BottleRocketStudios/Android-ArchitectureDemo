@@ -17,13 +17,13 @@ import org.koin.core.component.inject
 import timber.log.Timber
 
 class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepository, KoinComponent {
-    // DI
+
     private val _featureToggles = MutableStateFlow<Set<FeatureToggle>>(emptySet())
     override val featureToggles: StateFlow<Set<FeatureToggle>> = _featureToggles
 
+    private val remoteConfig by inject<FirebaseRemoteConfig>()
     private val _featureTogglesByConfig = MutableStateFlow<Set<FeatureToggle>>(emptySet())
     override val featureTogglesByRemoteConfig: StateFlow<Set<FeatureToggle>> = _featureTogglesByConfig
-    private val remoteConfig by inject<FirebaseRemoteConfig>()
 
     init {
         initRemoteConfigSettings()
