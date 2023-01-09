@@ -22,6 +22,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bottlerocketstudios.brarchitecture.R
+import com.bottlerocketstudios.brarchitecture.domain.models.FeatureToggle
+import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.bottlerocketstudios.brarchitecture.domain.utils.MutableStateFlowDelegate
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.compose.appbar.ArchAppBar
@@ -29,10 +31,17 @@ import com.bottlerocketstudios.compose.navdrawer.NavDrawer
 import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ComposeActivity : ComponentActivity() {
     val activityViewModel: ComposeActivityViewModel by viewModel()
+    private val featureToggleRepository: FeatureToggleRepository by inject()
+
+    // Values for showing nav drawer items based on feature toggles
+    private val booleanFeatureFlags = featureToggleRepository.featureToggles.value.filterIsInstance<FeatureToggle.ToggleValueBoolean>()
+    private val showSnippets = booleanFeatureFlags.find { it.name == "SHOW_SNIPPETS" }?.value ?: false
+    private val showPullRequests = booleanFeatureFlags.find { it.name == "SHOW_PULL_REQUESTS" }?.value ?: false
 
     /**
      *   EMPTY_TOOLBAR_TITLE is used to show toolbar without a title.
@@ -43,6 +52,7 @@ class ComposeActivity : ComponentActivity() {
 
     // Lazy initialized public interface that provides access to view model
     val controls by lazy { Controls(activityViewModel) }
+
     class Controls(viewModel: ComposeActivityViewModel) {
         var title by MutableStateFlowDelegate(viewModel.title)
         var topLevel by MutableStateFlowDelegate((viewModel.topLevel))
@@ -128,7 +138,7 @@ class ComposeActivity : ComponentActivity() {
     //  TODO - can we pass in NavController and route to simplify definitions??
     @Suppress("LongMethod")
     private fun generateNavDrawerItems(navController: NavController, scaffoldState: ScaffoldState, currentRoute: String, showHomeSubList: Boolean) =
-        listOf(
+        listOfNotNull(
             NavItemState(
                 icon = R.drawable.ic_home,
                 itemText = R.string.home_title,
@@ -178,7 +188,7 @@ class ComposeActivity : ComponentActivity() {
             ) {
                 scaffoldState.drawerState.close()
                 navController.navigate(Routes.Snippets)
-            },
+            }.takeIf { showSnippets },
             NavItemState(
                 icon = R.drawable.ic_nav_profile,
                 itemText = R.string.profile_title,
@@ -194,7 +204,7 @@ class ComposeActivity : ComponentActivity() {
             ) {
                 scaffoldState.drawerState.close()
                 navController.navigate(Routes.PullRequests)
-            },
+            }.takeIf { showPullRequests },
         )
 
     private fun getTopRoute(route: String) =
