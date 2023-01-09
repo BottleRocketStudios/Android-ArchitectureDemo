@@ -22,6 +22,8 @@ import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleR
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
@@ -48,6 +50,7 @@ object DataModule {
         single<SharedPreferences>(named(KoinNamedSharedPreferences.Environment)) {
             androidContext().getSharedPreferences("dev_options_prefs", Context.MODE_PRIVATE)
         }
+        single { Firebase.remoteConfig }
     }
 }
 

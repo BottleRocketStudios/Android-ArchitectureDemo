@@ -38,10 +38,21 @@ class ComposeActivity : ComponentActivity() {
     val activityViewModel: ComposeActivityViewModel by viewModel()
     private val featureToggleRepository: FeatureToggleRepository by inject()
 
-    // Values for showing nav drawer items based on feature toggles
+    /**
+     *  Values for showing nav drawer items based on feature toggles.
+     */
     private val booleanFeatureFlags = featureToggleRepository.featureToggles.value.filterIsInstance<FeatureToggle.ToggleValueBoolean>()
     private val showSnippets = booleanFeatureFlags.find { it.name == "SHOW_SNIPPETS" }?.value ?: false
     private val showPullRequests = booleanFeatureFlags.find { it.name == "SHOW_PULL_REQUESTS" }?.value ?: false
+    //private val webviewConfig = featureToggleRepository.featureToggles.value.filterIsInstance<FeatureToggle.ToggleValueEnum>().find { it.name == "WEBVIEW_CONFIGURATION }?.value
+
+    /**
+     * Same as above set, but using remote config to fetch values.
+     */
+    /*private val booleanFeatureFlagsRemote = featureToggleRepository.featureToggles.value.filterIsInstance<FeatureToggle.ToggleValueBoolean>()
+    private val showSnippetsRemote = booleanFeatureFlagsRemote.find { it.name == "SHOW_SNIPPETS" }?.value ?: false
+    private val showPullsRemote = booleanFeatureFlagsRemote.find { it.name == "SHOW_PULL_REQUESTS" }?.value ?: false
+    private val webviewConfigRemote = featureToggleRepository.featureTogglesByRemoteConfig.value.filterIsInstance<FeatureToggle.ToggleValueEnum>().find { it.name == "WEBVIEW_CONFIGURATION" }?.value*/
 
     /**
      *   EMPTY_TOOLBAR_TITLE is used to show toolbar without a title.
