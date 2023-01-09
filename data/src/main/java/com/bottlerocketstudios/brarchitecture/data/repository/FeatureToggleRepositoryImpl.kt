@@ -42,7 +42,7 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
         adaptedToggles.map {
             // Using a when so that if we want to play with more feature toggles for the demo, we can just add to the cases
             when (it) {
-                is FeatureToggle.ToggleValueBoolean-> {
+                is FeatureToggle.ToggleValueBoolean -> {
                     it.value = it.defaultValue
                 }
                 else -> {
@@ -51,6 +51,30 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
             }
         }
         _featureToggles.value = adaptedToggles
+    }
+
+    override fun updateFeatureToggleValue(toggleWithUpdateValue: FeatureToggle) {
+        val adaptedToggles = _featureToggles.value
+        adaptedToggles.map {
+            // Using a when so that if we want to play with more feature toggles for the demo, we can just add to the cases
+            when (it) {
+                is FeatureToggle.ToggleValueBoolean -> {
+                    if (toggleWithUpdateValue is FeatureToggle.ToggleValueBoolean) {
+                        if (it.name == toggleWithUpdateValue.name) {
+                            it.value = toggleWithUpdateValue.value
+                        }
+                    }
+                }
+                is FeatureToggle.ToggleValueEnum -> {
+                    if (toggleWithUpdateValue is FeatureToggle.ToggleValueEnum) {
+                        if (it.name == toggleWithUpdateValue.name) {
+                            it.value = toggleWithUpdateValue.value
+                        }
+                    }
+                }
+            }
+        }
+        _featureToggles.value = mutableSetOf<FeatureToggle>().apply { addAll(adaptedToggles) }
     }
 }
 

@@ -10,6 +10,7 @@ import com.bottlerocketstudios.brarchitecture.ui.auth.AuthCodeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManager
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.ApplicationInfoManagerImpl
 import com.bottlerocketstudios.brarchitecture.ui.devoptions.DevOptionsViewModel
+import com.bottlerocketstudios.brarchitecture.ui.featuretoggle.FeatureToggleViewModel
 import com.bottlerocketstudios.brarchitecture.ui.home.HomeViewModel
 import com.bottlerocketstudios.brarchitecture.ui.profile.ProfileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.pullrequests.PullRequestViewModel
@@ -39,6 +40,7 @@ object AppModule {
         viewModel { CreateSnippetViewModel() }
         viewModel { ProfileViewModel() }
         viewModel { DevOptionsViewModel() }
+        viewModel { FeatureToggleViewModel() }
         viewModel { SnippetDetailsViewModel() }
         viewModel { PullRequestViewModel() }
         viewModel { ProjectsViewModel() }

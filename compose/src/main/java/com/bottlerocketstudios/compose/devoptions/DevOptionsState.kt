@@ -12,5 +12,6 @@ data class DevOptionsState(
     val buildIdentifier: String,
     val onEnvironmentChanged: (Int) -> Unit,
     val onRestartCtaClick: () -> Unit,
-    val onForceCrashCtaClicked: () -> Unit
+    val onForceCrashCtaClicked: () -> Unit,
+    val onFeatureToggleCtaClicked: () -> Unit
 )

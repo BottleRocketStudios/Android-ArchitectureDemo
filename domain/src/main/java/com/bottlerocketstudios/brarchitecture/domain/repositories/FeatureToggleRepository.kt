@@ -13,4 +13,6 @@ interface FeatureToggleRepository : com.bottlerocketstudios.brarchitecture.domai
 
     /** Resets [featureToggles] back to the default value per toggle and potentially triggers an update to [featureToggles] if there are changes. */
     fun resetTogglesToDefaultValues()
+
+    fun updateFeatureToggleValue(toggleWithUpdateValue: FeatureToggle)
 }

@@ -15,5 +15,6 @@ fun DevOptionsViewModel.toState() = DevOptionsState(
     buildIdentifier = applicationInfo.buildIdentifier,
     onEnvironmentChanged = { index -> onEnvironmentChanged(index) },
     onRestartCtaClick = { onRestartCtaClick() },
-    onForceCrashCtaClicked = { onForceCrashCtaClicked() }
+    onForceCrashCtaClicked = { onForceCrashCtaClicked() },
+    onFeatureToggleCtaClicked = { onFeatureToggleCtaClicked() }
 )

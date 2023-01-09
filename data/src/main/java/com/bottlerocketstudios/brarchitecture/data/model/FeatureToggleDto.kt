@@ -19,7 +19,7 @@ data class FeatureToggleBooleanDto(
     @Json(name = "value") val value: Boolean,
     @Json(name = "defaultValue") val defaultValue: Boolean,
     @Json(name = "requireRestart") val requireRestart: Boolean
-)  : Parcelable, Dto
+) : Parcelable, Dto
 
 @JsonClass(generateAdapter = true)
 @Parcelize
@@ -28,4 +28,4 @@ data class FeatureToggleStringDto(
     @Json(name = "value") val value: String,
     @Json(name = "defaultValue") val defaultValue: String,
     @Json(name = "requireRestart") val requireRestart: Boolean
-)  : Parcelable, Dto
+) : Parcelable, Dto
