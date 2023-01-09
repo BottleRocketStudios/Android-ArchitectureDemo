@@ -1,23 +1,33 @@
 package com.bottlerocketstudios.brarchitecture.data.repository
 
+import com.bottlerocketstudios.brarchitecture.data.R
 import com.bottlerocketstudios.brarchitecture.data.converter.toFeatureToggle
 import com.bottlerocketstudios.brarchitecture.data.model.FeatureToggleDto
 import com.bottlerocketstudios.brarchitecture.domain.models.FeatureToggle
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.intellij.lang.annotations.Language
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepository, KoinComponent {
-    // DI
+
     private val _featureToggles = MutableStateFlow<Set<FeatureToggle>>(emptySet())
     override val featureToggles: StateFlow<Set<FeatureToggle>> = _featureToggles
 
+    private val remoteConfig by inject<FirebaseRemoteConfig>()
+    private val _featureTogglesByConfig = MutableStateFlow<Set<FeatureToggle>>(emptySet())
+    override val featureTogglesByRemoteConfig: StateFlow<Set<FeatureToggle>> = _featureTogglesByConfig
+
     init {
+        initRemoteConfigSettings()
         getFeatureTogglesFromJson()
     }
 
@@ -51,6 +61,40 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
             }
         }
         _featureToggles.value = adaptedToggles
+    }
+
+    private fun initRemoteConfigSettings() {
+        remoteConfig.run {
+            setConfigSettingsAsync(remoteConfigSettings {
+                // interval used for dev testing, in PROD it is preferable to use higher intervals like 12hrs (43200s)
+                minimumFetchIntervalInSeconds = 60
+                build()
+            })
+            setDefaultsAsync(R.xml.remote_config_defaults)
+            fetchAndActivate().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Timber.d("Config params updated: $updated.")
+                    val remoteConfigSet = mutableSetOf<FeatureToggle>().apply {
+                        all.forEach {
+                            if (it.key == "WEBVIEW_CONFIGURATION") {
+                                val enumValue = FeatureToggle.ToggleValueEnum.ToggleEnum.valueOf(it.value.asString())
+                                add(
+                                    FeatureToggle.ToggleValueEnum(
+                                        name = it.key, value = enumValue, defaultValue = FeatureToggle.ToggleValueEnum.ToggleEnum.EXTERNAL_BROWSER, requireRestart = false
+                                    )
+                                )
+                            } else {
+                                add(FeatureToggle.ToggleValueBoolean(name = it.key, value = it.value.asBoolean(), defaultValue = it.value.asBoolean(), requireRestart = false))
+                            }
+                        }
+                    }
+                    _featureTogglesByConfig.value = remoteConfigSet
+                }
+            }
+        }.addOnFailureListener {
+            Timber.e(it)
+        }
     }
 
     override fun updateFeatureToggleValue(toggleWithUpdateValue: FeatureToggle) {

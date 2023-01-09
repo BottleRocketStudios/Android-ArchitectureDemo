@@ -63,6 +63,9 @@ object Config {
         // Gradle version plugin; use dependencyUpdates task to view third party dependency updates via `./gradlew dependencyUpdates` or AS Gradle -> [project]] -> Tasks -> help -> dependencyUpdates
         // https://github.com/ben-manes/gradle-versions-plugin/releases
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.43.0"
+
+        // Google Services dependency
+        const val GOOGLE_SERVICES_VERSION = "com.google.gms:google-services:4.3.14"
     }
 
     /**
@@ -78,6 +81,7 @@ object Config {
         // const val JACOCO = "jacoco" // https://docs.gradle.org/current/userguide/jacoco_plugin.html - Helper jacoco gradle files manage applying the jacoco plugin
         const val PARCELIZE = "kotlin-parcelize"
         const val KSP = "com.google.devtools.ksp"
+        const val GOOGLE_SERVICES = "com.google.gms.google-services"
         object Kotlin {
             const val ANDROID = "android"
         }
@@ -459,6 +463,11 @@ fun DependencyHandler.chuckerDependencies(devConfigurations: List<Configuration>
     add(productionConfiguration.name, Libraries.CHUCKER_NO_OP) // note the releaseImplementation no-op
 }
 
+fun DependencyHandler.firebaseDependencies() {
+    implementation(platform("com.google.firebase:firebase-bom:31.1.1"))
+    implementation("com.google.firebase:firebase-config-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+}
 
 // Test specific dependency groups
 fun DependencyHandler.junitDependencies() {

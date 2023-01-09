@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "909985186140",
+    "project_id": "br-feature-toggles",
+    "storage_bucket": "br-feature-toggles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909985186140:android:b8a9f3d231c1d66fde8199",
+        "android_client_info": {
+          "package_name": "com.bottlerocketstudios.brarchitecture.data"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909985186140-h4f67c6bv3etpclqapad8qcahcupulba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrxgZcJSi0RmdB6i3ZRjv4nDA6un-3TC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909985186140-h4f67c6bv3etpclqapad8qcahcupulba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
