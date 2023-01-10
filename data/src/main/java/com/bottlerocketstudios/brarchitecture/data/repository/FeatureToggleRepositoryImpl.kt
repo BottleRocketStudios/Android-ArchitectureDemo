@@ -16,6 +16,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
+@Suppress("TooManyFunctions")
 class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepository, KoinComponent {
 
     private val _featureToggles = MutableStateFlow<Set<FeatureToggle>>(emptySet())
@@ -94,6 +95,30 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
         }.addOnFailureListener {
             Timber.e(it)
         }
+    }
+
+    override fun updateFeatureToggleValue(toggleWithUpdateValue: FeatureToggle) {
+        val adaptedToggles = _featureToggles.value
+        adaptedToggles.map {
+            // Using a when so that if we want to play with more feature toggles for the demo, we can just add to the cases
+            when (it) {
+                is FeatureToggle.ToggleValueBoolean -> {
+                    if (toggleWithUpdateValue is FeatureToggle.ToggleValueBoolean) {
+                        if (it.name == toggleWithUpdateValue.name) {
+                            it.value = toggleWithUpdateValue.value
+                        }
+                    }
+                }
+                is FeatureToggle.ToggleValueEnum -> {
+                    if (toggleWithUpdateValue is FeatureToggle.ToggleValueEnum) {
+                        if (it.name == toggleWithUpdateValue.name) {
+                            it.value = toggleWithUpdateValue.value
+                        }
+                    }
+                }
+            }
+        }
+        _featureToggles.value = mutableSetOf<FeatureToggle>().apply { addAll(adaptedToggles) }
     }
 }
 

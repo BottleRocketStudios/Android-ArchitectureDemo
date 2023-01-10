@@ -26,6 +26,7 @@ import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileViewModel
 import com.bottlerocketstudios.brarchitecture.ui.repository.repositoryBranchesComposable
 import com.bottlerocketstudios.brarchitecture.ui.repository.repositoryCommitsComposable
+import com.bottlerocketstudios.brarchitecture.ui.featuretoggle.featureTogglesComposable
 import com.bottlerocketstudios.brarchitecture.ui.repository.toState
 import com.bottlerocketstudios.brarchitecture.ui.snippet.snippetListDetailComposable
 import com.bottlerocketstudios.brarchitecture.ui.splash.SplashViewModel
@@ -94,6 +95,10 @@ private fun ComposeActivity.devOptionsComposable(navGraphBuilder: NavGraphBuilde
         // Only debug/internal builds allowed to show this screen. Immediately close if somehow launched on prod release build.
         if (!activityViewModel.devOptionsEnabled) {
             navController.navigateUp()
+        }
+
+        viewModel.featureToggleClicked.LaunchCollection {
+            navController.navigate(Routes.FeatureToggles)
         }
 
         controls.title = stringResource(id = R.string.dev_options_title)
@@ -223,6 +228,7 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController, activity: Compose
             splashComposable(this, navController)
             authCodeComposable(this, navController)
             devOptionsComposable(this, navController)
+            featureTogglesComposable(this, navController)
             homeComposable(this, navController)
             repositoryBrowserComposable(this, navController)
             repositoryCommitsComposable(this)

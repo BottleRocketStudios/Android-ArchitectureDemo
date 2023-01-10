@@ -16,4 +16,6 @@ interface FeatureToggleRepository : com.bottlerocketstudios.brarchitecture.domai
 
     /** Flow of all feature toggles when using Remote Config option. */
     val featureTogglesByRemoteConfig: StateFlow<Set<FeatureToggle>>
+
+    fun updateFeatureToggleValue(toggleWithUpdateValue: FeatureToggle)
 }

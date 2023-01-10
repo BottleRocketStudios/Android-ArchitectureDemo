@@ -110,7 +110,7 @@ private fun ScrollContent(state: DevOptionsState) {
             }
 
             item {
-                CardLayout { MiscFunctionalityCard(onForceCrashCtaClick = state.onForceCrashCtaClicked) }
+                CardLayout { MiscFunctionalityCard(onForceCrashCtaClick = state.onForceCrashCtaClicked, onFeatureToggleCtaClick = state.onFeatureToggleCtaClicked) }
                 Spacer(Modifier.height(Dimens.grid_3))
             }
         }
@@ -133,11 +133,18 @@ private fun AppInfoCard(state: DevOptionsState) {
 }
 
 @Composable
-private fun MiscFunctionalityCard(onForceCrashCtaClick: () -> Unit) {
+private fun MiscFunctionalityCard(onForceCrashCtaClick: () -> Unit, onFeatureToggleCtaClick: () -> Unit) {
     CardTitle(cardTitle = "Misc Functionality")
     PrimaryButton(
         buttonText = "FORCE CRASH",
         onClick = onForceCrashCtaClick,
+        modifier = Modifier
+            .padding(Dimens.grid_1)
+            .fillMaxWidth()
+    )
+    PrimaryButton(
+        buttonText = "FEATURE TOGGLES",
+        onClick = onFeatureToggleCtaClick,
         modifier = Modifier
             .padding(Dimens.grid_1)
             .fillMaxWidth()
@@ -300,7 +307,8 @@ private fun PreviewDevOptions() {
                     spinnerPosition.value = index
                 },
                 onRestartCtaClick = { },
-                onForceCrashCtaClicked = { }
+                onForceCrashCtaClicked = { },
+                onFeatureToggleCtaClicked = { }
             )
         )
     }
