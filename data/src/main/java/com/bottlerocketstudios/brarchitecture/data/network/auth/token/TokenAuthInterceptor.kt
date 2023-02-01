@@ -5,10 +5,15 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredent
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import timber.log.Timber
 import java.net.HttpURLConnection
 
-internal class TokenAuthInterceptor(private val tokenAuthService: TokenAuthService, private val credentialsRepo: BitbucketCredentialsRepository) : Interceptor {
+internal class TokenAuthInterceptor : Interceptor, KoinComponent {
+
+    private val tokenAuthService: TokenAuthService by inject()
+    private val credentialsRepo: BitbucketCredentialsRepository by inject()
 
     override fun intercept(chain: Interceptor.Chain): Response {
         getTokenWorker()
