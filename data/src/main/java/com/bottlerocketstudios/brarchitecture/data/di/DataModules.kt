@@ -8,12 +8,12 @@ import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentReposi
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImpl
-import com.bottlerocketstudios.brarchitecture.data.network.BitbucketService
+import com.bottlerocketstudios.brarchitecture.data.network.BitbucketServiceFactory
+import com.bottlerocketstudios.brarchitecture.data.network.TokenAuthServiceFactory
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
-import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
-import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
+import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.repository.FeatureToggleRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
 import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
@@ -21,7 +21,6 @@ import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepos
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
-import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.squareup.moshi.Moshi
@@ -29,9 +28,6 @@ import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.time.Clock
 
 /** General app configuration (repositories/viewmodels/etc) */
@@ -67,31 +63,7 @@ private enum class KoinNamedNetwork {
 /** General network configuration. Always include with either [BasicAuthModule] or [TokenAuthModule] */
 object NetworkModule {
     val module = module {
-        single<OkHttpClient>(named(KoinNamedNetwork.Unauthenticated)) {
-            OkHttpClient.Builder()
-                .addInterceptor(ChuckerInterceptor.Builder(androidContext()).build())
-                .build()
-        }
-        single<Retrofit>(named(KoinNamedNetwork.Authenticated)) {
-            provideAuthenticatedRetrofit(
-                okHttpClient = get(named(KoinNamedNetwork.Authenticated)),
-                moshi = get()
-            )
-        }
-        single<BitbucketService> { provideBitbucketService(get(named(KoinNamedNetwork.Authenticated))) }
-    }
-
-    private fun provideAuthenticatedRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("https://api.bitbucket.org")
-            .client(okHttpClient)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-    }
-
-    private fun provideBitbucketService(retrofit: Retrofit): BitbucketService {
-        return retrofit.create(BitbucketService::class.java)
+        single { BitbucketServiceFactory().produce() }
     }
 }
 
@@ -117,28 +89,7 @@ private object BasicAuthModule {
 /** Token auth only configuration. Use this or [BasicAuthModule], never both. **/
 object TokenAuthModule {
     val module = module {
-        single { TokenAuthInterceptor(tokenAuthService = get(), credentialsRepo = get()) }
-        single<TokenAuthService> { provideTokenAuthService(okHttpClient = get(named(KoinNamedNetwork.Unauthenticated)), moshi = get()) }
-        single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {
-            provideTokenAuthOkHttpClient(
-                okHttpClient = get(named(KoinNamedNetwork.Unauthenticated)),
-                tokenAuthInterceptor = get()
-            )
-        }
-    }
-
-    private fun provideTokenAuthService(okHttpClient: OkHttpClient, moshi: Moshi): TokenAuthService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://bitbucket.org/    ")
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-        return retrofit.create(TokenAuthService::class.java)
-    }
-
-    private fun provideTokenAuthOkHttpClient(okHttpClient: OkHttpClient, tokenAuthInterceptor: TokenAuthInterceptor): OkHttpClient {
-        return okHttpClient.newBuilder()
-            .addInterceptor(tokenAuthInterceptor)
-            .build()
+        single { TokenAuthInterceptor() }
+        single { TokenAuthServiceFactory().produce() }
     }
 }
