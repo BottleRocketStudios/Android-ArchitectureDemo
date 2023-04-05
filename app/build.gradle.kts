@@ -6,6 +6,8 @@ plugins {
     kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
     id(Config.ApplyPlugins.KSP)
     id(Config.ApplyPlugins.PARCELIZE)
+    id(Config.ApplyPlugins.GOOGLE_SERVICES)
+    id(Config.ApplyPlugins.APP_DISTRIBUTION)
 }
 
 extra.set("jacocoCoverageThreshold", 0.20.toBigDecimal()) // module specific code coverage verification threshold
@@ -81,6 +83,10 @@ android {
             // the test...UnitTestCoverage tasks. Stopping and restarting build would allow compilation/installation to complete.
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             isTestCoverageEnabled = false
+            firebaseAppDistribution {
+                releaseNotes="App distribution for Arch Demo"
+                testers="colin.shelton@bottlerocketstudios.com"
+            }
         }
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
         create("debugMini") {

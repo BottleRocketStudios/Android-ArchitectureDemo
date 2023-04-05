@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "244901319724",
+    "project_id": "architecturedemo-be30e",
+    "storage_bucket": "architecturedemo-be30e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244901319724:android:1a3aebd919a1daa506ad89",
+        "android_client_info": {
+          "package_name": "com.bottlerocketstudios.brarchitecture.internal.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244901319724-lhspont7o0kk2b89a4ps4bn0rraj2ivq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACcBZVGqfwyEXU-efYhdL2fYA3BXnx1KM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244901319724-lhspont7o0kk2b89a4ps4bn0rraj2ivq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
