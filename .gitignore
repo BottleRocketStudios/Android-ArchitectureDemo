@@ -323,3 +323,6 @@ hs_err_pid*
 # End of https://www.gitignore.io/api/git,gradle,android,intellij,androidstudio
 /launchpad-compose/
 /.idea/deploymentTargetDropDown.xml
+/buildSrc/.idea/gradle.xml
+/buildSrc/.idea/misc.xml
+/buildSrc/.idea/workspace.xml

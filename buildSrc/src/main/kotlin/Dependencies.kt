@@ -65,7 +65,10 @@ object Config {
         const val GRADLE_VERSIONS = "com.github.ben-manes:gradle-versions-plugin:0.43.0"
 
         // Google Services dependency
-        const val GOOGLE_SERVICES_VERSION = "com.google.gms:google-services:4.3.14"
+        const val GOOGLE_SERVICES_VERSION = "com.google.gms:google-services:4.3.15"
+
+        // Firebase Gradle Plugin
+        const val FIREBASE_GRADLE = "com.google.firebase:firebase-appdistribution-gradle:4.0.0"
     }
 
     /**
@@ -82,6 +85,7 @@ object Config {
         const val PARCELIZE = "kotlin-parcelize"
         const val KSP = "com.google.devtools.ksp"
         const val GOOGLE_SERVICES = "com.google.gms.google-services"
+        const val APP_DISTRIBUTION = "com.google.firebase.appdistribution"
         object Kotlin {
             const val ANDROID = "android"
         }
