@@ -11,8 +11,6 @@ import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapp
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketServiceFactory
 import com.bottlerocketstudios.brarchitecture.data.network.TokenAuthServiceFactory
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
-import com.bottlerocketstudios.brarchitecture.data.network.auth.basic.BasicAuthInterceptor
-import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.repository.FeatureToggleRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
@@ -24,7 +22,6 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.squareup.moshi.Moshi
-import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -55,11 +52,6 @@ enum class KoinNamedSharedPreferences {
     Environment
 }
 
-/** Allows multiple types of network related implementations to co-exist in the koin graph */
-private enum class KoinNamedNetwork {
-    Unauthenticated, Authenticated
-}
-
 /** General network configuration. Always include with either [BasicAuthModule] or [TokenAuthModule] */
 object NetworkModule {
     val module = module {
@@ -67,29 +59,9 @@ object NetworkModule {
     }
 }
 
-/** Basic auth only configuration. Use this or [TokenAuthModule], never both. **/
-private object BasicAuthModule {
-    val module = module {
-        single { BasicAuthInterceptor(credentialsRepo = get()) }
-        single<OkHttpClient>(named(KoinNamedNetwork.Authenticated)) {
-            provideBasicAuthOkHttpClient(
-                okHttpClient = get(named(KoinNamedNetwork.Unauthenticated)),
-                basicAuthInterceptor = get()
-            )
-        }
-    }
-
-    private fun provideBasicAuthOkHttpClient(okHttpClient: OkHttpClient, basicAuthInterceptor: BasicAuthInterceptor): OkHttpClient {
-        return okHttpClient.newBuilder()
-            .addInterceptor(basicAuthInterceptor)
-            .build()
-    }
-}
-
 /** Token auth only configuration. Use this or [BasicAuthModule], never both. **/
 object TokenAuthModule {
     val module = module {
-        single { TokenAuthInterceptor() }
         single { TokenAuthServiceFactory().produce() }
     }
 }

@@ -14,7 +14,7 @@ abstract class ServiceFactory : KoinComponent {
     private val moshi: Moshi by inject()
 
     abstract val baseUrl: String
-    internal abstract val interceptors: List<Interceptor>
+    internal open val interceptors: List<Interceptor> = emptyList()
 
     protected val retrofit: Retrofit by lazy {
         Retrofit.Builder()
