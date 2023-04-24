@@ -178,7 +178,7 @@ private object Libraries {
     // Integration with observables
     const val COMPOSE_LIVE_DATA = "androidx.compose.runtime:runtime-livedata:$COMPOSE_VERSION"
 
-    const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:0.4.1"
+    const val LAUNCHPAD_COMPOSE = "com.github.BottleRocketStudios:Android-LaunchPad-Compose:0.5.0"
 
     // Accompanist
     // https://github.com/google/accompanist/releases
@@ -226,7 +226,9 @@ private object Libraries {
     //// Koin
     // https://github.com/InsertKoinIO/koin/blob/master/CHANGELOG.md
     // https://github.com/InsertKoinIO/koin/tags
-    const val KOIN_ANDROID = "io.insert-koin:koin-android:3.2.2"
+    private const val KOIN_VERSION = "3.4.2"
+    const val KOIN_ANDROID = "io.insert-koin:koin-android:$KOIN_VERSION"
+    const val KOIN_COMPOSE = "io.insert-koin:koin-androidx-compose:$KOIN_VERSION"
 
     //// Core Library Desugaring
     // https://developer.android.com/studio/write/java8-support#library-desugaring
@@ -356,7 +358,7 @@ fun DependencyHandler.coroutineDependencies() {
 }
 
 fun DependencyHandler.koinDependencies() {
-    implementation(Libraries.KOIN_ANDROID)
+    implementation(Libraries.KOIN_COMPOSE)
 }
 fun DependencyHandler.coreLibraryDesugaringDependencies() {
     coreLibraryDesugaring(Libraries.CORE_LIBRARY_DESUGARING)

@@ -16,7 +16,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.lifecycle.asFlow
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,7 +23,6 @@ import androidx.navigation.compose.rememberNavController
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.domain.models.FeatureToggle
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
-import com.bottlerocketstudios.brarchitecture.domain.utils.MutableStateFlowDelegate
 import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
 import com.bottlerocketstudios.compose.appbar.ArchAppBar
 import com.bottlerocketstudios.compose.navdrawer.NavDrawer
@@ -35,7 +33,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ComposeActivity : ComponentActivity() {
-    val activityViewModel: ComposeActivityViewModel by viewModel()
+    private val activityViewModel: ComposeActivityViewModel by viewModel()
     private val featureToggleRepository: FeatureToggleRepository by inject()
 
     /**
@@ -62,30 +60,10 @@ class ComposeActivity : ComponentActivity() {
     }
 
     // Lazy initialized public interface that provides access to view model
-    val controls by lazy { Controls(activityViewModel) }
+    private val controls by lazy { MainWindowControlsImplementation(activityViewModel, navIntercept) }
 
-    class Controls(viewModel: ComposeActivityViewModel) {
-        var title by MutableStateFlowDelegate(viewModel.title)
-        var topLevel by MutableStateFlowDelegate((viewModel.topLevel))
-    }
-
-    // This may need to be remember or state? to trigger recomposition of App Bar....
-    val navIntercept: MutableState<(() -> Boolean)?> = mutableStateOf(null)
-
-    @Composable
-    fun <T : BaseViewModel> T.ConnectBaseViewModel(block: @Composable (T) -> Unit) {
-        // Reset Controls
-        controls.title = ""
-        controls.topLevel = false
-        navIntercept.value = null
-
-        // Connect external routing to activity
-        launchIO {
-            externalNavigationEvent.asFlow().collect { runOnMain { it.navigate(this@ComposeActivity) } }
-        }
-
-        block.invoke(this)
-    }
+    // Real time intercept of nav events.  Return true if processed and should skip default behavior.
+    private val navIntercept: MutableState<(() -> Boolean)?> = mutableStateOf(null)
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,7 +117,10 @@ class ComposeActivity : ComponentActivity() {
                 },
             ) {
                 NavHost(navController = navController, startDestination = Routes.Main) {
-                    mainNavGraph(navController = navController, activity = this@ComposeActivity, widthSize)
+                    mainNavGraph(
+                        navController = navController,
+                        mainWindowControls = controls,
+                        widthSize = widthSize)
                 }
             }
         }
