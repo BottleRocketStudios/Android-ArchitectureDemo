@@ -8,13 +8,14 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.ui.ComposeActivity
+import com.bottlerocketstudios.brarchitecture.ui.MainWindowControls
 import com.bottlerocketstudios.brarchitecture.ui.Routes
 import com.bottlerocketstudios.compose.snippets.CreateSnippetScreen
 import com.bottlerocketstudios.compose.snippets.SnippetDetailsScreen
@@ -25,7 +26,7 @@ import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.util.toStringIdHelper
 import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
 import com.bottlerocketstudios.launchpad.compose.widgets.listdetail.AnimatedListDetail
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.compose.getViewModel
 
 // Used to represent create item in list so it can be "selected" for detail view
 private val CreateSnippetItem = SnippetUiModel(
@@ -37,14 +38,17 @@ private val CreateSnippetItem = SnippetUiModel(
 )
 
 @Suppress("LongMethod")
-fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder, widthSize: WindowWidthSizeClass) {
-    navGraphBuilder.composable(Routes.Snippets) {
+fun NavGraphBuilder.snippetListDetailComposable(controls: MainWindowControls, widthSize: WindowWidthSizeClass) {
+    composable(Routes.Snippets) {
         val snippetsViewModel: SnippetsViewModel = getViewModel()
+        val lifecycle = LocalLifecycleOwner.current.lifecycle
 
-        val list = snippetsViewModel.snippets.collectAsState(initial = emptyList())
+        // Update top level controls
+        controls.reset()
         controls.title = stringResource(id = R.string.snippets_title)
         controls.topLevel = true
 
+        val list = snippetsViewModel.snippets.collectAsState(initial = emptyList())
         AnimatedListDetail(
             list = list.value + CreateSnippetItem,
             keyProvider = { it.id },
@@ -103,12 +107,11 @@ fun ComposeActivity.snippetListDetailComposable(navGraphBuilder: NavGraphBuilder
                 controls.topLevel = !detailShowing || widthSize == WindowWidthSizeClass.Compact
 
                 // If detail showing, provide app bar nav interceptor, otherwise null
-                navIntercept.value = if (detailShowing) (
-                    {
+                controls.navIntercept =
+                    if (detailShowing) ({
                         select(null)
                         true
-                    }
-                    ) else null
+                    }) else null
             }
         }
 

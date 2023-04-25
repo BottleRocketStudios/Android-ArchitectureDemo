@@ -6,10 +6,8 @@ import org.koin.core.component.inject
 
 class TokenAuthServiceFactory : ServiceFactory() {
 
-    private val tokenAuthInterceptor: TokenAuthInterceptor by inject()
-
     override val baseUrl = "https://bitbucket.org/"
-    override val interceptors = listOf(tokenAuthInterceptor)
+    override val interceptors = listOf(TokenAuthInterceptor())
 
     internal fun produce(): TokenAuthService = retrofit.create(TokenAuthService::class.java)
 }
