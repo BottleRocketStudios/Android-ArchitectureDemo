@@ -27,7 +27,7 @@ import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.CircleAvatarImage
-import com.bottlerocketstudios.launchpad.compose.light
+import androidx.compose.ui.text.font.FontWeight
 
 @Suppress("LongMethod", "LongParameterList")
 @Composable
@@ -68,7 +68,7 @@ fun CommentCard(
                 )
                 Text(
                     text = comment.content?.raw ?: "",
-                    style = typography.h5.light(),
+                    style = typography.h5.copy(fontWeight = FontWeight.Light),
                     modifier = Modifier.padding(top = Dimens.grid_0_5)
                 )
                 Row(
@@ -94,7 +94,7 @@ fun CommentCard(
                     Text(text = "  \u2022  ")
                     Text(
                         text = comment.updated ?: comment.created ?: "",
-                        style = typography.body2.light().copy(color = Colors.onSurface),
+                        style = typography.body2.copy(fontWeight = FontWeight.Light).copy(color = Colors.onSurface),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

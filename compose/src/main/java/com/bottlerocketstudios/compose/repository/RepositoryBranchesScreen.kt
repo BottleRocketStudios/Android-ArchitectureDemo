@@ -39,7 +39,7 @@ import com.bottlerocketstudios.compose.resources.transparent
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 import java.time.Clock
 import java.time.ZonedDateTime
 
@@ -138,7 +138,7 @@ fun BranchItem(item: RepositoryBranchItemUiModel) {
                 )
                 Text(
                     text = item.status.getString(),
-                    style = MaterialTheme.typography.h5.bold()
+                    style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
                 )
             }
             Column(

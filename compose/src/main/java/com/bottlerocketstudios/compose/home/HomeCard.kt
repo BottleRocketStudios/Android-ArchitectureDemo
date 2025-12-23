@@ -31,9 +31,7 @@ import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
 import com.bottlerocketstudios.compose.util.ResponsiveText
-import com.bottlerocketstudios.launchpad.compose.bold
-import com.bottlerocketstudios.launchpad.compose.light
-import com.bottlerocketstudios.launchpad.compose.normal
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun RepositoryCardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectItem: (userRepositoryUiModel: UserRepositoryUiModel) -> Unit) {
@@ -86,7 +84,7 @@ fun RepositoryCardLayout(userRepositoryUiModel: UserRepositoryUiModel, selectIte
                 ) {
                     Text(
                         userRepositoryUiModel.formattedLastUpdatedTime.getString(),
-                        style = MaterialTheme.typography.h6.light(),
+                        style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Light),
                         modifier = Modifier
                             .wrapContentHeight()
                             .fillMaxWidth()
@@ -146,7 +144,7 @@ fun PullRequestCardLayout(userPullRequestUIModel: UserPullRequestUIModel) {
                     )
                 }
                 Row(Modifier.fillMaxWidth().padding(top = Dimens.grid_1)) {
-                    Text(text = userPullRequestUIModel.pullRequest.author, style = typography.body1.bold())
+                    Text(text = userPullRequestUIModel.pullRequest.author, style = typography.body1.copy(fontWeight = FontWeight.Bold))
                     Text(text = userPullRequestUIModel.pullRequest.reviewers, style = typography.body1, modifier = Modifier.weight(1f), textAlign = TextAlign.End, fontStyle = FontStyle.Italic)
                 }
             }
@@ -163,7 +161,7 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
         Text(
             userRepositoryUiModel.repo.name ?: "",
             color = Colors.tertiary,
-            style = MaterialTheme.typography.h3.bold(),
+            style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold),
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_1
@@ -173,7 +171,7 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
         )
         Text(
             userRepositoryUiModel.repo.owner?.displayName ?: "",
-            style = MaterialTheme.typography.h5.normal(),
+            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Normal),
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_0_5
@@ -183,7 +181,7 @@ fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modif
         )
         Text(
             userRepositoryUiModel.repo.description ?: "",
-            style = MaterialTheme.typography.h6.light(),
+            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Light),
             modifier = Modifier
                 .padding(
                     top = Dimens.grid_0_5,

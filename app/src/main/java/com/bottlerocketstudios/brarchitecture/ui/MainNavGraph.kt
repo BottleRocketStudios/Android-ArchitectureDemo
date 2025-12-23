@@ -40,12 +40,12 @@ import com.bottlerocketstudios.compose.repository.FileBrowserScreen
 import com.bottlerocketstudios.compose.repository.RepositoryBrowserScreen
 import com.bottlerocketstudios.compose.splash.SplashScreen
 import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
-import com.google.accompanist.web.rememberWebViewNavigator
-import org.koin.androidx.compose.getViewModel
+
+import org.koin.androidx.compose.koinViewModel
 
 private fun NavGraphBuilder.splashComposable(navController: NavController, controls: MainWindowControls) {
     composable(Routes.Splash) {
-        val vm: SplashViewModel = getViewModel()
+        val vm: SplashViewModel = koinViewModel()
         SplashScreen()
 
         // Update top level controls
@@ -58,17 +58,10 @@ private fun NavGraphBuilder.splashComposable(navController: NavController, contr
 
 private fun NavGraphBuilder.authCodeComposable(navController: NavController, controls: MainWindowControls) {
     composable(Routes.AuthCode) {
-        val webViewNavigator = rememberWebViewNavigator()
-
         // Update top level controls
         controls.reset()
-        controls.navIntercept = {
-            webViewNavigator.canGoBack.also {
-                if (it) webViewNavigator.navigateBack()
-            }
-        }
 
-        val vm: AuthCodeViewModel = getViewModel()
+        val vm: AuthCodeViewModel = koinViewModel()
         AuthCodeScreen(
             state = vm.toState { showToolbar: Boolean ->
                 controls.title = if (showToolbar) EMPTY_TOOLBAR_TITLE else ""
@@ -81,7 +74,6 @@ private fun NavGraphBuilder.authCodeComposable(navController: NavController, con
                     }
                 }
             },
-            navigator = webViewNavigator
         )
 
         vm.devOptionsEvent.LaunchCollection { navController.navigate(Routes.DevOptions) }
@@ -91,8 +83,8 @@ private fun NavGraphBuilder.authCodeComposable(navController: NavController, con
 
 private fun NavGraphBuilder.devOptionsComposable(navController: NavController, controls: MainWindowControls) {
     composable(Routes.DevOptions) {
-        val viewModel: DevOptionsViewModel = getViewModel()
-        val activityViewModel: ComposeActivityViewModel = getViewModel()
+        val viewModel: DevOptionsViewModel = koinViewModel()
+        val activityViewModel: ComposeActivityViewModel = koinViewModel()
 
         // Update top level controls
         controls.reset()
@@ -113,8 +105,8 @@ private fun NavGraphBuilder.devOptionsComposable(navController: NavController, c
 
 private fun NavGraphBuilder.homeComposable(navController: NavController, controls: MainWindowControls) {
     composable(Routes.Home) {
-        val viewModel: HomeViewModel = getViewModel()
-        val activityViewModel: ComposeActivityViewModel = getViewModel()
+        val viewModel: HomeViewModel = koinViewModel()
+        val activityViewModel: ComposeActivityViewModel = koinViewModel()
 
         // Update top level controls
         controls.reset()
@@ -149,8 +141,8 @@ private fun NavGraphBuilder.repositoryFileComposable(controls: MainWindowControl
             mimeType = backStackEntry.arguments?.getString("mimeType") ?: "",
         )
 
-        val viewModel: RepositoryFileViewModel = getViewModel()
-        val activityViewModel: ComposeActivityViewModel = getViewModel()
+        val viewModel: RepositoryFileViewModel = koinViewModel()
+        val activityViewModel: ComposeActivityViewModel = koinViewModel()
 
         // Update top level controls
         controls.reset()
@@ -185,7 +177,7 @@ private fun NavGraphBuilder.repositoryBrowserComposable(navController: NavContro
             folderPath = backStackEntry.arguments?.getString("folderPath")
         )
 
-        val viewModel: RepositoryBrowserViewModel = getViewModel()
+        val viewModel: RepositoryBrowserViewModel = koinViewModel()
         RepositoryBrowserScreen(state = viewModel.toState())
         viewModel.getFiles(data)
 
@@ -206,7 +198,7 @@ private fun NavGraphBuilder.repositoryBrowserComposable(navController: NavContro
 
 private fun NavGraphBuilder.profileComposable( navController: NavController, controls: MainWindowControls) {
     composable(Routes.Profile) {
-        val vm: ProfileViewModel = getViewModel()
+        val vm: ProfileViewModel = koinViewModel()
         ProfileScreen(state = vm.toState())
 
         // Update top level controls
@@ -222,7 +214,7 @@ private fun NavGraphBuilder.profileComposable( navController: NavController, con
 
 private fun NavGraphBuilder.pullRequestsComposable(controls: MainWindowControls) {
     composable(Routes.PullRequests) {
-        val vm: PullRequestViewModel = getViewModel()
+        val vm: PullRequestViewModel = koinViewModel()
         PullRequestScreen(state = vm.toState())
 
         // Update top level controls

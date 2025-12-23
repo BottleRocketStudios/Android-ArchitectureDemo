@@ -26,7 +26,7 @@ import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.util.toStringIdHelper
 import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
 import com.bottlerocketstudios.launchpad.compose.widgets.listdetail.AnimatedListDetail
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 // Used to represent create item in list so it can be "selected" for detail view
 private val CreateSnippetItem = SnippetUiModel(
@@ -40,7 +40,7 @@ private val CreateSnippetItem = SnippetUiModel(
 @Suppress("LongMethod")
 fun NavGraphBuilder.snippetListDetailComposable(controls: MainWindowControls, widthSize: WindowWidthSizeClass) {
     composable(Routes.Snippets) {
-        val snippetsViewModel: SnippetsViewModel = getViewModel()
+        val snippetsViewModel: SnippetsViewModel = koinViewModel()
         val lifecycle = LocalLifecycleOwner.current.lifecycle
 
         // Update top level controls
@@ -77,14 +77,14 @@ fun NavGraphBuilder.snippetListDetailComposable(controls: MainWindowControls, wi
                 model?.also { snippetUiModel ->
                     // Show Create snippet in detail pane when applicable
                     if (snippetUiModel == CreateSnippetItem) {
-                        val createSnippetViewModel: CreateSnippetViewModel = getViewModel()
+                        val createSnippetViewModel: CreateSnippetViewModel = koinViewModel()
                         CreateSnippetScreen(state = createSnippetViewModel.toState())
                         createSnippetViewModel.onSuccess.LaunchCollection {
                             select(null)
                             snippetsViewModel.refreshSnippets()
                         }
                     } else {
-                        val snippetDetailsViewModel: SnippetDetailsViewModel = getViewModel()
+                        val snippetDetailsViewModel: SnippetDetailsViewModel = koinViewModel()
                         SnippetDetailsScreen(state = snippetDetailsViewModel.toState())
                         snippetDetailsViewModel.getSnippetDetails(snippetUiModel)
                     }

@@ -13,7 +13,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun HomePullRequestEmptyLayout() {
@@ -26,7 +26,7 @@ fun HomePullRequestEmptyLayout() {
         Text(
             text = stringResource(R.string.no_pull_requests),
             color = Colors.tertiary,
-            style = MaterialTheme.typography.h1.bold()
+            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Bold)
         )
     }
 }

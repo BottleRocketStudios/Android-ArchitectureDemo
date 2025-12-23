@@ -17,7 +17,7 @@ interface ApplicationInfoManager {
 class ApplicationInfoManagerImpl(private val app: Application, private val buildConfigProvider: BuildConfigProvider) : ApplicationInfoManager {
     override fun getApplicationInfo(): ApplicationInfo {
         return ApplicationInfo(
-            appVersionName = app.packageManager!!.getPackageInfo(app.packageName, 0).versionName,
+            appVersionName = app.packageManager!!.getPackageInfo(app.packageName, 0).versionName.orEmpty(),
             appVersionCode = app.packageManager!!.getPackageInfo(app.packageName, 0).versionCode.toString(),
             appId = app.packageName,
             buildIdentifier = buildConfigProvider.buildIdentifier

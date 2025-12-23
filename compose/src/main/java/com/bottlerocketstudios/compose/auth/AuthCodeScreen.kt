@@ -29,21 +29,20 @@ import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedSurfaceButton
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
 import com.bottlerocketstudios.compose.widgets.SurfaceButton
-import com.google.accompanist.web.WebView
-import com.google.accompanist.web.WebViewNavigator
-import com.google.accompanist.web.WebViewState
-import com.google.accompanist.web.rememberWebViewNavigator
-import com.google.accompanist.web.rememberWebViewState
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
-fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
+fun AuthCodeScreen(state: AuthCodeState) {
     Crossfade(targetState = state.requestUrl.value.isEmpty()) {
         if (it) {
             state.showToolbar(false)
             AuthCodeContent(state)
         } else {
             state.showToolbar(true)
-            RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode, navigator = navigator)
+            RequestAuth(url = state.requestUrl.value, onAuthCode = state.onAuthCode)
         }
     }
 }
@@ -52,20 +51,27 @@ fun AuthCodeScreen(state: AuthCodeState, navigator: WebViewNavigator) {
 // https://support.google.com/faqs/answer/7668153?hl=en
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun RequestAuth(url: String, onAuthCode: (String) -> Unit, navigator: WebViewNavigator) {
-    val state: WebViewState = rememberWebViewState(url = url)
-
-    if (state.content.getCurrentUrl()?.contains("www.bottlerocketstudios.com") == true) {
-        onAuthCode(Uri.parse(state.content.getCurrentUrl() ?: "").getQueryParameter("code") ?: "")
-    }
-
-    WebView(
-        state = state,
-        navigator = navigator,
-        onCreated = {
-            it.settings.javaScriptEnabled = true
+fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
+    AndroidView(factory = { context ->
+        WebView(context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            settings.javaScriptEnabled = true
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+                    if (url?.contains("www.bottlerocketstudios.com") == true) {
+                        onAuthCode(Uri.parse(url).getQueryParameter("code") ?: "")
+                    }
+                }
+            }
+            loadUrl(url)
         }
-    )
+    }, update = {
+        it.loadUrl(url)
+    })
 }
 
 @Suppress("LongMethod")
@@ -150,7 +156,7 @@ private fun AuthCodePreview() {
                 onDevOptionsClicked = {},
                 showToolbar = {}
             ),
-            navigator = rememberWebViewNavigator()
+
         )
     }
 }

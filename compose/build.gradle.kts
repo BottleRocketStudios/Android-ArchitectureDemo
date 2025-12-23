@@ -33,9 +33,7 @@ android {
         buildConfig = true
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
+
 
     buildTypes {
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
@@ -90,8 +88,9 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.activity)
     implementation(libs.compose.animation)
-    implementation(libs.compose.compiler)
+
     implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.material.ripple)
@@ -138,5 +137,8 @@ dependencies {
     // testImplementation(libs.junit)
     // testImplementation(libs.mockito)
     // testImplementation(libs.truth)
+    implementation(libs.koin)
+    implementation(libs.koin.compose)
+    implementation(libs.androidx.navigation)
     coreLibraryDesugaring(libs.core.library.desugaring)
 }

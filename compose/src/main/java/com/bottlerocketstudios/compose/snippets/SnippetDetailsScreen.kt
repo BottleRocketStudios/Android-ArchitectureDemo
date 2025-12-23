@@ -45,7 +45,7 @@ import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWid
 import com.bottlerocketstudios.compose.snippets.snippetDetails.snippetDetailsWidgets.SnippetDetailsFilesCard
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.widgets.CircleAvatarImage
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -80,7 +80,7 @@ fun SnippetDetailsTitleLayout(state: SnippetDetailsScreenState) {
                     .padding(start = Dimens.grid_2)
                     .align(Alignment.Top)
             ) {
-                Text(text = state.snippetDetails.value?.title ?: "", style = typography.h1.bold())
+                Text(text = state.snippetDetails.value?.title ?: "", style = typography.h1.copy(fontWeight = FontWeight.Bold))
                 Column {
                     SnippetDetailsSpan(stringResource(id = R.string.owned_by), state.snippetDetails.value?.owner?.displayName ?: "")
                     SnippetDetailsSpan(

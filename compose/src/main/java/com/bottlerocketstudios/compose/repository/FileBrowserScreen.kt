@@ -23,8 +23,7 @@ import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
-import com.bottlerocketstudios.launchpad.compose.light
-import com.bottlerocketstudios.launchpad.compose.normal
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun FileBrowserScreen(state: FileBrowserScreenState) {
@@ -37,7 +36,7 @@ fun FileBrowserScreen(state: FileBrowserScreenState) {
     ) {
         Text(
             text = state.path.value,
-            style = MaterialTheme.typography.h5.normal(),
+            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Normal),
             color = Colors.onSurface,
             modifier = Modifier
                 .padding(
@@ -86,7 +85,7 @@ fun TextFileLayout(rawString: String) {
     val scroll = rememberScrollState(0)
     Text(
         text = rawString,
-        style = MaterialTheme.typography.h5.light(),
+        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Light),
         color = Colors.onBackground,
         modifier = Modifier
             .padding(

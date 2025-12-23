@@ -22,9 +22,7 @@ import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
-import com.bottlerocketstudios.launchpad.compose.bold
-import com.bottlerocketstudios.launchpad.compose.light
-import com.bottlerocketstudios.launchpad.compose.normal
+import androidx.compose.ui.text.font.FontWeight
 
 @Suppress("LongMethod")
 @Composable
@@ -57,7 +55,7 @@ fun SnippetItem(snippet: SnippetUiModel, onClick: (SnippetUiModel) -> Unit) {
                     Text(
                         snippet.title,
                         color = Colors.tertiary,
-                        style = MaterialTheme.typography.h3.bold(),
+                        style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold),
                         modifier = Modifier
                             .padding(top = Dimens.grid_1)
                             .wrapContentHeight()
@@ -65,7 +63,7 @@ fun SnippetItem(snippet: SnippetUiModel, onClick: (SnippetUiModel) -> Unit) {
                     )
                     Text(
                         snippet.userName,
-                        style = MaterialTheme.typography.h5.normal(),
+                        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Normal),
                         modifier = Modifier
                             .padding(top = Dimens.grid_0_5)
                             .wrapContentHeight()
@@ -80,7 +78,7 @@ fun SnippetItem(snippet: SnippetUiModel, onClick: (SnippetUiModel) -> Unit) {
                     Text(
                         snippet.formattedLastUpdatedTime.getString(),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.h6.light(),
+                        style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Light),
                         modifier = Modifier
                             .wrapContentHeight()
                             .fillMaxWidth()

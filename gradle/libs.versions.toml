@@ -23,6 +23,7 @@ retrofit = "3.0.0" # FIXME replace with Ktor
 okhttp = "4.12.0"
 chucker = "3.5.2"
 base64 = "1.15"
+live-event = "1.3.0"
 security-crypto = "1.0.0"
 
 agp = "8.12.0"
@@ -153,6 +154,7 @@ compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = 
 compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "compose-compiler" }
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-runtime" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+compose-material = { group = "androidx.compose.material", name = "material" }
 compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-material-ripple = { group = "androidx.compose.material", name = "material-ripple" }
@@ -210,6 +212,7 @@ mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref =
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
+live-event = { group = "com.github.hadilq", name = "live-event", version.ref = "live-event" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 koin-android-test = { group = "io.insert-koin", name = "koin-android-test", version.ref = "koin" }
 

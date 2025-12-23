@@ -7,11 +7,11 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.ui.MainWindowControls
 import com.bottlerocketstudios.brarchitecture.ui.Routes
 import com.bottlerocketstudios.compose.projects.ProjectsScreen
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.projectsComposable(controls: MainWindowControls) {
     composable(Routes.Projects) {
-        val vm: ProjectsViewModel = getViewModel()
+        val vm: ProjectsViewModel = koinViewModel()
         ProjectsScreen(state = vm.toState())
 
         // Update top level controls

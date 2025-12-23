@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,7 +51,7 @@ fun NavDrawerItem(
 
         Text(
             text = stringResource(id = state.itemText),
-            style = MaterialTheme.typography.h4.bold(),
+            style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold),
             color = if (state.selected) MaterialTheme.colors.error else MaterialTheme.colors.onBackground,
             modifier = Modifier.padding(start = Dimens.grid_3)
         )

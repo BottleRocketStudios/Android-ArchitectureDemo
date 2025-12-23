@@ -25,7 +25,7 @@ import com.bottlerocketstudios.compose.resources.brown_grey
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.asMutableState
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 @Suppress("LongMethod")
@@ -40,7 +40,7 @@ fun HomeScreen(state: HomeScreenState) {
     ) {
         Text(
             text = stringResource(id = R.string.home_pull_requests),
-            style = MaterialTheme.typography.h1.bold(),
+            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Bold),
             color = Colors.onBackground,
             modifier = Modifier
                 .padding(
@@ -82,7 +82,7 @@ fun HomeScreen(state: HomeScreenState) {
 
         Text(
             text = stringResource(id = R.string.home_repositories),
-            style = MaterialTheme.typography.h1.bold(),
+            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Bold),
             color = Colors.onBackground,
             modifier = Modifier
                 .padding(

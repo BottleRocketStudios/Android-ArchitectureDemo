@@ -25,8 +25,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.br_red
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
-import com.bottlerocketstudios.launchpad.compose.bold
-import com.bottlerocketstudios.launchpad.compose.normal
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun ProfileScreen(state: ProfileScreenState) {
@@ -50,7 +49,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         ) {
             Text(
                 stringResource(id = R.string.profile_edit).uppercase(),
-                style = MaterialTheme.typography.h3.bold(),
+                style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier
                     .wrapContentSize()
             )
@@ -68,7 +67,7 @@ fun ProfileScreen(state: ProfileScreenState) {
         ) {
             Text(
                 stringResource(id = R.string.profile_logout),
-                style = MaterialTheme.typography.h3.bold()
+                style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold)
             )
         }
     }
@@ -88,7 +87,7 @@ fun ProfileDetailComponent(avatarUrl: String, displayName: String, nickname: Str
     Text(
         displayName,
         color = ArchitectureDemoTheme.colors.tertiary,
-        style = MaterialTheme.typography.h3.bold(),
+        style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold),
         modifier = Modifier
             .padding(
                 top = Dimens.grid_2
@@ -98,7 +97,7 @@ fun ProfileDetailComponent(avatarUrl: String, displayName: String, nickname: Str
     Text(
         nickname,
         color = ArchitectureDemoTheme.colors.onSurface,
-        style = MaterialTheme.typography.h4.normal(),
+        style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Normal),
         modifier = Modifier
             .padding(
                 top = Dimens.grid_0_5

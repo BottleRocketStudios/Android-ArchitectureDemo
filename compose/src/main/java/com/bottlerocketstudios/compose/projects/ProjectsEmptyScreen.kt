@@ -13,7 +13,7 @@ import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun ProjectsEmptyScreen() {
@@ -26,7 +26,7 @@ fun ProjectsEmptyScreen() {
         Text(
             text = stringResource(R.string.no_projects),
             color = Colors.tertiary,
-            style = MaterialTheme.typography.h1.bold()
+            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Bold)
         )
     }
 }

@@ -17,7 +17,7 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
 import com.bottlerocketstudios.compose.util.ResponsiveText
 import com.bottlerocketstudios.compose.util.asMutableState
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun ProjectsItemCard(state: ProjectsItemState) {
@@ -43,7 +43,7 @@ fun ProjectsItemCard(state: ProjectsItemState) {
                     modifier = Modifier
                         .padding(end = Dimens.grid_1)
                 )
-                Text(text = state.key.value, style = typography.body1.bold())
+                Text(text = state.key.value, style = typography.body1.copy(fontWeight = FontWeight.Bold))
             }
             Column(
                 modifier = Modifier.fillMaxSize().padding(

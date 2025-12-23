@@ -5,7 +5,7 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.domain.models.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
+
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.repository.RepositoryItemUiModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -61,7 +61,7 @@ class RepositoryBrowserViewModel : BaseViewModel() {
                 when (result) {
                     is Status.Success -> srcFiles.value = result.data
                     is Status.Failure -> handleError(R.string.error_loading_repository)
-                }.exhaustive
+                }
             }
         }
     }

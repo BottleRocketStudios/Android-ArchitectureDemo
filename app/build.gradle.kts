@@ -37,6 +37,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "BUILD_IDENTIFIER", "\"debug\"")
     }
 
     buildFeatures {
@@ -134,6 +136,8 @@ ktlint {
 
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
+
+    implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":compose")))
 
     implementation(libs.retrofit.core)
@@ -162,7 +166,7 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.activity)
     implementation(libs.compose.animation)
-    implementation(libs.compose.compiler)
+
     implementation(libs.compose.foundation)
     implementation(libs.material)
     implementation(libs.compose.material.icons.core)
@@ -210,9 +214,11 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.coil)
     implementation(libs.ktor)
-    // implementation(libs.live.event)
+    implementation(libs.live.event)
     implementation(libs.process.phoenix)
     implementation(libs.timber)
+
+    implementation(libs.compose.material)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

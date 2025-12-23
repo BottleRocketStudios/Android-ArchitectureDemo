@@ -7,12 +7,12 @@ import com.bottlerocketstudios.brarchitecture.ui.MainWindowControls
 import com.bottlerocketstudios.brarchitecture.ui.Routes
 import com.bottlerocketstudios.compose.repository.RepositoryCommitScreen
 import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.repositoryCommitsComposable(controls: MainWindowControls) {
     composable(Routes.Commits) {
-        val viewModel: RepositoryCommitViewModel = getViewModel()
-        val activityViewModel: ComposeActivityViewModel = getViewModel()
+        val viewModel: RepositoryCommitViewModel = koinViewModel()
+        val activityViewModel: ComposeActivityViewModel = koinViewModel()
 
         val repoName = activityViewModel.selectedRepo.value.name ?: ""
         RepositoryCommitScreen(state = viewModel.toState())

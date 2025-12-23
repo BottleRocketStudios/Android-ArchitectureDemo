@@ -9,12 +9,12 @@ import com.bottlerocketstudios.brarchitecture.ui.ComposeActivityViewModel
 import com.bottlerocketstudios.brarchitecture.ui.MainWindowControls
 import com.bottlerocketstudios.brarchitecture.ui.Routes
 import com.bottlerocketstudios.compose.featuretoggles.FeatureToggleScreen
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.featureTogglesComposable(navController: NavController, controls: MainWindowControls) {
     composable(Routes.FeatureToggles) {
-        val viewModel: FeatureToggleViewModel = getViewModel()
-        val activityViewModel: ComposeActivityViewModel = getViewModel()
+        val viewModel: FeatureToggleViewModel = koinViewModel()
+        val activityViewModel: ComposeActivityViewModel = koinViewModel()
 
         FeatureToggleScreen(state = viewModel.toState())
 
