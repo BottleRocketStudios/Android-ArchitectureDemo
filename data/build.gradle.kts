@@ -126,6 +126,14 @@ dependencies {
     implementation(libs.retrofit.converter.kotlinx.serialization)
     implementation(libs.retrofit.converter.scalars)
 
+    // Ktor HTTP client (will replace Retrofit)
+    implementation(libs.ktor)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.serialization.json)
+    implementation(libs.ktor.client.auth)
+    implementation(libs.ktor.logging)
+
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
 
