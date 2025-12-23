@@ -140,10 +140,6 @@ dependencies {
     implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":compose")))
 
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.retrofit.converter.scalars)
-
     implementation(libs.chucker)
 
     // Google Credential Manager

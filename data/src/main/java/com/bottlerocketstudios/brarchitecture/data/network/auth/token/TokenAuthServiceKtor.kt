@@ -17,6 +17,22 @@ internal class TokenAuthServiceKtor : KoinComponent {
     private val client: HttpClient by inject() // Inject the auth-specific client
 
     /**
+     * Get an OAuth access token using an authorization code.
+     */
+    suspend fun getAuthCodeToken(
+        code: String,
+        grantType: String = "authorization_code"
+    ): AccessToken {
+        return client.submitForm(
+            url = "https://bitbucket.org/site/oauth2/access_token",
+            formParameters = parameters {
+                append("grant_type", grantType)
+                append("code", code)
+            }
+        ).body()
+    }
+
+    /**
      * Get an OAuth access token using username and password.
      */
     suspend fun getToken(

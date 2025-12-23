@@ -121,12 +121,7 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.timber)
 
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.retrofit.converter.kotlinx.serialization)
-    implementation(libs.retrofit.converter.scalars)
-
-    // Ktor HTTP client (will replace Retrofit)
+    // Ktor HTTP client
     implementation(libs.ktor)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.content.negotiation)
@@ -155,5 +150,4 @@ dependencies {
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
-    testImplementation(libs.retrofit.converter.kotlinx.serialization)
 }
