@@ -136,6 +136,13 @@ dependencies {
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":compose")))
 
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.retrofit.converter.scalars)
+
+    implementation(libs.chucker)
+
     // Google Credential Manager
     implementation(libs.google.credentials)
     implementation(libs.google.credentials.play.services.auth)
@@ -157,6 +164,7 @@ dependencies {
     implementation(libs.compose.animation)
     implementation(libs.compose.compiler)
     implementation(libs.compose.foundation)
+    implementation(libs.material)
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.material.ripple)

@@ -43,6 +43,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.koin.core.component.KoinComponent
@@ -207,7 +208,7 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
 
     override suspend fun createSnippet(title: String, filename: String, contents: String, private: Boolean): Status<Unit> =
         wrapRepoExceptions("createSnippet") {
-            val body = MultipartBody.Part.createFormData("file", filename, RequestBody.create(MediaType.get("text/plain"), contents))
+            val body = MultipartBody.Part.createFormData("file", filename, RequestBody.create("text/plain".toMediaType(), contents))
             bitbucketService.createSnippet(title, body, private).toEmptyResult()
         }
 

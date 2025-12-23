@@ -116,6 +116,25 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
 
+    // Koin
+    implementation(libs.koin)
+    implementation(libs.timber)
+
+    implementation(libs.moshi.core)
+    implementation(libs.moshi.kotlin)
+
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.retrofit.converter.scalars)
+
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging.interceptor)
+
+    implementation(libs.chucker)
+    implementation(libs.base64)
+    implementation(libs.security.crypto)
+
     // Firebase
     implementation(project.dependencies.platform(libs.firebase.bom))
     implementation(libs.firebase.config)
