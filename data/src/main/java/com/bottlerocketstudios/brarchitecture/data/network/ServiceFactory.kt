@@ -1,17 +1,18 @@
 package com.bottlerocketstudios.brarchitecture.data.network
 
-import com.squareup.moshi.Moshi
+import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 abstract class ServiceFactory : KoinComponent {
 
-    private val moshi: Moshi by inject()
+    private val json: Json by inject()
 
     abstract val baseUrl: String
     internal open val interceptors: List<Interceptor> = emptyList()
@@ -21,7 +22,7 @@ abstract class ServiceFactory : KoinComponent {
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 

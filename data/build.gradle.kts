@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.parcelize)
+    alias(libs.plugins.kotlinSerialization)
     // id(Config.ApplyPlugins.GOOGLE_SERVICES)
 }
 
@@ -120,12 +121,9 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.timber)
 
-    implementation(libs.moshi.core)
-    implementation(libs.moshi.kotlin)
-
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
-    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
     implementation(libs.retrofit.converter.scalars)
 
     implementation(libs.okhttp.core)
@@ -143,4 +141,10 @@ dependencies {
     implementation(libs.firebase.crashlytics.ndk)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.perf)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockk)
+    testImplementation(libs.truth)
 }

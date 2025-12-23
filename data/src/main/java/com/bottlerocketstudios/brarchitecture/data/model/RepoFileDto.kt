@@ -1,17 +1,17 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class RepoFileDto(
-    @Json(name = "type") val type: String?,
-    @Json(name = "path") val path: String?,
-    @Json(name = "mimetype") val mimetype: String?,
-    @Json(name = "attributes") val attributes: List<String>?,
-    @Json(name = "size") val size: Int?,
-    @Json(name = "commit") val commit: CommitDto?
+    @SerialName("type") val type: String?,
+    @SerialName("path") val path: String?,
+    @SerialName("mimetype") val mimetype: String?,
+    @SerialName("attributes") val attributes: List<String>?,
+    @SerialName("size") val size: Int?,
+    @SerialName("commit") val commit: CommitDto?
 ) : Parcelable, Dto

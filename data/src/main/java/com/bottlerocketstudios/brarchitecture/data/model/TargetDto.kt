@@ -1,13 +1,14 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class TargetDto(
-    @Json(name = "date") val date: ZonedDateTime?
+    @SerialName("date") @Contextual val date: ZonedDateTime?
 ) : Parcelable, Dto

@@ -2,18 +2,17 @@ package com.bottlerocketstudios.brarchitecture.data.network.auth.token
 
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketFailure
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
-import com.squareup.moshi.Moshi
+import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Response
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import timber.log.Timber
 import java.net.HttpURLConnection
 
-internal class TokenAuthInterceptor : Interceptor, KoinComponent {
-
-    private val tokenAuthService: TokenAuthService by inject()
-    private val credentialsRepo: BitbucketCredentialsRepository by inject()
+internal class TokenAuthInterceptor(
+    private val tokenAuthService: TokenAuthService,
+    private val credentialsRepo: BitbucketCredentialsRepository,
+    private val json: Json
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         getTokenWorker()
@@ -54,8 +53,11 @@ internal class TokenAuthInterceptor : Interceptor, KoinComponent {
             var chainResult = chain.proceed(newRequest)
             if (chainResult.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
                 val failureJson = chainResult.body?.string() ?: ""
-                val failure =
-                    Moshi.Builder().build().adapter(BitbucketFailure::class.java).fromJson(failureJson)
+                val failure = try {
+                    json.decodeFromString<BitbucketFailure>(failureJson)
+                } catch (e: Exception) {
+                    null
+                }
                 Timber.v("auth failure=$failure")
                 if (failure?.type == "error" && failure.error?.message.orEmpty().contains("token expired")) {
                     val refreshResponse =

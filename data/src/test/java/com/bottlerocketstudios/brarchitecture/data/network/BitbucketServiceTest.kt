@@ -6,20 +6,20 @@ import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredent
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthInterceptor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthService
-import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
-import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
+import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeSerializer
+import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertySerializer
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import com.google.common.truth.Truth.assertThat
-import com.squareup.moshi.Moshi
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.junit.Ignore
 import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.net.HttpURLConnection
 
@@ -71,7 +71,7 @@ class BitbucketServiceTest : BaseTest() {
         }
     }
 
-    @Test
+@Test
     fun getUser_shouldReturnUser_whenAuthenticated() = runTest {
         val bitbucketService = createBitbucketService(null)
         val response = bitbucketService.getUser()
@@ -86,15 +86,20 @@ class BitbucketServiceTest : BaseTest() {
             on { loadToken() } doReturn accessToken
         }
 
+        val clock = mock<java.time.Clock>()
+        val json = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
+
+        val contentType = "application/json".toMediaType()
+
         val unauthOkHttpClient = OkHttpClient.Builder().build()
         val unathRetrofit = Retrofit.Builder()
             .baseUrl("https://bitbucket.org/")
             .client(unauthOkHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(DateTimeAdapter(mock())).add(ProtectedPropertyAdapter()).build()))
+            .addConverterFactory(contentType.asConverterFactory(json))
             .build()
         val authService = unathRetrofit.create(TokenAuthService::class.java)
-        val interceptor = TokenAuthInterceptor(authService, bitbucketCredentialsRepository)
+        val interceptor = TokenAuthInterceptor(authService, bitbucketCredentialsRepository, json)
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -104,7 +109,7 @@ class BitbucketServiceTest : BaseTest() {
             .baseUrl("https://api.bitbucket.org")
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(DateTimeAdapter(mock())).add(ProtectedPropertyAdapter()).build()))
+            .addConverterFactory(contentType.asConverterFactory(json))
             .build()
 
         return retrofit.create(BitbucketService::class.java)

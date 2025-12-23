@@ -41,7 +41,7 @@ class TokenAuthInterceptorTest : BaseTest() {
             on { loadCredentials() } doReturn ValidCredentialModel("test@example.com".toProtectedProperty(), "password1".toProtectedProperty())
             on { loadToken() } doAnswer { accessToken }
         }
-        val interceptor = TokenAuthInterceptor(service, bitbucketCredentialsRepository)
+        val interceptor = TokenAuthInterceptor(service, bitbucketCredentialsRepository, kotlinx.serialization.json.Json.Default)
         runTest {
             val headerInterceptorMock = HeaderInterceptorMock()
             interceptor.intercept(headerInterceptorMock.getMockedChain())

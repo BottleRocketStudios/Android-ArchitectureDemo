@@ -2,14 +2,22 @@ package com.bottlerocketstudios.brarchitecture.data.serialization
 
 import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
 import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
-/** Supports serialization to ProtectedProperty/from json string directly in DTO models that use retrofit+moshi */
-class ProtectedPropertyAdapter {
-    @ToJson
-    fun toJson(protectedProperty: ProtectedProperty<String>): String = protectedProperty.value
+/** Supports serialization to ProtectedProperty/from json string directly in DTO models */
+class ProtectedPropertySerializer : KSerializer<ProtectedProperty<String>> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ProtectedProperty", PrimitiveKind.STRING)
 
-    @FromJson
-    fun fromJson(jsonValue: String): ProtectedProperty<String> = jsonValue.toProtectedProperty()
+    override fun serialize(encoder: Encoder, value: ProtectedProperty<String>) {
+        encoder.encodeString(value.value)
+    }
+
+    override fun deserialize(decoder: Decoder): ProtectedProperty<String> {
+        return decoder.decodeString().toProtectedProperty()
+    }
 }

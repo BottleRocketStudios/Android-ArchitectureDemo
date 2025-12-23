@@ -1,18 +1,19 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class SnippetDto(
-    @Json(name = "id") val id: String? = null,
-    @Json(name = "workspace") val workspace: WorkspaceDto? = null,
-    @Json(name = "title") val title: String? = null,
-    @Json(name = "owner") val owner: UserDto? = null,
-    @Json(name = "is_private") val isPrivate: Boolean? = null,
-    @Json(name = "updated_on") val updated: ZonedDateTime? = null,
+    @SerialName("id") val id: String? = null,
+    @SerialName("workspace") val workspace: WorkspaceDto? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("owner") val owner: UserDto? = null,
+    @SerialName("is_private") val isPrivate: Boolean? = null,
+    @SerialName("updated_on") @Contextual val updated: ZonedDateTime? = null,
 ) : Parcelable, Dto

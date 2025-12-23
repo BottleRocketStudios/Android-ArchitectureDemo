@@ -142,7 +142,6 @@ dependencies {
 
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
-    implementation(libs.retrofit.converter.moshi)
     implementation(libs.retrofit.converter.scalars)
 
     implementation(libs.chucker)
@@ -233,14 +232,14 @@ dependencies {
     // androidTestImplementation(libs.androidx.ui.test.junit4)
 
     // test
-    // testImplementation(libs.androidx.arch.core.testing)
-    // testImplementation(libs.junit)
-    // testImplementation(libs.kotlinx.coroutines.test)
-    // testImplementation(libs.mockito)
-    // testImplementation(libs.mockk)
-    // testImplementation(libs.mockwebserver)
-    // testImplementation(libs.truth)
-    // testImplementation(libs.turbine)
-    // testImplementation(libs.koin.android.test)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.truth)
+    testImplementation(libs.turbine)
+    testImplementation(libs.koin.android.test)
     coreLibraryDesugaring(libs.core.library.desugaring)
 }

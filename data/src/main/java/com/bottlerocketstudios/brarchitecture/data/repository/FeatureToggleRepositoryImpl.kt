@@ -7,8 +7,7 @@ import com.bottlerocketstudios.brarchitecture.domain.models.FeatureToggle
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
+import kotlinx.serialization.json.Json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.intellij.lang.annotations.Language
@@ -17,7 +16,7 @@ import org.koin.core.component.inject
 import timber.log.Timber
 
 @Suppress("TooManyFunctions")
-class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepository, KoinComponent {
+class FeatureToggleRepositoryImpl(private val json: Json) : FeatureToggleRepository, KoinComponent {
 
     private val _featureToggles = MutableStateFlow<Set<FeatureToggle>>(emptySet())
     override val featureToggles: StateFlow<Set<FeatureToggle>> = _featureToggles
@@ -36,10 +35,10 @@ class FeatureToggleRepositoryImpl(private val moshi: Moshi) : FeatureToggleRepos
     }
 
     private fun getAdaptedToggles(): Set<FeatureToggle> {
-        val adapter: JsonAdapter<FeatureToggleDto> = moshi.adapter(FeatureToggleDto::class.java)
         return mutableSetOf<FeatureToggle>().apply {
-            addAll(adapter.fromJson(FEATURE_TOGGLE_JSON)?.booleanFlags?.map { it.toFeatureToggle() }?.toSet() ?: emptySet())
-            addAll(adapter.fromJson(FEATURE_TOGGLE_JSON)?.stringFlags?.map { it.toFeatureToggle() }?.toSet() ?: emptySet())
+            val featureToggleDto = json.decodeFromString<FeatureToggleDto>(FEATURE_TOGGLE_JSON)
+            addAll(featureToggleDto.booleanFlags.map { it.toFeatureToggle() }.toSet())
+            addAll(featureToggleDto.stringFlags.map { it.toFeatureToggle() }.toSet())
         }
     }
 

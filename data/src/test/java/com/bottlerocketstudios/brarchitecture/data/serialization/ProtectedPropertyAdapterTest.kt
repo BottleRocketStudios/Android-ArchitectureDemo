@@ -10,19 +10,13 @@ class ProtectedPropertyAdapterTest : BaseTest() {
 
     @Test
     fun toJson_nonNullInput_returnsNonNullValue() {
-        val sut = ProtectedPropertyAdapter()
-
-        val result = sut.toJson(ProtectedProperty("foo"))
-
-        assertThat(result).isEqualTo("foo")
+        val result = kotlinx.serialization.json.Json.encodeToString(ProtectedPropertySerializer(), ProtectedProperty("foo"))
+        assertThat(result).isEqualTo("\"foo\"")
     }
 
     @Test
     fun fromJson_nonNullInput_returnsNonNullValue() {
-        val sut = ProtectedPropertyAdapter()
-
-        val result = sut.fromJson("foo")
-
+        val result = kotlinx.serialization.json.Json.decodeFromString(ProtectedPropertySerializer(), "\"foo\"")
         assertThat(result).isEqualTo("foo".toProtectedProperty())
     }
 }
