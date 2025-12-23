@@ -8,6 +8,7 @@ import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentReposi
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImpl
+import com.bottlerocketstudios.brarchitecture.data.network.BitbucketHttpClientFactory
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketServiceKtor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthServiceKtor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
@@ -68,6 +69,9 @@ enum class KoinNamedSharedPreferences {
 /** General network configuration. Always include with either [BasicAuthModule] or [TokenAuthModule] */
 object NetworkModule {
     val module = module {
+        single { BitbucketHttpClientFactory() }
+        single(named("api")) { get<BitbucketHttpClientFactory>().apiClient }
+        single(named("auth")) { get<BitbucketHttpClientFactory>().authClient }
         single { BitbucketServiceKtor() }
     }
 }

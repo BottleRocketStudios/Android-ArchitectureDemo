@@ -31,7 +31,7 @@ class BitbucketHttpClientFactory : HttpClientFactory() {
     /**
      * Create a separate client for token requests (no auth).
      */
-    private val authClient: HttpClient by lazy {
+    internal val authClient: HttpClient by lazy {
         HttpClient(OkHttp) {
             install(ContentNegotiation) {
                 json(json)

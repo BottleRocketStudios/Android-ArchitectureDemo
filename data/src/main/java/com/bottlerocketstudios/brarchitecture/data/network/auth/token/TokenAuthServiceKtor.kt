@@ -14,7 +14,7 @@ import org.koin.core.component.inject
  */
 internal class TokenAuthServiceKtor : KoinComponent {
 
-    private val client: HttpClient by inject() // Inject the auth-specific client
+    private val client: HttpClient by inject(org.koin.core.qualifier.named("auth")) // Inject the auth-specific client
 
     /**
      * Get an OAuth access token using an authorization code.

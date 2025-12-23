@@ -25,7 +25,7 @@ import org.koin.core.component.inject
  * for demonstration purposes. Additional endpoints can be added following the same pattern.
  */
 internal class BitbucketServiceKtor : KoinComponent {
-    private val client: HttpClient by inject()
+    private val client: HttpClient by inject(org.koin.core.qualifier.named("api"))
 
     suspend fun getUser(): UserDto = client.get("2.0/user").body()
 
