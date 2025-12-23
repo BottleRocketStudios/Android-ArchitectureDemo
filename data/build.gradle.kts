@@ -147,4 +147,5 @@ dependencies {
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
+    testImplementation(libs.retrofit.converter.kotlinx.serialization)
 }

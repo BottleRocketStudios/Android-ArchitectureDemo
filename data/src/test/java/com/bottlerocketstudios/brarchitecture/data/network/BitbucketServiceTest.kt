@@ -11,7 +11,7 @@ import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedProper
 import com.bottlerocketstudios.brarchitecture.data.test.BaseTest
 import com.bottlerocketstudios.brarchitecture.domain.utils.toProtectedProperty
 import com.google.common.truth.Truth.assertThat
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -96,7 +96,7 @@ class BitbucketServiceTest : BaseTest() {
             .baseUrl("https://bitbucket.org/")
             .client(unauthOkHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(contentType.asConverterFactory(json))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
         val authService = unathRetrofit.create(TokenAuthService::class.java)
         val interceptor = TokenAuthInterceptor(authService, bitbucketCredentialsRepository, json)
@@ -109,7 +109,7 @@ class BitbucketServiceTest : BaseTest() {
             .baseUrl("https://api.bitbucket.org")
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(contentType.asConverterFactory(json))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
 
         return retrofit.create(BitbucketService::class.java)
