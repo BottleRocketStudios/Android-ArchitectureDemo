@@ -1,16 +1,34 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-}
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    // alias(libs.plugins.androidLibrary)
+    // alias(libs.plugins.kotlinSerialization)
 }
 
-// TODO - update with dependencies
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// android {
+//     namespace = libs.versions.domain.namespace.get()
+//     compileSdk = libs.versions.android.compileSdk.get().toInt()
+// }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+    compilerOptions {
+        jvmToolchain(17)
+    }
+}
 
 dependencies {
-    // Kotlin/coroutines
-    kotlinDependencies()
-    coroutineDependencies()
+    implementation(libs.kotlin.stdlib.jdk7)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
 }

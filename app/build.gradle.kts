@@ -1,57 +1,55 @@
-import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.api.BaseVariantOutput
+import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
+import java.io.FileInputStream
+import java.util.Properties
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    id(Config.ApplyPlugins.ANDROID_APPLICATION)
-    kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    id(Config.ApplyPlugins.KSP)
-    id(Config.ApplyPlugins.PARCELIZE)
-    id(Config.ApplyPlugins.GOOGLE_SERVICES)
-    id(Config.ApplyPlugins.APP_DISTRIBUTION)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.app.distribution)
+    // alias(libs.plugins.kover)
+    alias(libs.plugins.ktLint)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.crashlytics)
+    alias(libs.plugins.firebase.perf)
+    // alias(libs.plugins.baselineprofile)
 }
 
-extra.set("jacocoCoverageThreshold", 0.20.toBigDecimal()) // module specific code coverage verification threshold
-apply(from = "../jacocoModule.gradle")
-
-apply(from = "../renameAppBundle.gradle.kts") // configures additional gradle tasks to rename app bundles (when needed)
-
-// Prep BuildInfoManager to use its functions/properties later throughout this build script
-BuildInfoManager.initialize(
-    BuildInfoInput(
-        appVersion = AppVersion(major = 1, minor = 0, patch = 0, hotfix = 0, showEmptyPatchNumberInVersionName = true), // TODO: TEMPLATE - Replace with appropriate app version
-        brandName = "BR_Architecture", // TODO: TEMPLATE - Replace with appropriate project brand name
-        productionReleaseVariantName = "productionRelease",
-        rootProjectDir = rootDir
-    )
-)
-
-// Some documentation on inner tags/blocks can be found with the below urls:
-// android {...} DSL Reference:
-// Android Gradle Plugin api: https://developer.android.com/reference/tools/gradle-api/4.1/classes
 android {
-    compileSdk = Config.AndroidSdkVersions.COMPILE_SDK
-    buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
+    namespace = libs.versions.app.namespace.get()
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+
     defaultConfig {
-        minSdk = Config.AndroidSdkVersions.MIN_SDK
-        targetSdk = Config.AndroidSdkVersions.TARGET_SDK
-        versionCode = BuildInfoManager.APP_VERSION.versionCode
-        versionName = BuildInfoManager.APP_VERSION.versionName
+        applicationId = libs.versions.app.namespace.get()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = libs.versions.version.code.get().toInt()
+        versionName = libs.versions.version.name.get()
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
+
+    buildFeatures {
+        buildConfig = true
+        compose = true
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-    buildFeatures {
-        compose = true // Enables Jetpack Compose for this module
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Config.Compose.COMPOSE_COMPILER_VERSION
-    }
+
     signingConfigs {
         getByName("debug") {
             // Common debug keystore so all local builds can be shared between devs/QA
@@ -82,7 +80,7 @@ android {
             // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
             // the test...UnitTestCoverage tasks. Stopping and restarting build would allow compilation/installation to complete.
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
-            isTestCoverageEnabled = false
+            enableUnitTestCoverage = false
             firebaseAppDistribution {
                 releaseNotes="App distribution for Arch Demo"
                 testers="colin.shelton@bottlerocketstudios.com"
@@ -114,74 +112,121 @@ android {
             dimension = "environment"
         }
     }
-    variantFilter {
-        // Gradle ignores any variants that satisfy the conditions listed below. `productionDebug` has no value for this project.
-        if (name == "productionDebug" || name == "productionDebugMini") {
-            ignore = true
-        }
+}
+
+ktlint {
+    version = libs.versions.ktlint.version
+    verbose = true // useful for debugging
+    android = true
+    outputToConsole = true
+    ignoreFailures = false
+
+    reporters {
+        reporter(ReporterType.PLAIN) // Output KtLint results in plain text format
+        reporter(ReporterType.HTML) // Output KtLint results in HTML format
     }
-    applicationVariants.all {
-        // Using a local val here since attempting to use a named lambda parameter would change the function signature from operating on applicationVariants.all (with an `Action` parameter)
-        // to the Collections Iterable.`all` function. Same thing applies to outputs.all below
-        val variant: ApplicationVariant = this
-        BuildInfoManager.createBuildIdentifier(variant)
-        variant.outputs.all {
-            val baseVariantOutput: BaseVariantOutput = this
-            BuildInfoManager.modifyVersionNameAndApkName(variant, baseVariantOutput)
-        }
-    }
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
+
+    filter {
+        exclude("**/generated/**")
+        exclude("**/build/**")
     }
 }
 
-// Declare configurations per variant to use in the dependencies block below. See :data module for examples if needed here in the :app module.
-
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
-    implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":compose")))
-    // TODO: List out each jar/aar explicitly to help avoid the danger of someone "slipping" a dangerous lib into the directory
-    // implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    // Kotlin/coroutines
-    kotlinDependencies()
-    coroutineDependencies()
-
-    // Koin DI
-    koinDependencies()
+    // Google Credential Manager
+    implementation(libs.google.credentials)
+    implementation(libs.google.credentials.play.services.auth)
 
     // AndroidX
-    composeDependencies()
-    accompanistDependencies()
-    appCompatDependencies()
-    activityDependencies()
-    androidxStartupDependencies()
-    materialDependencies()
-    lifecycleDependencies()
-    navigationDependencies()
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.startup.runtime)
+    implementation(libs.androidx.window)
+    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Launchpad
-    launchPadDependencies()
+    // Compose
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.activity)
+    implementation(libs.compose.animation)
+    implementation(libs.compose.compiler)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.material.ripple)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material3.window.size)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.runtime.livedata)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
 
-    coreLibraryDesugaringDependencies()
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.lifecycle.livedata)
+
+    // Kotlin / Coroutines
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.stdlib.jdk7)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    // implementation(libs.play.services.coroutines)
+    implementation(libs.kotlinx.serialization.json)
+
+    // Koin
+    implementation(libs.koin)
+    implementation(libs.koin.compose)
+
+    // Firebase
+    implementation(project.dependencies.platform(libs.firebase.bom))
+    implementation(libs.firebase.config)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.crashlytics.ndk)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.perf)
+
+    // Firebase open source
+    implementation(libs.firebase.open.source.config)
 
     // Utility
-    brCustomAndroidLintRules()
-    liveEventDependencies()
-    timberDependencies()
-    processPhoenixDependencies()
-    leakCanaryDependencies()
+    implementation(libs.accompanist.permissions)
+    implementation(libs.android.lint.rules)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.coil)
+    implementation(libs.ktor)
+    // implementation(libs.live.event)
+    implementation(libs.process.phoenix)
+    implementation(libs.timber)
 
-    // Test
-    junitDependencies()
-    mockitoKotlinDependencies()
-    truthDependencies()
-    archCoreTestingDependencies()
-    kotlinxCoroutineTestingDependencies()
-    turbineDependencies()
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
     // Android Test
-    espressoDependencies()
-    extJunitRunnerDependencies()
-    androidxCoreDependencies()
+    // androidTestImplementation(libs.androidx.junit.runner)
+    // androidTestImplementation(libs.androidx.junit.runner.ktx)
+    // androidTestImplementation(libs.androidx.test.core)
+    // androidTestImplementation(libs.androidx.test.core.ktx)
+    // androidTestImplementation(libs.androidx.test.espresso)
+    // androidTestImplementation(platform(libs.compose.bom))
+    // androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // test
+    // testImplementation(libs.androidx.arch.core.testing)
+    // testImplementation(libs.junit)
+    // testImplementation(libs.kotlinx.coroutines.test)
+    // testImplementation(libs.mockito)
+    // testImplementation(libs.mockk)
+    // testImplementation(libs.mockwebserver)
+    // testImplementation(libs.truth)
+    // testImplementation(libs.turbine)
+    // testImplementation(libs.koin.android.test)
+    coreLibraryDesugaring(libs.core.library.desugaring)
 }
