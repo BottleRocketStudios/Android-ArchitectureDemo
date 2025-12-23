@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.compose.auth
 
 import android.annotation.SuppressLint
+import android.graphics.Color.blue
 import android.net.Uri
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
@@ -32,6 +33,10 @@ import com.bottlerocketstudios.compose.widgets.SurfaceButton
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
@@ -52,13 +57,21 @@ fun AuthCodeScreen(state: AuthCodeState) {
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
-    AndroidView(factory = { context ->
+    AndroidView(
+        modifier = Modifier
+            .fillMaxSize(),
+        factory = { context ->
         WebView(context).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+            // TODO: Accompanist is deprecated for WebView support and whole WebView content is not visible.
+            // So, added Zoom controls to help with that. Need to figure out another solution later.
             settings.javaScriptEnabled = true
+            settings.loadWithOverviewMode = true
+            settings.useWideViewPort = true
+            settings.builtInZoomControls = true
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
