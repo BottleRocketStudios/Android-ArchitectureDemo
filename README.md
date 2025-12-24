@@ -78,6 +78,7 @@ This project uses the `generateNavDrawerItems` method in the `ComposeActivity` t
     * positive CTA text/click callback
     * (optional) negative CTA text/click callback
     * cancelOnTouchOutside (Boolean)
+* WebView formatting issue on AuthCodeScreen
 
 ## LaunchPad Development
 Uncomment mavenLocal in main build.gradle.kts to test local library changes.

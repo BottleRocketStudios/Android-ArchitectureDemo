@@ -47,33 +47,14 @@ Dev team :)
 * `.idea/runConfigurations/*`- This folder contains all of the shared project run configurations. To share a Run Configuration with the team, check the `Store as project file` checkbox in the Edit Run Configuration window.
 
 ## Build
-### Using dependency configurations in `buildSrc/.../Dependencies.kt`
-As you add new dependencies, you might run across a configuration not supported in the Dependencies.kt `fun DependencyHandler.fooDependencies() {...}` function body (such as `compileOnly`).
-If you cmd+click on any existing configuration (such as `debugImplementation` or `api`), you will see that the implementation actually lives in `DependencyHandlerUtils.kt`.
-This was copy/pasted from the source file that backs the configuration present in a standard build.gradle.kts dependencies block that is unfortunately inaccessible in `buildSrc` kotlin files.
-These configurations must be brought in as mentioned below.
-
-### Adding a new configuration
-Here is an example flow to add a new configuration to `DependencyHandlerUtils.kt`
-
-1. In `Dependencies.kt`, you want to add the following block but see a compilation error (`unresolved reference: compileOnly`):
-
-```kotlin
-fun DependencyHandler.fooDependencies() {
-    compileOnly(Libraries.FOO)
-}
-```
-
-2. Copy/paste `compileOnly(Libraries.FOO)` to the `:app` build.gradle.kts dependencies block and cmd+click on `compileOnly`
-3. Copy the `compileOnly` extension function source and paste into `DependencyHandlerUtils.kt`
-4. Remove the line from the `:app` build.gradle.kts (in step 2)
-5. Navigate back to`Dependencies.kt` (step 1) and observe the block has no compilation error.
-6. You're done!
+### Migrated to Versions Catalog: `libs.versions.toml`
+* `buildSrc` (legacy approach) is no longer used for dependency/version management.
+* All dependencies and their versions are now declared in the `libs.versions.toml` file located in the `gradle` folder at the root of the project.
 
 ### Use `ksp` in place of `kapt`
 * Favor usage of `ksp` over `kapt` as [it is faster](https://android-developers.googleblog.com/2021/09/accelerated-kotlin-build-times-with.html)
 * [Supported libs](https://kotlinlang.org/docs/ksp-overview.html#supported-libraries)
-* More links in the ksp declaration in `Dependencies.kt`
+* More links in the ksp declaration in `libs.versions.toml`
 
 ## Code
 ### Style

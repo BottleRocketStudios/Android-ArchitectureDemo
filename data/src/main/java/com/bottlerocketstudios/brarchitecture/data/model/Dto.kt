@@ -9,5 +9,5 @@ package com.bottlerocketstudios.brarchitecture.data.model
  *
  */
 // TODO: Mark all network/database models as DTOs, refactor existing model names to use a DTO suffix, create corresponding DomainModels,
-//  create Moshi adapters to convert to/from each DTO<->DomainModel, and expose only DomainModels from the :data module (DTOs are implementation details of :data)
+// Moshi/Retrofit is replaced with Kotlinx Serialization.
 interface Dto

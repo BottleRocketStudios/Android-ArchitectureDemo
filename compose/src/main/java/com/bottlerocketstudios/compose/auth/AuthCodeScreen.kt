@@ -66,7 +66,8 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            // TODO: Accompanist is deprecated for WebView support and whole WebView content is not visible.
+            // TODO: Sometimes user is prompted to grant access to repos.
+            // Accompanist is deprecated for WebView support and whole WebView content is not visible.
             // So, added Zoom controls to help with that. Need to figure out another solution later.
             settings.javaScriptEnabled = true
             settings.loadWithOverviewMode = true
