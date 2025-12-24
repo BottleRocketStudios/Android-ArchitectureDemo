@@ -1,4 +1,11 @@
 # Bottle Rocket Android Architecture Guidelines
+This is a sample project to demonstrate the architecture of an Android app. It demonstrates accessing BitBucket API and displaying the repositories, pull requests, and snippets.
+
+## Features
+- Jetpack Compose (Material 3) - UI
+- Ktor - HTTP Client
+- Compose Navigation 2 (TODO upgrade to Compose Navigation 3)
+- 
 
 ## How to Open Project in Android Studio
 * Clone project to local machine
