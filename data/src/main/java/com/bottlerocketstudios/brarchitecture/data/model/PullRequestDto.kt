@@ -1,29 +1,30 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class PullRequestDto(
-    @Json(name = "author") val author: AuthorDto?,
-    @Json(name = "comment_count") val commentCount: Long?,
-    @Json(name = "closed_by") val closedBy: ClosedByDto?,
-    @Json(name = "closed_source_branch") val closedSourceBranch: Boolean?,
-    @Json(name = "created_on") val createdOn: ZonedDateTime?,
-    @Json(name = "description") val description: String?,
-    @Json(name = "destination") val destination: DestinationDto?,
-    @Json(name = "id") val id: Long?,
-    @Json(name = "links") val links: PrLinksDto?,
-    @Json(name = "merge_commit") val mergeCommitDto: MergeCommitDto?,
-    @Json(name = "reason") val reason: String?,
-    @Json(name = "source") val source: SourceDto?,
-    @Json(name = "state") val state: String?,
-    @Json(name = "summary") val summary: SummaryDto?,
-    @Json(name = "task_count") val taskCount: Long?,
-    @Json(name = "title") val title: String?,
-    @Json(name = "updated_on") val updatedOn: ZonedDateTime?,
+    @SerialName("author") val author: AuthorDto?,
+    @SerialName("comment_count") val commentCount: Long?,
+    @SerialName("closed_by") val closedBy: ClosedByDto?,
+    @SerialName("closed_source_branch") val closedSourceBranch: Boolean?,
+    @SerialName("created_on") @Contextual val createdOn: ZonedDateTime?,
+    @SerialName("description") val description: String?,
+    @SerialName("destination") val destination: DestinationDto?,
+    @SerialName("id") val id: Long?,
+    @SerialName("links") val links: PrLinksDto?,
+    @SerialName("merge_commit") val mergeCommitDto: MergeCommitDto?,
+    @SerialName("reason") val reason: String?,
+    @SerialName("source") val source: SourceDto?,
+    @SerialName("state") val state: String?,
+    @SerialName("summary") val summary: SummaryDto?,
+    @SerialName("task_count") val taskCount: Long?,
+    @SerialName("title") val title: String?,
+    @SerialName("updated_on") @Contextual val updatedOn: ZonedDateTime?,
 ) : Parcelable, Dto

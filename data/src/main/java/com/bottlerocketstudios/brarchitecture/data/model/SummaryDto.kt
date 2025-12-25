@@ -1,15 +1,15 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class SummaryDto(
-    @Json(name = "type") val type: String?,
-    @Json(name = "raw") val raw: String?,
-    @Json(name = "markup") val markUp: String?,
-    @Json(name = "html") val html: String?, // Note: value contains html paragraph tags <p> </p>
+    @SerialName("type") val type: String?,
+    @SerialName("raw") val raw: String?,
+    @SerialName("markup") val markUp: String?,
+    @SerialName("html") val html: String?, // Note: value contains html paragraph tags <p> </p>
 ) : Parcelable, Dto

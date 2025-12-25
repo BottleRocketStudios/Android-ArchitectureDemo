@@ -22,7 +22,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
@@ -37,7 +37,7 @@ fun FeatureToggleScreen(state: FeatureToggleState) {
                     items(toggleList.filterIsInstance<FeatureToggle.ToggleValueBoolean>()) { toggle ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column {
-                                Text(toggle.name, style = MaterialTheme.typography.h5.bold(), modifier = Modifier.fillMaxHeight())
+                                Text(toggle.name, style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold), modifier = Modifier.fillMaxHeight())
                                 if (toggle.isValueOverridden()) {
                                     Text(text = "Default Overridden", style = MaterialTheme.typography.h6)
                                 }
@@ -59,7 +59,7 @@ fun FeatureToggleScreen(state: FeatureToggleState) {
                             Column(
                                 modifier = Modifier
                             ) {
-                                Text(toggle.name, style = MaterialTheme.typography.h5.bold())
+                                Text(toggle.name, style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold))
                                 if (toggle.isValueOverridden()) {
                                     Text("Default Overridden", style = MaterialTheme.typography.h6)
                                 }

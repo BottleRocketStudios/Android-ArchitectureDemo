@@ -1,14 +1,14 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class CommitRepositoryDto(
-    @Json(name = "name") val name: String?,
-    @Json(name = "full_name") val fullName: String?,
-    @Json(name = "type") val type: String?
+    @SerialName("name") val name: String?,
+    @SerialName("full_name") val fullName: String?,
+    @SerialName("type") val type: String?
 ) : Parcelable, Dto

@@ -1,20 +1,21 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class CommitDto(
-    @Json(name = "parents") val parents: List<CommitDto>?,
-    @Json(name = "date") val date: ZonedDateTime?,
-    @Json(name = "message") val message: String?,
-    @Json(name = "type") val type: String?,
-    @Json(name = "hash") val hash: String?,
-    @Json(name = "author") val author: AuthorDto?,
-    @Json(name = "repository") val commitRepository: CommitRepositoryDto?,
-    @Json(name = "links") val links: LinksDto?,
+    @SerialName("parents") val parents: List<CommitDto>?,
+    @SerialName("date") @Contextual val date: ZonedDateTime?,
+    @SerialName("message") val message: String?,
+    @SerialName("type") val type: String?,
+    @SerialName("hash") val hash: String?,
+    @SerialName("author") val author: AuthorDto?,
+    @SerialName("repository") val commitRepository: CommitRepositoryDto?,
+    @SerialName("links") val links: LinksDto?,
 ) : Parcelable, Dto

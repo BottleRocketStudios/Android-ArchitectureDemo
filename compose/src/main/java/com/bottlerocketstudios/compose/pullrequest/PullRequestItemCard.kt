@@ -22,7 +22,7 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewComposable
 import com.bottlerocketstudios.compose.util.ResponsiveText
 import com.bottlerocketstudios.compose.util.asMutableState
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun PullRequestItemCard(state: PullRequestItemState) {
@@ -56,7 +56,7 @@ fun PullRequestItemCard(state: PullRequestItemState) {
                     )
                 }
                 Row(modifier = Modifier.padding(top = Dimens.grid_0_5)) {
-                    Text(text = state.prState.value, style = typography.body1.bold())
+                    Text(text = state.prState.value, style = typography.body1.copy(fontWeight = FontWeight.Bold))
                 }
                 Row(
                     modifier = Modifier.padding(top = Dimens.grid_1, bottom = Dimens.grid_1),

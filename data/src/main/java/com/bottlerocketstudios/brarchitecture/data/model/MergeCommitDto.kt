@@ -1,14 +1,14 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class MergeCommitDto(
-    @Json(name = "type") val type: String?,
-    @Json(name = "hash") val hash: String?,
-    @Json(name = "links") val links: PrLinksDto?
+    @SerialName("type") val type: String?,
+    @SerialName("hash") val hash: String?,
+    @SerialName("links") val links: PrLinksDto?
 ) : Parcelable, Dto

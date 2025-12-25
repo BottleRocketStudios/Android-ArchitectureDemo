@@ -8,24 +8,29 @@ import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentReposi
 import com.bottlerocketstudios.brarchitecture.data.environment.EnvironmentRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapper
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImpl
-import com.bottlerocketstudios.brarchitecture.data.network.BitbucketServiceFactory
-import com.bottlerocketstudios.brarchitecture.data.network.TokenAuthServiceFactory
+import com.bottlerocketstudios.brarchitecture.data.network.BitbucketHttpClientFactory
+import com.bottlerocketstudios.brarchitecture.data.network.BitbucketServiceKtor
+import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthServiceKtor
 import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.repository.FeatureToggleRepositoryImpl
-import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeAdapter
-import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertyAdapter
+import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeSerializer
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.squareup.moshi.Moshi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.contextual
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import com.bottlerocketstudios.brarchitecture.data.serialization.ValidCredentialSerializer
+import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import java.time.Clock
+import java.time.ZonedDateTime
 
 /** General app configuration (repositories/viewmodels/etc) */
 object DataModule {
@@ -33,12 +38,21 @@ object DataModule {
         // Clock for injectable time that can be replaced in tests
         single<Clock> { Clock.systemDefaultZone() }
         single<DispatcherProvider> { DispatcherProviderImpl() }
-        single<Moshi> { Moshi.Builder().add(DateTimeAdapter(clock = get())).add(ProtectedPropertyAdapter()).build() }
+// ... inside module ...
+        single<Json> {
+            Json {
+                ignoreUnknownKeys = true
+                serializersModule = SerializersModule {
+                    contextual(ZonedDateTime::class, DateTimeSerializer(clock = get()))
+                    contextual(ValidCredentialModel::class, ValidCredentialSerializer)
+                }
+            }
+        }
         single<BitbucketRepository> { BitbucketRepositoryImpl() }
-        single<FeatureToggleRepository> { FeatureToggleRepositoryImpl(moshi = get()) }
+        single<FeatureToggleRepository> { FeatureToggleRepositoryImpl(json = get()) }
         single<EnvironmentRepository> { EnvironmentRepositoryImpl(sharedPrefs = get(named(KoinNamedSharedPreferences.Environment)), buildConfigProvider = get()) }
         single<ForceCrashLogic> { ForceCrashLogicImpl(buildConfigProvider = get()) }
-        single { BitbucketCredentialsRepository(context = androidContext(), moshi = get()) }
+        single { BitbucketCredentialsRepository(context = androidContext(), json = get()) }
         single<ResponseToApiResultMapper> { ResponseToApiResultMapperImpl() }
         single<SharedPreferences>(named(KoinNamedSharedPreferences.Environment)) {
             androidContext().getSharedPreferences("dev_options_prefs", Context.MODE_PRIVATE)
@@ -55,13 +69,16 @@ enum class KoinNamedSharedPreferences {
 /** General network configuration. Always include with either [BasicAuthModule] or [TokenAuthModule] */
 object NetworkModule {
     val module = module {
-        single { BitbucketServiceFactory().produce() }
+        single { BitbucketHttpClientFactory() }
+        single(named("api")) { get<BitbucketHttpClientFactory>().apiClient }
+        single(named("auth")) { get<BitbucketHttpClientFactory>().authClient }
+        single { BitbucketServiceKtor() }
     }
 }
 
 /** Token auth only configuration. Use this or [BasicAuthModule], never both. **/
 object TokenAuthModule {
     val module = module {
-        single { TokenAuthServiceFactory().produce() }
+        single { TokenAuthServiceKtor() }
     }
 }

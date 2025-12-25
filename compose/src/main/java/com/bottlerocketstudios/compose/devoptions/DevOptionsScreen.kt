@@ -44,9 +44,7 @@ import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.widgets.PrimaryButton
-import com.bottlerocketstudios.launchpad.compose.bold
-import com.bottlerocketstudios.launchpad.compose.light
-import com.bottlerocketstudios.launchpad.compose.normal
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun DevOptionsScreen(state: DevOptionsState) {
@@ -167,7 +165,7 @@ private fun CardDivider(dividerColor: Color) {
 private fun CardTitle(cardTitle: String) {
     Text(
         cardTitle,
-        style = MaterialTheme.typography.h3.normal(),
+        style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Normal),
         modifier = Modifier
             .padding(bottom = Dimens.grid_1)
             .fillMaxWidth()
@@ -178,7 +176,7 @@ private fun CardTitle(cardTitle: String) {
 private fun TitleValueRow(title: String, entryValue: String) {
     Text(
         title,
-        style = MaterialTheme.typography.h3.bold(),
+        style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold),
         modifier = Modifier
             .padding(
                 top = Dimens.grid_1,
@@ -189,7 +187,7 @@ private fun TitleValueRow(title: String, entryValue: String) {
     )
     Text(
         entryValue,
-        style = MaterialTheme.typography.h3.light(),
+        style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Light),
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
@@ -264,12 +262,12 @@ fun EnvironmentList(text: String, expanded: Boolean, onClick: () -> Unit) {
         ) {
             Text(
                 text = "Environment Switcher",
-                style = MaterialTheme.typography.h5.normal(),
+                style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Normal),
                 color = if (expanded) MaterialTheme.colors.primary else Color.Unspecified
             )
             Text(
                 text = text,
-                style = MaterialTheme.typography.h4.normal()
+                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Normal)
             )
         }
 

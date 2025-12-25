@@ -7,12 +7,12 @@ import com.bottlerocketstudios.brarchitecture.ui.MainWindowControls
 import com.bottlerocketstudios.brarchitecture.ui.Routes
 import com.bottlerocketstudios.compose.repository.RepositoryBranchesScreen
 import com.bottlerocketstudios.launchpad.compose.util.LaunchCollection
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.repositoryBranchesComposable(controls: MainWindowControls) {
     composable(Routes.Branches) {
-        val viewModel: RepositoryBranchesViewModel = getViewModel()
-        val activityViewModel: ComposeActivityViewModel = getViewModel()
+        val viewModel: RepositoryBranchesViewModel = koinViewModel()
+        val activityViewModel: ComposeActivityViewModel = koinViewModel()
 
         // Update top level controls
         controls.reset()

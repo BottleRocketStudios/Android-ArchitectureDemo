@@ -31,8 +31,7 @@ import com.bottlerocketstudios.compose.util.Preview
 import com.bottlerocketstudios.compose.util.PreviewAll
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.widgets.OutlinedInputField
-import com.bottlerocketstudios.launchpad.compose.bold
-import com.bottlerocketstudios.launchpad.compose.normal
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun CreateSnippetScreen(state: CreateSnippetScreenState) {
@@ -95,7 +94,7 @@ fun CreateSnippetButton(createEnabled: Boolean, onCreateClicked: () -> Unit) {
             Text(
                 stringResource(id = R.string.create_snippet_button).uppercase(),
                 color = ArchitectureDemoTheme.colors.onPrimary,
-                style = MaterialTheme.typography.h3.bold()
+                style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Bold)
             )
         }
     }
@@ -111,7 +110,7 @@ fun FailedText(creationFailed: Boolean) {
     Text(
         text = text,
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.h4.normal(),
+        style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Normal),
         modifier = Modifier
             .padding(
                 start = Dimens.grid_7,

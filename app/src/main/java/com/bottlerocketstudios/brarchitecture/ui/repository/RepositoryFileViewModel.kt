@@ -3,7 +3,7 @@ package com.bottlerocketstudios.brarchitecture.ui.repository
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
-import com.bottlerocketstudios.brarchitecture.infrastructure.util.exhaustive
+
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +22,7 @@ class RepositoryFileViewModel : BaseViewModel() {
             when (result) {
                 is Status.Success -> srcFile.value = result.data
                 is Status.Failure -> handleError(R.string.error_loading_file)
-            }.exhaustive
+            }
 
             this@RepositoryFileViewModel.path.setValue(path)
         }

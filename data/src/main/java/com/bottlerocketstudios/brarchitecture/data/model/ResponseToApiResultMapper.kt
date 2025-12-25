@@ -2,64 +2,62 @@ package com.bottlerocketstudios.brarchitecture.data.model
 
 import com.bottlerocketstudios.brarchitecture.domain.models.ServerError
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
-import retrofit2.Response
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.isSuccess
 import timber.log.Timber
 
-/** Converts a retrofit response to a wrapped [Status] response */
+/** Converts a network response to a wrapped [Status] response */
 interface ResponseToApiResultMapper {
-    /** Convert from response to [Status] of the response */
-    fun <T : Any> toResult(response: Response<T>): Status<T>
+    /** Convert from Ktor HttpResponse to [Status] of the response */
+    suspend fun <T : Any> toResult(response: HttpResponse, body: T?): Status<T>
 
-    /** Convert from response to [Status] of Unit of the response. Use when you don't care about the actual success type. */
-    fun <T : Any> toEmptyResult(response: Response<T>): Status<Unit>
+    /** Convert from Ktor HttpResponse to [Status] of Unit of the response. Use when you don't care about the actual success type. */
+    suspend fun toEmptyResult(response: HttpResponse): Status<Unit>
 
-    /** Convert from response to [Status] of Unit of the response. Use when you don't care about the actual success type. */
-    fun <T : Any> toResponseCode(response: Response<T>): Status<Int>
+    /** Convert from Ktor HttpResponse to [Status] of Unit of the response. Use when you don't care about the actual success type. */
+    suspend fun toResponseCode(response: HttpResponse): Status<Int>
 }
 
 class ResponseToApiResultMapperImpl : ResponseToApiResultMapper {
 
-    override fun <T : Any> toResult(response: Response<T>): Status<T> {
+    override suspend fun <T : Any> toResult(response: HttpResponse, body: T?): Status<T> {
         return when {
-            response.isSuccessful -> {
-                val body = response.body()
+            response.status.isSuccess() -> {
                 if (body != null) {
                     Status.Success(body)
                 } else {
-                    Timber.w("[toResult] Response body null")
+                    Timber.w("[toResult (Ktor)] Response body null")
                     Status.Failure.GeneralFailure("null response body")
                 }
             }
             else -> {
-                Timber.w("[toResult] Api not successful: message ${response.message()} code: ${response.code()}")
+                Timber.w("[toResult (Ktor)] Api not successful: message ${response.status.description} code: ${response.status.value}")
                 Status.Failure.Server(generateServerError(response))
             }
         }
     }
 
-    override fun <T : Any> toEmptyResult(response: Response<T>): Status<Unit> {
+    override suspend fun toEmptyResult(response: HttpResponse): Status<Unit> {
         return when {
-            response.isSuccessful -> Status.Success(Unit)
+            response.status.isSuccess() -> Status.Success(Unit)
             else -> {
-                Timber.w("[toEmptyResult] Api not successful: message ${response.message()} code: ${response.code()}")
+                Timber.w("[toEmptyResult (Ktor)] Api not successful: message ${response.status.description} code: ${response.status.value}")
                 Status.Failure.Server(generateServerError(response))
             }
         }
     }
 
-    override fun <T : Any> toResponseCode(response: Response<T>): Status<Int> {
+    override suspend fun toResponseCode(response: HttpResponse): Status<Int> {
         return when {
-            response.isSuccessful -> Status.Success(response.code())
+            response.status.isSuccess() -> Status.Success(response.status.value)
             else -> {
-                Timber.w("[toResponseCode] Api not successful: message ${response.message()} code: ${response.code()}")
+                Timber.w("[toResponseCode (Ktor)] Api not successful: message ${response.status.description} code: ${response.status.value}")
                 Status.Failure.Server(generateServerError(response))
             }
         }
     }
 
-    /** Determines the correct error response format, deserializes it, and converts it to a [ServerErrorDto] */
-    private fun <T> generateServerError(response: Response<T>): ServerError {
-        // Add any custom error response parsing logic here as needed
-        return ServerError(httpErrorCode = response.code(), status = response.message())
+    private fun generateServerError(response: HttpResponse): ServerError {
+        return ServerError(httpErrorCode = response.status.value, status = response.status.description)
     }
 }

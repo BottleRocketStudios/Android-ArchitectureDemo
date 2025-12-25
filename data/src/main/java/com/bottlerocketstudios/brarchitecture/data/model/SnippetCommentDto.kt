@@ -1,38 +1,39 @@
 package com.bottlerocketstudios.brarchitecture.data.model
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class SnippetCommentDto(
-    @Json(name = "id") val id: Int? = null,
-    @Json(name = "created_on") val created: ZonedDateTime? = null,
-    @Json(name = "updated_on") val updated: ZonedDateTime? = null,
-    @Json(name = "content") val content: SnippetCommentContentDto? = null,
-    @Json(name = "user") val user: UserDto? = null,
-    @Json(name = "deleted") val deleted: Boolean? = null,
-    @Json(name = "parent") val parent: ParentSnippetCommentDto? = null,
-    @Json(name = "links") val links: LinksDto? = null,
-    @Json(name = "type") val type: String? = null,
-    @Json(name = "snippet") val snippet: SnippetDto? = null
+    @SerialName("id") val id: Int? = null,
+    @SerialName("created_on") @Contextual val created: ZonedDateTime? = null,
+    @SerialName("updated_on") @Contextual val updated: ZonedDateTime? = null,
+    @SerialName("content") val content: SnippetCommentContentDto? = null,
+    @SerialName("user") val user: UserDto? = null,
+    @SerialName("deleted") val deleted: Boolean? = null,
+    @SerialName("parent") val parent: ParentSnippetCommentDto? = null,
+    @SerialName("links") val links: LinksDto? = null,
+    @SerialName("type") val type: String? = null,
+    @SerialName("snippet") val snippet: SnippetDto? = null
 ) : Parcelable, Dto
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class SnippetCommentContentDto(
-    @Json(name = "type") val type: String? = null,
-    @Json(name = "raw") val raw: String? = null,
-    @Json(name = "markup") val markup: String? = null,
-    @Json(name = "html") val html: String? = null
+    @SerialName("type") val type: String? = null,
+    @SerialName("raw") val raw: String? = null,
+    @SerialName("markup") val markup: String? = null,
+    @SerialName("html") val html: String? = null
 ) : Parcelable, Dto
 
-@JsonClass(generateAdapter = true)
+@Serializable
 @Parcelize
 data class ParentSnippetCommentDto(
-    @Json(name = "id") val id: Int? = null,
-    @Json(name = "links") val links: LinksDto? = null,
+    @SerialName("id") val id: Int? = null,
+    @SerialName("links") val links: LinksDto? = null,
 ) : Parcelable, Dto

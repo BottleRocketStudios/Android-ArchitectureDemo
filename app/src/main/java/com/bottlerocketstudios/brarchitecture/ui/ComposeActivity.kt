@@ -137,7 +137,7 @@ class ComposeActivity : ComponentActivity() {
                 selected = getTopRoute(currentRoute) == Routes.Home,
                 nestedMenuItems = if (showHomeSubList && getTopRoute(currentRoute) == Routes.Home) listOf(
                     NavItemState(
-                        icon = R.drawable.ic_source,
+                        icon = R.drawable.ic_projects,
                         itemText = R.string.home_nav_source,
                         selected = currentRoute == Routes.RepositoryBrowser(),
                     ) {
@@ -145,7 +145,7 @@ class ComposeActivity : ComponentActivity() {
                         navController.navigate(Routes.RepositoryBrowser(RepositoryBrowserData(repoName = activityViewModel.selectedRepo.value.name ?: "")))
                     },
                     NavItemState(
-                        icon = R.drawable.ic_commit,
+                        icon = R.drawable.ic_pull_request,
                         itemText = R.string.home_nav_commits,
                         selected = currentRoute == Routes.Commits,
                     ) {
@@ -153,7 +153,7 @@ class ComposeActivity : ComponentActivity() {
                         navController.navigate(Routes.Commits)
                     },
                     NavItemState(
-                        icon = R.drawable.ic_branch,
+                        icon = R.drawable.ic_pull_request,
                         itemText = R.string.home_nav_branches,
                         selected = currentRoute == Routes.Branches,
                     ) {
@@ -182,7 +182,7 @@ class ComposeActivity : ComponentActivity() {
                 navController.navigate(Routes.Snippets)
             }.takeIf { showSnippets },
             NavItemState(
-                icon = R.drawable.ic_nav_profile,
+                icon = R.drawable.ic_home,
                 itemText = R.string.profile_title,
                 selected = currentRoute == Routes.Profile
             ) {

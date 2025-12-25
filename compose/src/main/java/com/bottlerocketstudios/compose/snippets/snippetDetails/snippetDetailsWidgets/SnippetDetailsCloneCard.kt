@@ -27,7 +27,7 @@ import com.bottlerocketstudios.compose.resources.Colors
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.util.Preview
-import com.bottlerocketstudios.launchpad.compose.bold
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun SnippetDetailsCloneCard(type: String, link: String) {
@@ -57,7 +57,7 @@ fun SnippetDetailsCloneCard(type: String, link: String) {
             ) {
                 Text(
                     text = type,
-                    style = typography.h3.bold().copy(color = Colors.tertiary),
+                    style = typography.h3.copy(fontWeight = FontWeight.Bold).copy(color = Colors.tertiary),
                 )
                 Icon(
                     imageVector = Icons.Default.ContentCopy,

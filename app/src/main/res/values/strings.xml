@@ -59,5 +59,9 @@
         <item quantity="one">%1$d day ago</item>
         <item quantity="other">%1$d days ago</item>
     </plurals>
+    <string name="home_branches_status_placeholder">Branches Status</string>
+    <string name="home_nav_source">Source</string>
+    <string name="home_nav_commits">Commits</string>
+    <string name="home_nav_branches">Branches</string>
 
 </resources>

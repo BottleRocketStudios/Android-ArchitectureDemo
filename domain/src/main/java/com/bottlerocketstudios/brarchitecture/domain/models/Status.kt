@@ -18,7 +18,7 @@ sealed class Status<out SUCCESS_TYPE : Any> {
         /** Network failures due to network timeout connection issues (no connection, airplane mode, wifi connected with no internet)  */
         data class NetworkTimeoutFailure(val exception: Exception) : Failure()
 
-        /** Retrofit+Moshi parse failures or other errors related to the api calls */
+        /** Ktor parse failures or other errors related to the api calls */
         data class Server(val error: ServerError?) : Failure()
 
         /** General failure type bucket */

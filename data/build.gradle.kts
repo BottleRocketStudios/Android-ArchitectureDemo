@@ -2,39 +2,43 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id(Config.ApplyPlugins.ANDROID_LIBRARY)
-    kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    id(Config.ApplyPlugins.KSP)
-    id(Config.ApplyPlugins.PARCELIZE)
-    id(Config.ApplyPlugins.GOOGLE_SERVICES)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.parcelize)
+    alias(libs.plugins.kotlinSerialization)
+    // id(Config.ApplyPlugins.GOOGLE_SERVICES)
 }
 
-extra.set("jacocoCoverageThreshold", 0.30.toBigDecimal()) // module specific code coverage verification threshold
-apply(from = "../jacocoModule.gradle")
+// extra.set("jacocoCoverageThreshold", 0.30.toBigDecimal()) // module specific code coverage verification threshold
+// apply(from = "../jacocoModule.gradle")
 
 val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.properties", rootProject) // TODO: TEMPLATE - Remove this value when creating a new project
 
 android {
-    compileSdk = Config.AndroidSdkVersions.COMPILE_SDK
-    buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
+    namespace = libs.versions.data.namespace.get()
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = Config.AndroidSdkVersions.MIN_SDK
-        targetSdk = Config.AndroidSdkVersions.TARGET_SDK
-        // As of AGP 7.0, versionName and versionCode have been removed from library modules: https://stackoverflow.com/a/67803541/201939
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         buildConfigField("String", "BITBUCKET_KEY", apikey.key)
         buildConfigField("String", "BITBUCKET_SECRET", apikey.secret)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("proguard-rules.pro")
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        // isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -106,41 +110,44 @@ class ApiKeyProperties(pathToProperties: String, project: Project) {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":domain")))
-    // TODO: List out each jar/aar explicitly to help avoid the danger of someone "slipping" a dangerous lib into the directory
-    //  implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":domain"))
+    implementation(libs.kotlin.stdlib.jdk7)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.serialization.json)
 
-    // Kotlin/coroutines
-    kotlinDependencies()
-    coroutineDependencies()
+    // Koin
+    implementation(libs.koin)
+    implementation(libs.timber)
 
-    // AndroidX
-    coreKtxDependencies()
-    securityCryptoDependencies()
+    // Ktor HTTP client
+    implementation(libs.ktor)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.serialization.json)
+    implementation(libs.ktor.client.auth)
+    implementation(libs.ktor.logging)
 
-    koinDependencies()
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging.interceptor)
 
-    coreLibraryDesugaringDependencies()
-
-    // Networking/parsing
-    retrofitDependencies()
-    moshiDependencies()
-
-    // Utility
-    brCustomAndroidLintRules()
-    liveEventDependencies()
-    timberDependencies()
-    commonsCodecDependencies()
-    chuckerDependencies(devConfigurations = devConfigurations, productionConfiguration = productionReleaseImplementation)
-
-    // Test
-    junitDependencies()
-    mockitoKotlinDependencies()
-    truthDependencies()
-    archCoreTestingDependencies()
-    kotlinxCoroutineTestingDependencies()
-    turbineDependencies()
+    implementation(libs.chucker)
+    implementation(libs.base64)
+    implementation(libs.security.crypto)
 
     // Firebase
-    firebaseDependencies()
+    implementation(project.dependencies.platform(libs.firebase.bom))
+    implementation(libs.firebase.config)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.crashlytics.ndk)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.perf)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockk)
+    testImplementation(libs.truth)
 }

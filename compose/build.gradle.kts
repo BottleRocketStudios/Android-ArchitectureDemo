@@ -1,45 +1,39 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
-    id(Config.ApplyPlugins.ANDROID_LIBRARY)
-    kotlin(Config.ApplyPlugins.Kotlin.ANDROID)
-    id(Config.ApplyPlugins.KSP)
-    id(Config.ApplyPlugins.PARCELIZE)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.parcelize)
+    // alias(libs.plugins.screenshot)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ktLint)
 }
 
-extra.set("jacocoCoverageThreshold", 0.00.toBigDecimal()) // module specific code coverage verification threshold - TODO: Update once Robolectric added and/or instrumentation tests work on CI
-apply(from = "../jacocoModule.gradle")
-
 android {
-    compileSdk = Config.AndroidSdkVersions.COMPILE_SDK
-    buildToolsVersion = Config.AndroidSdkVersions.BUILD_TOOLS
+    namespace = libs.versions.compose.namespace.get()
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = Config.AndroidSdkVersions.MIN_SDK
-        targetSdk = Config.AndroidSdkVersions.TARGET_SDK
-        // As of AGP 7.0, versionName and versionCode have been removed from library modules: https://stackoverflow.com/a/67803541/201939
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("proguard-rules.pro")
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        // isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures {
-        compose = true // Enables Jetpack Compose for this module
+        buildConfig = true
+        compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Config.Compose.COMPOSE_COMPILER_VERSION
-    }
-    lint {
-        // TODO: Remove once Timber is updated past 4.7.1 with AGP 7.0.0 related lint fixes: https://github.com/JakeWharton/timber/issues/408
-        disable.addAll(
-            setOf("LogNotTimber", "StringFormatInTimber", "ThrowableNotAtBeginning", "BinaryOperationInTimber", "TimberArgCount", "TimberArgTypes", "TimberTagLength", "TimberExceptionLogging")
-        )
-    }
+
 
     buildTypes {
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
@@ -70,43 +64,82 @@ android {
     }
 }
 
-// Declare configurations per variant to use in the dependencies block below. More info: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/#custom_configurations_and_dependencies
-private val internalDebugImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalDebugMiniImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
-val productionReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
+ktlint {
+    version = libs.versions.ktlint.version
+    verbose = true // useful for debugging
+    android = true
+    outputToConsole = true
+    ignoreFailures = false
 
-/** List of all buildable dev configurations */
-val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
+    reporters {
+        reporter(ReporterType.PLAIN) // Output KtLint results in plain text format
+        reporter(ReporterType.HTML) // Output KtLint results in HTML format
+    }
+}
 
 dependencies {
-    implementation(project(mapOf("path" to ":domain")))
-    implementation("androidx.navigation:navigation-runtime-ktx:2.4.2")
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
-    // Koin - Dependency Injection
-    koinDependencies()
+    // AppCompat
+    implementation(libs.androidx.appcompat)
 
-    // LaunchPad - Starting Assets
-    launchPadDependencies()
+    // Compose
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.activity)
+    implementation(libs.compose.animation)
 
-    // Accompanist
-    accompanistDependencies()
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.material.ripple)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material3.window.size)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.runtime.livedata)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.constraint.layout)
+    // implementation(libs.lottie.compose)
 
-    // AndroidX
-    composeDependencies()
-
-    // Coil
-    coilDependencies()
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
 
     // Utility
-    brCustomAndroidLintRules()
-    timberDependencies()
+    implementation(libs.android.lint.rules)
+    implementation(libs.timber)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
 
-    // Test
-    junitDependencies()
-    mockitoKotlinDependencies()
-    truthDependencies()
-    coreLibraryDesugaringDependencies()
-    composeTestDependencies()
-    truthAndroidTestDependencies()
+    // Firebase
+//    implementation(project.dependencies.platform(libs.firebase.bom))
+//    implementation(libs.firebase.config)
+//    implementation(libs.firebase.analytics)
+
+    // Firebase open source
+    // implementation(libs.firebase.open.source.config)
+    // implementation(libs.compose.constraint.layout)
+    // implementation(libs.compose.constraint.layout.android)
+    // implementation(libs.compose.constraint.layout.core)
+    // implementation(libs.androidx.constraintlayout)
+
+    // Testing
+    // androidTestImplementation(platform(libs.compose.bom))
+    // androidTestImplementation(libs.compose.ui.test.junit4)
+    // androidTestImplementation(libs.compose.ui.test.manifest)
+    // androidTestImplementation(libs.androidx.test.core)
+    // androidTestImplementation(libs.androidx.test.core.ktx)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito)
+    testImplementation(libs.truth)
+    testImplementation(libs.koin.android.test)
+    implementation(libs.koin)
+    implementation(libs.koin.compose)
+    implementation(libs.androidx.navigation)
+    coreLibraryDesugaring(libs.core.library.desugaring)
 }

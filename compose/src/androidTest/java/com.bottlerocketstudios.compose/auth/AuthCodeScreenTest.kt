@@ -10,9 +10,7 @@ import androidx.compose.ui.test.performClick
 import com.bottlerocketstudios.compose.R
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
 import com.bottlerocketstudios.compose.util.asMutableState
-import com.google.accompanist.web.WebViewNavigator
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
+
 import org.junit.Rule
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
@@ -22,9 +20,7 @@ class AuthCodeScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val testDispatcher = StandardTestDispatcher()
-    private val testScope = TestScope(testDispatcher)
-    private val webViewNavigator = WebViewNavigator(testScope)
+
 
     @Test
     fun authCodeScreenImage_containsContentDescription_andIsDisplayed() {
@@ -41,7 +37,7 @@ class AuthCodeScreenTest {
 
         composeTestRule.setContent {
             ArchitectureDemoTheme {
-                AuthCodeScreen(state, webViewNavigator)
+                AuthCodeScreen(state)
             }
         }
 
@@ -66,7 +62,7 @@ class AuthCodeScreenTest {
 
         composeTestRule.setContent {
             ArchitectureDemoTheme {
-                AuthCodeScreen(state, webViewNavigator)
+                AuthCodeScreen(state)
             }
         }
 
@@ -91,7 +87,7 @@ class AuthCodeScreenTest {
 
         composeTestRule.setContent {
             ArchitectureDemoTheme {
-                AuthCodeScreen(state, webViewNavigator)
+                AuthCodeScreen(state)
             }
         }
 
@@ -118,7 +114,7 @@ class AuthCodeScreenTest {
 
         composeTestRule.setContent {
             ArchitectureDemoTheme {
-                AuthCodeScreen(state, webViewNavigator)
+                AuthCodeScreen(state)
             }
         }
 

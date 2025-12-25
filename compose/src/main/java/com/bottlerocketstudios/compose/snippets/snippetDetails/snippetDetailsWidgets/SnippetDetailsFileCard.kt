@@ -33,8 +33,7 @@ import com.bottlerocketstudios.compose.resources.typography
 import com.bottlerocketstudios.compose.snippets.snippetDetails.returnMockSnippetDetails
 import com.bottlerocketstudios.compose.util.convertToImageBitmap
 import com.bottlerocketstudios.compose.widgets.IconText
-import com.bottlerocketstudios.launchpad.compose.light
-import com.bottlerocketstudios.launchpad.compose.normal
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
@@ -64,7 +63,7 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
                     iconRes = R.drawable.ic_file,
                     iconColor = Colors.tertiary,
                     text = file.fileName,
-                    style = typography.h4.normal()
+                    style = typography.h4.copy(fontWeight = FontWeight.Normal)
                 )
                 OutlinedButton(
                     onClick = { expanded = !expanded },
@@ -109,7 +108,7 @@ fun RawFileData(byteArray: ByteArray) {
     } else {
         Text(
             text = byteArray.decodeToString(),
-            style = MaterialTheme.typography.h5.light(),
+            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Light),
             modifier = Modifier
                 .padding(Dimens.grid_2)
                 .fillMaxWidth()
