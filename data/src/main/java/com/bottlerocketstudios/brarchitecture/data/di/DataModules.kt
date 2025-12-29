@@ -21,14 +21,17 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.Dispatche
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProviderImpl
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertySerializer
 import com.bottlerocketstudios.brarchitecture.data.serialization.ValidCredentialSerializer
 import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
+import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
 import java.time.Clock
 import java.time.ZonedDateTime
 
@@ -45,6 +48,8 @@ object DataModule {
                 serializersModule = SerializersModule {
                     contextual(ZonedDateTime::class, DateTimeSerializer(clock = get()))
                     contextual(ValidCredentialModel::class, ValidCredentialSerializer)
+                    @Suppress("UNCHECKED_CAST")
+                    contextual(ProtectedProperty::class, ProtectedPropertySerializer as KSerializer<ProtectedProperty<*>>)
                 }
             }
         }

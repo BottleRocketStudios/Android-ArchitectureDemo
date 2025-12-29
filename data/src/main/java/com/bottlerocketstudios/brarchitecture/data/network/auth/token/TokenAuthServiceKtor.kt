@@ -15,6 +15,9 @@ import org.koin.core.component.inject
 internal class TokenAuthServiceKtor : KoinComponent {
 
     private val client: HttpClient by inject(org.koin.core.qualifier.named("auth")) // Inject the auth-specific client
+    
+    private val authHeader: String
+        get() = "Basic ${android.util.Base64.encodeToString("${com.bottlerocketstudios.brarchitecture.data.BuildConfig.BITBUCKET_KEY}:${com.bottlerocketstudios.brarchitecture.data.BuildConfig.BITBUCKET_SECRET}".toByteArray(), android.util.Base64.NO_WRAP)}"
 
     /**
      * Get an OAuth access token using an authorization code.
@@ -29,7 +32,9 @@ internal class TokenAuthServiceKtor : KoinComponent {
                 append("grant_type", grantType)
                 append("code", code)
             }
-        ).body()
+        ) {
+            header(HttpHeaders.Authorization, authHeader)
+        }.body()
     }
 
     /**
