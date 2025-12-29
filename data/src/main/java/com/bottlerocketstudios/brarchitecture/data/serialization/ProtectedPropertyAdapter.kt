@@ -10,7 +10,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 /** Supports serialization to ProtectedProperty/from json string directly in DTO models */
-class ProtectedPropertySerializer : KSerializer<ProtectedProperty<String>> {
+object ProtectedPropertySerializer : KSerializer<ProtectedProperty<String>> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ProtectedProperty", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: ProtectedProperty<String>) {

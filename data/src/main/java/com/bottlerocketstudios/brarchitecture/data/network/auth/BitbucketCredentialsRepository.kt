@@ -31,29 +31,45 @@ internal class BitbucketCredentialsRepository(context: Context, private val json
     }
 
     fun storeCredentials(credentials: ValidCredentialModel) {
-        encryptedSharedPrefs.edit().putString(BITBUCKET_CREDENTIALS, json.encodeToString(ValidCredentialSerializer, credentials)).apply()
+        val jsonString = json.encodeToString(ValidCredentialSerializer, credentials)
+        Timber.v("storeCredentials: encoding to %s", jsonString)
+        encryptedSharedPrefs.edit().putString(BITBUCKET_CREDENTIALS, jsonString).apply()
     }
 
     fun loadCredentials(): ValidCredentialModel? {
         val credentialsJson = encryptedSharedPrefs.getString(BITBUCKET_CREDENTIALS, null)
+        Timber.v("loadCredentials: raw JSON from prefs: %s", credentialsJson)
         return if (!credentialsJson.isNullOrEmpty()) {
-            json.decodeFromString(ValidCredentialSerializer, credentialsJson)
+            try {
+                json.decodeFromString(ValidCredentialSerializer, credentialsJson)
+            } catch (e: Exception) {
+                Timber.e(e, "Credentials repository could not decode credentials. JSON: %s", credentialsJson)
+                null
+            }
         } else {
-            Timber.e("Credentials repository could not load credentials")
+            Timber.w("Credentials repository could not load credentials - key not found or empty")
             null
         }
     }
 
     fun storeToken(token: AccessToken) {
-        encryptedSharedPrefs.edit().putString(BITBUCKET_TOKEN, json.encodeToString(token)).apply()
+        val jsonString = json.encodeToString(token)
+        Timber.v("storeToken: encoding to %s", jsonString)
+        encryptedSharedPrefs.edit().putString(BITBUCKET_TOKEN, jsonString).apply()
     }
 
     fun loadToken(): AccessToken? {
         val credentialsJson = encryptedSharedPrefs.getString(BITBUCKET_TOKEN, null)
+        Timber.v("loadToken: raw JSON from prefs: %s", credentialsJson)
         return if (!credentialsJson.isNullOrEmpty()) {
-            json.decodeFromString(credentialsJson)
+            try {
+                json.decodeFromString(credentialsJson)
+            } catch (e: Exception) {
+                Timber.e(e, "Credentials repository could not decode token. JSON: %s", credentialsJson)
+                null
+            }
         } else {
-            Timber.e("Credentials repository could not load credentials")
+            Timber.w("Credentials repository could not load token - key not found or empty")
             null
         }
     }
