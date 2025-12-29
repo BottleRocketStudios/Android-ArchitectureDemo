@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
-import com.bottlerocketstudios.brarchitecture.domain.models.Repository
 import com.bottlerocketstudios.brarchitecture.data.serialization.ValidCredentialSerializer
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
+import com.bottlerocketstudios.brarchitecture.domain.models.Repository
+import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 
