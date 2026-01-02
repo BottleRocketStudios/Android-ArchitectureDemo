@@ -44,9 +44,25 @@ class BitbucketHttpClientFactory : HttpClientFactory() {
      */
     val apiClient: HttpClient by lazy {
         HttpClient(OkHttp) {
+            engine {
+                addInterceptor { chain ->
+                    val request = chain.request()
+                    val response = chain.proceed(request)
+                    if (response.code == 401) {
+                        val authHeader = response.header("WWW-Authenticate")
+                        if (authHeader != null && authHeader.startsWith("OAuth")) {
+                            return@addInterceptor response.newBuilder()
+                                .header("WWW-Authenticate", authHeader.replaceFirst("OAuth", "Bearer"))
+                                .build()
+                        }
+                    }
+                    response
+                }
+            }
+
             defaultRequest {
                 url {
-                    protocol = URLProtocol.HTTPS  
+                    protocol = URLProtocol.HTTPS
                     host = "api.bitbucket.org"
                 }
             }
@@ -62,7 +78,7 @@ class BitbucketHttpClientFactory : HttpClientFactory() {
                     }
                 }
                 level = if (com.bottlerocketstudios.brarchitecture.data.BuildConfig.DEBUG) {
-                    LogLevel.HEADERS
+                    LogLevel.ALL
                 } else {
                     LogLevel.NONE
                 }
@@ -71,6 +87,7 @@ class BitbucketHttpClientFactory : HttpClientFactory() {
             // Bearer token authentication
             install(Auth) {
                 bearer {
+                    sendWithoutRequest { true }
                     loadTokens {
                         val token = credentialsRepo.loadToken()
                         token?.let {
@@ -80,13 +97,18 @@ class BitbucketHttpClientFactory : HttpClientFactory() {
                             )
                         }
                     }
-
                     refreshTokens {
                         val currentToken = credentialsRepo.loadToken()
                         val credentials = credentialsRepo.loadCredentials()
+                        Timber.v("Refreshing token: $currentToken")
 
-                        // If no refresh token, get a new token with credentials
-                        if (currentToken?.refreshToken?.value.isNullOrEmpty()) {
+                        val clientAuthHeader = "Basic " + android.util.Base64.encodeToString(
+                            "${com.bottlerocketstudios.brarchitecture.data.BuildConfig.BITBUCKET_KEY}:${com.bottlerocketstudios.brarchitecture.data.BuildConfig.BITBUCKET_SECRET}".toByteArray(),
+                            android.util.Base64.NO_WRAP
+                        )
+
+                        // Helper to perform password grant
+                        suspend fun refreshWithPassword(): BearerTokens? {
                             val response = authClient.submitForm(
                                 url = "https://bitbucket.org/site/oauth2/access_token",
                                 formParameters = parameters {
@@ -95,37 +117,49 @@ class BitbucketHttpClientFactory : HttpClientFactory() {
                                     append("password", credentials?.password?.value.orEmpty())
                                 }
                             ) {
-                                val authHeader = credentials?.let {
-                                    val authString = "${it.id.value}:${it.password.value}"
-                                    "Basic ${android.util.Base64.encodeToString(authString.toByteArray(), android.util.Base64.NO_WRAP)}"
-                                }
-                                authHeader?.let { header(HttpHeaders.Authorization, it) }
+                                header(HttpHeaders.Authorization, clientAuthHeader)
                             }
 
-                            val newToken = response.body<AccessToken>()
-                            credentialsRepo.storeToken(newToken)
+                            return if (response.status == HttpStatusCode.OK) {
+                                val newToken = response.body<AccessToken>()
+                                credentialsRepo.storeToken(newToken)
+                                BearerTokens(
+                                    accessToken = newToken.accessToken?.value.orEmpty(),
+                                    refreshToken = newToken.refreshToken?.value.orEmpty()
+                                )
+                            } else {
+                                Timber.e("Failed to refresh token with password grant. Status: ${response.status}")
+                                null
+                            }
+                        }
 
-                            BearerTokens(
-                                accessToken = newToken.accessToken?.value.orEmpty(),
-                                refreshToken = newToken.refreshToken?.value.orEmpty()
-                            )
-                        } else {
-                            // Use refresh token
+                        // Try refresh token first if available
+                        val refreshToken = currentToken?.refreshToken?.value
+                        if (!refreshToken.isNullOrEmpty()) {
                             val response = authClient.submitForm(
                                 url = "https://bitbucket.org/site/oauth2/access_token",
                                 formParameters = parameters {
                                     append("grant_type", "refresh_token")
-                                    append("refresh_token", currentToken.refreshToken?.value.orEmpty())
+                                    append("refresh_token", refreshToken)
                                 }
-                            )
+                            ) {
+                                header(HttpHeaders.Authorization, clientAuthHeader)
+                            }
 
-                            val newToken = response.body<AccessToken>()
-                            credentialsRepo.storeToken(newToken)
-
-                            BearerTokens(
-                                accessToken = newToken.accessToken?.value.orEmpty(),
-                                refreshToken = newToken.refreshToken?.value.orEmpty()
-                            )
+                            if (response.status == HttpStatusCode.OK) {
+                                val newToken = response.body<AccessToken>()
+                                credentialsRepo.storeToken(newToken)
+                                BearerTokens(
+                                    accessToken = newToken.accessToken?.value.orEmpty(),
+                                    refreshToken = newToken.refreshToken?.value.orEmpty()
+                                )
+                            } else {
+                                Timber.w("Refresh token failed (Status: ${response.status}), falling back to password grant")
+                                refreshWithPassword()
+                            }
+                        } else {
+                            // No refresh token, try password grant
+                            refreshWithPassword()
                         }
                     }
                 }

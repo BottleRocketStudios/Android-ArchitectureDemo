@@ -44,7 +44,7 @@ abstract class HttpClientFactory : KoinComponent {
                     }
                 }
                 level = if (com.bottlerocketstudios.brarchitecture.data.BuildConfig.DEBUG) {
-                    LogLevel.HEADERS
+                    LogLevel.ALL
                 } else {
                     LogLevel.NONE
                 }
