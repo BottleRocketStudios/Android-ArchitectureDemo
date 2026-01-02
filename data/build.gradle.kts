@@ -136,6 +136,10 @@ dependencies {
     implementation(libs.base64)
     implementation(libs.security.crypto)
 
+    // Google Credential Manager
+    implementation(libs.google.credentials)
+    implementation(libs.google.credentials.play.services.auth)
+
     // Firebase
     implementation(project.dependencies.platform(libs.firebase.bom))
     implementation(libs.firebase.config)
