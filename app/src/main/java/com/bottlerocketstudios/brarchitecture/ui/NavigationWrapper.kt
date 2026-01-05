@@ -36,7 +36,7 @@ fun NavigationWrapper(
         val currentRoute = navigator.backStack.lastOrNull() ?: Routes.Splash
 
         // For now, we reuse the navigation logic from ComposeActivity but adapted for Navigation 3
-        // In a real scenario, we might want to port IgniteNavigationRail etc. if they existed.
+        // In a real scenario, we might want to port NavigationRail etc. if they existed.
         // Here we will focus on the structure requested.
 
         val navigationType =
