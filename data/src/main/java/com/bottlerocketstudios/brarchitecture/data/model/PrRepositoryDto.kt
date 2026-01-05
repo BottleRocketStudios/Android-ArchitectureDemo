@@ -8,8 +8,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class PrRepositoryDto(
-    @SerialName("type") val type: String?,
-    @SerialName("full_name") val fullName: String?,
-    @SerialName("links") val links: LinksDto?,
-    @SerialName("uuid") val uuid: String?,
+        @SerialName("type") val type: String? = null,
+        @SerialName("full_name") val fullName: String? = null,
+        @SerialName("links") val links: LinksDto? = null,
+        @SerialName("uuid") val uuid: String? = null,
 ) : Parcelable, Dto

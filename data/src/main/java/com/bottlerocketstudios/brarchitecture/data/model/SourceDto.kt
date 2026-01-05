@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class SourceDto(
-    @SerialName("branch") val branch: BranchDto?,
-    @SerialName("commit") val commit: CommitDto?,
-    @SerialName("repository") val prRepository: PrRepositoryDto?,
+        @SerialName("branch") val branch: BranchDto? = null,
+        @SerialName("commit") val commit: CommitDto? = null,
+        @SerialName("repository") val prRepository: PrRepositoryDto? = null,
 ) : Parcelable, Dto

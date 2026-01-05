@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class CommitRepositoryDto(
-    @SerialName("name") val name: String?,
-    @SerialName("full_name") val fullName: String?,
-    @SerialName("type") val type: String?
+        @SerialName("name") val name: String? = null,
+        @SerialName("full_name") val fullName: String? = null,
+        @SerialName("type") val type: String? = null
 ) : Parcelable, Dto
