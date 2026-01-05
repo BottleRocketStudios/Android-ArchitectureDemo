@@ -1,29 +1,36 @@
 @file:Suppress("FunctionNaming")
+
 package com.bottlerocketstudios.brarchitecture.ui
 
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
+import kotlinx.serialization.Serializable
+
+interface NavKey {
+        interface TopLevel : NavKey
+        interface Shared : NavKey
+}
 
 object Routes {
-    const val Main = "main"
-    const val Home = "home"
-    const val Splash = "splash"
-    const val AuthCode = "authcode"
-    const val DevOptions = "devoptions"
-    const val Snippets = "snippets"
-    const val Profile = "profile"
-    const val PullRequests = "pullRequests"
-    const val Commits = "commits"
-    const val Branches = "branches"
-    const val Projects = "projects"
-    const val FeatureToggles = "featureToggles"
+        @Serializable object Main : NavKey
+        @Serializable object Home : NavKey, NavKey.TopLevel
+        @Serializable object Splash : NavKey
+        @Serializable object AuthCode : NavKey
+        @Serializable object DevOptions : NavKey
+        @Serializable object Snippets : NavKey, NavKey.TopLevel
+        @Serializable object Profile : NavKey, NavKey.TopLevel
+        @Serializable object PullRequests : NavKey, NavKey.TopLevel
+        @Serializable object Commits : NavKey
+        @Serializable object Branches : NavKey
+        @Serializable object Projects : NavKey, NavKey.TopLevel
+        @Serializable object FeatureToggles : NavKey
 
-    fun RepositoryBrowser(data: RepositoryBrowserData = RepositoryBrowserData("{repoName}", "{folderHash}", "{folderPath}")) =
-        "repository?repoName=${data.repoName}" +
-            (if (data.folderHash.orEmpty().isNotEmpty()) "&folderHash=${data.folderHash}" else "") +
-            (if (data.folderPath.orEmpty().isNotEmpty()) "&folderPath=${data.folderPath}" else "")
+        @Serializable
+        data class RepositoryBrowser(
+                val repoName: String = "",
+                val folderHash: String? = null,
+                val folderPath: String? = null
+        ) : NavKey
 
-    fun RepositoryFile(data: RepositoryFileData = RepositoryFileData("{hash}", "{path}", "{mimeType}")) =
-        "file?hash=${data.hash}&path=${data.path}" +
-            if (data.mimeType.isNotEmpty()) "&mimeType=${data.mimeType}" else ""
+        @Serializable
+        data class RepositoryFile(val hash: String, val path: String, val mimeType: String = "") :
+                NavKey
 }

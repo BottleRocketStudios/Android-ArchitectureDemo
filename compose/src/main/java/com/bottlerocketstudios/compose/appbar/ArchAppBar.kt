@@ -1,26 +1,25 @@
 package com.bottlerocketstudios.compose.appbar
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavHostController
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.material.TopAppBar
 import kotlinx.coroutines.launch
 
 @Composable
 fun ArchAppBar(
-    state: ArchAppBarState,
-    scaffoldState: ScaffoldState,
-    navController: NavHostController,
-    navIntercept: (() -> Boolean)?,
+        state: ArchAppBarState,
+        scaffoldState: ScaffoldState,
+        onBackPress: () -> Unit,
+        navIntercept: (() -> Boolean)?,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val topLevel = state.topLevel
@@ -28,33 +27,31 @@ fun ArchAppBar(
 
     AnimatedVisibility(visible = state.showToolbar.value) {
         TopAppBar(
-            title = {
-                Text(
-                    text = state.title.value,
-                    style = MaterialTheme.typography.h1
-                )
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = {
-                        // If user is at top of navigation, toggle side drawer
-                        if (topLevel.value) {
-                            coroutineScope.launch {
-                                scaffoldState.drawerState.apply {
-                                    if (isClosed) open() else close()
+                title = { Text(text = state.title.value, style = MaterialTheme.typography.h1) },
+                navigationIcon = {
+                    IconButton(
+                            onClick = {
+                                // If user is at top of navigation, toggle side drawer
+                                if (topLevel.value) {
+                                    coroutineScope.launch {
+                                        scaffoldState.drawerState.apply {
+                                            if (isClosed) open() else close()
+                                        }
+                                    }
+                                } else {
+                                    // Then check nav intercept. Otherwise navigate upwards.
+                                    if (navIntercept?.invoke() != true) {
+                                        onBackPress()
+                                    }
                                 }
                             }
-                        } else {
-                            // Then check nav intercept. Otherwise navigate upwards.
-                            if (navIntercept?.invoke() != true) {
-                                navController.popBackStack()
-                            }
-                        }
+                    ) {
+                        Icon(
+                                imageVector = navIcon,
+                                contentDescription = navIcon.name.split(".").lastOrNull()
+                        )
                     }
-                ) {
-                    Icon(imageVector = navIcon, contentDescription = navIcon.name.split(".").lastOrNull())
-                }
-            },
+                },
         )
     }
 }

@@ -5,33 +5,39 @@ import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_HASH
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_PATH
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO
 import com.bottlerocketstudios.brarchitecture.test.mocks.TEST_REPO_MIME
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryBrowserData
-import com.bottlerocketstudios.brarchitecture.ui.repository.RepositoryFileData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class RoutesTest : BaseTest() {
     @Test
-    fun repositoryBrowser_dataHasFields_shouldReturnFields() {
-        assertThat(Routes.RepositoryBrowser(RepositoryBrowserData(TEST_REPO, TEST_HASH, TEST_PATH)))
-            .isEqualTo("repository?repoName=$TEST_REPO&folderHash=$TEST_HASH&folderPath=$TEST_PATH")
+    fun repositoryBrowser_dataHasFields_shouldReturnCorrectRoutes() {
+        val route = Routes.RepositoryBrowser(TEST_REPO, TEST_HASH, TEST_PATH)
+        assertThat(route.repoName).isEqualTo(TEST_REPO)
+        assertThat(route.folderHash).isEqualTo(TEST_HASH)
+        assertThat(route.folderPath).isEqualTo(TEST_PATH)
     }
 
     @Test
-    fun repositoryBrowser_emptyDataFields_shouldReturnWithoutFields() {
-        assertThat(Routes.RepositoryBrowser(RepositoryBrowserData(TEST_REPO)))
-            .isEqualTo("repository?repoName=$TEST_REPO")
+    fun repositoryBrowser_emptyDataFields_shouldReturnCorrectRoutes() {
+        val route = Routes.RepositoryBrowser(TEST_REPO)
+        assertThat(route.repoName).isEqualTo(TEST_REPO)
+        assertThat(route.folderHash).isNull()
+        assertThat(route.folderPath).isNull()
     }
 
     @Test
-    fun repositoryFile_dataHasFields_shouldReturnFields() {
-        assertThat(Routes.RepositoryFile(RepositoryFileData(TEST_HASH, TEST_PATH, TEST_REPO_MIME)))
-            .isEqualTo("file?hash=$TEST_HASH&path=$TEST_PATH&mimeType=$TEST_REPO_MIME")
+    fun repositoryFile_dataHasFields_shouldReturnCorrectRoutes() {
+        val route = Routes.RepositoryFile(TEST_HASH, TEST_PATH, TEST_REPO_MIME)
+        assertThat(route.hash).isEqualTo(TEST_HASH)
+        assertThat(route.path).isEqualTo(TEST_PATH)
+        assertThat(route.mimeType).isEqualTo(TEST_REPO_MIME)
     }
 
     @Test
-    fun repositoryFile_noMimeType_shouldReturnWithoutMime() {
-        assertThat(Routes.RepositoryFile(RepositoryFileData(TEST_HASH, TEST_PATH, "")))
-            .isEqualTo("file?hash=$TEST_HASH&path=$TEST_PATH")
+    fun repositoryFile_noMimeType_shouldReturnCorrectRoutes() {
+        val route = Routes.RepositoryFile(TEST_HASH, TEST_PATH)
+        assertThat(route.hash).isEqualTo(TEST_HASH)
+        assertThat(route.path).isEqualTo(TEST_PATH)
+        assertThat(route.mimeType).isEqualTo("")
     }
 }
