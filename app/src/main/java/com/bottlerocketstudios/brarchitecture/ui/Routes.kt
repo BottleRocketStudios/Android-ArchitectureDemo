@@ -4,9 +4,11 @@ package com.bottlerocketstudios.brarchitecture.ui
 
 import kotlinx.serialization.Serializable
 
-interface NavKey {
-        interface TopLevel : NavKey
-        interface Shared : NavKey
+@Serializable
+sealed interface NavKey {
+        @Serializable sealed interface TopLevel : NavKey
+
+        @Serializable sealed interface Shared : NavKey
 }
 
 object Routes {
