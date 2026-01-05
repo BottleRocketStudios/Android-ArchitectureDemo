@@ -8,11 +8,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class AuthorDto(
-    @SerialName("user") val userInfo: UserDto?,
-    @SerialName("display_name") val displayName: String?,
-    @SerialName("links") val links: PrLinksDto?,
-    @SerialName("type") val type: String?,
-    @SerialName("uuid") val uuid: String?,
-    @SerialName("account_id") val accountId: String?,
-    @SerialName("nickname") val nickName: String?,
+        @SerialName("user") val userInfo: UserDto? = null,
+        @SerialName("display_name") val displayName: String? = null,
+        @SerialName("links") val links: PrLinksDto? = null,
+        @SerialName("type") val type: String? = null,
+        @SerialName("uuid") val uuid: String? = null,
+        @SerialName("account_id") val accountId: String? = null,
+        @SerialName("nickname") val nickName: String? = null,
 ) : Parcelable, Dto

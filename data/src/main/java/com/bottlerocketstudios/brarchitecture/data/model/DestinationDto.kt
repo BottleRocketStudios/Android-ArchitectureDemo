@@ -8,9 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class DestinationDto(
-    @SerialName("type") val type: String?,
-    @SerialName("raw") val raw: String?,
-    @SerialName("markup") val markUp: String?,
-    @SerialName("html") val createdOn: String?,
-    @SerialName("branch") val branch: BranchDto?,
+        @SerialName("branch") val branch: BranchDto? = null,
+        @SerialName("commit") val commit: CommitDto? = null,
+        @SerialName("repository") val prRepository: PrRepositoryDto? = null,
 ) : Parcelable, Dto

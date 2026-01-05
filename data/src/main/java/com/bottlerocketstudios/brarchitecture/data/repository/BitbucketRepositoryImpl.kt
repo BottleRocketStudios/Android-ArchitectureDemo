@@ -121,8 +121,10 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 wrapRepoExceptions("refreshMyRepos") {
                         val workspaceSlug =
                                 _workspaces.value.firstOrNull()?.slug ?: _user.value?.username ?: ""
+                        Timber.d("refreshMyRepos: workspaceSlug=$workspaceSlug")
                         val pagedResponse = bitbucketService.getRepositories(workspaceSlug)
                         _repos.value = pagedResponse.values.orEmpty()
+                        Timber.d("refreshMyRepos: fetched ${_repos.value.size} repositories")
                         Unit.asSuccess()
                 }
 
@@ -227,21 +229,28 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                         responseToApiResultMapper.toResult(response, response.readRawBytes())
                 }
 
-        override suspend fun getPullRequests(workspaceSlug: String): Status<List<PullRequest>> =
+        override suspend fun getPullRequests(workspaceSlug: String?): Status<List<PullRequest>> =
                 wrapRepoExceptions("getPullRequests") {
-                        val pagedResponse = bitbucketService.getPullRequests(workspaceSlug)
+                        val workspace = _workspaces.value.firstOrNull()?.slug ?: ""
+                        val repo =
+                                _repos.value.firstOrNull()?.slug
+                                        ?: _repos.value.firstOrNull()?.name ?: ""
+                        Timber.d("getPullRequests: workspace=$workspace, repo=$repo")
+                        val pagedResponse = bitbucketService.getPullRequests(workspace, repo)
                         val pullRequests = pagedResponse.values.orEmpty()
+                        Timber.d("getPullRequests: fetched ${pullRequests.size} pull requests")
                         _pullRequests.value = pullRequests
                         pullRequests.map { it.toPullRequest() }.asSuccess()
                 }
 
         override suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequest>> =
                 wrapRepoExceptions("getPullRequestsWithQuery") {
+                        val workspace = _workspaces.value.firstOrNull()?.slug ?: ""
+                        val repo =
+                                _repos.value.firstOrNull()?.slug
+                                        ?: _repos.value.firstOrNull()?.name ?: ""
                         val pagedResponse =
-                                bitbucketService.getPullRequestsWithQuery(
-                                        _user.value?.username.orEmpty(),
-                                        state
-                                )
+                                bitbucketService.getPullRequestsWithQuery(workspace, repo, state)
                         val pullRequests = pagedResponse.values.orEmpty()
                         _pullRequests.value = pullRequests
                         pullRequests.map { it.toPullRequest() }.asSuccess()

@@ -49,7 +49,7 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
                 hash: String,
                 path: String
         ): Status<ByteArray>
-        suspend fun getPullRequests(workspaceSlug: String): Status<List<PullRequest>>
+        suspend fun getPullRequests(workspaceSlug: String? = null): Status<List<PullRequest>>
         suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequest>>
         suspend fun createSnippet(
                 title: String,

@@ -53,7 +53,7 @@ class HomeViewModel : BaseViewModel() {
         viewModelScope.launch(dispatcherProvider.IO) {
             repo.refreshUser()
             repo.refreshMyRepos()
-            repo.getPullRequests(user.value?.username ?: "")
+            repo.getPullRequests()
         }
     }
 

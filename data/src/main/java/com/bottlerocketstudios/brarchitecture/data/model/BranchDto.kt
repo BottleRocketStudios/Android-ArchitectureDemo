@@ -8,6 +8,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class BranchDto(
-    @SerialName("name") val name: String?,
-    @SerialName("target") val target: TargetDto?
+        @SerialName("name") val name: String? = null,
+        @SerialName("target") val target: TargetDto? = null
 ) : Parcelable, Dto

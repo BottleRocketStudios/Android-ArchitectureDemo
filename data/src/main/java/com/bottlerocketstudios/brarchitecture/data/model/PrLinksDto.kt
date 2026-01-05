@@ -8,16 +8,16 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class PrLinksDto(
-    @SerialName("self") val self: LinkDto?,
-    @SerialName("html") val html: LinkDto?,
-    @SerialName("avatar") val avatar: LinkDto?,
-    @SerialName("commits") val commits: LinkDto?,
-    @SerialName("approve") val approve: LinkDto?,
-    @SerialName("request-changes") val requestChanges: LinkDto?,
-    @SerialName("diff") val diff: LinkDto?,
-    @SerialName("diffstat") val diffStat: LinkDto?,
-    @SerialName("activity") val activity: LinkDto?,
-    @SerialName("merge") val merge: LinkDto?,
-    @SerialName("decline") val decline: LinkDto?,
-    @SerialName("statuses") val statuses: LinkDto?,
+        @SerialName("self") val self: LinkDto? = null,
+        @SerialName("html") val html: LinkDto? = null,
+        @SerialName("avatar") val avatar: LinkDto? = null,
+        @SerialName("commits") val commits: LinkDto? = null,
+        @SerialName("approve") val approve: LinkDto? = null,
+        @SerialName("request-changes") val requestChanges: LinkDto? = null,
+        @SerialName("diff") val diff: LinkDto? = null,
+        @SerialName("diffstat") val diffStat: LinkDto? = null,
+        @SerialName("activity") val activity: LinkDto? = null,
+        @SerialName("merge") val merge: LinkDto? = null,
+        @SerialName("decline") val decline: LinkDto? = null,
+        @SerialName("statuses") val statuses: LinkDto? = null,
 ) : Parcelable, Dto
