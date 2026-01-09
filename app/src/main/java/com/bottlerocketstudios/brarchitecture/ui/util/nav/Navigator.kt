@@ -14,6 +14,8 @@ import androidx.savedstate.serialization.decodeFromSavedState
 import androidx.savedstate.serialization.encodeToSavedState
 import androidx.savedstate.write
 import com.bottlerocketstudios.brarchitecture.ui.NavKey
+import com.bottlerocketstudios.brarchitecture.ui.Routes
+import com.bottlerocketstudios.brarchitecture.ui.util.logger.TAG_NAV
 import timber.log.Timber
 
 /**
@@ -51,10 +53,14 @@ class Navigator(
     }
 
     private fun navlog(message: String) {
-        Timber.tag("NAV3").d(message)
+        Timber.tag(TAG_NAV).d(message)
     }
 
     private fun addTopLevel(route: NavKey) {
+        // Get rid of Splash from top level routes
+        if (startRoute == Routes.Splash) {
+            startRoute = Routes.Home
+        }
         if (canTopLevelRoutesExistTogether) {
             // Get the existing stack or create a new one.
             val topLevelStack = topLevelStacks.remove(route) ?: mutableListOf(route)
