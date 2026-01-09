@@ -4,12 +4,13 @@ import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepos
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
+import com.bottlerocketstudios.compose.util.toStringIdHelper
+import java.time.Clock
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
-import java.time.Clock
 
 class SnippetsViewModel : BaseViewModel() {
     // DI
@@ -17,30 +18,39 @@ class SnippetsViewModel : BaseViewModel() {
     private val repo: BitbucketRepository by inject()
 
     // UI
-    val snippets: Flow<List<SnippetUiModel>> = repo.snippets.map { snippets ->
-        snippets.map { snippet ->
-            SnippetUiModel(
-                id = snippet.id ?: "",
-                workspaceId = snippet.workspace?.slug ?: snippet.workspace?.uuid ?: "",
-                title = snippet.title ?: "",
-                userName = snippet.owner?.displayName ?: "",
-                formattedLastUpdatedTime = snippet.updated.formattedUpdateTime(clock = clock)
-            )
-        }
-    }
+    val snippets: Flow<List<SnippetUiModel>> =
+            repo.snippets.map { snippets ->
+                snippets.map { snippet ->
+                    SnippetUiModel(
+                            id = snippet.id ?: "",
+                            workspaceId = snippet.workspace?.slug ?: snippet.workspace?.uuid ?: "",
+                            title = snippet.title ?: "",
+                            userName = snippet.owner?.displayName ?: "",
+                            formattedLastUpdatedTime =
+                                    snippet.updated.formattedUpdateTime(clock = clock)
+                    )
+                }
+            }
 
     val snippetClick: MutableSharedFlow<SnippetUiModel> = MutableSharedFlow()
     val showCreateCta = MutableStateFlow(true)
 
     fun refreshSnippets() {
-        launchIO {
-            repo.refreshMySnippets()
-        }
+        launchIO { repo.refreshMySnippets() }
     }
 
     fun onSnippetClick(snippet: SnippetUiModel) {
-        launchIO {
-            snippetClick.emit(snippet)
-        }
+        launchIO { snippetClick.emit(snippet) }
+    }
+
+    companion object {
+        val CreateSnippetItem =
+                SnippetUiModel(
+                        id = "CREATE_SNIPPET_SCREEN",
+                        workspaceId = "",
+                        title = "CREATE_SNIPPET_SCREEN",
+                        userName = "UI_MODEL",
+                        formattedLastUpdatedTime = "".toStringIdHelper()
+                )
     }
 }
