@@ -2,6 +2,8 @@
 .idea/jarRepositories.xml
 .idea/intellij-javadocs-*.xml
 .idea/runConfigurations.xml
+.idea/*.xml
+
 apikey.properties
 ### CUSTOM END - DO NOT REMOVE WHEN UPDATING ###
 # Created by https://www.gitignore.io/api/git,gradle,android,intellij,androidstudio

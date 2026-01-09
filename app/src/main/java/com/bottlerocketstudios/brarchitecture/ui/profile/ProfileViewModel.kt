@@ -12,28 +12,32 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
 class ProfileViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val repo: BitbucketRepository by inject()
+    // endregion
 
-    // UI
+    // region UI State
     val avatarUrl: StateFlow<String> = repo.user.map { it?.avatarUrl.orEmpty() }.groundState("")
     val displayName: Flow<String> = repo.user.map { it?.displayName.orEmpty() }
     val nickname: Flow<String> = repo.user.map { it?.nickname.orEmpty() }
+    // endregion
 
-    // Events
+    // region Events
     val onLogout = MutableSharedFlow<Unit>()
+    // endregion
 
-    // UI Callbacks
+    // region UI Callbacks
     fun onEditClicked() {
-        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri())))
+        externalNavigationEvent.postValue(
+                ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri()))
+        )
     }
 
     fun onLogoutClicked() {
         repo.clear()
-        launchIO {
-            onLogout.emit(Unit)
-        }
+        launchIO { onLogout.emit(Unit) }
     }
+    // endregion
 
     companion object {
         private const val BIT_BUCKET_SETTING_URL = "https://bitbucket.org/account/settings/"

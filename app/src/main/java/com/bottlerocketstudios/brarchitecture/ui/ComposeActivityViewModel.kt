@@ -8,11 +8,12 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
 class ComposeActivityViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val repo: BitbucketRepository by inject()
     private val buildConfigProvider: BuildConfigProvider by inject()
+    // endregion
 
-    // UI
+    // region UI State
     val title = MutableStateFlow("")
     val showToolbar = title.map { it.isNotEmpty() }
     val topLevel = MutableStateFlow(false)
@@ -25,4 +26,5 @@ class ComposeActivityViewModel : BaseViewModel() {
     val avatarUrl = repo.user.map { it?.avatarUrl.orEmpty() }.groundState("")
     val displayName = repo.user.map { it?.displayName.orEmpty() }.groundState("")
     val username = repo.user.map { it?.username.orEmpty() }.groundState("")
+    // endregion
 }

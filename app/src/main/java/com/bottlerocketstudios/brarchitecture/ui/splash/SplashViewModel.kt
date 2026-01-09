@@ -7,13 +7,16 @@ import kotlinx.coroutines.flow.SharedFlow
 import org.koin.core.component.inject
 
 class SplashViewModel : BaseViewModel() {
-    // DI
+    // region DI
     val repo: BitbucketRepository by inject()
+    // endregion
 
-    // Events
+    // region Events
     val authEvent: SharedFlow<Unit> = MutableSharedFlow()
     val unAuthEvent: SharedFlow<Unit> = MutableSharedFlow()
+    // endregion
 
+    // region Init
     init {
         launchIO {
             if (repo.authenticate()) {
@@ -23,4 +26,5 @@ class SplashViewModel : BaseViewModel() {
             }
         }
     }
+    // endregion
 }

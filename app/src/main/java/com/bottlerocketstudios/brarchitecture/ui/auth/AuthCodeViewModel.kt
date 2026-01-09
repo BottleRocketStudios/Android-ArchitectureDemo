@@ -14,23 +14,25 @@ import kotlinx.coroutines.flow.SharedFlow
 import org.koin.core.component.inject
 
 class AuthCodeViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val repo: BitbucketRepository by inject()
     private val buildConfigProvider: BuildConfigProvider by inject()
+    // endregion
 
-    // UI
+    // region UI State
     val requestUrl = MutableStateFlow("")
     val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+    // endregion
 
-    // Events
+    // region Events
     val devOptionsEvent: SharedFlow<Unit> = MutableSharedFlow()
     val homeEvent: SharedFlow<Unit> = MutableSharedFlow()
+    // endregion
 
-    // /////////////////////////////////////////////////////////////////////////
-    // Callbacks
-    // /////////////////////////////////////////////////////////////////////////
+    // region UI Callbacks
     fun onLoginClicked() {
-        requestUrl.value = "https://bitbucket.org/site/oauth2/authorize?client_id=$BITBUCKET_KEY&response_type=code"
+        requestUrl.value =
+                "https://bitbucket.org/site/oauth2/authorize?client_id=$BITBUCKET_KEY&response_type=code"
     }
 
     fun onDevOptionsClicked() {
@@ -38,7 +40,14 @@ class AuthCodeViewModel : BaseViewModel() {
     }
 
     fun onSignUpClicked() =
-        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, "https://id.atlassian.com/signup?application=bitbucket".toUri())))
+            externalNavigationEvent.postValue(
+                    ExternalNavigationEvent(
+                            Intent(
+                                    Intent.ACTION_VIEW,
+                                    "https://id.atlassian.com/signup?application=bitbucket".toUri()
+                            )
+                    )
+            )
 
     fun onAuthCode(authCode: String) {
         requestUrl.value = ""
@@ -51,4 +60,5 @@ class AuthCodeViewModel : BaseViewModel() {
             }
         }
     }
+    // endregion
 }
