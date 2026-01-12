@@ -3,7 +3,6 @@ package com.bottlerocketstudios.brarchitecture.data.network.auth
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.serialization.ValidCredentialSerializer
 import com.bottlerocketstudios.brarchitecture.domain.models.Repository
@@ -11,20 +10,28 @@ import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 
-internal class BitbucketCredentialsRepository(context: Context, private val json: Json) : Repository {
+@Suppress("Deprecation")
+internal class BitbucketCredentialsRepository(context: Context, private val json: Json) :
+        Repository {
     companion object {
         private const val SECURE_PREF_FILE_NAME = "secureBbCredentials"
         private const val BITBUCKET_CREDENTIALS = "BitbucketCredentials"
         private const val BITBUCKET_TOKEN = "BitbucketToken"
     }
 
-    private val encryptedSharedPrefs: SharedPreferences = EncryptedSharedPreferences.create(
-        SECURE_PREF_FILE_NAME,
-        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-        context.applicationContext,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
+    private val masterKey =
+            androidx.security.crypto.MasterKey.Builder(context)
+                    .setKeyScheme(androidx.security.crypto.MasterKey.KeyScheme.AES256_GCM)
+                    .build()
+
+    private val encryptedSharedPrefs: SharedPreferences =
+            EncryptedSharedPreferences.create(
+                    context,
+                    SECURE_PREF_FILE_NAME,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
 
     fun clearStorage() {
         encryptedSharedPrefs.edit().clear().apply()
@@ -43,7 +50,11 @@ internal class BitbucketCredentialsRepository(context: Context, private val json
             try {
                 json.decodeFromString(ValidCredentialSerializer, credentialsJson)
             } catch (e: Exception) {
-                Timber.e(e, "Credentials repository could not decode credentials. JSON: %s", credentialsJson)
+                Timber.e(
+                        e,
+                        "Credentials repository could not decode credentials. JSON: %s",
+                        credentialsJson
+                )
                 null
             }
         } else {
@@ -65,7 +76,11 @@ internal class BitbucketCredentialsRepository(context: Context, private val json
             try {
                 json.decodeFromString(credentialsJson)
             } catch (e: Exception) {
-                Timber.e(e, "Credentials repository could not decode token. JSON: %s", credentialsJson)
+                Timber.e(
+                        e,
+                        "Credentials repository could not decode token. JSON: %s",
+                        credentialsJson
+                )
                 null
             }
         } else {

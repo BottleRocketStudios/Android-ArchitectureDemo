@@ -212,7 +212,9 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.coil)
     implementation(libs.ktor)
-    implementation(libs.live.event)
+    implementation(libs.live.event) {
+        exclude(group = "org.jetbrains.kotlin", module = "kotlin-android-extensions-runtime")
+    }
     implementation(libs.process.phoenix)
     implementation(libs.timber)
 
