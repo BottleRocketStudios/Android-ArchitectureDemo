@@ -40,6 +40,7 @@ internal class BitbucketCredentialsRepository(private val context: Context, priv
     // Initialize Tink Aead
     private val aead: Aead by lazy {
         AeadConfig.register()
+        @Suppress("deprecation") // KeysetHandle.getPrimitive(Class) is deprecated, but we rely on global registration
         AndroidKeysetManager.Builder()
             .withSharedPref(context, TINK_KEYSET_NAME, MASTER_KEY_PREFERENCE)
             .withKeyTemplate(KeyTemplates.get(AES_MODE))
