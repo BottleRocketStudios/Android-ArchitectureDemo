@@ -135,7 +135,6 @@ dependencies {
 
     implementation(libs.chucker)
     implementation(libs.base64)
-    implementation(libs.security.crypto)
 
     // Google Credential Manager
     implementation(libs.google.credentials)
