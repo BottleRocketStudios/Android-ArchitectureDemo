@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
         buildConfigField("String", "BITBUCKET_KEY", apikey.key)
         buildConfigField("String", "BITBUCKET_SECRET", apikey.secret)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -33,9 +33,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
         // isCoreLibraryDesugaringEnabled = true
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
+    // kotlinOptions {
+    //    jvmTarget = JavaVersion.VERSION_17.toString()
+    // }
 
     buildFeatures {
         buildConfig = true
@@ -46,7 +46,7 @@ android {
             // Disabling as leaving it enabled can cause the build to hang at the jacocoDebug task for 5+ minutes with no observed adverse effects when executing
             // the test...UnitTestCoverage tasks. Stopping and restarting build would allow compilation/installation to complete.
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
-            isTestCoverageEnabled = false
+            enableUnitTestCoverage = false
         }
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
         create("debugMini") {
@@ -68,10 +68,11 @@ android {
             dimension = "environment"
         }
     }
-    variantFilter {
-        // Gradle ignores any variants that satisfy the conditions listed below. `productionDebug` has no value for this project.
-        if (name == "productionDebug" || name == "productionDebugMini") {
-            ignore = true
+    androidComponents {
+        beforeVariants(selector().all()) { variant ->
+            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
+                variant.enable = false
+            }
         }
     }
 }
@@ -134,11 +135,14 @@ dependencies {
 
     implementation(libs.chucker)
     implementation(libs.base64)
-    implementation(libs.security.crypto)
 
     // Google Credential Manager
     implementation(libs.google.credentials)
     implementation(libs.google.credentials.play.services.auth)
+
+    // DataStore & Crypto
+    implementation(libs.datastore.preferences)
+    implementation(libs.tink.android)
 
     // Firebase
     implementation(project.dependencies.platform(libs.firebase.bom))
@@ -154,4 +158,10 @@ dependencies {
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }

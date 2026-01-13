@@ -8,124 +8,161 @@ import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
+import java.net.HttpURLConnection
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
-import java.net.HttpURLConnection
 
 @Suppress("TooManyFunctions")
 class SnippetDetailsViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val repo: BitbucketRepository by inject()
+    // endregion
 
-    // UI
+    // region UI State
     private val workspaceId = MutableStateFlow("")
     private val encodedId = MutableStateFlow("")
 
-    // UI - User
+    // User
     val currentUser = repo.user
     val isWatchingSnippet = MutableStateFlow(false)
 
-    // UI - Snippet
+    // Snippet
     val snippetDetails = MutableStateFlow<SnippetDetails?>(null)
     val snippetFiles = MutableStateFlow(mutableListOf<SnippetDetailsFile>())
     val snippetComments = MutableStateFlow<List<SnippetComment>>(mutableListOf())
 
-    // UI - Comment onChange Values
+    // Comment onChange Values
     val newSnippetComment = MutableStateFlow("")
     val newReplyComment = MutableStateFlow("")
+    // endregion
 
-    // ///////////////////  API Calls /////////////////////
+    // region API Calls
     fun getSnippetDetails(snippet: SnippetUiModel) = launchIO {
         if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty()) {
-            repo.getSnippetDetails(snippet.workspaceId, snippet.id).handlingErrors(R.string.snippets_error) { details ->
+            repo.getSnippetDetails(snippet.workspaceId, snippet.id).handlingErrors(
+                            R.string.snippets_error
+                    ) { details ->
                 snippetDetails.value = details
                 workspaceId.value = snippet.workspaceId
                 encodedId.value = snippet.id
                 isUserWatchingSnippet()
                 getSnippetComments()
-                details.files?.map { file -> file.fileName }?.let { fileNameList -> getRawFiles(fileNameList) }
+                details.files?.map { file -> file.fileName }?.let { fileNameList ->
+                    getRawFiles(fileNameList)
+                }
             }
         }
     }
 
     private fun getRawFiles(filePaths: List<String>) = launchIO {
-        snippetFiles.value = filePaths.map { path ->
-            var rawFile: ByteArray = ByteArray(1)
-            repo.getSnippetFile(workspaceId.value, encodedId.value, path)
-                .handlingErrors(R.string.error_loading_file) { rawFile = it }
-            SnippetDetailsFile(fileName = path, rawFile = rawFile)
-        }.toMutableList()
+        snippetFiles.value =
+                filePaths
+                        .map { path ->
+                            var rawFile: ByteArray = ByteArray(1)
+                            repo.getSnippetFile(workspaceId.value, encodedId.value, path)
+                                    .handlingErrors(R.string.error_loading_file) { rawFile = it }
+                            SnippetDetailsFile(fileName = path, rawFile = rawFile)
+                        }
+                        .toMutableList()
     }
 
-    /** Coded Response: Api returns 204 if user is watching and a 404 if user is not, else an error has occurred */
+    /**
+     * Coded Response: Api returns 204 if user is watching and a 404 if user is not, else an error
+     * has occurred
+     */
     private fun isUserWatchingSnippet() {
         launchIO {
             when (val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
                 is Status.Success -> isWatchingSnippet.value = true
                 is Status.Failure.Server ->
-                    if (result.error?.httpErrorCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                        isWatchingSnippet.value = false
-                    } else {
-                        handleError(R.string.snippet_watching_error)
-                    }
+                        if (result.error?.httpErrorCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                            isWatchingSnippet.value = false
+                        } else {
+                            handleError(R.string.snippet_watching_error)
+                        }
                 else -> handleError(R.string.snippet_watching_error)
             }
         }
     }
 
     private fun getSnippetComments() = launchIO {
-        repo.getSnippetComments(workspaceId.value, encodedId.value).handlingErrors(R.string.snippet_comments_error) { commentList ->
-            sortComments(commentList)
-        }
+        repo.getSnippetComments(workspaceId.value, encodedId.value).handlingErrors(
+                        R.string.snippet_comments_error
+                ) { commentList -> sortComments(commentList) }
     }
 
     private fun stopWatchingSnippet() = launchIO {
-        repo.stopWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.error_changing_watching) { isUserWatchingSnippet() }
+        repo.stopWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(
+                        R.string.error_changing_watching
+                ) { isUserWatchingSnippet() }
     }
 
     private fun startWatchingSnippet() = launchIO {
-        repo.startWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.error_changing_watching) { isUserWatchingSnippet() }
+        repo.startWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(
+                        R.string.error_changing_watching
+                ) { isUserWatchingSnippet() }
     }
 
-    // TODO: Show dialog to confirm user wants to continue with deletion before calling this function
+    // TODO: Show dialog to confirm user wants to continue with deletion before calling this
+    // function
     fun onDeleteSnippetClick() = launchIO {
-        repo.deleteSnippet(workspaceId.value, encodedId.value).handlingErrors(R.string.delete_snippet_error) {
-            notifyUser(R.string.delete_snippet_success)
-        }
+        repo.deleteSnippet(workspaceId.value, encodedId.value).handlingErrors(
+                        R.string.delete_snippet_error
+                ) { notifyUser(R.string.delete_snippet_success) }
     }
 
     private fun createSnippetComment() = launchIO {
-        repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value).handlingErrors(R.string.create_comment_error) {
-            getSnippetComments()
-            clearCommentValues()
-        }
+        repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)
+                .handlingErrors(R.string.create_comment_error) {
+                    getSnippetComments()
+                    clearCommentValues()
+                }
     }
 
     private fun createReplyComment(commentId: Int) = launchIO {
-        repo.createCommentReply(workspaceId.value, encodedId.value, newReplyComment.value, commentId).handlingErrors(R.string.comment_reply_error) {
-            getSnippetComments()
-            clearCommentValues()
-        }
+        repo.createCommentReply(
+                        workspaceId.value,
+                        encodedId.value,
+                        newReplyComment.value,
+                        commentId
+                )
+                .handlingErrors(R.string.comment_reply_error) {
+                    getSnippetComments()
+                    clearCommentValues()
+                }
     }
 
     fun commentEditClick(commentId: Int) = launchIO {
-        repo.editSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value, commentId).handlingErrors(R.string.edit_comment_error) { getSnippetComments() }
+        repo.editSnippetComment(
+                        workspaceId.value,
+                        encodedId.value,
+                        newSnippetComment.value,
+                        commentId
+                )
+                .handlingErrors(R.string.edit_comment_error) { getSnippetComments() }
     }
 
     fun commentDeleteClick(commentId: Int) = launchIO {
-        repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId).handlingErrors(R.string.delete_comment_error) { getSnippetComments() }
+        repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId).handlingErrors(
+                        R.string.delete_comment_error
+                ) { getSnippetComments() }
     }
+    // endregion
 
-    // ///////////////////  Callbacks /////////////////////
-    fun changeSnippetWatching() = when (isWatchingSnippet.value) {
-        true -> stopWatchingSnippet()
-        false -> startWatchingSnippet()
-    }
+    // region UI Callbacks
+    fun changeSnippetWatching() =
+            when (isWatchingSnippet.value) {
+                true -> stopWatchingSnippet()
+                false -> startWatchingSnippet()
+            }
 
-    /** https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-put */
+    /**
+     * https://developer.atlassian.com/cloud/bitbucket/rest/api-group-snippets/#api-snippets-workspace-encoded-id-put
+     */
     fun onEditSnippetClick() {
         // TODO: Functionality not yet implemented.
-        //  Clicking the edit button should show "save" and "cancel" buttons; allow the user to edit the snippet name and/or
+        //  Clicking the edit button should show "save" and "cancel" buttons; allow the user to edit
+        // the snippet name and/or
         //  delete files.
         //  When the user "saves" this function should be called and updates the snippet edits
         //  PUT /2.0/snippets/{workspace}/{encoded_id}
@@ -137,8 +174,9 @@ class SnippetDetailsViewModel : BaseViewModel() {
             false -> createReplyComment(commentId)
         }
     }
+    // endregion
 
-    // ///////////////////  Helper Functions /////////////////////
+    // region Helper Functions
     fun clearCommentValues() {
         newSnippetComment.value = ""
         newReplyComment.value = ""
@@ -148,9 +186,13 @@ class SnippetDetailsViewModel : BaseViewModel() {
         val (parentComments, childrenComments) = comments.partition { it.parentId == null }
 
         childrenComments.forEach { child ->
-            childrenComments.find { it.id == child.parentId }?.childrenComments?.add(child) ?: run {
-                parentComments.find { it.id == child.parentId }?.childrenComments?.add(child)
-            }
+            childrenComments.find { it.id == child.parentId }?.childrenComments?.add(child)
+                    ?: run {
+                        parentComments
+                                .find { it.id == child.parentId }
+                                ?.childrenComments
+                                ?.add(child)
+                    }
         }
 
         snippetComments.value = parentComments.reversed()
@@ -168,8 +210,8 @@ class SnippetDetailsViewModel : BaseViewModel() {
 
     @Suppress("NestedBlockDepth", "UnusedPrivateMember")
     private fun recursiveSort(
-        sortedComments: MutableList<SnippetComment>,
-        unsortedComments: MutableList<SnippetComment>
+            sortedComments: MutableList<SnippetComment>,
+            unsortedComments: MutableList<SnippetComment>
     ) {
         if (unsortedComments.isNotEmpty()) {
             sortedComments.forEach { parent ->
@@ -185,4 +227,5 @@ class SnippetDetailsViewModel : BaseViewModel() {
             }
         }
     }
+    // endregion
 }

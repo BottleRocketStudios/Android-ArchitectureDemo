@@ -1,35 +1,41 @@
 package com.bottlerocketstudios.brarchitecture.ui.projects
 
-import com.bottlerocketstudios.compose.projects.ProjectsItemState
-
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
+import com.bottlerocketstudios.compose.projects.ProjectsItemState
 import com.bottlerocketstudios.compose.util.asMutableState
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
+import java.time.Clock
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
-import java.time.Clock
 
 class ProjectsViewModel : BaseViewModel() {
 
-    // DI
+    // region DI
     private val repo: BitbucketRepository by inject()
     private val clock by inject<Clock>()
+    // endregion
 
-    val projectsList = repo.projects.map {
-        it.map { dto ->
-            ProjectsItemState(
-                name = dto.name.asMutableState(),
-                key = dto.key.asMutableState(),
-                updated = dto.updatedOn.formattedUpdateTime(clock).getString().asMutableState()
-            )
-        }
-    }
+    // region UI State
+    val projectsList =
+            repo.projects.map {
+                it.map { dto ->
+                    ProjectsItemState(
+                            name = dto.name.asMutableState(),
+                            key = dto.key.asMutableState(),
+                            updated =
+                                    dto.updatedOn
+                                            .formattedUpdateTime(clock)
+                                            .getString()
+                                            .asMutableState()
+                    )
+                }
+            }
+    // endregion
 
-    // Init logic
+    // region Init
     init {
-        launchIO {
-            repo.getProjects()
-        }
+        launchIO { repo.getProjects() }
     }
+    // endregion
 }

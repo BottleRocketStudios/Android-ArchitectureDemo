@@ -28,9 +28,12 @@ import timber.log.Timber
 @Suppress("TooManyFunctions")
 /** Provides common utility functionality for ViewModels including [LiveEvent]s for external navigation */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
+    //region DI
     protected val dispatcherProvider: DispatcherProvider by inject()
     protected val toaster: Toaster by inject()
+    //endregion
 
+    //region Helpers
     /**
      * Helper to launch to IO thread quickly
      */
@@ -43,10 +46,9 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
      */
     suspend fun runOnMain(block: suspend CoroutineScope.() -> Unit) =
         withContext(dispatcherProvider.Main, block)
+    //endregion
 
-    // /////////////////////////////////////////////////////////////////////////
-    // Error handling
-    // /////////////////////////////////////////////////////////////////////////
+    //region Error handling
     /**
      * Used to display error message with standard UI pattern
      */
@@ -76,12 +78,16 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         }
         return this
     }
+    //endregion
 
+    //region Navigation
     /**
      * Use to send [ExternalNavigationEvent]s (from subclasses).
      */
     val externalNavigationEvent: LiveData<ExternalNavigationEvent> = LiveEvent<ExternalNavigationEvent>()
+    //endregion
 
+    //region Helpers (continued)
     /** Helper function to avoid needing downcast declarations for public MutableLiveData or LiveEvent */
     protected fun <T> LiveData<T>.set(value: T?) = (this as? MutableLiveData<T>)?.setValue(value) ?: run { Timber.w("[set] unable to setValue for $this") }
 
@@ -117,4 +123,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     // Ties flow to viewModelScope to give StateFlow.
     fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Eagerly, initialValue)
+    //endregion
 }
+

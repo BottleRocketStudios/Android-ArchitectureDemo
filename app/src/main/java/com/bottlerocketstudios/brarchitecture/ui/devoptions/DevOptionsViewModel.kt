@@ -14,43 +14,56 @@ import org.koin.core.component.inject
 import timber.log.Timber
 
 class DevOptionsViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val app: Application by inject()
     private val forceCrashLogicImpl: ForceCrashLogic by inject()
     private val applicationInfoManager: ApplicationInfoManager by inject()
     private val environmentRepository: EnvironmentRepository by inject()
     private val featureToggleRepository: FeatureToggleRepository by inject()
+    // endregion
 
-    // EVENTS
+    // region Events
     val featureToggleClicked = MutableSharedFlow<Set<FeatureToggle>>()
+    // endregion
 
-    // ////////////////// ENVIRONMENT SECTION ////////////////// //
-    val environmentNames: StateFlow<List<String>> = MutableStateFlow(environmentRepository.environments.map { it.environmentType.shortName })
-    val environmentSpinnerPosition: StateFlow<Int> = MutableStateFlow(environmentRepository.environments.indexOf(environmentRepository.selectedConfig))
-
+    // region UI State
+    val environmentNames: StateFlow<List<String>> =
+            MutableStateFlow(
+                    environmentRepository.environments.map { it.environmentType.shortName }
+            )
+    val environmentSpinnerPosition: StateFlow<Int> =
+            MutableStateFlow(
+                    environmentRepository.environments.indexOf(environmentRepository.selectedConfig)
+            )
     val baseUrl: StateFlow<String> = MutableStateFlow("")
-
-    // ////////////////// FEATURE FLAG SECTION ////////////////// //
-    // add project specific things here
-
-    // ////////////////// APP INFO SECTION ////////////////// //
     val applicationInfo = applicationInfoManager.getApplicationInfo()
+    // endregion
 
+    // region Init
     init {
         updateEnvironmentInfo()
     }
+    // endregion
+
+    // region UI Callbacks
 
     fun onEnvironmentChanged(newEnvironmentIndex: Int) {
         val newEnvironment = environmentRepository.environments[newEnvironmentIndex]
         val oldEnvironment = environmentRepository.selectedConfig
-        Timber.v("[onEnvironmentChanged] newEnvironment=$newEnvironment, oldEnvironment=$oldEnvironment")
+        Timber.v(
+                "[onEnvironmentChanged] newEnvironment=$newEnvironment, oldEnvironment=$oldEnvironment"
+        )
         if (newEnvironment != oldEnvironment) {
             environmentSpinnerPosition.setValue(newEnvironmentIndex)
-            environmentRepository.changeEnvironment(environmentRepository.environments[newEnvironmentIndex].environmentType)
+            environmentRepository.changeEnvironment(
+                    environmentRepository.environments[newEnvironmentIndex].environmentType
+            )
             updateEnvironmentInfo()
             toaster.toast("!!! Restart required !!!")
         } else {
-            Timber.v("[onEnvironmentChanged] no changes needed as the same environment has been selected")
+            Timber.v(
+                    "[onEnvironmentChanged] no changes needed as the same environment has been selected"
+            )
         }
     }
 
@@ -72,4 +85,5 @@ class DevOptionsViewModel : BaseViewModel() {
     private fun updateEnvironmentInfo() {
         baseUrl.setValue(environmentRepository.selectedConfig.baseUrl)
     }
+    // endregion
 }

@@ -97,5 +97,5 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
         suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
         suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
         suspend fun getProjects(): Status<List<Project>>
-        fun clear()
+        suspend fun clear()
 }

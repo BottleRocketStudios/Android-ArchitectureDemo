@@ -6,10 +6,10 @@ import com.bottlerocketstudios.brarchitecture.data.model.FeatureToggleDto
 import com.bottlerocketstudios.brarchitecture.domain.models.FeatureToggle
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import kotlinx.serialization.json.Json
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.json.Json
 import org.intellij.lang.annotations.Language
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -23,7 +23,8 @@ class FeatureToggleRepositoryImpl(private val json: Json) : FeatureToggleReposit
 
     private val remoteConfig by inject<FirebaseRemoteConfig>()
     private val _featureTogglesByConfig = MutableStateFlow<Set<FeatureToggle>>(emptySet())
-    override val featureTogglesByRemoteConfig: StateFlow<Set<FeatureToggle>> = _featureTogglesByConfig
+    override val featureTogglesByRemoteConfig: StateFlow<Set<FeatureToggle>> =
+            _featureTogglesByConfig
 
     init {
         initRemoteConfigSettings()
@@ -49,7 +50,8 @@ class FeatureToggleRepositoryImpl(private val json: Json) : FeatureToggleReposit
     override fun resetTogglesToDefaultValues() {
         val adaptedToggles = getAdaptedToggles()
         adaptedToggles.map {
-            // Using a when so that if we want to play with more feature toggles for the demo, we can just add to the cases
+            // Using a when so that if we want to play with more feature toggles for the demo, we
+            // can just add to the cases
             when (it) {
                 is FeatureToggle.ToggleValueBoolean -> {
                     it.value = it.defaultValue
@@ -63,43 +65,61 @@ class FeatureToggleRepositoryImpl(private val json: Json) : FeatureToggleReposit
     }
 
     private fun initRemoteConfigSettings() {
-        remoteConfig.run {
-            setConfigSettingsAsync(remoteConfigSettings {
-                // interval used for dev testing, in PROD it is preferable to use higher intervals like 12hrs (43200s)
-                minimumFetchIntervalInSeconds = 60
-                build()
-            })
-            setDefaultsAsync(R.xml.remote_config_defaults)
-            fetchAndActivate().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val updated = task.result
-                    Timber.d("Config params updated: $updated.")
-                    val remoteConfigSet = mutableSetOf<FeatureToggle>().apply {
-                        all.forEach {
-                            if (it.key == "WEBVIEW_CONFIGURATION") {
-                                val enumValue = FeatureToggle.ToggleValueEnum.ToggleEnum.valueOf(it.value.asString())
-                                add(
-                                    FeatureToggle.ToggleValueEnum(
-                                        name = it.key, value = enumValue, defaultValue = FeatureToggle.ToggleValueEnum.ToggleEnum.EXTERNAL_BROWSER, requireRestart = false
-                                    )
-                                )
-                            } else {
-                                add(FeatureToggle.ToggleValueBoolean(name = it.key, value = it.value.asBoolean(), defaultValue = it.value.asBoolean(), requireRestart = false))
-                            }
+        remoteConfig
+                .run {
+                    setConfigSettingsAsync(
+                            FirebaseRemoteConfigSettings.Builder()
+                                    .setMinimumFetchIntervalInSeconds(60)
+                                    .build()
+                    )
+                    setDefaultsAsync(R.xml.remote_config_defaults)
+                    fetchAndActivate().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val updated = task.result
+                            Timber.d("Config params updated: $updated.")
+                            val remoteConfigSet =
+                                    mutableSetOf<FeatureToggle>().apply {
+                                        all.forEach {
+                                            if (it.key == "WEBVIEW_CONFIGURATION") {
+                                                val enumValue =
+                                                        FeatureToggle.ToggleValueEnum.ToggleEnum
+                                                                .valueOf(it.value.asString())
+                                                add(
+                                                        FeatureToggle.ToggleValueEnum(
+                                                                name = it.key,
+                                                                value = enumValue,
+                                                                defaultValue =
+                                                                        FeatureToggle
+                                                                                .ToggleValueEnum
+                                                                                .ToggleEnum
+                                                                                .EXTERNAL_BROWSER,
+                                                                requireRestart = false
+                                                        )
+                                                )
+                                            } else {
+                                                add(
+                                                        FeatureToggle.ToggleValueBoolean(
+                                                                name = it.key,
+                                                                value = it.value.asBoolean(),
+                                                                defaultValue = it.value.asBoolean(),
+                                                                requireRestart = false
+                                                        )
+                                                )
+                                            }
+                                        }
+                                    }
+                            _featureTogglesByConfig.value = remoteConfigSet
                         }
                     }
-                    _featureTogglesByConfig.value = remoteConfigSet
                 }
-            }
-        }.addOnFailureListener {
-            Timber.e(it)
-        }
+                .addOnFailureListener { Timber.e(it) }
     }
 
     override fun updateFeatureToggleValue(toggleWithUpdateValue: FeatureToggle) {
         val adaptedToggles = _featureToggles.value
         adaptedToggles.map {
-            // Using a when so that if we want to play with more feature toggles for the demo, we can just add to the cases
+            // Using a when so that if we want to play with more feature toggles for the demo, we
+            // can just add to the cases
             when (it) {
                 is FeatureToggle.ToggleValueBoolean -> {
                     if (toggleWithUpdateValue is FeatureToggle.ToggleValueBoolean) {
@@ -123,7 +143,7 @@ class FeatureToggleRepositoryImpl(private val json: Json) : FeatureToggleReposit
 
 @Language("JSON")
 private const val FEATURE_TOGGLE_JSON =
-    """{
+        """{
         "booleanFlags" :
         [
             {
