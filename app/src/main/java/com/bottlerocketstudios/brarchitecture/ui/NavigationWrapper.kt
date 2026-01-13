@@ -19,11 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.bottlerocketstudios.brarchitecture.ui.util.logger.TAG_NAV
 import com.bottlerocketstudios.brarchitecture.ui.util.nav.NavigationType
 import com.bottlerocketstudios.brarchitecture.ui.util.nav.Navigator
 import com.bottlerocketstudios.brarchitecture.ui.util.nav.rememberNavigator
 import com.bottlerocketstudios.brarchitecture.ui.util.nav.toNavigationType
 import com.bottlerocketstudios.brarchitecture.ui.util.window.DevicePosture
+import org.koin.core.component.getScopeName
+import timber.log.Timber
 
 @Composable
 fun NavigationWrapper(
@@ -34,6 +37,7 @@ fun NavigationWrapper(
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val navigator = rememberNavigator(startRoute = Routes.Splash, shouldPrintDebugInfo = true)
         val currentRoute = navigator.backStack.lastOrNull() ?: Routes.Splash
+        Timber.tag(TAG_NAV).d("widthSize: $widthSize, devicePosture: ${devicePosture.javaClass.simpleName}, Current Route: ${currentRoute.javaClass.simpleName}")
 
         // For now, we reuse the navigation logic from ComposeActivity but adapted for Navigation 3
         // In a real scenario, we might want to port NavigationRail etc. if they existed.

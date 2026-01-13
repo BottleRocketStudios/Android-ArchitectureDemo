@@ -8,6 +8,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.unit.dp
+import timber.log.Timber
 
 @Composable
 fun ProvideColors(
@@ -21,7 +24,7 @@ fun ProvideColors(
 private val LocalAppColors = staticCompositionLocalOf {
     lightColors
 }
-private const val SMALL_SCREEN_WIDTH_DP = 360
+private val SMALL_SCREEN_WIDTH_DP = 360.dp
 
 @Composable
 fun ProvideDimens(
@@ -43,8 +46,7 @@ fun ArchitectureDemoTheme(
 ) {
     // TODO This should be updated later to support a dark mode check
     val colors = if (darkTheme) darkColors else lightColors
-    val configuration = LocalConfiguration.current
-    val dimensions = if (configuration.screenWidthDp <= SMALL_SCREEN_WIDTH_DP) smallDimensions else sw360Dimensions
+    val dimensions = if (LocalWindowInfo.current.containerDpSize.width <= SMALL_SCREEN_WIDTH_DP) smallDimensions else sw360Dimensions
 
     ProvideDimens(dimensions = dimensions) {
         ProvideColors(colors = colors) {
