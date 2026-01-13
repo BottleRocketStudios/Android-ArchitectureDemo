@@ -430,7 +430,7 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                                 .asSuccess<List<Workspace>>()
                 }
 
-        override fun clear() {
+        override suspend fun clear() {
                 bitbucketCredentialsRepository.clearStorage()
                 authenticated = false
                 _user.value = null

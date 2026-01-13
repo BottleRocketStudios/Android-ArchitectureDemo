@@ -34,8 +34,10 @@ class ProfileViewModel : BaseViewModel() {
     }
 
     fun onLogoutClicked() {
-        repo.clear()
-        launchIO { onLogout.emit(Unit) }
+        launchIO {
+            repo.clear()
+            onLogout.emit(Unit)
+        }
     }
     // endregion
 

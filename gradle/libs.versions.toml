@@ -23,6 +23,8 @@ chucker = "3.5.2"
 base64 = "1.20.0"
 live-event = "1.3.0"
 security-crypto = "1.1.0"
+datastore = "1.1.1"
+tink = "1.10.0"
 
 agp = "8.13.2"
 coil = "2.7.0"
@@ -113,6 +115,8 @@ chucker-noop = { group = "com.github.ChuckerTeam.Chucker", name = "library-no-op
 
 base64 = { group = "commons-codec", name = "commons-codec", version.ref = "base64" }
 security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto" }
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+tink-android = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink" }
 
 # Android X
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }

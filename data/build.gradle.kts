@@ -141,6 +141,10 @@ dependencies {
     implementation(libs.google.credentials)
     implementation(libs.google.credentials.play.services.auth)
 
+    // DataStore & Crypto
+    implementation(libs.datastore.preferences)
+    implementation(libs.tink.android)
+
     // Firebase
     implementation(project.dependencies.platform(libs.firebase.bom))
     implementation(libs.firebase.config)

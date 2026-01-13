@@ -2,90 +2,160 @@ package com.bottlerocketstudios.brarchitecture.data.network.auth
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Base64
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.AccessToken
 import com.bottlerocketstudios.brarchitecture.data.serialization.ValidCredentialSerializer
 import com.bottlerocketstudios.brarchitecture.domain.models.Repository
 import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
+import com.google.crypto.tink.Aead
+import com.google.crypto.tink.KeyTemplates
+import com.google.crypto.tink.aead.AeadConfig
+import com.google.crypto.tink.integration.android.AndroidKeysetManager
+import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import java.nio.charset.StandardCharsets
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "bitbucket_credentials_v2")
 
 @Suppress("Deprecation")
-internal class BitbucketCredentialsRepository(context: Context, private val json: Json) :
-        Repository {
+internal class BitbucketCredentialsRepository(private val context: Context, private val json: Json) : Repository {
+
     companion object {
-        private const val SECURE_PREF_FILE_NAME = "secureBbCredentials"
-        private const val BITBUCKET_CREDENTIALS = "BitbucketCredentials"
-        private const val BITBUCKET_TOKEN = "BitbucketToken"
+        // Keys for DataStore
+        private val CREDENTIALS_KEY = stringPreferencesKey("BitbucketCredentials")
+        private val TOKEN_KEY = stringPreferencesKey("BitbucketToken")
+
+        // Legacy constants for Migration
+        private const val OLD_PREF_FILE_NAME = "secureBbCredentials"
+        private const val OLD_CREDENTIALS_KEY = "BitbucketCredentials"
+        private const val OLD_TOKEN_KEY = "BitbucketToken"
     }
 
-    private val masterKey =
-            androidx.security.crypto.MasterKey.Builder(context)
-                    .setKeyScheme(androidx.security.crypto.MasterKey.KeyScheme.AES256_GCM)
-                    .build()
-
-    private val encryptedSharedPrefs: SharedPreferences =
-            EncryptedSharedPreferences.create(
-                    context,
-                    SECURE_PREF_FILE_NAME,
-                    masterKey,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
-
-    fun clearStorage() {
-        encryptedSharedPrefs.edit().clear().apply()
+    // Initialize Tink Aead
+    private val aead: Aead by lazy {
+        AeadConfig.register()
+        AndroidKeysetManager.Builder()
+            .withSharedPref(context, "tink_keyset", "master_key_preference")
+            .withKeyTemplate(KeyTemplates.get("AES256_GCM"))
+            .withMasterKeyUri("android-keystore://tink_master_key")
+            .build()
+            .keysetHandle
+            .getPrimitive(Aead::class.java)
     }
 
-    fun storeCredentials(credentials: ValidCredentialModel) {
+    // Old EncryptedSharedPreferences for migration
+    private val oldPrefs: SharedPreferences by lazy {
+        val masterKey = androidx.security.crypto.MasterKey.Builder(context)
+            .setKeyScheme(androidx.security.crypto.MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        EncryptedSharedPreferences.create(
+            context,
+            OLD_PREF_FILE_NAME,
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
+
+    suspend fun clearStorage() {
+        context.dataStore.edit { it.clear() }
+        // Also clear legacy if exists, just in case
+        if (legacyFileExists()) {
+            oldPrefs.edit().clear().apply()
+        }
+    }
+
+    suspend fun storeCredentials(credentials: ValidCredentialModel) {
         val jsonString = json.encodeToString(ValidCredentialSerializer, credentials)
-        Timber.v("storeCredentials: encoding to %s", jsonString)
-        encryptedSharedPrefs.edit().putString(BITBUCKET_CREDENTIALS, jsonString).apply()
+        val encrypted = encrypt(jsonString)
+        context.dataStore.edit { it[CREDENTIALS_KEY] = encrypted }
     }
 
-    fun loadCredentials(): ValidCredentialModel? {
-        val credentialsJson = encryptedSharedPrefs.getString(BITBUCKET_CREDENTIALS, null)
-        Timber.v("loadCredentials: raw JSON from prefs: %s", credentialsJson)
-        return if (!credentialsJson.isNullOrEmpty()) {
-            try {
-                json.decodeFromString(ValidCredentialSerializer, credentialsJson)
+    suspend fun loadCredentials(): ValidCredentialModel? {
+        val prefs = context.dataStore.data.first()
+        val encryptedJson = prefs[CREDENTIALS_KEY]
+
+        if (encryptedJson != null) {
+            return try {
+                val jsonString = decrypt(encryptedJson)
+                json.decodeFromString(ValidCredentialSerializer, jsonString)
             } catch (e: Exception) {
-                Timber.e(
-                        e,
-                        "Credentials repository could not decode credentials. JSON: %s",
-                        credentialsJson
-                )
+                Timber.e(e, "Failed to decrypt/decode credentials")
                 null
             }
-        } else {
-            Timber.w("Credentials repository could not load credentials - key not found or empty")
-            null
         }
+
+        // Migration Check
+        if (legacyFileExists() && oldPrefs.contains(OLD_CREDENTIALS_KEY)) {
+            val oldJson = oldPrefs.getString(OLD_CREDENTIALS_KEY, null)
+            if (!oldJson.isNullOrEmpty()) {
+                Timber.i("Migrating credentials from EncryptedSharedPreferences")
+                storeCredentials(json.decodeFromString(ValidCredentialSerializer, oldJson))
+                oldPrefs.edit().remove(OLD_CREDENTIALS_KEY).apply()
+                return json.decodeFromString(ValidCredentialSerializer, oldJson)
+            }
+        }
+
+        return null
     }
 
-    fun storeToken(token: AccessToken) {
+    suspend fun storeToken(token: AccessToken) {
         val jsonString = json.encodeToString(token)
-        Timber.v("storeToken: encoding to %s", jsonString)
-        encryptedSharedPrefs.edit().putString(BITBUCKET_TOKEN, jsonString).apply()
+        val encrypted = encrypt(jsonString)
+        context.dataStore.edit { it[TOKEN_KEY] = encrypted }
     }
 
-    fun loadToken(): AccessToken? {
-        val credentialsJson = encryptedSharedPrefs.getString(BITBUCKET_TOKEN, null)
-        Timber.v("loadToken: raw JSON from prefs: %s", credentialsJson)
-        return if (!credentialsJson.isNullOrEmpty()) {
-            try {
-                json.decodeFromString(credentialsJson)
+    suspend fun loadToken(): AccessToken? {
+        val prefs = context.dataStore.data.first()
+        val encryptedJson = prefs[TOKEN_KEY]
+
+        if (encryptedJson != null) {
+            return try {
+                val jsonString = decrypt(encryptedJson)
+                json.decodeFromString<AccessToken>(jsonString)
             } catch (e: Exception) {
-                Timber.e(
-                        e,
-                        "Credentials repository could not decode token. JSON: %s",
-                        credentialsJson
-                )
+                Timber.e(e, "Failed to decrypt/decode token")
                 null
             }
-        } else {
-            Timber.w("Credentials repository could not load token - key not found or empty")
-            null
         }
+
+        // Migration Check
+        if (legacyFileExists() && oldPrefs.contains(OLD_TOKEN_KEY)) {
+            val oldJson = oldPrefs.getString(OLD_TOKEN_KEY, null)
+            if (!oldJson.isNullOrEmpty()) {
+                Timber.i("Migrating token from EncryptedSharedPreferences")
+                storeToken(json.decodeFromString(oldJson))
+                oldPrefs.edit().remove(OLD_TOKEN_KEY).apply()
+                return json.decodeFromString(oldJson)
+            }
+        }
+
+        return null
+    }
+
+    private fun encrypt(plainText: String): String {
+        val bytes = plainText.toByteArray(StandardCharsets.UTF_8)
+        val encryptedBytes = aead.encrypt(bytes, null)
+        return Base64.encodeToString(encryptedBytes, Base64.NO_WRAP)
+    }
+
+    private fun decrypt(cipherText: String): String {
+        val bytes = Base64.decode(cipherText, Base64.NO_WRAP)
+        val decryptedBytes = aead.decrypt(bytes, null)
+        return String(decryptedBytes, StandardCharsets.UTF_8)
+    }
+
+    private fun legacyFileExists(): Boolean {
+        // Quick check if the shared prefs file exists
+        val file = java.io.File(context.filesDir.parent, "shared_prefs/$OLD_PREF_FILE_NAME.xml")
+        return file.exists()
     }
 }
