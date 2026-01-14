@@ -6,7 +6,7 @@ domain-namespace = "com.bottlerocketstudios.brarchitecture.domain"
 version-code = "0100000"
 version-name = "1.0.0"
 android-minSdk = "26"
-android-targetSdk = "35"
+android-targetSdk = "36"
 android-compileSdk = "36"
 
 koin = "4.1.1"
