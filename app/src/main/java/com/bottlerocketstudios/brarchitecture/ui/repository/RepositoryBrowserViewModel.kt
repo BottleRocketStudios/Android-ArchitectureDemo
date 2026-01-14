@@ -21,6 +21,7 @@ class RepositoryBrowserViewModel : BaseViewModel() {
     // region UI State
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val srcFiles = MutableStateFlow<List<RepoFile>>(emptyList())
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE) var currentRepoName: String = ""
 
     val repos = repo.repos.groundState(emptyList())

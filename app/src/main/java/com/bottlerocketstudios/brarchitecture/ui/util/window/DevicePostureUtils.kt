@@ -20,14 +20,20 @@ fun ComponentActivity.createDevicePostureFlow() =
                                     .filterIsInstance<FoldingFeature>()
                                     .firstOrNull()
                     when {
-                        isBookPosture(foldingFeature) ->
-                                DevicePosture.BookPosture(foldingFeature.bounds)
-                        isSeparating(foldingFeature) ->
-                                DevicePosture.Separating(
+                        isBookPosture(foldingFeature) -> {
+                            DevicePosture.BookPosture(foldingFeature.bounds)
+                        }
+
+                        isSeparating(foldingFeature) -> {
+                            DevicePosture.Separating(
                                         foldingFeature.bounds,
                                         foldingFeature.orientation
                                 )
-                        else -> DevicePosture.NormalPosture
+                        }
+
+                        else -> {
+                            DevicePosture.NormalPosture
+                        }
                     }
                 }
                 .stateIn(

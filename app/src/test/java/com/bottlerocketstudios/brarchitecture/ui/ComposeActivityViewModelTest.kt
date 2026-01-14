@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.Test
 
 class ComposeActivityViewModelTest : BaseTest() {
-
     private lateinit var viewModel: ComposeActivityViewModel
 
     @Before

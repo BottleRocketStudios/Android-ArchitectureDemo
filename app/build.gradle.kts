@@ -1,7 +1,4 @@
 import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
-import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
-import java.io.FileInputStream
-import java.util.Properties
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
@@ -84,8 +81,8 @@ android {
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             enableUnitTestCoverage = false
             firebaseAppDistribution {
-                releaseNotes="App distribution for Arch Demo"
-                testers="colin.shelton@bottlerocketstudios.com"
+                releaseNotes = "App distribution for Arch Demo"
+                testers = "colin.shelton@bottlerocketstudios.com"
             }
         }
         // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9

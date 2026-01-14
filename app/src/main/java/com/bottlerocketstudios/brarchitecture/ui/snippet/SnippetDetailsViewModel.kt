@@ -73,14 +73,21 @@ class SnippetDetailsViewModel : BaseViewModel() {
     private fun isUserWatchingSnippet() {
         launchIO {
             when (val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
-                is Status.Success -> isWatchingSnippet.value = true
-                is Status.Failure.Server ->
-                        if (result.error?.httpErrorCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                is Status.Success -> {
+                    isWatchingSnippet.value = true
+                }
+
+                is Status.Failure.Server -> {
+                    if (result.error?.httpErrorCode == HttpURLConnection.HTTP_NOT_FOUND) {
                             isWatchingSnippet.value = false
                         } else {
                             handleError(R.string.snippet_watching_error)
                         }
-                else -> handleError(R.string.snippet_watching_error)
+                }
+
+                else -> {
+                    handleError(R.string.snippet_watching_error)
+                }
             }
         }
     }
@@ -198,8 +205,8 @@ class SnippetDetailsViewModel : BaseViewModel() {
         snippetComments.value = parentComments.reversed()
     }
 
-    @Suppress("UnusedPrivateMember")
     /** Functions for optimized sort theory. Keeping for example purposes. */
+    @Suppress("UnusedPrivateMember")
     private fun sortWithRecursion(comments: List<SnippetComment>) {
         val sortedComments = comments.filter { it.parentId == null }.toMutableList()
         val unsortedComments = comments.filter { it.parentId != null }.toMutableList()

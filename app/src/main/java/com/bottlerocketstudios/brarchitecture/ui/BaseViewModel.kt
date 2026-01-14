@@ -25,8 +25,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
 
-@Suppress("TooManyFunctions")
 /** Provides common utility functionality for ViewModels including [LiveEvent]s for external navigation */
+@Suppress("TooManyFunctions")
 abstract class BaseViewModel : ViewModel(), KoinComponent {
     //region DI
     protected val dispatcherProvider: DispatcherProvider by inject()
@@ -34,6 +34,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     //endregion
 
     //region Helpers
+
     /**
      * Helper to launch to IO thread quickly
      */
@@ -49,6 +50,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     //endregion
 
     //region Error handling
+
     /**
      * Used to display error message with standard UI pattern
      */
@@ -81,6 +83,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     //endregion
 
     //region Navigation
+
     /**
      * Use to send [ExternalNavigationEvent]s (from subclasses).
      */
@@ -88,6 +91,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     //endregion
 
     //region Helpers (continued)
+
     /** Helper function to avoid needing downcast declarations for public MutableLiveData or LiveEvent */
     protected fun <T> LiveData<T>.set(value: T?) = (this as? MutableLiveData<T>)?.setValue(value) ?: run { Timber.w("[set] unable to setValue for $this") }
 
@@ -100,10 +104,13 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
      */
     protected suspend fun <T : Number?> SharedFlow<T>.emit(value: T) =
         (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+
     protected suspend fun <T : CharSequence> SharedFlow<T>.emit(value: T) =
         (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+
     protected suspend fun SharedFlow<Boolean>.emit(value: Boolean) =
         (this as? MutableSharedFlow<Boolean>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+
     protected suspend fun SharedFlow<Unit>.emit(value: Unit) =
         (this as? MutableSharedFlow<Unit>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
 
@@ -111,12 +118,15 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected fun <T : Number> StateFlow<T>.setValue(value: T) {
         (this as? MutableStateFlow<T>)?.value = value
     }
+
     protected fun <T : CharSequence> StateFlow<T>.setValue(value: T) {
         (this as? MutableStateFlow<T>)?.value = value
     }
+
     protected fun StateFlow<Boolean>.setValue(value: Boolean) {
         (this as? MutableStateFlow<Boolean>)?.value = value
     }
+
     protected fun StateFlow<Unit>.setValue(value: Unit) {
         (this as? MutableStateFlow<Unit>)?.value = value
     }
@@ -125,4 +135,3 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Eagerly, initialValue)
     //endregion
 }
-

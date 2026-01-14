@@ -78,9 +78,11 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
             }
             loadUrl(url)
         }
-    }, update = {
+    },
+        update = {
         it.loadUrl(url)
-    })
+    }
+    )
 }
 
 @Suppress("LongMethod")
@@ -165,7 +167,6 @@ private fun AuthCodePreview() {
                 onDevOptionsClicked = {},
                 showToolbar = {}
             ),
-
         )
     }
 }

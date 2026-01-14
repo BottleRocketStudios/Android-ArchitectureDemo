@@ -14,4 +14,4 @@ max_line_length=200
 # * https://stackoverflow.com/questions/59849619/intellij-does-not-sort-kotlin-imports-according-to-ktlints-expectations
 # * https://github.com/pinterest/ktlint/issues/527
 # * https://youtrack.jetbrains.com/issue/KT-10974
-disabled_rules=import-ordering
+#disabled_rules=import-ordering

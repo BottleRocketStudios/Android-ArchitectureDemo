@@ -9,6 +9,9 @@ import org.koin.core.module.Module
 class KoinTestRule(
     private val module: Module
 ) : TestWatcher() {
-    override fun starting(description: Description?) { startKoin { modules(module) } }
+    override fun starting(description: Description?) {
+        startKoin { modules(module) }
+    }
+
     override fun finished(description: Description?) = stopKoin()
 }

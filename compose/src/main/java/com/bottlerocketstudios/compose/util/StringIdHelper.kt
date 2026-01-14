@@ -31,8 +31,14 @@ sealed class StringIdHelper : DomainModel, Serializable, KoinComponent {
 
     fun getString(): String {
         return when (this) {
-            is Id -> context.getString(idRes)
-            is Raw -> rawString
+            is Id -> {
+                context.getString(idRes)
+            }
+
+            is Raw -> {
+                rawString
+            }
+
             is Format -> {
                 val mappedArgs =
                         formatArgs.map {
@@ -45,6 +51,7 @@ sealed class StringIdHelper : DomainModel, Serializable, KoinComponent {
                 ) // removing the spread operator causes the associated unit tests to fail
                 context.getString(idRes, *mappedArgs.toTypedArray())
             }
+
             is Plural -> {
                 val mappedArgs =
                         formatArgs.map {

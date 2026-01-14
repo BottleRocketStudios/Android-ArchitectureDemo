@@ -20,7 +20,7 @@ class ComposeActivity : ComponentActivity() {
 
         private val booleanFeatureFlags =
                 featureToggleRepository.featureToggles.value.filterIsInstance<
-                        FeatureToggle.ToggleValueBoolean>()
+                    FeatureToggle.ToggleValueBoolean>()
         private val showSnippets =
                 booleanFeatureFlags.find { it.name == "SHOW_SNIPPETS" }?.value ?: false
         private val showPullRequests =

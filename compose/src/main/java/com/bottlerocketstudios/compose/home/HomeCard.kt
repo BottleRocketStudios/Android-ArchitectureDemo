@@ -200,7 +200,6 @@ fun PullRequestCardLayout(userPullRequestUIModel: UserPullRequestUIModel) {
 
 @Composable
 fun RepoDescriptionComponent(userRepositoryUiModel: UserRepositoryUiModel, modifier: Modifier) {
-
         Column(modifier = modifier) {
                 Text(
                         userRepositoryUiModel.repo.name ?: "",

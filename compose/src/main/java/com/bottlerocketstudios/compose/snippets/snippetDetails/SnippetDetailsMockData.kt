@@ -66,7 +66,6 @@ internal fun returnMockSnippetDetails() =
                 rawFile = ByteArray(1)
             ),
         ).asMutableState(),
-
         isWatchingSnippet = false.asMutableState(),
         onSnippetWatchClick = { },
         onSnippetEditClick = { },

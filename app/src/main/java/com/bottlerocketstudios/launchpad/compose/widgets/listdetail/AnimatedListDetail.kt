@@ -13,9 +13,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 interface ListDetailScope<T> {
-    fun List(content: @Composable (List<T>) -> Unit)
-    fun Detail(content: @Composable (T?) -> Unit)
-    fun DetailState(block: (Boolean) -> Unit)
+    fun list(content: @Composable (List<T>) -> Unit)
+
+    fun detail(content: @Composable (T?) -> Unit)
+
+    fun detailState(block: (Boolean) -> Unit)
+
     fun select(key: Any?)
 }
 
@@ -28,7 +31,7 @@ fun <T> AnimatedListDetail(
 ) {
     val selectedKey = remember { mutableStateOf<Any?>(null) }
     val scopeImpl = remember { ListDetailScopeImpl<T>(selectedKey) }
-    
+
     // Execute the scope block to populate content lambdas
     scopeImpl.scope()
 
@@ -66,15 +69,15 @@ internal class ListDetailScopeImpl<T>(
     var detailContent: @Composable (T?) -> Unit = {}
     var detailStateCallback: ((Boolean) -> Unit)? = null
 
-    override fun List(content: @Composable (List<T>) -> Unit) {
+    override fun list(content: @Composable (List<T>) -> Unit) {
         listContent = content
     }
 
-    override fun Detail(content: @Composable (T?) -> Unit) {
+    override fun detail(content: @Composable (T?) -> Unit) {
         detailContent = content
     }
 
-    override fun DetailState(block: (Boolean) -> Unit) {
+    override fun detailState(block: (Boolean) -> Unit) {
         detailStateCallback = block
     }
 

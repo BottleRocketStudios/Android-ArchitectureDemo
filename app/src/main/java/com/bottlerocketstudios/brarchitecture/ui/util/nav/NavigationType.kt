@@ -12,10 +12,23 @@ enum class NavigationType {
 
 fun WindowWidthSizeClass.toNavigationType(devicePosture: DevicePosture) =
         when (this) {
-            WindowWidthSizeClass.Compact -> NavigationType.BOTTOM_NAVIGATION
-            WindowWidthSizeClass.Medium -> NavigationType.NAVIGATION_RAIL
-            WindowWidthSizeClass.Expanded ->
-                    if (devicePosture is DevicePosture.BookPosture) NavigationType.NAVIGATION_RAIL
-                    else NavigationType.PERMANENT_NAVIGATION_DRAWER
-            else -> NavigationType.BOTTOM_NAVIGATION
+            WindowWidthSizeClass.Compact -> {
+                NavigationType.BOTTOM_NAVIGATION
+            }
+
+            WindowWidthSizeClass.Medium -> {
+                NavigationType.NAVIGATION_RAIL
+            }
+
+            WindowWidthSizeClass.Expanded -> {
+                if (devicePosture is DevicePosture.BookPosture) {
+                        NavigationType.NAVIGATION_RAIL
+                    } else {
+                        NavigationType.PERMANENT_NAVIGATION_DRAWER
+                    }
+            }
+
+            else -> {
+                NavigationType.BOTTOM_NAVIGATION
+            }
         }

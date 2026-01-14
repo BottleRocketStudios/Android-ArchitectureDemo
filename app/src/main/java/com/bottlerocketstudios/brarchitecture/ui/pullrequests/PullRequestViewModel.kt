@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
 class PullRequestViewModel : BaseViewModel() {
-
     // region DI
     private val repo: BitbucketRepository by inject()
     private val clock by inject<Clock>()

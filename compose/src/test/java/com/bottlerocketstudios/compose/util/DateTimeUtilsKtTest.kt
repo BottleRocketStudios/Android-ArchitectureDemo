@@ -10,7 +10,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class DateTimeUtilsKtTest : BaseTest() {
-
     @Test
     fun formattedUpdateTime_nullInput_returnsTodayOutput() {
         val fixedClock = Clock.fixed(

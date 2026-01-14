@@ -10,6 +10,7 @@ interface MainWindowControls {
     var navIntercept: (() -> Boolean)?
 
     fun reset()
+
     companion object {
         const val EMPTY_TOOLBAR_TITLE = " "
     }
@@ -27,5 +28,4 @@ class MainWindowControlsImplementation(
         title = ""
         topLevel = false
     }
-
 }
