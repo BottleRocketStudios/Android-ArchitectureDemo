@@ -89,7 +89,7 @@ fun HomeScreen(state: HomeScreenState) {
         } else {
             items(
                     items = state.repositories.value,
-                    itemContent = { item -> RepositoryCardLayout(item, state.itemSelected) }
+                    itemContent = { item -> RepositoryCardLayout(item, state.repositorySelected) }
             )
         }
     }

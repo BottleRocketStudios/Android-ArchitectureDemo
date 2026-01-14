@@ -12,17 +12,17 @@ class SplashViewModel : BaseViewModel() {
     // endregion
 
     // region Events
-    val authEvent: SharedFlow<Unit> = MutableSharedFlow()
-    val unAuthEvent: SharedFlow<Unit> = MutableSharedFlow()
+    val authEvent: SharedFlow<Unit> = event()
+    val unAuthEvent: SharedFlow<Unit> = event()
     // endregion
 
     // region Init
     init {
         launchIO {
             if (repo.authenticate()) {
-                authEvent.emit(Unit)
+                authEvent.tryEmit(Unit)
             } else {
-                unAuthEvent.emit(Unit)
+                unAuthEvent.tryEmit(Unit)
             }
         }
     }

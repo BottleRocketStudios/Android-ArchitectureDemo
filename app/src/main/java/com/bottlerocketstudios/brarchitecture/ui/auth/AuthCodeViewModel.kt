@@ -8,7 +8,6 @@ import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvid
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import org.koin.core.component.inject
@@ -25,8 +24,8 @@ class AuthCodeViewModel : BaseViewModel() {
     // endregion
 
     // region Events
-    val devOptionsEvent: SharedFlow<Unit> = MutableSharedFlow()
-    val homeEvent: SharedFlow<Unit> = MutableSharedFlow()
+    val devOptionsEvent: SharedFlow<Unit> = event()
+    val homeEvent: SharedFlow<Unit> = event()
     // endregion
 
     // region UI Callbacks
@@ -36,7 +35,7 @@ class AuthCodeViewModel : BaseViewModel() {
     }
 
     fun onDevOptionsClicked() {
-        launchIO { devOptionsEvent.emit(Unit) }
+        launchIO { devOptionsEvent.tryEmit(Unit) }
     }
 
     fun onSignUpClicked() =
@@ -54,7 +53,7 @@ class AuthCodeViewModel : BaseViewModel() {
 
         launchIO {
             if (repo.authenticate(authCode)) {
-                homeEvent.emit(Unit)
+                homeEvent.tryEmit(Unit)
             } else {
                 handleError(R.string.login_error)
             }

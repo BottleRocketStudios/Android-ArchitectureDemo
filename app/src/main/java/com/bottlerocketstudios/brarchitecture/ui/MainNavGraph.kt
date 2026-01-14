@@ -119,7 +119,7 @@ fun mainNavEntryProvider(
         mainWindowControls.title = stringResource(id = R.string.home_title)
         mainWindowControls.topLevel = true
         HomeScreen(state = viewModel.toState())
-        viewModel.itemSelected.LaunchCollection {
+        viewModel.repositorySelected.LaunchCollection {
             activityViewModel.selectedRepo.value = it.repo
             navigator.navigate(Routes.RepositoryBrowser(repoName = it.repo.name ?: ""))
         }

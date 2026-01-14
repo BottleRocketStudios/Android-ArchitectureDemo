@@ -12,6 +12,7 @@ import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,6 +100,11 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected fun <T> LiveData<T>.postValue(value: T?) = (this as? MutableLiveData<T>)?.postValue(value) ?: run { Timber.w("[postValue] unable to postValue for $this") }
 
     /**
+     * Shared flow that behaves like event
+     */
+    fun <T> event(): SharedFlow<T> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+
+    /**
      *  Helper functions to get access down casted mutable SharedFlows
      *    due to SharedFlow being covariant we must use templates with upper bounds to show type errors at build instead of run time.
      */
@@ -113,6 +119,12 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     protected suspend fun SharedFlow<Unit>.emit(value: Unit) =
         (this as? MutableSharedFlow<Unit>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+
+    protected fun <T> SharedFlow<T>.tryEmit(value: T) =
+        (this as? MutableSharedFlow<T>)?.tryEmit(value) ?: run {
+            Timber.w("[tryEmitValue] unable to tryEmit value for $this")
+            false
+        }
 
     /** Helper functions to avoid needing downcast declarations for public MutableStateFlow */
     protected fun <T : Number> StateFlow<T>.setValue(value: T) {
