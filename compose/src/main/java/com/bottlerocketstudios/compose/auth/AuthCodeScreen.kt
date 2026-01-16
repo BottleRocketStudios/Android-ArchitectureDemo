@@ -71,8 +71,9 @@ fun RequestAuth(url: String, onAuthCode: (String) -> Unit) {
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
-                    if (url?.contains("www.bottlerocketstudios.com") == true) {
-                        onAuthCode(Uri.parse(url).getQueryParameter("code") ?: "")
+                    if (url?.startsWith("https://www.bottlerocketstudios.com") == true) {
+                        val authCode = Uri.parse(url).getQueryParameter("code") ?: ""
+                        onAuthCode(authCode)
                     }
                 }
             }
@@ -133,6 +134,15 @@ private fun AuthCodeContent(state: AuthCodeState) {
                     .fillMaxWidth()
                     .padding(top = Dimens.grid_2_5)
             )
+            PrimaryButton(
+                buttonText = stringResource(id = R.string.login_cognito_button),
+                forceCaps = true,
+                onClick = state.onCognitoLoginClicked,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = Dimens.grid_2_5)
+            )
             SurfaceButton(
                 buttonText = stringResource(id = R.string.signup_button),
                 forceCaps = true,
@@ -161,6 +171,7 @@ private fun AuthCodePreview() {
                 devOptionsEnabled = true,
                 onAuthCode = {},
                 onLoginClicked = {},
+                onCognitoLoginClicked = {},
                 onSignupClicked = {},
                 onDevOptionsClicked = {},
                 showToolbar = {}

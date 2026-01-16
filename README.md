@@ -16,6 +16,7 @@ This is a sample project to demonstrate the architecture of an Android app. It d
 ## OAuth consumer key creation and setup steps
 <!-- textlint-disable terminology --><!-- Disabling to prevent terminology changes in urls, resulting in invalid urls -->
 
+### Option 1 - Bitbucket Auth
 * Generate a Bitbucket OAuth consumer key at <https://bitbucket.org/[your-bitbucket-username]/workspace/settings/api>
     * You must specify a callback URL with the following value for auth code login to work: <https://www.bottlerocketstudios.com/>
     * You must enable the following permissions (at a minimum) to ensure proper functioning of the app:
@@ -30,6 +31,18 @@ This is a sample project to demonstrate the architecture of an Android app. It d
 BITBUCKET_KEY="[oauth_consumer_key]"
 BITBUCKET_SECRET="[oauth_consumer_secret]"
 ```
+### Option 2 - AWS Cognito Auth
+
+* Edit "apikey.properties" to include:
+
+<!-- textlint-enable terminology -->
+```text
+COGNITO_DOMAIN="[cognito_user_pool_domain]"
+COGNITO_CLIENT_ID="[cognito_user_pool_client_id]"
+```
+* A test user will already need to be created in Cognito as sign-up is not supported yet.
+
+For Cognito, only the Profile feature is supported.
 
 ## Primary Docs
 * **Required reading** - [`NEW_PROJECT_STARTER.md`](./docs/NEW_PROJECT_STARTER.md) for information on how to use this repository as a new project starter.

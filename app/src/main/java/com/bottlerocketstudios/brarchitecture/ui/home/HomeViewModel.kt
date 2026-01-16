@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 import java.time.Clock
 
+// TODO: This is not updated for Cognito repo option. Ideally, Cognito just navigates to
+// Profile after authenticated
 class HomeViewModel : BaseViewModel() {
     // DI
     private val repo: BitbucketRepository by inject()
