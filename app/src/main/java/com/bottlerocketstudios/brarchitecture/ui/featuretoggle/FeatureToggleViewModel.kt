@@ -7,10 +7,15 @@ import org.koin.core.component.inject
 import timber.log.Timber
 
 class FeatureToggleViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val featureToggleRepository: FeatureToggleRepository by inject()
-    var featureToggles = featureToggleRepository.featureToggles
+    // endregion
 
+    // region UI State
+    var featureToggles = featureToggleRepository.featureToggles
+    // endregion
+
+    // region UI Callbacks
     fun onResetFeatureToggleClick() {
         Timber.v("[onResetFeatureToggleClick] Resetting Toggles now...")
         featureToggleRepository.resetTogglesToDefaultValues()
@@ -19,4 +24,5 @@ class FeatureToggleViewModel : BaseViewModel() {
     fun updateFeatureToggleValue(featureToggle: FeatureToggle) {
         featureToggleRepository.updateFeatureToggleValue(featureToggle)
     }
+    // endregion
 }

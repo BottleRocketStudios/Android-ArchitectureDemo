@@ -3,20 +3,30 @@ package com.bottlerocketstudios.brarchitecture.ui.repository
 import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
-
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.component.inject
 
 class RepositoryFileViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val repo: BitbucketRepository by inject()
+    // endregion
 
+    // region UI State
     val srcFile: MutableStateFlow<ByteArray?> = MutableStateFlow(null)
     val path: StateFlow<String> = MutableStateFlow("")
+    // endregion
 
-    fun loadFile(workspaceSlug: String, repoId: String, @Suppress("UNUSED_PARAMETER") mimetype: String, hash: String, path: String) {
+    // region UI Callbacks
+
+    fun loadFile(
+            workspaceSlug: String,
+            repoId: String,
+            @Suppress("UNUSED_PARAMETER") mimetype: String,
+            hash: String,
+            path: String
+    ) {
         launchIO {
             val result = repo.getSourceFile(workspaceSlug, repoId, hash, path)
             when (result) {
@@ -27,4 +37,5 @@ class RepositoryFileViewModel : BaseViewModel() {
             this@RepositoryFileViewModel.path.setValue(path)
         }
     }
+    // endregion
 }

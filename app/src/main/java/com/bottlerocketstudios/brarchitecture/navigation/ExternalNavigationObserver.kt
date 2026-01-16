@@ -9,9 +9,10 @@ import timber.log.Timber
  *
  * @see ExternalNavigationEvent
  */
-class ExternalNavigationObserver(private val activity: Activity) : Observer<ExternalNavigationEvent> {
-    override fun onChanged(event: ExternalNavigationEvent) {
-        Timber.v("[onChanged] event=$event")
-        event.navigate(activity)
+class ExternalNavigationObserver(private val activity: Activity) :
+        Observer<ExternalNavigationEvent> {
+    override fun onChanged(value: ExternalNavigationEvent) {
+        Timber.v("[onChanged] event=$value")
+        value.navigate(activity)
     }
 }

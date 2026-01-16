@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
         // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("proguard-rules.pro")
     }
@@ -26,9 +26,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
         // isCoreLibraryDesugaringEnabled = true
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
+    // kotlinOptions {
+    //    jvmTarget = JavaVersion.VERSION_17.toString()
+    // }
     buildFeatures {
         buildConfig = true
         compose = true
@@ -56,10 +56,11 @@ android {
             dimension = "environment"
         }
     }
-    variantFilter {
-        // Gradle ignores any variants that satisfy the conditions listed below. `productionDebug` has no value for this project.
-        if (name == "productionDebug" || name == "productionDebugMini") {
-            ignore = true
+    androidComponents {
+        beforeVariants(selector().all()) { variant ->
+            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
+                variant.enable = false
+            }
         }
     }
 }
@@ -142,4 +143,10 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.androidx.navigation)
     coreLibraryDesugaring(libs.core.library.desugaring)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }

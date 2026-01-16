@@ -16,14 +16,13 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
 class ProfileViewModel : BaseViewModel() {
-    // DI
+    // region DI
     private val repo: BitbucketRepository by inject()
     private val cognitoRepo: CognitoRepository by inject()
 
-    // UI
-    // UI
     private val bitbucketUser = repo.user
     private val cognitoUser = MutableStateFlow<CognitoUser?>(null)
+    // endregion
 
     init {
         launchIO {
@@ -31,6 +30,7 @@ class ProfileViewModel : BaseViewModel() {
         }
     }
 
+    // region UI State
     val avatarUrl: StateFlow<String> = bitbucketUser.map { it?.avatarUrl.orEmpty() }.groundState("")
     val displayName: Flow<String> = combine(bitbucketUser, cognitoUser) { bitbucket, cognito ->
         bitbucket?.displayName ?: cognito?.name ?: ""
@@ -38,22 +38,27 @@ class ProfileViewModel : BaseViewModel() {
     val nickname: Flow<String> = combine(bitbucketUser, cognitoUser) { bitbucket, cognito ->
         bitbucket?.nickname ?: cognito?.username ?: ""
     }
+    // endregion
 
-    // Events
+    // region Events
     val onLogout = MutableSharedFlow<Unit>()
+    // endregion
 
-    // UI Callbacks
+    // region UI Callbacks
     fun onEditClicked() {
-        externalNavigationEvent.postValue(ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri())))
+        externalNavigationEvent.postValue(
+                ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri()))
+        )
     }
 
     fun onLogoutClicked() {
-        repo.clear()
-        cognitoRepo.clear()
         launchIO {
+            repo.clear()
+            cognitoRepo.clear()
             onLogout.emit(Unit)
         }
     }
+    // endregion
 
     companion object {
         private const val BIT_BUCKET_SETTING_URL = "https://bitbucket.org/account/settings/"

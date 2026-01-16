@@ -8,7 +8,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,7 +23,7 @@ fun ArchAppBar(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val topLevel = state.topLevel
-    val navIcon = if (topLevel.value) Icons.Default.Menu else Icons.Default.ArrowBack
+    val navIcon = if (topLevel.value) Icons.Default.Menu else Icons.AutoMirrored.Filled.ArrowBack
 
     AnimatedVisibility(visible = state.showToolbar.value) {
         TopAppBar(
