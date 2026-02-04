@@ -14,13 +14,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bottlerocketstudios.compose.resources.Dimens
 import com.bottlerocketstudios.compose.util.Preview
 
+import androidx.compose.ui.text.style.TextAlign
+
 @Composable
 fun PrimaryButton(
     modifier: Modifier = Modifier,
     buttonText: String,
     forceCaps: Boolean = false,
     onClick: () -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    textAlign: TextAlign? = null
 ) {
     Button(
         onClick = { onClick() },
@@ -31,6 +34,7 @@ fun PrimaryButton(
     ) {
         Text(
             text = if (forceCaps) buttonText.uppercase() else buttonText,
+            textAlign = textAlign
         )
     }
 }

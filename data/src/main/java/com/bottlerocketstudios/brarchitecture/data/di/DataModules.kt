@@ -10,15 +10,18 @@ import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapp
 import com.bottlerocketstudios.brarchitecture.data.model.ResponseToApiResultMapperImpl
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketHttpClientFactory
 import com.bottlerocketstudios.brarchitecture.data.network.BitbucketServiceKtor
-import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
+import com.bottlerocketstudios.brarchitecture.data.network.CognitoService
 import com.bottlerocketstudios.brarchitecture.data.network.auth.token.TokenAuthServiceKtor
+import com.bottlerocketstudios.brarchitecture.data.network.auth.BitbucketCredentialsRepository
 import com.bottlerocketstudios.brarchitecture.data.repository.BitbucketRepositoryImpl
+import com.bottlerocketstudios.brarchitecture.data.repository.CognitoRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.repository.FeatureToggleRepositoryImpl
 import com.bottlerocketstudios.brarchitecture.data.serialization.DateTimeSerializer
 import com.bottlerocketstudios.brarchitecture.data.serialization.ProtectedPropertySerializer
 import com.bottlerocketstudios.brarchitecture.data.serialization.ValidCredentialSerializer
 import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.CognitoRepository
 import com.bottlerocketstudios.brarchitecture.domain.repositories.FeatureToggleRepository
 import com.bottlerocketstudios.brarchitecture.domain.utils.ProtectedProperty
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
@@ -30,7 +33,6 @@ import java.time.ZonedDateTime
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.contextual
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -57,6 +59,7 @@ object DataModule {
             }
         }
         single<BitbucketRepository> { BitbucketRepositoryImpl() }
+        single<CognitoRepository> { CognitoRepositoryImpl(cognitoService = get()) }
         single<FeatureToggleRepository> { FeatureToggleRepositoryImpl(json = get()) }
         single<EnvironmentRepository> {
             EnvironmentRepositoryImpl(
@@ -88,6 +91,7 @@ object NetworkModule {
         single(named("api")) { get<BitbucketHttpClientFactory>().apiClient }
         single(named("auth")) { get<BitbucketHttpClientFactory>().authClient }
         single { BitbucketServiceKtor() }
+        single { CognitoService() }
     }
 }
 

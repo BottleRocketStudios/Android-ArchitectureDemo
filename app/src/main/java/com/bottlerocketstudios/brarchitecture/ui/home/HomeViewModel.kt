@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 
+// TODO: This is not updated for Cognito repo option. Ideally, Cognito just navigates to
+// Profile after authenticated
 class HomeViewModel : BaseViewModel() {
     // region DI
     private val repo: BitbucketRepository by inject()

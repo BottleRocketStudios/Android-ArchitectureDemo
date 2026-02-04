@@ -7,6 +7,7 @@ data class AuthCodeState(
     val devOptionsEnabled: Boolean,
     val onAuthCode: (String) -> Unit,
     val onLoginClicked: () -> Unit,
+    val onCognitoLoginClicked: () -> Unit,
     val onSignupClicked: () -> Unit,
     val onDevOptionsClicked: () -> Unit,
     val showToolbar: (show: Boolean) -> Unit,

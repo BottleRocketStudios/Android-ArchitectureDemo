@@ -14,6 +14,7 @@
     <string name="login_hide_password_accessibility">Hide Password</string>
     <string name="login_forgot">Forgot ID or Password?</string>
     <string name="login_button">Login</string>
+    <string name="login_cognito_button">Login with Cognito</string>
     <string name="signup_button">Sign Up</string>
     <string name="login_error">Login Error</string>
     <string name="dev_options_button">Dev Options</string>

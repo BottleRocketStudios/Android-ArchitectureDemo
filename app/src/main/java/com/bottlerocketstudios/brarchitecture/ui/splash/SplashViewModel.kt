@@ -1,6 +1,7 @@
 package com.bottlerocketstudios.brarchitecture.ui.splash
 
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
+import com.bottlerocketstudios.brarchitecture.domain.repositories.CognitoRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -9,6 +10,7 @@ import org.koin.core.component.inject
 class SplashViewModel : BaseViewModel() {
     // region DI
     val repo: BitbucketRepository by inject()
+    val cognitoRepo: CognitoRepository by inject()
     // endregion
 
     // region Events
@@ -19,7 +21,7 @@ class SplashViewModel : BaseViewModel() {
     // region Init
     init {
         launchIO {
-            if (repo.authenticate()) {
+            if (repo.authenticate() || cognitoRepo.isAuthenticated()) {
                 authEvent.emit(Unit)
             } else {
                 unAuthEvent.emit(Unit)

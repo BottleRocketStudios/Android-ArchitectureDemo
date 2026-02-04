@@ -24,6 +24,8 @@ android {
         lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
         buildConfigField("String", "BITBUCKET_KEY", apikey.key)
         buildConfigField("String", "BITBUCKET_SECRET", apikey.secret)
+        buildConfigField("String", "COGNITO_DOMAIN", apikey.cognitoDomain)
+        buildConfigField("String", "COGNITO_CLIENT_ID", apikey.cognitoClientId)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -108,6 +110,21 @@ class ApiKeyProperties(pathToProperties: String, project: Project) {
         } else {
             throw(Exception("Unable to find BITBUCKET_SECRET in apikey.properties"))
         }
+
+    val cognitoDomain: String
+        get() = if (apikeyProperties["COGNITO_DOMAIN"] is String) {
+            apikeyProperties["COGNITO_DOMAIN"] as String
+        } else {
+            "" // Default or throw exception depending on strictness
+        }
+
+    val cognitoClientId: String
+        get() = if (apikeyProperties["COGNITO_CLIENT_ID"] is String) {
+            apikeyProperties["COGNITO_CLIENT_ID"] as String
+        } else {
+            ""
+        }
+
 }
 
 dependencies {

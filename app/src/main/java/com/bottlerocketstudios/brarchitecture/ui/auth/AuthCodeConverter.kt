@@ -9,6 +9,7 @@ fun AuthCodeViewModel.toState(showToolbar: (show: Boolean) -> Unit) = AuthCodeSt
     requestUrl = requestUrl.collectAsState(),
     devOptionsEnabled = devOptionsEnabled,
     onLoginClicked = ::onLoginClicked,
+    onCognitoLoginClicked = ::onCognitoLoginClicked,
     onSignupClicked = ::onSignUpClicked,
     onDevOptionsClicked = ::onDevOptionsClicked,
     onAuthCode = ::onAuthCode,
