@@ -129,42 +129,42 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
 
     // region API Response handling
-    /**
-     * Helper function to log throwable when a repository returns a failure.
-     * [useApiError] By default, false. If set to true, will use error string from [APIException].
-     */
-    suspend fun <T> Result<T>.onFailureLogged(
-        tag: String? = null,
-        @StringRes errorStrId: Int = -1,
-        useApiError: Boolean = false,
-        action: ((Throwable) -> Unit)? = null,
-    ): Result<T> =
-        onFailure {
-            log.e(tag = tag, message = it.message, t = it)
-            if (BuildConfig.DEBUG) {
-                log.e(tag = tag, message = it.buildExceptionErrorString())
-            }
-
-            runOnMain {
-                if (useApiError) {
-                    toaster.toast(
-                        it.buildExceptionErrorString(),
-                        Toast.LENGTH_LONG,
-                    )
-                } else if (errorStrId != -1) {
-                    toaster.toast(
-                        errorStrId,
-                        Toast.LENGTH_LONG,
-                    )
-                } else {
-                    toaster.toast(
-                        it.message ?: "Unknown Error",
-                        Toast.LENGTH_LONG,
-                    )
-                }
-            }
-            action?.invoke(it)
-        }
+    // /**
+    //  * Helper function to log throwable when a repository returns a failure.
+    //  * [useApiError] By default, false. If set to true, will use error string from [APIException].
+    //  */
+    // suspend fun <T> Result<T>.onFailureLogged(
+    //     tag: String? = null,
+    //     @StringRes errorStrId: Int = -1,
+    //     useApiError: Boolean = false,
+    //     action: ((Throwable) -> Unit)? = null,
+    // ): Result<T> =
+    //     onFailure {
+    //         log.e(tag = tag, message = it.message, t = it)
+    //         if (BuildConfig.DEBUG) {
+    //             log.e(tag = tag, message = it.buildExceptionErrorString())
+    //         }
+    //
+    //         runOnMain {
+    //             if (useApiError) {
+    //                 toaster.toast(
+    //                     it.buildExceptionErrorString(),
+    //                     Toast.LENGTH_LONG,
+    //                 )
+    //             } else if (errorStrId != -1) {
+    //                 toaster.toast(
+    //                     errorStrId,
+    //                     Toast.LENGTH_LONG,
+    //                 )
+    //             } else {
+    //                 toaster.toast(
+    //                     it.message ?: "Unknown Error",
+    //                     Toast.LENGTH_LONG,
+    //                 )
+    //             }
+    //         }
+    //         action?.invoke(it)
+    //     }
 
     /**
      * Allows wrapping loading indicator control logic.
