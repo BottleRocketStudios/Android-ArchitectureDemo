@@ -6,7 +6,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.parcelize)
     alias(libs.plugins.ksp)
@@ -73,7 +73,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
         getByName("debug") {
@@ -94,7 +94,7 @@ android {
             matchingFallbacks += listOf("debug")
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     flavorDimensions += listOf("environment")
@@ -112,6 +112,13 @@ android {
             buildConfigField("boolean", "INTERNAL", "false")
             buildConfigField("boolean", "PRODUCTION", "true")
             dimension = "environment"
+        }
+    }
+    androidComponents {
+        beforeVariants(selector().all()) { variant ->
+            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
+                variant.enable = false
+            }
         }
     }
 }
