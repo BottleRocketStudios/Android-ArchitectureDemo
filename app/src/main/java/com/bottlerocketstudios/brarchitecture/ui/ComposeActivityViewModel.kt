@@ -20,7 +20,7 @@ class ComposeActivityViewModel : BaseViewModel() {
 
     // State
     val selectedRepo = MutableStateFlow(GitRepository(null, null, null, null, null, null, null))
-    val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+    val devOptionsEnabled = buildConfigProvider.isDebugBuild
 
     // Profile info
     val avatarUrl = repo.user.map { it?.avatarUrl.orEmpty() }.groundState("")

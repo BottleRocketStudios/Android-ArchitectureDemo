@@ -33,36 +33,6 @@ android {
         buildConfig = true
         compose = true
     }
-
-
-    buildTypes {
-        // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
-        create("debugMini") {
-            initWith(getByName("debug"))
-            matchingFallbacks += listOf("debug")
-        }
-    }
-    flavorDimensions += listOf("environment")
-    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
-    productFlavors {
-        create("internal") {
-            buildConfigField("boolean", "INTERNAL", "true")
-            buildConfigField("boolean", "PRODUCTION", "false")
-            dimension = "environment"
-        }
-        create("production") {
-            buildConfigField("boolean", "INTERNAL", "false")
-            buildConfigField("boolean", "PRODUCTION", "true")
-            dimension = "environment"
-        }
-    }
-    androidComponents {
-        beforeVariants(selector().all()) { variant ->
-            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
-                variant.enable = false
-            }
-        }
-    }
 }
 
 ktlint {
@@ -141,7 +111,6 @@ dependencies {
     testImplementation(libs.koin.android.test)
     implementation(libs.koin)
     implementation(libs.koin.compose)
-    implementation(libs.androidx.navigation)
     coreLibraryDesugaring(libs.core.library.desugaring)
 }
 

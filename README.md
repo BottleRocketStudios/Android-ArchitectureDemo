@@ -4,8 +4,7 @@ This is a sample project to demonstrate the architecture of an Android app. It d
 ## Features
 - Jetpack Compose (Material 3) - UI
 - Ktor - HTTP Client
-- Compose Navigation 2 (TODO upgrade to Compose Navigation 3)
-- 
+- Compose Navigation 3
 
 ## How to Open Project in Android Studio
 * Clone project to local machine
@@ -34,14 +33,6 @@ BITBUCKET_SECRET="[oauth_consumer_secret]"
 ## Primary Docs
 * **Required reading** - [`NEW_PROJECT_STARTER.md`](./docs/NEW_PROJECT_STARTER.md) for information on how to use this repository as a new project starter.
 * **Required reading** - [`BEST_PRACTICES.md`](./docs/BEST_PRACTICES.md) for Android engineering team norms for the project.
-
-## Pre-PR Creation Checklist
-1. Create 1+ commits locally until work is completed.
-2. Execute the Android Studio `ci - internalDebug (minus clean) - dev build` Run Configuration (via `Run` -> `Run...` or `Ctrl+Opt+R` on macOS)
-    * Fix any failures that surface due to linting, compilation, or unit tests.
-3. Build/install the `internalDebugMini` variant on your testing emulator/device (enables proguard and will crash if proguard rules need tweaking but weren't)
-4. Smoke test the app and ensure no regressions/crashes/unexpected behavior.
-5. Create PR!
 
 ## Updating Dependencies
 The project is using the Gradle Versions plugin to do a lot of heavy lifting here!

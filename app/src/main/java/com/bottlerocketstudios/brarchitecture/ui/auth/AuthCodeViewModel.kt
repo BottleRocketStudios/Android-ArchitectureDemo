@@ -21,7 +21,7 @@ class AuthCodeViewModel : BaseViewModel() {
 
     // region UI State
     val requestUrl = MutableStateFlow("")
-    val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+    val devOptionsEnabled = buildConfigProvider.isDebugBuild
     // endregion
 
     // region Events
