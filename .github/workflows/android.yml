@@ -24,3 +24,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew assembleDebug
+      env:
+        # Explicitly map the GitHub secrets to environment variables
+        BITBUCKET_KEY: ${{ secrets.BITBUCKET_KEY }}
+        BITBUCKET_SECRET: ${{ secrets.BITBUCKET_SECRET }}
