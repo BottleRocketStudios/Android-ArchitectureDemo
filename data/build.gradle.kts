@@ -52,30 +52,34 @@ android {
 
 }
 
-
-
 // TODO: TEMPLATE - Remove this class (and all its usages) when creating a new project
 class ApiKeyProperties(pathToProperties: String, project: Project) {
     private val apikeyPropertiesFile = project.file(pathToProperties)
     private val apikeyProperties = Properties()
 
     init {
-        apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
+        if (apikeyPropertiesFile.exists()) {
+            apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
+        }
+    }
+
+    private fun getEnvOrProp(keyName: String): String {
+        val envValue: String? = System.getenv(keyName)
+        if (!envValue.isNullOrEmpty()) {
+            return if (envValue.startsWith("\"") && envValue.endsWith("\"")) envValue else "\"$envValue\""
+        }
+        val propValue = apikeyProperties[keyName]
+        if (propValue is String) {
+            return propValue
+        }
+        throw Exception("Unable to find $keyName in environment or apikey.properties")
     }
 
     val key: String
-        get() = if (apikeyProperties["BITBUCKET_KEY"] is String) {
-            apikeyProperties["BITBUCKET_KEY"] as String
-        } else {
-            throw(Exception("Unable to find BITBUCKET_KEY in apikey.properties"))
-        }
+        get() = getEnvOrProp("BITBUCKET_KEY")
 
     val secret: String
-        get() = if (apikeyProperties["BITBUCKET_SECRET"] is String) {
-            apikeyProperties["BITBUCKET_SECRET"] as String
-        } else {
-            throw(Exception("Unable to find BITBUCKET_SECRET in apikey.properties"))
-        }
+        get() = getEnvOrProp("BITBUCKET_SECRET")
 }
 
 dependencies {
