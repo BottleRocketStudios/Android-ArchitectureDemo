@@ -8,14 +8,14 @@ const val TEST_BUILD_PROD = "test_build_prod"
 /** Preconfigured [BuildConfigProvider] to simplify usage of common configurations for easier testing  */
 object MockBuildConfigProvider {
     val DEV = object : BuildConfigProvider {
-        override val isDebugOrInternalBuild = true
-        override val isProductionReleaseBuild = !isDebugOrInternalBuild
+        override val isDebugBuild = true
+        override val isProductionReleaseBuild = !isDebugBuild
         override val buildIdentifier = TEST_BUILD_DEV
     }
 
     val PROD_RELEASE = object : BuildConfigProvider {
-        override val isDebugOrInternalBuild = false
-        override val isProductionReleaseBuild = !isDebugOrInternalBuild
+        override val isDebugBuild = false
+        override val isProductionReleaseBuild = !isDebugBuild
         override val buildIdentifier = TEST_BUILD_PROD
     }
 }

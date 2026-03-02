@@ -4,8 +4,8 @@ import com.bottlerocketstudios.brarchitecture.BuildConfig
 import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvider
 
 class BuildConfigProviderImpl : BuildConfigProvider {
-    override val isDebugOrInternalBuild: Boolean
-        get() = isDebugOrInternalBuild()
+    override val isDebugBuild: Boolean
+        get() = isDebugBuild()
     override val isProductionReleaseBuild: Boolean
         get() = isProductionReleaseBuild()
     override val buildIdentifier: String
@@ -14,4 +14,4 @@ class BuildConfigProviderImpl : BuildConfigProvider {
 
 private fun isProductionReleaseBuild() = !BuildConfig.DEBUG
 
-private fun isDebugOrInternalBuild() = BuildConfig.DEBUG
+private fun isDebugBuild() = BuildConfig.DEBUG

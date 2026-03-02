@@ -5,14 +5,14 @@ import com.bottlerocketstudios.brarchitecture.data.buildconfig.BuildConfigProvid
 /** Preconfigured [BuildConfigProvider] to simplify usage of common configurations for easier testing  */
 object MockBuildConfigProviders {
     val DEV = object : BuildConfigProvider {
-        override val isDebugOrInternalBuild = true
-        override val isProductionReleaseBuild = !isDebugOrInternalBuild
+        override val isDebugBuild = true
+        override val isProductionReleaseBuild = !isDebugBuild
         override val buildIdentifier = ""
     }
 
     val PROD_RELEASE = object : BuildConfigProvider {
-        override val isDebugOrInternalBuild = false
-        override val isProductionReleaseBuild = !isDebugOrInternalBuild
+        override val isDebugBuild = false
+        override val isProductionReleaseBuild = !isDebugBuild
         override val buildIdentifier = ""
     }
 }

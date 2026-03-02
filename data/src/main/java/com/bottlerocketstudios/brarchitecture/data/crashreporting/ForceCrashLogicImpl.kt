@@ -11,7 +11,7 @@ class ForceCrashLogicImpl(private val buildConfigProvider: BuildConfigProvider) 
     }
 
     override fun forceCrashNow() {
-        if (buildConfigProvider.isDebugOrInternalBuild) {
+        if (buildConfigProvider.isDebugBuild) {
             forceCrashOnMatch(CRASH_TRIGGER_TEXT)
         }
     }

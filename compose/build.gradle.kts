@@ -33,16 +33,6 @@ android {
         buildConfig = true
         compose = true
     }
-
-
-    buildTypes {
-        // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
-        create("debugMini") {
-            initWith(getByName("debug"))
-            matchingFallbacks += listOf("debug")
-        }
-    }
-
 }
 
 ktlint {

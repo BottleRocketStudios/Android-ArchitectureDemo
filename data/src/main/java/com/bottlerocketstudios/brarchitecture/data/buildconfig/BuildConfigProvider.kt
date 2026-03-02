@@ -3,10 +3,10 @@ package com.bottlerocketstudios.brarchitecture.data.buildconfig
 /** Abstracts values from the application generated BuildConfig to be accessible anywhere and improve testability */
 interface BuildConfigProvider {
 
-    /** True when this is a developer or debug type build. ![isDebugOrInternalBuild] == [isProductionReleaseBuild] */
-    val isDebugOrInternalBuild: Boolean
+    /** True when this is a developer or debug type build. ![isDebugBuild] == [isProductionReleaseBuild] */
+    val isDebugBuild: Boolean
 
-    /** True when this is the release variant.  ![isProductionReleaseBuild] == [isDebugOrInternalBuild]  */
+    /** True when this is the release variant.  ![isProductionReleaseBuild] == [isDebugBuild]  */
     val isProductionReleaseBuild: Boolean
 
     /**
