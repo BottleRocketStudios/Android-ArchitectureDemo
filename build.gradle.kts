@@ -20,7 +20,6 @@ plugins {
     // alias(libs.plugins.kover) apply false
     alias(libs.plugins.ktLint)
     alias(libs.plugins.kotlinSerialization) apply false
-    alias(libs.plugins.androidx.navigation.safeargs) apply false
     alias(libs.plugins.crashlytics) apply false
     alias(libs.plugins.firebase.perf) apply false
     alias(libs.plugins.firebase.app.distribution) apply false

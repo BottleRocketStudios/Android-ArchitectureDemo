@@ -111,7 +111,6 @@ dependencies {
     testImplementation(libs.koin.android.test)
     implementation(libs.koin)
     implementation(libs.koin.compose)
-    implementation(libs.androidx.navigation)
     coreLibraryDesugaring(libs.core.library.desugaring)
 }
 

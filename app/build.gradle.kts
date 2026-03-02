@@ -126,7 +126,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.window)
-    implementation(libs.androidx.navigation)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
