@@ -4,8 +4,7 @@ This is a sample project to demonstrate the architecture of an Android app. It d
 ## Features
 - Jetpack Compose (Material 3) - UI
 - Ktor - HTTP Client
-- Compose Navigation 2 (TODO upgrade to Compose Navigation 3)
--
+- Compose Navigation 3
 
 ## How to Open Project in Android Studio
 * Clone project to local machine
