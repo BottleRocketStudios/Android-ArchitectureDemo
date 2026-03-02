@@ -2,7 +2,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlin.android)
+
     alias(libs.plugins.ksp)
     alias(libs.plugins.parcelize)
     // alias(libs.plugins.screenshot)
