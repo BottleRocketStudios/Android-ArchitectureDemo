@@ -54,37 +54,10 @@ android {
             matchingFallbacks += listOf("debug")
         }
     }
-    flavorDimensions += listOf("environment")
-    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
-    productFlavors {
-        create("internal") {
-            buildConfigField("boolean", "INTERNAL", "true")
-            buildConfigField("boolean", "PRODUCTION", "false")
-            dimension = "environment"
-        }
-        create("production") {
-            buildConfigField("boolean", "INTERNAL", "false")
-            buildConfigField("boolean", "PRODUCTION", "true")
-            dimension = "environment"
-        }
-    }
-    androidComponents {
-        beforeVariants(selector().all()) { variant ->
-            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
-                variant.enable = false
-            }
-        }
-    }
+
 }
 
-// Declare configurations per variant to use in the dependencies block below. More info: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/#custom_configurations_and_dependencies
-private val internalDebugImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalDebugMiniImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
-val productionReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
 
-/** List of all buildable dev configurations */
-val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
 // TODO: TEMPLATE - Remove this class (and all its usages) when creating a new project
 class ApiKeyProperties(pathToProperties: String, project: Project) {

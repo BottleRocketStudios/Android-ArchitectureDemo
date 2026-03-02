@@ -35,7 +35,7 @@ project.afterEvaluate {
     def buildTypes = ["debug", "release"]
 
     // The root project doesn't have access to the android scope to retrieve product flavors dynamically. This static list should match the actual product flavors defined in the :app build.gradle.kts
-    def productFlavors = ["internal", "production"]
+    def productFlavors = []
 
     // When no product flavors defined, use empty
     if (!productFlavors) productFlavors.add('')

@@ -97,30 +97,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    flavorDimensions += listOf("environment")
-    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
-    productFlavors {
-        create("internal") {
-            applicationId = "com.bottlerocketstudios.brarchitecture.internal" // TODO: TEMPLATE - Replace with appropriate project applicationId prefix, leaving .internal
-            versionNameSuffix = "-internal"
-            buildConfigField("boolean", "INTERNAL", "true")
-            buildConfigField("boolean", "PRODUCTION", "false")
-            dimension = "environment"
-        }
-        create("production") {
-            applicationId = "com.bottlerocketstudios.brarchitecture" // TODO: TEMPLATE - Replace full string with appropriate project applicationId
-            buildConfigField("boolean", "INTERNAL", "false")
-            buildConfigField("boolean", "PRODUCTION", "true")
-            dimension = "environment"
-        }
-    }
-    androidComponents {
-        beforeVariants(selector().all()) { variant ->
-            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
-                variant.enable = false
-            }
-        }
-    }
+
 }
 
 ktlint {
