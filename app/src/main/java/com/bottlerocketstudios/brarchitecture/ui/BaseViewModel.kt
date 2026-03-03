@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.BuildConfig
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
@@ -63,18 +62,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         runOnMain { toaster.toast(messageId) }
     }
 
-    /** Used to apply default error when handling Status and process a success block. */
-    suspend inline fun <T : Any> Status<T>.handlingErrors(
-            @StringRes messageId: Int,
-            onSuccess: (T) -> Unit
-    ): Status<T> {
-        if (this is Status.Success) {
-            onSuccess(this.data)
-        } else {
-            handleError(messageId = messageId)
-        }
-        return this
-    }
     // endregion
 
     // region Navigation

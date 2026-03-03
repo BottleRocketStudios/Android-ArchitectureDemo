@@ -12,12 +12,11 @@ import com.bottlerocketstudios.brarchitecture.data.model.PullRequestDto
 import com.bottlerocketstudios.brarchitecture.data.model.RepoFileDto
 import com.bottlerocketstudios.brarchitecture.data.model.SnippetDto
 import com.bottlerocketstudios.brarchitecture.data.model.UserDto
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
+import java.time.ZonedDateTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.mockito.kotlin.mock
-import java.time.ZonedDateTime
 
 const val TEST_USER_NAME = "test_user_name"
 const val TEST_USER_DISPLAY_NAME = "test_user_display_name"
@@ -46,21 +45,24 @@ object MockBitBucketRepo {
     var causeFailure = false
 
     var testRepoFile = RepoFileDto(TEST_TYPE, TEST_PATH, "", listOf(""), 0, null)
-    var testGitRepositoryDto = GitRepositoryDto(name = TEST_REPO, updated = ZonedDateTime.parse(ZONE_DATE_TIME))
+    var testGitRepositoryDto =
+            GitRepositoryDto(name = TEST_REPO, updated = ZonedDateTime.parse(ZONE_DATE_TIME))
     var testGitRepositoryDtoList = listOf(testGitRepositoryDto)
-    var testUserDto = UserDto(
-        username = TEST_USER_NAME,
-        displayName = TEST_USER_DISPLAY_NAME,
-        nickname = TEST_USER_NICKNAME,
-        linksDto = LinksDto(avatar = LinkDto(href = TEST_USER_LINK, name = "user"))
-    )
-    var snippetDto = SnippetDto(
-        id = SNIPPET_ID,
-        title = SNIPPET_TITLE,
-        isPrivate = isPrivate,
-        owner = testUserDto,
-        updated = ZonedDateTime.parse(ZONE_DATE_TIME)
-    )
+    var testUserDto =
+            UserDto(
+                    username = TEST_USER_NAME,
+                    displayName = TEST_USER_DISPLAY_NAME,
+                    nickname = TEST_USER_NICKNAME,
+                    linksDto = LinksDto(avatar = LinkDto(href = TEST_USER_LINK, name = "user"))
+            )
+    var snippetDto =
+            SnippetDto(
+                    id = SNIPPET_ID,
+                    title = SNIPPET_TITLE,
+                    isPrivate = isPrivate,
+                    owner = testUserDto,
+                    updated = ZonedDateTime.parse(ZONE_DATE_TIME)
+            )
 
     val bitbucketRepository: BitbucketRepository = mock {
         on { user }.then { _user.map { it?.toUser() } }
@@ -80,30 +82,31 @@ object MockBitBucketRepo {
         }
         onBlocking { refreshUser() }.then {
             _user.value = testUserDto
-            Status.Success(Unit)
+            Result.success(Unit)
         }
         onBlocking { refreshMyRepos() }.then {
             _repos.value = testGitRepositoryDtoList
-            Status.Success(Unit)
+            Result.success(Unit)
         }
         onBlocking { refreshMySnippets() }.then {
             _snippets.value = listOf(snippetDto)
-            Status.Success(listOf(snippetDto.convertToSnippet()))
+            Result.success(listOf(snippetDto.convertToSnippet()))
         }
         onBlocking { getSourceFolder("", TEST_REPO, TEST_HASH, TEST_PATH) }.then {
-            Status.Success(listOf(testRepoFile.toRepoFile()))
+            Result.success(listOf(testRepoFile.toRepoFile()))
         }
         onBlocking { getSource("", TEST_REPO) }.then {
-            Status.Success(listOf(testRepoFile.toRepoFile()))
+            Result.success(listOf(testRepoFile.toRepoFile()))
         }
         onBlocking { getSourceFile("", TEST_REPO_ID, TEST_HASH, TEST_PATH) }.then {
-            Status.Success(byteArrayOf(1, 2, 3, 4))
+            Result.success(byteArrayOf(1, 2, 3, 4))
         }
-        onBlocking { createSnippet(SNIPPET_TITLE, SNIPPET_FILENAME, SNIPPET_CONTENTS, isPrivate) }.then {
-            when (causeFailure) {
-                false -> Status.Success(Unit)
-                true -> Status.Failure.GeneralFailure("")
-            }
-        }
+        onBlocking { createSnippet(SNIPPET_TITLE, SNIPPET_FILENAME, SNIPPET_CONTENTS, isPrivate) }
+                .then {
+                    when (causeFailure) {
+                        false -> Result.success(Unit)
+                        true -> Result.failure<Unit>(Exception(""))
+                    }
+                }
     }
 }
