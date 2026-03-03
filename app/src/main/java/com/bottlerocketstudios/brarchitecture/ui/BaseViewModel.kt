@@ -1,16 +1,18 @@
 package com.bottlerocketstudios.brarchitecture.ui
 
 import android.widget.Toast
-import androidx.annotation.MainThread
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bottlerocketstudios.brarchitecture.BuildConfig
 import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.infrastructure.coroutine.DispatcherProvider
 import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
+import com.bottlerocketstudios.brarchitecture.ui.util.logger.TAG_NAV
+import com.bottlerocketstudios.brarchitecture.utils.error.buildExceptionErrorString
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -28,51 +30,44 @@ import org.koin.core.component.inject
 import timber.log.Timber
 
 @Suppress("TooManyFunctions")
-/** Provides common utility functionality for ViewModels including [LiveEvent]s for external navigation */
+/**
+ * Provides common utility functionality for ViewModels including [LiveEvent]s for external
+ * navigation
+ */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
-    //region DI
+    // region DI
     protected val dispatcherProvider: DispatcherProvider by inject()
     protected val toaster: Toaster by inject()
-    //endregion
+    // endregion
 
-    //region Helpers
-    /**
-     * Helper to launch to IO thread quickly
-     */
+    // region Helpers
+    /** Helper to launch to IO thread quickly */
     fun launchIO(block: suspend CoroutineScope.() -> Unit): Job =
-        viewModelScope.launch(dispatcherProvider.IO, block = block)
+            viewModelScope.launch(dispatcherProvider.IO, block = block)
 
     /**
-     * Utility function to switch coroutine context to Main.
-     * Useful for making UI updates from IO
+     * Utility function to switch coroutine context to Main. Useful for making UI updates from IO
      */
     suspend fun runOnMain(block: suspend CoroutineScope.() -> Unit) =
-        withContext(dispatcherProvider.Main, block)
-    //endregion
+            withContext(dispatcherProvider.Main, block)
+    // endregion
 
-    //region Error handling
-    /**
-     * Used to display error message with standard UI pattern
-     */
+    // region Error handling
+    /** Used to display error message with standard UI pattern */
     suspend fun handleError(@StringRes messageId: Int) {
-        runOnMain {
-            toaster.toast(messageId)
-        }
+        runOnMain { toaster.toast(messageId) }
     }
 
-    /**
-     * Used to display a notification message with standard UI pattern
-     */
+    /** Used to display a notification message with standard UI pattern */
     suspend fun notifyUser(@StringRes messageId: Int) {
-        runOnMain {
-            toaster.toast(messageId)
-        }
+        runOnMain { toaster.toast(messageId) }
     }
 
-    /**
-     * Used to apply default error when handling Status and process a success block.
-     */
-    suspend inline fun <T : Any> Status<T>.handlingErrors(@StringRes messageId: Int, onSuccess: (T) -> Unit): Status<T> {
+    /** Used to apply default error when handling Status and process a success block. */
+    suspend inline fun <T : Any> Status<T>.handlingErrors(
+            @StringRes messageId: Int,
+            onSuccess: (T) -> Unit
+    ): Status<T> {
         if (this is Status.Success) {
             onSuccess(this.data)
         } else {
@@ -80,34 +75,49 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         }
         return this
     }
-    //endregion
+    // endregion
 
-    //region Navigation
+    // region Navigation
+    /** Use to send [ExternalNavigationEvent]s (from subclasses). */
+    val externalNavigationEvent: LiveData<ExternalNavigationEvent> =
+            LiveEvent<ExternalNavigationEvent>()
+    // endregion
+
+    // region Helpers (continued)
     /**
-     * Use to send [ExternalNavigationEvent]s (from subclasses).
+     * Helper function to avoid needing downcast declarations for public MutableLiveData or
+     * LiveEvent
      */
-    val externalNavigationEvent: LiveData<ExternalNavigationEvent> = LiveEvent<ExternalNavigationEvent>()
-    //endregion
-
-    //region Helpers (continued)
-    /** Helper function to avoid needing downcast declarations for public MutableLiveData or LiveEvent */
-    protected fun <T> LiveData<T>.set(value: T?) = (this as? MutableLiveData<T>)?.setValue(value) ?: run { Timber.w("[set] unable to setValue for $this") }
-
-    /** Helper function to avoid needing downcast declarations for public MutableLiveData or LiveEvent */
-    protected fun <T> LiveData<T>.postValue(value: T?) = (this as? MutableLiveData<T>)?.postValue(value) ?: run { Timber.w("[postValue] unable to postValue for $this") }
+    protected fun <T> LiveData<T>.set(value: T?) =
+            (this as? MutableLiveData<T>)?.setValue(value)
+                    ?: run { Timber.w("[set] unable to setValue for $this") }
 
     /**
-     *  Helper functions to get access down casted mutable SharedFlows
+     * Helper function to avoid needing downcast declarations for public MutableLiveData or
+     * LiveEvent
+     */
+    protected fun <T> LiveData<T>.postValue(value: T?) =
+            (this as? MutableLiveData<T>)?.postValue(value)
+                    ?: run { Timber.w("[postValue] unable to postValue for $this") }
+
+    /**
+     * Helper functions to get access down casted mutable SharedFlows
+     * ```
      *    due to SharedFlow being covariant we must use templates with upper bounds to show type errors at build instead of run time.
+     * ```
      */
     protected suspend fun <T : Number?> SharedFlow<T>.emit(value: T) =
-        (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+            (this as? MutableSharedFlow<T>)?.emit(value)
+                    ?: run { Timber.w("[emitValue] unable to emit value for $this") }
     protected suspend fun <T : CharSequence> SharedFlow<T>.emit(value: T) =
-        (this as? MutableSharedFlow<T>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+            (this as? MutableSharedFlow<T>)?.emit(value)
+                    ?: run { Timber.w("[emitValue] unable to emit value for $this") }
     protected suspend fun SharedFlow<Boolean>.emit(value: Boolean) =
-        (this as? MutableSharedFlow<Boolean>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+            (this as? MutableSharedFlow<Boolean>)?.emit(value)
+                    ?: run { Timber.w("[emitValue] unable to emit value for $this") }
     protected suspend fun SharedFlow<Unit>.emit(value: Unit) =
-        (this as? MutableSharedFlow<Unit>)?.emit(value) ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+            (this as? MutableSharedFlow<Unit>)?.emit(value)
+                    ?: run { Timber.w("[emitValue] unable to emit value for $this") }
 
     /** Helper functions to avoid needing downcast declarations for public MutableStateFlow */
     protected fun <T : Number> StateFlow<T>.setValue(value: T) {
@@ -124,51 +134,48 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     }
 
     // Ties flow to viewModelScope to give StateFlow.
-    fun <T> Flow<T>.groundState(initialValue: T) = this.stateIn(viewModelScope, SharingStarted.Eagerly, initialValue)
-    //endregion
-
+    fun <T> Flow<T>.groundState(initialValue: T) =
+            this.stateIn(viewModelScope, SharingStarted.Eagerly, initialValue)
+    // endregion
 
     // region API Response handling
-    // /**
-    //  * Helper function to log throwable when a repository returns a failure.
-    //  * [useApiError] By default, false. If set to true, will use error string from [APIException].
-    //  */
-    // suspend fun <T> Result<T>.onFailureLogged(
-    //     tag: String? = null,
-    //     @StringRes errorStrId: Int = -1,
-    //     useApiError: Boolean = false,
-    //     action: ((Throwable) -> Unit)? = null,
-    // ): Result<T> =
-    //     onFailure {
-    //         log.e(tag = tag, message = it.message, t = it)
-    //         if (BuildConfig.DEBUG) {
-    //             log.e(tag = tag, message = it.buildExceptionErrorString())
-    //         }
-    //
-    //         runOnMain {
-    //             if (useApiError) {
-    //                 toaster.toast(
-    //                     it.buildExceptionErrorString(),
-    //                     Toast.LENGTH_LONG,
-    //                 )
-    //             } else if (errorStrId != -1) {
-    //                 toaster.toast(
-    //                     errorStrId,
-    //                     Toast.LENGTH_LONG,
-    //                 )
-    //             } else {
-    //                 toaster.toast(
-    //                     it.message ?: "Unknown Error",
-    //                     Toast.LENGTH_LONG,
-    //                 )
-    //             }
-    //         }
-    //         action?.invoke(it)
-    //     }
-
     /**
-     * Allows wrapping loading indicator control logic.
+     * Helper function to log throwable when a repository returns a failure. [useApiError] By
+     * default, false. If set to true, will use error string from [APIException].
      */
+    suspend fun <T> Result<T>.onFailureLogged(
+            tag: String? = null,
+            @StringRes errorStrId: Int = -1,
+            useApiError: Boolean = false,
+            action: ((Throwable) -> Unit)? = null,
+    ): Result<T> = onFailure {
+        Timber.tag(TAG_NAV).e(message = it.message, t = it)
+        if (BuildConfig.DEBUG) {
+            Timber.tag(TAG_NAV).e(message = it.buildExceptionErrorString())
+        }
+
+        runOnMain {
+            if (useApiError) {
+                toaster.toast(
+                        it.buildExceptionErrorString(),
+                        Toast.LENGTH_LONG,
+                )
+            } else if (errorStrId != -1) {
+                toaster.toast(
+                        errorStrId,
+                        Toast.LENGTH_LONG,
+                )
+            } else {
+                toaster.toast(
+                        it.message ?: "Unknown Error",
+                        Toast.LENGTH_LONG,
+                )
+            }
+        }
+        action?.invoke(it)
+    }
+
+    /** Allows wrapping loading indicator control logic. */
     suspend fun <T> MutableStateFlow<Boolean>.wrapIndicator(block: suspend () -> T): T {
         this.value = true
         val result = block()
