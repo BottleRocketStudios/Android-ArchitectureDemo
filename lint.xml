@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Disable checks that overlap with ktlint -->
+    <issue id="NewerVersionAvailable" severity="informational" />
+    <issue id="GradleDependency" severity="informational" />
+
+    <!-- Treat these as errors -->
+    <issue id="HardcodedText" severity="error" />
+    <issue id="MissingTranslation" severity="error" />
+    <issue id="Recycle" severity="error" />
+    <issue id="ShowToast" severity="error" />
+
+    <!-- Kotlin-specific checks -->
+    <issue id="SyntheticAccessor" severity="warning" />
+
+    <!-- Security -->
+    <issue id="SetWorldReadable" severity="error" />
+    <issue id="SetWorldWritable" severity="error" />
+    <issue id="ExportedContentProvider" severity="error" />
+    <issue id="ExportedReceiver" severity="error" />
+    <issue id="ExportedService" severity="error" />
+
+    <!-- Performance -->
+    <issue id="DrawAllocation" severity="error" />
+    <issue id="ObsoleteLayoutParam" severity="warning" />
+
+    <!-- Compose -->
+    <issue id="MutableCollectionMutableState" severity="error" />
+</lint>
