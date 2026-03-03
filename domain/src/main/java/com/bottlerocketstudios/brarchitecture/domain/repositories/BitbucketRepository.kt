@@ -9,7 +9,6 @@ import com.bottlerocketstudios.brarchitecture.domain.models.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Snippet
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.domain.models.Workspace
@@ -24,78 +23,78 @@ interface BitbucketRepository : com.bottlerocketstudios.brarchitecture.domain.mo
         val projects: Flow<List<Project>>
         suspend fun authenticate(creds: ValidCredentialModel? = null): Boolean
         suspend fun authenticate(authCode: String): Boolean
-        suspend fun refreshUser(): Status<Unit>
-        suspend fun refreshMyRepos(): Status<Unit>
-        suspend fun refreshMySnippets(): Status<Unit>
-        suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepository>>
-        suspend fun getWorkspaces(): Status<List<Workspace>>
-        suspend fun getRepository(workspaceSlug: String, repo: String): Status<GitRepository>
-        suspend fun getSource(workspaceSlug: String, repo: String): Status<List<RepoFile>>
+        suspend fun refreshUser(): Result<Unit>
+        suspend fun refreshMyRepos(): Result<Unit>
+        suspend fun refreshMySnippets(): Result<Unit>
+        suspend fun getRepositories(workspaceSlug: String): Result<List<GitRepository>>
+        suspend fun getWorkspaces(): Result<List<Workspace>>
+        suspend fun getRepository(workspaceSlug: String, repo: String): Result<GitRepository>
+        suspend fun getSource(workspaceSlug: String, repo: String): Result<List<RepoFile>>
         suspend fun getCommits(
                 workspaceSlug: String,
                 repo: String,
                 branch: String
-        ): Status<List<Commit>>
-        suspend fun getBranches(workspaceSlug: String, repo: String): Status<List<Branch>>
+        ): Result<List<Commit>>
+        suspend fun getBranches(workspaceSlug: String, repo: String): Result<List<Branch>>
         suspend fun getSourceFolder(
                 workspaceSlug: String,
                 repo: String,
                 hash: String,
                 path: String
-        ): Status<List<RepoFile>>
+        ): Result<List<RepoFile>>
         suspend fun getSourceFile(
                 workspaceSlug: String,
                 repo: String,
                 hash: String,
                 path: String
-        ): Status<ByteArray>
-        suspend fun getPullRequests(workspaceSlug: String? = null): Status<List<PullRequest>>
-        suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequest>>
+        ): Result<ByteArray>
+        suspend fun getPullRequests(workspaceSlug: String? = null): Result<List<PullRequest>>
+        suspend fun getPullRequestsWithQuery(state: String): Result<List<PullRequest>>
         suspend fun createSnippet(
                 title: String,
                 filename: String,
                 contents: String,
                 private: Boolean
-        ): Status<Unit>
-        suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit>
+        ): Result<Unit>
+        suspend fun deleteSnippet(workspaceId: String, encodedId: String): Result<Unit>
         suspend fun getSnippetDetails(
                 workspaceId: String,
                 encodedId: String
-        ): Status<SnippetDetails>
+        ): Result<SnippetDetails>
         suspend fun getSnippetComments(
                 workspaceId: String,
                 encodedId: String
-        ): Status<List<SnippetComment>>
+        ): Result<List<SnippetComment>>
         suspend fun createSnippetComment(
                 workspaceId: String,
                 encodedId: String,
                 comment: String
-        ): Status<Unit>
+        ): Result<Unit>
         suspend fun createCommentReply(
                 workspaceId: String,
                 encodedId: String,
                 comment: String,
                 commentId: Int
-        ): Status<Unit>
+        ): Result<Unit>
         suspend fun editSnippetComment(
                 workspaceId: String,
                 encodedId: String,
                 comment: String,
                 commentId: Int
-        ): Status<Unit>
+        ): Result<Unit>
         suspend fun deleteSnippetComment(
                 workspaceId: String,
                 encodedId: String,
                 commentId: Int
-        ): Status<Unit>
+        ): Result<Unit>
         suspend fun getSnippetFile(
                 workspaceId: String,
                 encodedId: String,
                 filePath: String
-        ): Status<ByteArray>
-        suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Status<Int>
-        suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
-        suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Status<Unit>
-        suspend fun getProjects(): Status<List<Project>>
+        ): Result<ByteArray>
+        suspend fun isUserWatchingSnippet(workspaceId: String, encodedId: String): Result<Int>
+        suspend fun startWatchingSnippet(workspaceId: String, encodedId: String): Result<Unit>
+        suspend fun stopWatchingSnippet(workspaceId: String, encodedId: String): Result<Unit>
+        suspend fun getProjects(): Result<List<Project>>
         suspend fun clear()
 }

@@ -57,9 +57,9 @@ class PullRequestViewModel : BaseViewModel() {
     // region Helpers
     private fun getPullRequestByState(state: String = "Open") {
         launchIO {
-            repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT)).handlingErrors(
-                            R.string.pull_request_error
-                    ) {}
+            repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT))
+                    .onSuccess {}
+                    .onFailureLogged(errorStrId = R.string.pull_request_error)
         }
     }
     // endregion
