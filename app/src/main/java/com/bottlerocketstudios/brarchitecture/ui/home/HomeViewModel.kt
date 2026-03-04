@@ -51,7 +51,7 @@ class HomeViewModel : BaseViewModel() {
 
     // region Init
     init {
-        viewModelScope.launch(dispatcherProvider.IO) {
+        launchIO {
             repo.refreshUser()
             repo.refreshMyRepos()
             repo.getPullRequests()
