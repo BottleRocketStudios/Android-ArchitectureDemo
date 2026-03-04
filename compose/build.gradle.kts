@@ -14,6 +14,17 @@ android {
     namespace = libs.versions.compose.namespace.get()
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    lint {
+        abortOnError = true
+        warningsAsErrors = false
+        baseline = file("lint-baseline.xml")
+        lintConfig = rootProject.file("lint.xml")
+        htmlReport = true
+        htmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.html")
+        xmlReport = true
+        xmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.xml")
+    }
+
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
         lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
