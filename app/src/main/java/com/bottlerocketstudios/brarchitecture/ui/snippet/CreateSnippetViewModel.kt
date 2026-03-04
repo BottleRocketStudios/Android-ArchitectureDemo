@@ -34,9 +34,11 @@ class CreateSnippetViewModel : BaseViewModel() {
     fun onCreateClick() {
         failed.setValue(false)
         launchIO {
-            repo.createSnippet(title.value, filename.value, contents.value, private.value)
-                    .onSuccess { onSuccess.emit(Unit) }
-                    .onFailure { failed.setValue(true) }
+            showLoadingIndicator.wrapIndicator {
+                repo.createSnippet(title.value, filename.value, contents.value, private.value)
+                        .onSuccess { onSuccess.emit(Unit) }
+                        .onFailure { failed.setValue(true) }
+            }
         }
     }
     // endregion

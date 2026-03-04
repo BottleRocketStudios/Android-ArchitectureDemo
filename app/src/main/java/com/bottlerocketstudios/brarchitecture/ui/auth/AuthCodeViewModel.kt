@@ -53,7 +53,10 @@ class AuthCodeViewModel : BaseViewModel() {
         requestUrl.value = ""
 
         launchIO {
-            if (repo.authenticate(authCode)) {
+            val authenticated = showLoadingIndicator.wrapIndicator {
+                repo.authenticate(authCode)
+            }
+            if (authenticated) {
                 homeEvent.emit(Unit)
             } else {
                 handleError(R.string.login_error)

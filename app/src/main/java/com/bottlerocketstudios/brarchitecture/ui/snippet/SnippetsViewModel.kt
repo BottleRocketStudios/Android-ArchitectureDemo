@@ -40,7 +40,11 @@ class SnippetsViewModel : BaseViewModel() {
     // region UI Callbacks
 
     fun refreshSnippets() {
-        launchIO { repo.refreshMySnippets() }
+        launchIO {
+            showLoadingIndicator.wrapIndicator {
+                repo.refreshMySnippets()
+            }
+        }
     }
 
     fun onSnippetClick(snippet: SnippetUiModel) {

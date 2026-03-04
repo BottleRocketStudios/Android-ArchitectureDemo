@@ -19,7 +19,10 @@ class SplashViewModel : BaseViewModel() {
     // region Init
     init {
         launchIO {
-            if (repo.authenticate()) {
+            val authenticated = showLoadingIndicator.wrapIndicator {
+                repo.authenticate()
+            }
+            if (authenticated) {
                 authEvent.emit(Unit)
             } else {
                 unAuthEvent.emit(Unit)

@@ -35,7 +35,11 @@ class ProjectsViewModel : BaseViewModel() {
 
     // region Init
     init {
-        launchIO { repo.getProjects() }
+        launchIO {
+            showLoadingIndicator.wrapIndicator {
+                repo.getProjects()
+            }
+        }
     }
     // endregion
 }

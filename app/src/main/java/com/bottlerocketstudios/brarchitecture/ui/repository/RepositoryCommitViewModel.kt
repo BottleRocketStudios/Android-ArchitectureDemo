@@ -69,29 +69,31 @@ class RepositoryCommitViewModel : BaseViewModel() {
             val slug = it.workspace?.slug ?: ""
             val repoName = it.name ?: ""
             launchIO {
-                repo.getBranches(slug, repoName)
-                        .onSuccess { branchCallResult: List<Branch> ->
-                            branchNames.value =
-                                    branchCallResult.map { branch -> branch.name }.filter { branch
-                                        ->
-                                        branch.isNotBlank()
-                                    } // only care about non-null/non-blank branches
-                            branchNames.value.forEach { branch ->
-                                repo.getCommits(slug, repoName, branch)
-                                        .onSuccess { commitCallResult ->
-                                            commitList.addAll(
-                                                    commitCallResult.map { commit ->
-                                                        CommitWithBranch(commit, branch)
-                                                    }
+                showLoadingIndicator.wrapIndicator {
+                    repo.getBranches(slug, repoName)
+                            .onSuccess { branchCallResult: List<Branch> ->
+                                branchNames.value =
+                                        branchCallResult.map { branch -> branch.name }.filter { branch
+                                            ->
+                                            branch.isNotBlank()
+                                        } // only care about non-null/non-blank branches
+                                branchNames.value.forEach { branch ->
+                                    repo.getCommits(slug, repoName, branch)
+                                            .onSuccess { commitCallResult ->
+                                                commitList.addAll(
+                                                        commitCallResult.map { commit ->
+                                                            CommitWithBranch(commit, branch)
+                                                        }
+                                                )
+                                            }
+                                            .onFailureLogged(
+                                                    errorStrId = R.string.error_loading_commits
                                             )
-                                        }
-                                        .onFailureLogged(
-                                                errorStrId = R.string.error_loading_commits
-                                        )
+                                }
                             }
-                        }
-                        .onFailureLogged(errorStrId = R.string.error_loading_branches)
-                srcCommits.value = commitList
+                            .onFailureLogged(errorStrId = R.string.error_loading_branches)
+                    srcCommits.value = commitList
+                }
             }
         }
     }

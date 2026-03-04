@@ -37,32 +37,36 @@ class SnippetDetailsViewModel : BaseViewModel() {
     // region API Calls
     fun getSnippetDetails(snippet: SnippetUiModel) = launchIO {
         if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty()) {
-            repo.getSnippetDetails(snippet.workspaceId, snippet.id)
-                    .onSuccess { details ->
-                        snippetDetails.value = details
-                        workspaceId.value = snippet.workspaceId
-                        encodedId.value = snippet.id
-                        isUserWatchingSnippet()
-                        getSnippetComments()
-                        details.files?.map { file -> file.fileName }?.let { fileNameList ->
-                            getRawFiles(fileNameList)
+            showLoadingIndicator.wrapIndicator {
+                repo.getSnippetDetails(snippet.workspaceId, snippet.id)
+                        .onSuccess { details ->
+                            snippetDetails.value = details
+                            workspaceId.value = snippet.workspaceId
+                            encodedId.value = snippet.id
+                            isUserWatchingSnippet()
+                            getSnippetComments()
+                            details.files?.map { file -> file.fileName }?.let { fileNameList ->
+                                getRawFiles(fileNameList)
+                            }
                         }
-                    }
-                    .onFailureLogged(errorStrId = R.string.snippets_error)
+                        .onFailureLogged(errorStrId = R.string.snippets_error)
+            }
         }
     }
 
     private fun getRawFiles(filePaths: List<String>) = launchIO {
-        snippetFiles.value =
-                filePaths
-                        .map { path ->
-                            var rawFile: ByteArray = ByteArray(1)
-                            repo.getSnippetFile(workspaceId.value, encodedId.value, path)
-                                    .onSuccess { rawFile = it }
-                                    .onFailureLogged(errorStrId = R.string.error_loading_file)
-                            SnippetDetailsFile(fileName = path, rawFile = rawFile)
-                        }
-                        .toMutableList()
+        showLoadingIndicator.wrapIndicator {
+            snippetFiles.value =
+                    filePaths
+                            .map { path ->
+                                var rawFile: ByteArray = ByteArray(1)
+                                repo.getSnippetFile(workspaceId.value, encodedId.value, path)
+                                        .onSuccess { rawFile = it }
+                                        .onFailureLogged(errorStrId = R.string.error_loading_file)
+                                SnippetDetailsFile(fileName = path, rawFile = rawFile)
+                            }
+                            .toMutableList()
+        }
     }
 
     /**
@@ -92,63 +96,77 @@ class SnippetDetailsViewModel : BaseViewModel() {
     }
 
     private fun stopWatchingSnippet() = launchIO {
-        repo.stopWatchingSnippet(workspaceId.value, encodedId.value)
-                .onSuccess { isUserWatchingSnippet() }
-                .onFailureLogged(errorStrId = R.string.error_changing_watching)
+        showLoadingIndicator.wrapIndicator {
+            repo.stopWatchingSnippet(workspaceId.value, encodedId.value)
+                    .onSuccess { isUserWatchingSnippet() }
+                    .onFailureLogged(errorStrId = R.string.error_changing_watching)
+        }
     }
 
     private fun startWatchingSnippet() = launchIO {
-        repo.startWatchingSnippet(workspaceId.value, encodedId.value)
-                .onSuccess { isUserWatchingSnippet() }
-                .onFailureLogged(errorStrId = R.string.error_changing_watching)
+        showLoadingIndicator.wrapIndicator {
+            repo.startWatchingSnippet(workspaceId.value, encodedId.value)
+                    .onSuccess { isUserWatchingSnippet() }
+                    .onFailureLogged(errorStrId = R.string.error_changing_watching)
+        }
     }
 
     // TODO: Show dialog to confirm user wants to continue with deletion before calling this
     // function
     fun onDeleteSnippetClick() = launchIO {
-        repo.deleteSnippet(workspaceId.value, encodedId.value)
-                .onSuccess { notifyUser(R.string.delete_snippet_success) }
-                .onFailureLogged(errorStrId = R.string.delete_snippet_error)
+        showLoadingIndicator.wrapIndicator {
+            repo.deleteSnippet(workspaceId.value, encodedId.value)
+                    .onSuccess { notifyUser(R.string.delete_snippet_success) }
+                    .onFailureLogged(errorStrId = R.string.delete_snippet_error)
+        }
     }
 
     private fun createSnippetComment() = launchIO {
-        repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)
-                .onSuccess {
-                    getSnippetComments()
-                    clearCommentValues()
-                }
-                .onFailureLogged(errorStrId = R.string.create_comment_error)
+        showLoadingIndicator.wrapIndicator {
+            repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)
+                    .onSuccess {
+                        getSnippetComments()
+                        clearCommentValues()
+                    }
+                    .onFailureLogged(errorStrId = R.string.create_comment_error)
+        }
     }
 
     private fun createReplyComment(commentId: Int) = launchIO {
-        repo.createCommentReply(
-                        workspaceId.value,
-                        encodedId.value,
-                        newReplyComment.value,
-                        commentId
-                )
-                .onSuccess {
-                    getSnippetComments()
-                    clearCommentValues()
-                }
-                .onFailureLogged(errorStrId = R.string.comment_reply_error)
+        showLoadingIndicator.wrapIndicator {
+            repo.createCommentReply(
+                            workspaceId.value,
+                            encodedId.value,
+                            newReplyComment.value,
+                            commentId
+                    )
+                    .onSuccess {
+                        getSnippetComments()
+                        clearCommentValues()
+                    }
+                    .onFailureLogged(errorStrId = R.string.comment_reply_error)
+        }
     }
 
     fun commentEditClick(commentId: Int) = launchIO {
-        repo.editSnippetComment(
-                        workspaceId.value,
-                        encodedId.value,
-                        newSnippetComment.value,
-                        commentId
-                )
-                .onSuccess { getSnippetComments() }
-                .onFailureLogged(errorStrId = R.string.edit_comment_error)
+        showLoadingIndicator.wrapIndicator {
+            repo.editSnippetComment(
+                            workspaceId.value,
+                            encodedId.value,
+                            newSnippetComment.value,
+                            commentId
+                    )
+                    .onSuccess { getSnippetComments() }
+                    .onFailureLogged(errorStrId = R.string.edit_comment_error)
+        }
     }
 
     fun commentDeleteClick(commentId: Int) = launchIO {
-        repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId)
-                .onSuccess { getSnippetComments() }
-                .onFailureLogged(errorStrId = R.string.delete_comment_error)
+        showLoadingIndicator.wrapIndicator {
+            repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId)
+                    .onSuccess { getSnippetComments() }
+                    .onFailureLogged(errorStrId = R.string.delete_comment_error)
+        }
     }
     // endregion
 

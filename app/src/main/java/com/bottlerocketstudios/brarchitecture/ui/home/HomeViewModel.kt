@@ -52,9 +52,11 @@ class HomeViewModel : BaseViewModel() {
     // region Init
     init {
         launchIO {
-            repo.refreshUser()
-            repo.refreshMyRepos()
-            repo.getPullRequests()
+            showLoadingIndicator.wrapIndicator {
+                repo.refreshUser()
+                repo.refreshMyRepos()
+                repo.getPullRequests()
+            }
         }
     }
     // endregion

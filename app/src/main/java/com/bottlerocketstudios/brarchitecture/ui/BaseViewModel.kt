@@ -39,6 +39,10 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected val toaster: Toaster by inject()
     // endregion
 
+    // region UI State
+    val showLoadingIndicator = MutableStateFlow(false)
+    // endregion
+
     // region Helpers
     /** Helper to launch to IO thread quickly */
     fun launchIO(block: suspend CoroutineScope.() -> Unit): Job =

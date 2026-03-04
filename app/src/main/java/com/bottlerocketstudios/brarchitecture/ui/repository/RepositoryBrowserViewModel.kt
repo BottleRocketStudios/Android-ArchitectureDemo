@@ -54,15 +54,17 @@ class RepositoryBrowserViewModel : BaseViewModel() {
             val slug = it.workspace?.slug ?: ""
             val name = it.name ?: ""
             launchIO {
-                val result =
-                        if (data.folderHash != null && data.folderPath != null) {
-                            repo.getSourceFolder(slug, name, data.folderHash, data.folderPath)
-                        } else {
-                            repo.getSource(slug, name)
-                        }
-                result
-                        .onSuccess { srcFiles.value = it }
-                        .onFailureLogged(errorStrId = R.string.error_loading_repository)
+                showLoadingIndicator.wrapIndicator {
+                    val result =
+                            if (data.folderHash != null && data.folderPath != null) {
+                                repo.getSourceFolder(slug, name, data.folderHash, data.folderPath)
+                            } else {
+                                repo.getSource(slug, name)
+                            }
+                    result
+                            .onSuccess { srcFiles.value = it }
+                            .onFailureLogged(errorStrId = R.string.error_loading_repository)
+                }
             }
         }
     }
