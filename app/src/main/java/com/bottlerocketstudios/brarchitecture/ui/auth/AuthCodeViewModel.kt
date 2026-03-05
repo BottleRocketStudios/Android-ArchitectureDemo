@@ -20,7 +20,7 @@ class AuthCodeViewModel : BaseViewModel() {
 
     // region UI State
     val requestUrl = MutableStateFlow("")
-    val devOptionsEnabled = buildConfigProvider.isDebugOrInternalBuild
+    val devOptionsEnabled = buildConfigProvider.isDebugBuild
     // endregion
 
     // region Events
@@ -38,8 +38,9 @@ class AuthCodeViewModel : BaseViewModel() {
         launchIO { devOptionsEvent.tryEmit(Unit) }
     }
 
-    fun onSignUpClicked() =
-            externalNavigationEvent.postValue(
+    fun onSignUpClicked() {
+        launchIO {
+            externalNavigationEvent.emit(
                     ExternalNavigationEvent(
                             Intent(
                                     Intent.ACTION_VIEW,
@@ -47,12 +48,17 @@ class AuthCodeViewModel : BaseViewModel() {
                             )
                     )
             )
+        }
+    }
 
     fun onAuthCode(authCode: String) {
         requestUrl.value = ""
 
         launchIO {
-            if (repo.authenticate(authCode)) {
+            val authenticated = showLoadingIndicator.wrapIndicator {
+                repo.authenticate(authCode)
+            }
+            if (authenticated) {
                 homeEvent.tryEmit(Unit)
             } else {
                 handleError(R.string.login_error)

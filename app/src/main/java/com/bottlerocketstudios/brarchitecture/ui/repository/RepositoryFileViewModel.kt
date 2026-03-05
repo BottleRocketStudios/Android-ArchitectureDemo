@@ -1,7 +1,6 @@
 package com.bottlerocketstudios.brarchitecture.ui.repository
 
 import com.bottlerocketstudios.brarchitecture.R
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,13 +27,14 @@ class RepositoryFileViewModel : BaseViewModel() {
             path: String
     ) {
         launchIO {
-            val result = repo.getSourceFile(workspaceSlug, repoId, hash, path)
-            when (result) {
-                is Status.Success -> srcFile.value = result.data
-                is Status.Failure -> handleError(R.string.error_loading_file)
-            }
+            showLoadingIndicator.wrapIndicator {
+                val result = repo.getSourceFile(workspaceSlug, repoId, hash, path)
+                result
+                        .onSuccess { srcFile.value = it }
+                        .onFailureLogged(errorStrId = R.string.error_loading_file)
 
-            this@RepositoryFileViewModel.path.setValue(path)
+                this@RepositoryFileViewModel.path.setValue(path)
+            }
         }
     }
     // endregion

@@ -4,11 +4,9 @@ import com.bottlerocketstudios.brarchitecture.R
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetailsFile
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import com.bottlerocketstudios.compose.snippets.SnippetUiModel
-import java.net.HttpURLConnection
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.inject
 
@@ -39,31 +37,36 @@ class SnippetDetailsViewModel : BaseViewModel() {
     // region API Calls
     fun getSnippetDetails(snippet: SnippetUiModel) = launchIO {
         if (snippet.workspaceId.isNotEmpty() && snippet.id.isNotEmpty()) {
-            repo.getSnippetDetails(snippet.workspaceId, snippet.id).handlingErrors(
-                            R.string.snippets_error
-                    ) { details ->
-                snippetDetails.value = details
-                workspaceId.value = snippet.workspaceId
-                encodedId.value = snippet.id
-                isUserWatchingSnippet()
-                getSnippetComments()
-                details.files?.map { file -> file.fileName }?.let { fileNameList ->
-                    getRawFiles(fileNameList)
-                }
+            showLoadingIndicator.wrapIndicator {
+                repo.getSnippetDetails(snippet.workspaceId, snippet.id)
+                        .onSuccess { details ->
+                            snippetDetails.value = details
+                            workspaceId.value = snippet.workspaceId
+                            encodedId.value = snippet.id
+                            isUserWatchingSnippet()
+                            getSnippetComments()
+                            details.files?.map { file -> file.fileName }?.let { fileNameList ->
+                                getRawFiles(fileNameList)
+                            }
+                        }
+                        .onFailureLogged(errorStrId = R.string.snippets_error)
             }
         }
     }
 
     private fun getRawFiles(filePaths: List<String>) = launchIO {
-        snippetFiles.value =
-                filePaths
-                        .map { path ->
-                            var rawFile: ByteArray = ByteArray(1)
-                            repo.getSnippetFile(workspaceId.value, encodedId.value, path)
-                                    .handlingErrors(R.string.error_loading_file) { rawFile = it }
-                            SnippetDetailsFile(fileName = path, rawFile = rawFile)
-                        }
-                        .toMutableList()
+        showLoadingIndicator.wrapIndicator {
+            snippetFiles.value =
+                    filePaths
+                            .map { path ->
+                                var rawFile: ByteArray = ByteArray(1)
+                                repo.getSnippetFile(workspaceId.value, encodedId.value, path)
+                                        .onSuccess { rawFile = it }
+                                        .onFailureLogged(errorStrId = R.string.error_loading_file)
+                                SnippetDetailsFile(fileName = path, rawFile = rawFile)
+                            }
+                            .toMutableList()
+        }
     }
 
     /**
@@ -72,20 +75,14 @@ class SnippetDetailsViewModel : BaseViewModel() {
      */
     private fun isUserWatchingSnippet() {
         launchIO {
-            when (val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)) {
-                is Status.Success -> {
-                    isWatchingSnippet.value = true
-                }
-
-                is Status.Failure.Server -> {
-                    if (result.error?.httpErrorCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                            isWatchingSnippet.value = false
-                        } else {
-                            handleError(R.string.snippet_watching_error)
-                        }
-                }
-
-                else -> {
+            val result = repo.isUserWatchingSnippet(workspaceId.value, encodedId.value)
+            result.onSuccess { isWatchingSnippet.value = true }.onFailure { error ->
+                // TODO update to pass error code securely, but exception doesn't hold HTTP code.
+                if (error.message?.contains("404") == true ||
+                                error.message?.contains("Not Found") == true
+                ) {
+                    isWatchingSnippet.value = false
+                } else {
                     handleError(R.string.snippet_watching_error)
                 }
             }
@@ -93,66 +90,83 @@ class SnippetDetailsViewModel : BaseViewModel() {
     }
 
     private fun getSnippetComments() = launchIO {
-        repo.getSnippetComments(workspaceId.value, encodedId.value).handlingErrors(
-                        R.string.snippet_comments_error
-                ) { commentList -> sortComments(commentList) }
+        repo.getSnippetComments(workspaceId.value, encodedId.value)
+                .onSuccess { commentList -> sortComments(commentList) }
+                .onFailureLogged(errorStrId = R.string.snippet_comments_error)
     }
 
     private fun stopWatchingSnippet() = launchIO {
-        repo.stopWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(
-                        R.string.error_changing_watching
-                ) { isUserWatchingSnippet() }
+        showLoadingIndicator.wrapIndicator {
+            repo.stopWatchingSnippet(workspaceId.value, encodedId.value)
+                    .onSuccess { isUserWatchingSnippet() }
+                    .onFailureLogged(errorStrId = R.string.error_changing_watching)
+        }
     }
 
     private fun startWatchingSnippet() = launchIO {
-        repo.startWatchingSnippet(workspaceId.value, encodedId.value).handlingErrors(
-                        R.string.error_changing_watching
-                ) { isUserWatchingSnippet() }
+        showLoadingIndicator.wrapIndicator {
+            repo.startWatchingSnippet(workspaceId.value, encodedId.value)
+                    .onSuccess { isUserWatchingSnippet() }
+                    .onFailureLogged(errorStrId = R.string.error_changing_watching)
+        }
     }
 
     // TODO: Show dialog to confirm user wants to continue with deletion before calling this
     // function
     fun onDeleteSnippetClick() = launchIO {
-        repo.deleteSnippet(workspaceId.value, encodedId.value).handlingErrors(
-                        R.string.delete_snippet_error
-                ) { notifyUser(R.string.delete_snippet_success) }
+        showLoadingIndicator.wrapIndicator {
+            repo.deleteSnippet(workspaceId.value, encodedId.value)
+                    .onSuccess { notifyUser(R.string.delete_snippet_success) }
+                    .onFailureLogged(errorStrId = R.string.delete_snippet_error)
+        }
     }
 
     private fun createSnippetComment() = launchIO {
-        repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)
-                .handlingErrors(R.string.create_comment_error) {
-                    getSnippetComments()
-                    clearCommentValues()
-                }
+        showLoadingIndicator.wrapIndicator {
+            repo.createSnippetComment(workspaceId.value, encodedId.value, newSnippetComment.value)
+                    .onSuccess {
+                        getSnippetComments()
+                        clearCommentValues()
+                    }
+                    .onFailureLogged(errorStrId = R.string.create_comment_error)
+        }
     }
 
     private fun createReplyComment(commentId: Int) = launchIO {
-        repo.createCommentReply(
-                        workspaceId.value,
-                        encodedId.value,
-                        newReplyComment.value,
-                        commentId
-                )
-                .handlingErrors(R.string.comment_reply_error) {
-                    getSnippetComments()
-                    clearCommentValues()
-                }
+        showLoadingIndicator.wrapIndicator {
+            repo.createCommentReply(
+                            workspaceId.value,
+                            encodedId.value,
+                            newReplyComment.value,
+                            commentId
+                    )
+                    .onSuccess {
+                        getSnippetComments()
+                        clearCommentValues()
+                    }
+                    .onFailureLogged(errorStrId = R.string.comment_reply_error)
+        }
     }
 
     fun commentEditClick(commentId: Int) = launchIO {
-        repo.editSnippetComment(
-                        workspaceId.value,
-                        encodedId.value,
-                        newSnippetComment.value,
-                        commentId
-                )
-                .handlingErrors(R.string.edit_comment_error) { getSnippetComments() }
+        showLoadingIndicator.wrapIndicator {
+            repo.editSnippetComment(
+                            workspaceId.value,
+                            encodedId.value,
+                            newSnippetComment.value,
+                            commentId
+                    )
+                    .onSuccess { getSnippetComments() }
+                    .onFailureLogged(errorStrId = R.string.edit_comment_error)
+        }
     }
 
     fun commentDeleteClick(commentId: Int) = launchIO {
-        repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId).handlingErrors(
-                        R.string.delete_comment_error
-                ) { getSnippetComments() }
+        showLoadingIndicator.wrapIndicator {
+            repo.deleteSnippetComment(workspaceId.value, encodedId.value, commentId)
+                    .onSuccess { getSnippetComments() }
+                    .onFailureLogged(errorStrId = R.string.delete_comment_error)
+        }
     }
     // endregion
 

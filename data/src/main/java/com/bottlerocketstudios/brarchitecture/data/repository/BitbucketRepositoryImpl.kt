@@ -32,14 +32,9 @@ import com.bottlerocketstudios.brarchitecture.domain.models.RepoFile
 import com.bottlerocketstudios.brarchitecture.domain.models.Snippet
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetComment
 import com.bottlerocketstudios.brarchitecture.domain.models.SnippetDetails
-import com.bottlerocketstudios.brarchitecture.domain.models.Status
 import com.bottlerocketstudios.brarchitecture.domain.models.User
 import com.bottlerocketstudios.brarchitecture.domain.models.ValidCredentialModel
 import com.bottlerocketstudios.brarchitecture.domain.models.Workspace
-import com.bottlerocketstudios.brarchitecture.domain.models.alsoOnSuccess
-import com.bottlerocketstudios.brarchitecture.domain.models.asSuccess
-import com.bottlerocketstudios.brarchitecture.domain.models.logWrappedExceptions
-import com.bottlerocketstudios.brarchitecture.domain.models.map
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
@@ -99,25 +94,24 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                         return true
                 }
                 creds?.let { bitbucketCredentialsRepository.storeCredentials(it) }
-                return when (refreshUser()) {
-                        is Status.Success -> {
-                                authenticated = true
-                                true
-                        }
-                        is Status.Failure -> false
+                val result = refreshUser()
+                if (result.isSuccess) {
+                        authenticated = true
+                        return true
                 }
+                return false
         }
 
-        override suspend fun refreshUser(): Status<Unit> =
+        override suspend fun refreshUser(): Result<Unit> =
                 wrapRepoExceptions("refreshUser") {
                         val user = bitbucketService.getUser()
                         _user.value = user
                         // Also fetch workspaces to have them available for default repo lookups
-                        getWorkspaces().alsoOnSuccess { _workspaces.value = it }
-                        Unit.asSuccess()
+                        getWorkspaces().onSuccess { _workspaces.value = it }
+                        Unit
                 }
 
-        override suspend fun refreshMyRepos(): Status<Unit> =
+        override suspend fun refreshMyRepos(): Result<Unit> =
                 wrapRepoExceptions("refreshMyRepos") {
                         val workspaceSlug =
                                 _workspaces.value.firstOrNull()?.slug ?: _user.value?.username ?: ""
@@ -125,49 +119,42 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                         val pagedResponse = bitbucketService.getRepositories(workspaceSlug)
                         _repos.value = pagedResponse.values.orEmpty()
                         Timber.d("refreshMyRepos: fetched ${_repos.value.size} repositories")
-                        Unit.asSuccess()
+                        Unit
                 }
 
-        override suspend fun refreshMySnippets(): Status<Unit> =
+        override suspend fun refreshMySnippets(): Result<Unit> =
                 wrapRepoExceptions("refreshMySnippets") {
                         val pagedResponse = bitbucketService.getSnippets()
                         val snippets = pagedResponse.values.orEmpty()
                         _snippets.value = snippets
-                        Unit.asSuccess()
+                        Unit
                 }
 
-        override suspend fun getRepositories(workspaceSlug: String): Status<List<GitRepository>> =
+        override suspend fun getRepositories(workspaceSlug: String): Result<List<GitRepository>> =
                 wrapRepoExceptions("getRepositories") {
-                        bitbucketService
-                                .getRepositories(workspaceSlug)
-                                .values
-                                .orEmpty()
-                                .map { it.convertToGitRepository() }
-                                .asSuccess()
+                        bitbucketService.getRepositories(workspaceSlug).values.orEmpty().map {
+                                it.convertToGitRepository()
+                        }
                 }
 
         override suspend fun getRepository(
                 workspaceSlug: String,
                 repo: String
-        ): Status<GitRepository> =
+        ): Result<GitRepository> =
                 wrapRepoExceptions("getRepository") {
-                        bitbucketService
-                                .getRepository(workspaceSlug, repo)
-                                .convertToGitRepository()
-                                .asSuccess()
+                        bitbucketService.getRepository(workspaceSlug, repo).convertToGitRepository()
                 }
 
         override suspend fun getSource(
                 workspaceSlug: String,
                 repo: String
-        ): Status<List<RepoFile>> =
+        ): Result<List<RepoFile>> =
                 wrapRepoExceptions("getSource") {
                         bitbucketService
                                 .getRepositorySource(workspaceSlug, repo)
                                 .values
                                 .orEmpty()
                                 .map { it.toRepoFile() }
-                                .asSuccess()
                 }
 
         override suspend fun getSourceFolder(
@@ -175,41 +162,38 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 repo: String,
                 hash: String,
                 path: String
-        ): Status<List<RepoFile>> =
+        ): Result<List<RepoFile>> =
                 wrapRepoExceptions("getSourceFolder") {
                         bitbucketService
                                 .getRepositorySourceFolder(workspaceSlug, repo, hash, path)
                                 .values
                                 .orEmpty()
                                 .map { it.toRepoFile() }
-                                .asSuccess()
                 }
 
         override suspend fun getCommits(
                 workspaceSlug: String,
                 repo: String,
                 branch: String
-        ): Status<List<Commit>> =
+        ): Result<List<Commit>> =
                 wrapRepoExceptions("getCommits") {
                         bitbucketService
                                 .getRepositoryCommits(workspaceSlug, repo, branch)
                                 .values
                                 .orEmpty()
                                 .map { it.toCommit() }
-                                .asSuccess()
                 }
 
         override suspend fun getBranches(
                 workspaceSlug: String,
                 repo: String
-        ): Status<List<Branch>> =
+        ): Result<List<Branch>> =
                 wrapRepoExceptions("getBranches") {
                         bitbucketService
                                 .getRepositoryBranches(workspaceSlug, repo)
                                 .values
                                 .orEmpty()
                                 .map { it.toBranch() }
-                                .asSuccess()
                 }
 
         override suspend fun getSourceFile(
@@ -217,8 +201,8 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 repo: String,
                 hash: String,
                 path: String
-        ): Status<ByteArray> =
-                wrapRepoExceptions("getSourceFile") {
+        ): Result<ByteArray> =
+                try {
                         val response =
                                 bitbucketService.getRepositorySourceFile(
                                         workspaceSlug,
@@ -227,9 +211,11 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                                         path
                                 )
                         responseToApiResultMapper.toResult(response, response.readRawBytes())
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
-        override suspend fun getPullRequests(workspaceSlug: String?): Status<List<PullRequest>> =
+        override suspend fun getPullRequests(workspaceSlug: String?): Result<List<PullRequest>> =
                 wrapRepoExceptions("getPullRequests") {
                         val workspace = _workspaces.value.firstOrNull()?.slug ?: ""
                         val repo =
@@ -240,10 +226,10 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                         val pullRequests = pagedResponse.values.orEmpty()
                         Timber.d("getPullRequests: fetched ${pullRequests.size} pull requests")
                         _pullRequests.value = pullRequests
-                        pullRequests.map { it.toPullRequest() }.asSuccess()
+                        pullRequests.map { it.toPullRequest() }
                 }
 
-        override suspend fun getPullRequestsWithQuery(state: String): Status<List<PullRequest>> =
+        override suspend fun getPullRequestsWithQuery(state: String): Result<List<PullRequest>> =
                 wrapRepoExceptions("getPullRequestsWithQuery") {
                         val workspace = _workspaces.value.firstOrNull()?.slug ?: ""
                         val repo =
@@ -253,7 +239,7 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                                 bitbucketService.getPullRequestsWithQuery(workspace, repo, state)
                         val pullRequests = pagedResponse.values.orEmpty()
                         _pullRequests.value = pullRequests
-                        pullRequests.map { it.toPullRequest() }.asSuccess()
+                        pullRequests.map { it.toPullRequest() }
                 }
 
         override suspend fun createSnippet(
@@ -261,49 +247,49 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 filename: String,
                 contents: String,
                 private: Boolean
-        ): Status<Unit> =
+        ): Result<Unit> =
                 wrapRepoExceptions("createSnippet") {
                         bitbucketService.createSnippet(title, filename, contents, private)
-                        Unit.asSuccess()
+                        Unit
                 }
 
-        override suspend fun deleteSnippet(workspaceId: String, encodedId: String): Status<Unit> =
-                wrapRepoExceptions("deleteSnippet") {
+        override suspend fun deleteSnippet(workspaceId: String, encodedId: String): Result<Unit> =
+                try {
                         responseToApiResultMapper.toEmptyResult(
                                 bitbucketService.deleteSnippet(workspaceId, encodedId)
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun getSnippetDetails(
                 workspaceId: String,
                 encodedId: String
-        ): Status<SnippetDetails> =
+        ): Result<SnippetDetails> =
                 wrapRepoExceptions("getSnippetDetails") {
                         bitbucketService
                                 .getSnippetDetails(workspaceId, encodedId)
                                 .toSnippetDetails()
-                                .asSuccess()
                 }
 
         override suspend fun getSnippetComments(
                 workspaceId: String,
                 encodedId: String
-        ): Status<List<SnippetComment>> =
+        ): Result<List<SnippetComment>> =
                 wrapRepoExceptions("getSnippetComments") {
                         bitbucketService
                                 .getSnippetComments(workspaceId, encodedId)
                                 .values
                                 .orEmpty()
                                 .map { it.convertToComment() }
-                                .asSuccess()
                 }
 
         override suspend fun createSnippetComment(
                 workspaceId: String,
                 encodedId: String,
                 comment: String
-        ): Status<Unit> =
-                wrapRepoExceptions("createSnippetComment") {
+        ): Result<Unit> =
+                try {
                         val commentDto =
                                 SnippetCommentDto(content = SnippetCommentContentDto(raw = comment))
                         responseToApiResultMapper.toEmptyResult(
@@ -313,6 +299,8 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                                         commentDto
                                 )
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun createCommentReply(
@@ -320,8 +308,8 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 encodedId: String,
                 comment: String,
                 commentId: Int
-        ): Status<Unit> =
-                wrapRepoExceptions("createCommentReply") {
+        ): Result<Unit> =
+                try {
                         val commentDto =
                                 SnippetCommentDto(
                                         parent = ParentSnippetCommentDto(id = commentId),
@@ -334,6 +322,8 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                                         commentDto
                                 )
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun editSnippetComment(
@@ -341,8 +331,8 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 encodedId: String,
                 comment: String,
                 commentId: Int
-        ): Status<Unit> =
-                wrapRepoExceptions("editSnippetComment") {
+        ): Result<Unit> =
+                try {
                         val commentDto =
                                 SnippetCommentDto(content = SnippetCommentContentDto(raw = comment))
                         responseToApiResultMapper.toEmptyResult(
@@ -353,14 +343,16 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                                         commentDto
                                 )
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun deleteSnippetComment(
                 workspaceId: String,
                 encodedId: String,
                 commentId: Int
-        ): Status<Unit> =
-                wrapRepoExceptions("deleteSnippetComment") {
+        ): Result<Unit> =
+                try {
                         responseToApiResultMapper.toEmptyResult(
                                 bitbucketService.deleteSnippetComment(
                                         workspaceId,
@@ -368,66 +360,73 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                                         commentId
                                 )
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun getSnippetFile(
                 workspaceId: String,
                 encodedId: String,
                 filePath: String
-        ): Status<ByteArray> =
-                wrapRepoExceptions("getSnippetFile") {
+        ): Result<ByteArray> =
+                try {
                         val response =
                                 bitbucketService.getSnippetFile(workspaceId, encodedId, filePath)
                         responseToApiResultMapper.toResult(response, response.readRawBytes())
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun isUserWatchingSnippet(
                 workspaceId: String,
                 encodedId: String
-        ): Status<Int> =
-                wrapRepoExceptions("isUserWatchingSnippet") {
+        ): Result<Int> =
+                try {
                         responseToApiResultMapper.toResponseCode(
                                 bitbucketService.isUserWatchingSnippet(workspaceId, encodedId)
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun startWatchingSnippet(
                 workspaceId: String,
                 encodedId: String
-        ): Status<Unit> =
-                wrapRepoExceptions("startWatchingSnippet") {
+        ): Result<Unit> =
+                try {
                         responseToApiResultMapper.toEmptyResult(
                                 bitbucketService.startWatchingSnippet(workspaceId, encodedId)
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
         override suspend fun stopWatchingSnippet(
                 workspaceId: String,
                 encodedId: String
-        ): Status<Unit> =
-                wrapRepoExceptions("stopWatchingSnippet") {
+        ): Result<Unit> =
+                try {
                         responseToApiResultMapper.toEmptyResult(
                                 bitbucketService.stopWatchingSnippet(workspaceId, encodedId)
                         )
+                } catch (e: Exception) {
+                        Result.failure(e)
                 }
 
-        override suspend fun getProjects(): Status<List<Project>> =
+        override suspend fun getProjects(): Result<List<Project>> =
                 wrapRepoExceptions("getProjects") {
                         val pagedResponse =
                                 bitbucketService.getProjects(_user.value?.username.orEmpty())
                         val projects = pagedResponse.values.orEmpty()
                         _projects.value = projects
-                        projects.map { it.toProject() }.asSuccess()
+                        projects.map { it.toProject() }
                 }
 
-        override suspend fun getWorkspaces(): Status<List<Workspace>> =
-                wrapRepoExceptions<List<Workspace>>("getWorkspaces") {
-                        bitbucketService
-                                .getWorkspaces()
-                                .values
-                                .orEmpty()
-                                .map { it.convertToWorkspace() }
-                                .asSuccess<List<Workspace>>()
+        override suspend fun getWorkspaces(): Result<List<Workspace>> =
+                wrapRepoExceptions("getWorkspaces") {
+                        bitbucketService.getWorkspaces().values.orEmpty().map {
+                                it.convertToWorkspace()
+                        }
                 }
 
         override suspend fun clear() {
@@ -439,14 +438,17 @@ class BitbucketRepositoryImpl : BitbucketRepository, KoinComponent {
                 _workspaces.value = emptyList<Workspace>()
         }
 
-        /**
-         * Delegates to [wrapRepoExceptions], passing in the class name here instead of requiring it
-         * of all callers
-         */
+        /** Delegates to runCatching to handle repository exceptions */
         private suspend fun <T : Any> wrapRepoExceptions(
                 methodName: String,
-                block: suspend () -> Status<T>
-        ): Status<T> {
-                return logWrappedExceptions("BitbucketRepositoryImpl.kt", methodName, block)
-        }
+                block: suspend () -> T
+        ): Result<T> =
+                runCatching { block() }.onFailure { e ->
+                        Timber.w(
+                                e,
+                                "[%s] exception caught in wrapRepoExceptions: %s",
+                                methodName,
+                                e
+                        )
+                }
 }

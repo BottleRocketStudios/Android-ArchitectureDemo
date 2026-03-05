@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 9.0.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.0.1)" variant="all" version="9.0.1">
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 9.0.1 is available: 9.1.0"
+        errorLine1="agp = &quot;9.0.1&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="28"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.library than 9.0.1 is available: 9.1.0"
+        errorLine1="agp = &quot;9.0.1&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="28"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.test than 9.0.1 is available: 9.1.0"
+        errorLine1="agp = &quot;9.0.1&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="28"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.runtime:runtime than 1.10.0 is available: 1.10.4"
+        errorLine1="compose-runtime = &quot;1.10.0&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="51"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.runtime:runtime-livedata than 1.10.0 is available: 1.10.4"
+        errorLine1="compose-runtime = &quot;1.10.0&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="51"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="Upgrade `androidx.compose.foundation` for keyboard and mouse support"
+        errorLine1="compose-runtime = &quot;1.10.0&quot;"
+        errorLine2="                  ~~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="51"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of org.jetbrains.kotlin.android than 2.3.0 is available: 2.3.10"
+        errorLine1="kotlin = &quot;2.3.0&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="13"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of org.jetbrains.kotlin.plugin.compose than 2.3.0 is available: 2.3.10"
+        errorLine1="kotlin = &quot;2.3.0&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="13"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of org.jetbrains.kotlin.plugin.parcelize than 2.3.0 is available: 2.3.10"
+        errorLine1="kotlin = &quot;2.3.0&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="13"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of org.jetbrains.kotlin.plugin.serialization than 2.3.0 is available: 2.3.10"
+        errorLine1="kotlin = &quot;2.3.0&quot;"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="13"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of org.jetbrains.kotlinx:kotlinx-serialization-json than 1.9.0 is available: 1.10.0"
+        errorLine1="kotlinx-serialization-json = &quot;1.9.0&quot;"
+        errorLine2="                             ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="15"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of commons-codec:commons-codec than 1.20.0 is available: 1.21.0"
+        errorLine1="base64 = &quot;1.20.0&quot;"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="23"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-client-android than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-client-auth than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-client-content-negotiation than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-client-core than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-client-darwin than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-client-logging than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-client-okhttp than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of io.ktor:ktor-serialization-kotlinx-json than 3.4.0 is available: 3.4.1"
+        errorLine1="ktor = &quot;3.4.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/git/brdemo/Android-ArchitectureDemo/gradle/libs.versions.toml"
+            line="60"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getDataStore` of class `BitbucketCredentialsRepositoryKt` requires synthetic accessor"
+        errorLine1="        context.dataStore.edit { it.clear() }"
+        errorLine2="                ~~~~~~~~~">
+        <location
+            file="src/main/java/com/bottlerocketstudios/brarchitecture/data/network/auth/BitbucketCredentialsRepository.kt"
+            line="54"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getDataStore` of class `BitbucketCredentialsRepositoryKt` requires synthetic accessor"
+        errorLine1="        context.dataStore.edit { it[CREDENTIALS_KEY] = encrypted }"
+        errorLine2="                ~~~~~~~~~">
+        <location
+            file="src/main/java/com/bottlerocketstudios/brarchitecture/data/network/auth/BitbucketCredentialsRepository.kt"
+            line="60"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getDataStore` of class `BitbucketCredentialsRepositoryKt` requires synthetic accessor"
+        errorLine1="        val prefs = context.dataStore.data.first()"
+        errorLine2="                            ~~~~~~~~~">
+        <location
+            file="src/main/java/com/bottlerocketstudios/brarchitecture/data/network/auth/BitbucketCredentialsRepository.kt"
+            line="64"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getDataStore` of class `BitbucketCredentialsRepositoryKt` requires synthetic accessor"
+        errorLine1="        context.dataStore.edit { it[TOKEN_KEY] = encrypted }"
+        errorLine2="                ~~~~~~~~~">
+        <location
+            file="src/main/java/com/bottlerocketstudios/brarchitecture/data/network/auth/BitbucketCredentialsRepository.kt"
+            line="83"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to `private` method `getDataStore` of class `BitbucketCredentialsRepositoryKt` requires synthetic accessor"
+        errorLine1="        val prefs = context.dataStore.data.first()"
+        errorLine2="                            ~~~~~~~~~">
+        <location
+            file="src/main/java/com/bottlerocketstudios/brarchitecture/data/network/auth/BitbucketCredentialsRepository.kt"
+            line="87"
+            column="29"/>
+    </issue>
+
+</issues>

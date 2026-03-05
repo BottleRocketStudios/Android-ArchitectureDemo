@@ -21,7 +21,7 @@ class KoinStartupInitializer : Initializer<KoinApplication> {
         // Can't use Koin to create this due to necessary logic needed in startKoin for androidLogger. Just create/use an instance here for this special case.
         val buildConfigProvider = BuildConfigProviderImpl()
         return startKoin {
-            if (buildConfigProvider.isDebugOrInternalBuild) {
+            if (buildConfigProvider.isDebugBuild) {
                 androidLogger(Level.ERROR) // FIXME: Change to back to INFO when koin 3.2.0 is released: https://github.com/InsertKoinIO/koin/issues/1188
             } else {
                 androidLogger(Level.NONE)

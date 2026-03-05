@@ -100,4 +100,5 @@
         <item quantity="other">%1$s was updated %2$d days ago</item>
     </plurals>
 
+    <string name="app_name">App Name</string>
 </resources>

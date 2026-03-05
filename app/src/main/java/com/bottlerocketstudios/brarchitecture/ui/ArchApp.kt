@@ -6,7 +6,9 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -17,6 +19,7 @@ import com.bottlerocketstudios.compose.appbar.ArchAppBar
 import com.bottlerocketstudios.compose.navdrawer.NavDrawer
 import com.bottlerocketstudios.compose.navdrawer.NavItemState
 import com.bottlerocketstudios.compose.resources.ArchitectureDemoTheme
+import com.bottlerocketstudios.compose.widgets.FullScreenLoadingIndicator
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -49,46 +52,51 @@ fun ArchApp(
             }
         }
 
-    ArchitectureDemoTheme {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = {
-                ArchAppBar(
-                    state = activityViewModel.toArchAppBarState(),
-                    scaffoldState = scaffoldState,
-                    onBackPress = { navigator.popBackStack() },
-                    navIntercept = navIntercept.value
-                )
-            },
-            drawerContent = {
-                NavDrawer(
-                    activityViewModel.toNavDrawerState(navItems) {
-                        coroutineScope.launch {
-                            scaffoldState.drawerState.close()
-                        }
-                        navigator.navigate(Routes.DevOptions)
-                    }
-                )
-            },
-            bottomBar = bottomBar
-        ) {
-            NavDisplay(
-                backStack = navigator.backStack,
-                onBack = { navigator.popBackStack() },
-                entryDecorators =
-                    listOf(
-                        rememberSaveableStateHolderNavEntryDecorator(),
-                        rememberViewModelStoreNavEntryDecorator()
-                    ),
-                entryProvider =
-                    mainNavEntryProvider(
-                        navigator = navigator,
-                        mainWindowControls = controls,
-                        widthSize = widthSize
-                    )
-            )
+        ArchitectureDemoTheme {
+                Scaffold(
+                        scaffoldState = scaffoldState,
+                        topBar = {
+                                ArchAppBar(
+                                        state = activityViewModel.toArchAppBarState(),
+                                        scaffoldState = scaffoldState,
+                                        onBackPress = { navigator.popBackStack() },
+                                        navIntercept = navIntercept.value
+                                )
+                        },
+                        drawerContent = {
+                                NavDrawer(
+                                        activityViewModel.toNavDrawerState(navItems) {
+                                                coroutineScope.launch {
+                                                        scaffoldState.drawerState.close()
+                                                }
+                                                navigator.navigate(Routes.DevOptions)
+                                        }
+                                )
+                        },
+                        bottomBar = bottomBar
+                ) {
+                        NavDisplay(
+                                backStack = navigator.backStack,
+                                onBack = { navigator.popBackStack() },
+                                entryDecorators =
+                                        listOf(
+                                                rememberSaveableStateHolderNavEntryDecorator(),
+                                                rememberViewModelStoreNavEntryDecorator()
+                                        ),
+                                entryProvider =
+                                        mainNavEntryProvider(
+                                                navigator = navigator,
+                                                mainWindowControls = controls,
+                                                widthSize = widthSize
+                                        )
+                        )
+                }
+
+                val showLoadingIndicator by activityViewModel.showLoadingIndicator.collectAsState()
+                if (showLoadingIndicator) {
+                        FullScreenLoadingIndicator()
+                }
         }
-    }
 }
 
 // Ported and adapted from ComposeActivity

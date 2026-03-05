@@ -3,7 +3,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.parcelize)
     alias(libs.plugins.ksp)
@@ -21,6 +21,18 @@ plugins {
 android {
     namespace = libs.versions.app.namespace.get()
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    lint {
+        abortOnError = true
+        warningsAsErrors = false
+        checkDependencies = true
+        baseline = file("lint-baseline.xml")
+        lintConfig = rootProject.file("lint.xml")
+        htmlReport = true
+        htmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.html")
+        xmlReport = true
+        xmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.xml")
+    }
 
     defaultConfig {
         applicationId = libs.versions.app.namespace.get()
@@ -70,7 +82,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
         getByName("debug") {
@@ -85,32 +97,8 @@ android {
                 testers = "colin.shelton@bottlerocketstudios.com"
             }
         }
-        // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
-        create("debugMini") {
-            initWith(getByName("debug"))
-            matchingFallbacks += listOf("debug")
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
     }
-    flavorDimensions += listOf("environment")
-    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
-    productFlavors {
-        create("internal") {
-            applicationId = "com.bottlerocketstudios.brarchitecture.internal" // TODO: TEMPLATE - Replace with appropriate project applicationId prefix, leaving .internal
-            versionNameSuffix = "-internal"
-            buildConfigField("boolean", "INTERNAL", "true")
-            buildConfigField("boolean", "PRODUCTION", "false")
-            dimension = "environment"
-        }
-        create("production") {
-            applicationId = "com.bottlerocketstudios.brarchitecture" // TODO: TEMPLATE - Replace full string with appropriate project applicationId
-            buildConfigField("boolean", "INTERNAL", "false")
-            buildConfigField("boolean", "PRODUCTION", "true")
-            dimension = "environment"
-        }
-    }
+
 }
 
 ktlint {
@@ -147,7 +135,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.window)
-    implementation(libs.androidx.navigation)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
@@ -170,14 +157,12 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.window.size)
     implementation(libs.compose.runtime)
-    implementation(libs.compose.runtime.livedata)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.compose)
-    implementation(libs.androidx.lifecycle.livedata)
 
     // Kotlin / Coroutines
     implementation(libs.kotlin.reflect)

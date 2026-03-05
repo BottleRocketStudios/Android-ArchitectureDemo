@@ -10,22 +10,22 @@ android-targetSdk = "36"
 android-compileSdk = "36"
 
 koin = "4.1.1"
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 kotlin-coroutine = "1.10.2"
-kotlinx-serialization-json = "1.9.0"
+kotlinx-serialization-json = "1.10.0"
 kotlinx-datetime = "0.7.1"
-ksp = "2.2.20-2.0.3"
-ktlint-version = "1.8.0"
+ksp = "2.3.5"
+ktlint-version = "0.50.0"
 kt-lint-gradle = "14.0.1"
 coreKtx = "1.17.0"
 okhttp = "5.3.2"
 chucker = "3.5.2"
-base64 = "1.20.0"
+base64 = "1.21.0"
 live-event = "1.3.0"
 datastore = "1.2.0"
 tink = "1.20.0"
 
-agp = "8.13.2"
+agp = "9.0.1"
 coil = "2.7.0"
 detekt = "1.23.8"
 lifecycleRuntimeKtx = "2.10.0"
@@ -35,8 +35,7 @@ androidx-appcompat = "1.7.1"
 androidx-arch-core-testing = "2.2.0"
 androidx-junit = "1.3.0"
 androidx-lifecycle = "2.10.0"
-androidx-navigation-compose = "2.9.6" # NOTE: there is a bug on recent releases. Re-test after 2.9.0 goes to release (alpha is also broken)
-androidx-navigation3 = "1.1.0-alpha01" # Navigation 3 version
+androidx-navigation3 = "1.1.0-alpha05" # Navigation 3 version
 androidx-security = "1.1.0"
 androidx-startup-runtime = "1.2.0"
 androidx-test-core = "1.7.0"
@@ -45,11 +44,11 @@ androidx-window = "1.5.1"
 
 material = "1.13.0"
 accompanist = "0.37.3"
-compose-activity = "1.12.2"
-compose-bom = "2025.12.01"
+compose-activity = "1.12.4"
+compose-bom = "2026.02.01"
 compose-compiler = "1.5.15"
 compose-material3 = "1.4.0"
-compose-runtime = "1.10.0"
+compose-runtime = "1.10.4"
 constraintlayout = "2.2.1"
 compose-constraint-layout = "1.1.1"
 core-library-desugaring = "2.1.5"
@@ -58,18 +57,18 @@ design = "28.0.0"
 google-credentials = "1.5.0"
 google-services = "4.4.4"
 junit = "4.13.2"
-ktor = "3.3.3"
+ktor = "3.4.0"
 
-firebase-appdistribution-gradle = "5.2.0"
-firebase-bom = "34.7.0"
+firebase-appdistribution-gradle = "5.2.1"
+firebase-bom = "34.10.0"
 firebase-open-source-config = "2.4.0"
 lottie = "6.6.6"
 firebase-crashlytics-plugin = "3.0.6"
 firebase-perf-plugin = "2.0.2"
 firebase-appdistribution-plugin = "5.1.1"
 
-mockito = "6.1.0"
-mockk = "1.14.7"
+mockito = "6.2.3"
+mockk = "1.14.9"
 mockwebserver = "5.3.2"
 play-services-coroutines = "1.10.2"
 play-services-map = "19.2.0"
@@ -77,7 +76,7 @@ process-phoenix = "3.0.0"
 screenshot = "0.0.1-alpha13"
 timber = "5.0.1"
 truth = "1.4.5"
-kover = "0.9.4"
+kover = "0.9.7"
 turbine = "1.2.1"
 baselineprofile = "1.2.4"
 profileinstaller = "1.3.1"
@@ -119,8 +118,6 @@ tink-android = { group = "com.google.crypto.tink", name = "tink-android", versio
 # Android X
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
-androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation-compose" }
 androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "androidx-navigation3" }
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "androidx-navigation3" }
 androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "androidx-lifecycle" }
@@ -148,7 +145,6 @@ compose-material-ripple = { group = "androidx.compose.material", name = "materia
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material3" }
 compose-material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "compose-material3" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose-runtime" }
-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "compose-runtime" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
@@ -220,7 +216,6 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}
 #dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kt-lint-gradle" }
-androidx-navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "androidx-navigation-compose" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
 firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-perf-plugin" }
 android-test = { id = "com.android.test", version.ref = "agp" }

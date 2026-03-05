@@ -3,7 +3,7 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlin.android)
+
     alias(libs.plugins.ksp)
     alias(libs.plugins.parcelize)
     alias(libs.plugins.kotlinSerialization)
@@ -18,6 +18,17 @@ val apikey = ApiKeyProperties(System.getenv("APIKEY_PROPERTIES") ?: "apikey.prop
 android {
     namespace = libs.versions.data.namespace.get()
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    lint {
+        abortOnError = true
+        warningsAsErrors = false
+        baseline = file("lint-baseline.xml")
+        lintConfig = rootProject.file("lint.xml")
+        htmlReport = true
+        htmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.html")
+        xmlReport = true
+        xmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.xml")
+    }
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -48,43 +59,9 @@ android {
             // Disable suggestion found at https://github.com/opendatakit/collect/issues/3262#issuecomment-546815946
             enableUnitTestCoverage = false
         }
-        // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
-        create("debugMini") {
-            initWith(getByName("debug"))
-            matchingFallbacks += listOf("debug")
-        }
     }
-    flavorDimensions += listOf("environment")
-    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
-    productFlavors {
-        create("internal") {
-            buildConfigField("boolean", "INTERNAL", "true")
-            buildConfigField("boolean", "PRODUCTION", "false")
-            dimension = "environment"
-        }
-        create("production") {
-            buildConfigField("boolean", "INTERNAL", "false")
-            buildConfigField("boolean", "PRODUCTION", "true")
-            dimension = "environment"
-        }
-    }
-    androidComponents {
-        beforeVariants(selector().all()) { variant ->
-            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
-                variant.enable = false
-            }
-        }
-    }
+
 }
-
-// Declare configurations per variant to use in the dependencies block below. More info: https://guides.gradle.org/migrating-build-logic-from-groovy-to-kotlin/#custom_configurations_and_dependencies
-private val internalDebugImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalDebugMiniImplementation: Configuration by configurations.creating { extendsFrom(configurations["debugImplementation"]) }
-private val internalReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
-val productionReleaseImplementation: Configuration by configurations.creating { extendsFrom(configurations["releaseImplementation"]) }
-
-/** List of all buildable dev configurations */
-val devConfigurations: List<Configuration> = listOf(internalDebugImplementation, internalDebugMiniImplementation, internalReleaseImplementation)
 
 // TODO: TEMPLATE - Remove this class (and all its usages) when creating a new project
 class ApiKeyProperties(pathToProperties: String, project: Project) {
@@ -92,22 +69,28 @@ class ApiKeyProperties(pathToProperties: String, project: Project) {
     private val apikeyProperties = Properties()
 
     init {
-        apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
+        if (apikeyPropertiesFile.exists()) {
+            apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
+        }
+    }
+
+    private fun getEnvOrProp(keyName: String): String {
+        val envValue: String? = System.getenv(keyName)
+        if (!envValue.isNullOrEmpty()) {
+            return if (envValue.startsWith("\"") && envValue.endsWith("\"")) envValue else "\"$envValue\""
+        }
+        val propValue = apikeyProperties[keyName]
+        if (propValue is String) {
+            return propValue
+        }
+        throw Exception("Unable to find $keyName in environment or apikey.properties")
     }
 
     val key: String
-        get() = if (apikeyProperties["BITBUCKET_KEY"] is String) {
-            apikeyProperties["BITBUCKET_KEY"] as String
-        } else {
-            throw(Exception("Unable to find BITBUCKET_KEY in apikey.properties"))
-        }
+        get() = getEnvOrProp("BITBUCKET_KEY")
 
     val secret: String
-        get() = if (apikeyProperties["BITBUCKET_SECRET"] is String) {
-            apikeyProperties["BITBUCKET_SECRET"] as String
-        } else {
-            throw(Exception("Unable to find BITBUCKET_SECRET in apikey.properties"))
-        }
+        get() = getEnvOrProp("BITBUCKET_SECRET")
 }
 
 dependencies {

@@ -2,7 +2,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlin.android)
+
     alias(libs.plugins.ksp)
     alias(libs.plugins.parcelize)
     // alias(libs.plugins.screenshot)
@@ -13,6 +13,17 @@ plugins {
 android {
     namespace = libs.versions.compose.namespace.get()
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    lint {
+        abortOnError = true
+        warningsAsErrors = false
+        baseline = file("lint-baseline.xml")
+        lintConfig = rootProject.file("lint.xml")
+        htmlReport = true
+        htmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.html")
+        xmlReport = true
+        xmlOutput = file("${project.layout.buildDirectory.get()}/reports/lint/lint-results.xml")
+    }
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -32,35 +43,6 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
-    }
-
-    buildTypes {
-        // Create debug minified buildtype to allow attaching debugger to minified build: https://medium.com/androiddevelopers/practical-proguard-rules-examples-5640a3907dc9
-        create("debugMini") {
-            initWith(getByName("debug"))
-            matchingFallbacks += listOf("debug")
-        }
-    }
-    flavorDimensions += listOf("environment")
-    // See BEST_PRACTICES.md for comments on purpose of each build type/flavor/variant
-    productFlavors {
-        create("internal") {
-            buildConfigField("boolean", "INTERNAL", "true")
-            buildConfigField("boolean", "PRODUCTION", "false")
-            dimension = "environment"
-        }
-        create("production") {
-            buildConfigField("boolean", "INTERNAL", "false")
-            buildConfigField("boolean", "PRODUCTION", "true")
-            dimension = "environment"
-        }
-    }
-    androidComponents {
-        beforeVariants(selector().all()) { variant ->
-            if (variant.name == "productionDebug" || variant.name == "productionDebugMini") {
-                variant.enable = false
-            }
-        }
     }
 }
 
@@ -97,7 +79,6 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.window.size)
     implementation(libs.compose.runtime)
-    implementation(libs.compose.runtime.livedata)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
@@ -140,7 +121,6 @@ dependencies {
     testImplementation(libs.koin.android.test)
     implementation(libs.koin)
     implementation(libs.koin.compose)
-    implementation(libs.androidx.navigation)
     coreLibraryDesugaring(libs.core.library.desugaring)
 }
 
