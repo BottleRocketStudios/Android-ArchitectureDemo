@@ -27,12 +27,14 @@ class RepositoryFileViewModel : BaseViewModel() {
             path: String
     ) {
         launchIO {
-            val result = repo.getSourceFile(workspaceSlug, repoId, hash, path)
-            result
-                    .onSuccess { srcFile.value = it }
-                    .onFailureLogged(errorStrId = R.string.error_loading_file)
+            showLoadingIndicator.wrapIndicator {
+                val result = repo.getSourceFile(workspaceSlug, repoId, hash, path)
+                result
+                        .onSuccess { srcFile.value = it }
+                        .onFailureLogged(errorStrId = R.string.error_loading_file)
 
-            this@RepositoryFileViewModel.path.setValue(path)
+                this@RepositoryFileViewModel.path.setValue(path)
+            }
         }
     }
     // endregion

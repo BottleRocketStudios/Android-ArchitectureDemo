@@ -72,8 +72,11 @@ fun SnippetDetailsFilesCard(file: SnippetDetailsFile) {
                 ) {
                     Text(
                         text = stringResource(
-                            id = if (expanded)
-                                R.string.button_file_close else R.string.button_file_raw
+                            id = if (expanded) {
+                                R.string.button_file_close
+                            } else {
+                                R.string.button_file_raw
+                            }
                         ),
                         style = typography.body1.copy(color = Colors.onSurface)
                     )

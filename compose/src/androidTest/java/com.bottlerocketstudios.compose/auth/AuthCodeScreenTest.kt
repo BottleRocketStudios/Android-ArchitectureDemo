@@ -16,11 +16,8 @@ import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 
 class AuthCodeScreenTest {
-
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-
 
     @Test
     fun authCodeScreenImage_containsContentDescription_andIsDisplayed() {

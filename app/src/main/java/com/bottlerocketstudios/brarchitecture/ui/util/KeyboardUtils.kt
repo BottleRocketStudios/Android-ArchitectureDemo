@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import timber.log.Timber
 
 // Inspiration from https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
+
 /** Hides soft input keyboard from an activity. */
 fun Activity?.hideKeyboard(clearFocus: Boolean = true) {
     if (this != null) {

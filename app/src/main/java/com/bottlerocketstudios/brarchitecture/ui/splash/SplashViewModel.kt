@@ -2,7 +2,6 @@ package com.bottlerocketstudios.brarchitecture.ui.splash
 
 import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepository
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import org.koin.core.component.inject
 
@@ -12,17 +11,20 @@ class SplashViewModel : BaseViewModel() {
     // endregion
 
     // region Events
-    val authEvent: SharedFlow<Unit> = MutableSharedFlow()
-    val unAuthEvent: SharedFlow<Unit> = MutableSharedFlow()
+    val authEvent: SharedFlow<Unit> = event()
+    val unAuthEvent: SharedFlow<Unit> = event()
     // endregion
 
     // region Init
     init {
         launchIO {
-            if (repo.authenticate()) {
-                authEvent.emit(Unit)
+            val authenticated = showLoadingIndicator.wrapIndicator {
+                repo.authenticate()
+            }
+            if (authenticated) {
+                authEvent.tryEmit(Unit)
             } else {
-                unAuthEvent.emit(Unit)
+                unAuthEvent.tryEmit(Unit)
             }
         }
     }

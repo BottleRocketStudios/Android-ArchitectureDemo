@@ -10,7 +10,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class SplashViewModelTest : BaseTest() {
-
     // Using StandardTestDispatcher to allow testing of emissions sent during ViewModel initialization since doesn't eagerly run coroutines
     override val testDispatcherProvider = StandardTestDispatcher().generateTestDispatcherProvider()
 

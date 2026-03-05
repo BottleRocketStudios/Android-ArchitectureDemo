@@ -41,7 +41,6 @@ fun OutlinedInputField(
         singleLine = false,
         keyboardOptions = KeyboardOptions.Default.copy(
             capitalization = KeyboardCapitalization.Sentences,
-
             keyboardType = KeyboardType.Text,
             imeAction = imeAction
         ),

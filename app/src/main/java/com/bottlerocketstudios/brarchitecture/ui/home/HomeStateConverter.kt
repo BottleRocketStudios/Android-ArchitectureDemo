@@ -8,5 +8,5 @@ import com.bottlerocketstudios.compose.home.HomeScreenState
 fun HomeViewModel.toState() = HomeScreenState(
     pullRequests = userPullRequestState.collectAsState(emptyList()),
     repositories = userRepositoryState.collectAsState(emptyList()),
-    itemSelected = ::selectItem
+    repositorySelected = ::selectRepositoryItem
 )

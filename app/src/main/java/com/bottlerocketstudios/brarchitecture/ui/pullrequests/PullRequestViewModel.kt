@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
 class PullRequestViewModel : BaseViewModel() {
-
     // region DI
     private val repo: BitbucketRepository by inject()
     private val clock by inject<Clock>()
@@ -57,9 +56,11 @@ class PullRequestViewModel : BaseViewModel() {
     // region Helpers
     private fun getPullRequestByState(state: String = "Open") {
         launchIO {
-            repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT))
-                    .onSuccess {}
-                    .onFailureLogged(errorStrId = R.string.pull_request_error)
+            showLoadingIndicator.wrapIndicator {
+                repo.getPullRequestsWithQuery(state.uppercase(Locale.ROOT))
+                        .onSuccess {}
+                        .onFailureLogged(errorStrId = R.string.pull_request_error)
+            }
         }
     }
     // endregion

@@ -21,7 +21,8 @@ internal val testCard1 = UserRepositoryUiModel(
             uuid = "uuid1",
             links = Links(
                 avatar = Link(
-                    href = "href1", name = ""
+                    href = "href1",
+                    name = ""
                 )
             ),
             avatarUrl = "avatarUrl1"
@@ -50,7 +51,8 @@ internal val testCard2 = UserRepositoryUiModel(
             uuid = "uuid2",
             links = Links(
                 avatar = Link(
-                    href = "href2", name = ""
+                    href = "href2",
+                    name = ""
                 )
             ),
             avatarUrl = "avatarUrl2"

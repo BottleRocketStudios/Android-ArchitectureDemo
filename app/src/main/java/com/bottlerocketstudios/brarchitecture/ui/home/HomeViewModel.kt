@@ -8,7 +8,7 @@ import com.bottlerocketstudios.compose.home.UserRepositoryUiModel
 import com.bottlerocketstudios.compose.util.formattedUpdateTime
 import java.time.Clock
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
@@ -17,6 +17,10 @@ class HomeViewModel : BaseViewModel() {
     // region DI
     private val repo: BitbucketRepository by inject()
     private val clock by inject<Clock>()
+    // endregion
+
+    // region Events
+    val repositorySelected: SharedFlow<UserRepositoryUiModel> = event()
     // endregion
 
     // region UI State
@@ -45,23 +49,21 @@ class HomeViewModel : BaseViewModel() {
             }
     // endregion
 
-    // region Events
-    val itemSelected = MutableSharedFlow<UserRepositoryUiModel>()
-    // endregion
-
     // region Init
     init {
-        viewModelScope.launch(dispatcherProvider.IO) {
-            repo.refreshUser()
-            repo.refreshMyRepos()
-            repo.getPullRequests()
+        launchIO {
+            showLoadingIndicator.wrapIndicator {
+                repo.refreshUser()
+                repo.refreshMyRepos()
+                repo.getPullRequests()
+            }
         }
     }
     // endregion
 
     // region UI Callbacks
-    fun selectItem(userRepositoryUiModel: UserRepositoryUiModel) {
-        launchIO { itemSelected.emit(userRepositoryUiModel) }
+    fun selectRepositoryItem(userRepositoryUiModel: UserRepositoryUiModel) {
+        launchIO { repositorySelected.tryEmit(userRepositoryUiModel) }
     }
     // endregion
 }

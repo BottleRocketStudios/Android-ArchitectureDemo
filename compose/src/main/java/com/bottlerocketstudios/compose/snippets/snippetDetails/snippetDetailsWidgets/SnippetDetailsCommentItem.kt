@@ -40,7 +40,6 @@ fun CommentCard(
         onEditClick: (Int) -> Unit,
         onDeleteClick: (Int) -> Unit,
 ) {
-
     var expanded by remember { mutableStateOf(false) }
 
     Column(

@@ -2,8 +2,6 @@ package com.bottlerocketstudios.brarchitecture.ui
 
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bottlerocketstudios.brarchitecture.BuildConfig
@@ -12,9 +10,9 @@ import com.bottlerocketstudios.brarchitecture.infrastructure.toast.Toaster
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.util.logger.TAG_NAV
 import com.bottlerocketstudios.brarchitecture.utils.error.buildExceptionErrorString
-import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,13 +28,17 @@ import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 /**
- * Provides common utility functionality for ViewModels including [LiveEvent]s for external
+ * Provides common utility functionality for ViewModels including [SharedFlow]s for external
  * navigation
  */
 abstract class BaseViewModel : ViewModel(), KoinComponent {
     // region DI
     protected val dispatcherProvider: DispatcherProvider by inject()
     protected val toaster: Toaster by inject()
+    // endregion
+
+    // region UI State
+    val showLoadingIndicator = MutableStateFlow(false)
     // endregion
 
     // region Helpers
@@ -65,28 +67,16 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     // endregion
 
     // region Navigation
+    /**
+     * Shared flow that behaves like event
+     */
+    fun <T> event(): SharedFlow<T> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+
     /** Use to send [ExternalNavigationEvent]s (from subclasses). */
-    val externalNavigationEvent: LiveData<ExternalNavigationEvent> =
-            LiveEvent<ExternalNavigationEvent>()
+    val externalNavigationEvent: SharedFlow<ExternalNavigationEvent> = event()
     // endregion
 
     // region Helpers (continued)
-    /**
-     * Helper function to avoid needing downcast declarations for public MutableLiveData or
-     * LiveEvent
-     */
-    protected fun <T> LiveData<T>.set(value: T?) =
-            (this as? MutableLiveData<T>)?.setValue(value)
-                    ?: run { Timber.w("[set] unable to setValue for $this") }
-
-    /**
-     * Helper function to avoid needing downcast declarations for public MutableLiveData or
-     * LiveEvent
-     */
-    protected fun <T> LiveData<T>.postValue(value: T?) =
-            (this as? MutableLiveData<T>)?.postValue(value)
-                    ?: run { Timber.w("[postValue] unable to postValue for $this") }
-
     /**
      * Helper functions to get access down casted mutable SharedFlows
      * ```
@@ -105,19 +95,34 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     protected suspend fun SharedFlow<Unit>.emit(value: Unit) =
             (this as? MutableSharedFlow<Unit>)?.emit(value)
                     ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+    protected suspend fun <T : Any> SharedFlow<T>.emit(value: T) =
+            (this as? MutableSharedFlow<T>)?.emit(value)
+                    ?: run { Timber.w("[emitValue] unable to emit value for $this") }
+
+    protected fun <T> SharedFlow<T>.tryEmit(value: T) =
+        (this as? MutableSharedFlow<T>)?.tryEmit(value) ?: run {
+            Timber.w("[tryEmitValue] unable to tryEmit value for $this")
+            false
+        }
 
     /** Helper functions to avoid needing downcast declarations for public MutableStateFlow */
     protected fun <T : Number> StateFlow<T>.setValue(value: T) {
         (this as? MutableStateFlow<T>)?.value = value
     }
+
     protected fun <T : CharSequence> StateFlow<T>.setValue(value: T) {
         (this as? MutableStateFlow<T>)?.value = value
     }
+
     protected fun StateFlow<Boolean>.setValue(value: Boolean) {
         (this as? MutableStateFlow<Boolean>)?.value = value
     }
+
     protected fun StateFlow<Unit>.setValue(value: Unit) {
         (this as? MutableStateFlow<Unit>)?.value = value
+    }
+    protected fun <T : Any> StateFlow<T>.setValue(value: T) {
+        (this as? MutableStateFlow<T>)?.value = value
     }
 
     // Ties flow to viewModelScope to give StateFlow.

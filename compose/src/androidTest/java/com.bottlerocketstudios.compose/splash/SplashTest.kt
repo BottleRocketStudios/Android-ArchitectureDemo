@@ -10,7 +10,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class SplashTest {
-
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 

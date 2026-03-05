@@ -9,6 +9,7 @@ import java.time.Clock
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
 
@@ -16,6 +17,10 @@ class SnippetsViewModel : BaseViewModel() {
     // region DI
     private val clock by inject<Clock>()
     private val repo: BitbucketRepository by inject()
+    // endregion
+
+    // region Events
+    val snippetClick: SharedFlow<SnippetUiModel> = event()
     // endregion
 
     // region UI State
@@ -33,18 +38,21 @@ class SnippetsViewModel : BaseViewModel() {
                 }
             }
 
-    val snippetClick: MutableSharedFlow<SnippetUiModel> = MutableSharedFlow()
     val showCreateCta = MutableStateFlow(true)
     // endregion
 
     // region UI Callbacks
 
     fun refreshSnippets() {
-        launchIO { repo.refreshMySnippets() }
+        launchIO {
+            showLoadingIndicator.wrapIndicator {
+                repo.refreshMySnippets()
+            }
+        }
     }
 
     fun onSnippetClick(snippet: SnippetUiModel) {
-        launchIO { snippetClick.emit(snippet) }
+        launchIO { snippetClick.tryEmit(snippet) }
     }
     // endregion
 

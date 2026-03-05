@@ -119,7 +119,7 @@ fun mainNavEntryProvider(
         mainWindowControls.title = stringResource(id = R.string.home_title)
         mainWindowControls.topLevel = true
         HomeScreen(state = viewModel.toState())
-        viewModel.itemSelected.LaunchCollection {
+        viewModel.repositorySelected.LaunchCollection {
             activityViewModel.selectedRepo.value = it.repo
             navigator.navigate(Routes.RepositoryBrowser(repoName = it.repo.name ?: ""))
         }
@@ -234,7 +234,7 @@ fun mainNavEntryProvider(
                 keyProvider = { it.id },
                 compactWidth = widthSize == WindowWidthSizeClass.Compact
         ) {
-            List { list ->
+            list { list ->
                 SnippetsBrowserScreen(
                         state =
                                 SnippetsBrowserScreenState(
@@ -250,7 +250,7 @@ fun mainNavEntryProvider(
                                 )
                 )
             }
-            Detail { model ->
+            detail { model ->
                 model?.also { snippetUiModel ->
                     if (snippetUiModel == SnippetsViewModel.CreateSnippetItem) {
                         val createSnippetViewModel: CreateSnippetViewModel = koinViewModel()
@@ -267,17 +267,19 @@ fun mainNavEntryProvider(
                 }
                         ?: run { Box(modifier = Modifier.fillMaxSize().background(Color.Gray)) }
             }
-            DetailState { detailShowing ->
+            detailState { detailShowing ->
                 snippetsViewModel.showCreateCta.value = !detailShowing
                 mainWindowControls.topLevel =
                         !detailShowing || widthSize == WindowWidthSizeClass.Compact
                 mainWindowControls.navIntercept =
-                        if (detailShowing)
-                                ({
+                        if (detailShowing) {
+                            ({
                                     select(null)
                                     true
                                 })
-                        else null
+                        } else {
+                            null
+                        }
             }
         }
 

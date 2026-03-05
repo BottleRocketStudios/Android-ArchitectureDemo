@@ -59,11 +59,13 @@ class RepositoryBranchesViewModel : BaseViewModel() {
             val slug = it.workspace?.slug ?: ""
             val repoName = it.name ?: ""
             launchIO {
-                repo.getBranches(slug, repoName)
-                        .onSuccess { branchCallResult: List<Branch> ->
-                            srcBranches.value = branchCallResult
-                        }
-                        .onFailureLogged(errorStrId = R.string.error_loading_branches)
+                showLoadingIndicator.wrapIndicator {
+                    repo.getBranches(slug, repoName)
+                            .onSuccess { branchCallResult: List<Branch> ->
+                                srcBranches.value = branchCallResult
+                            }
+                            .onFailureLogged(errorStrId = R.string.error_loading_branches)
+                }
             }
         }
     }

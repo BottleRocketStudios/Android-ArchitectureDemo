@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun FeatureToggleScreen(state: FeatureToggleState) {
-
     val toggleList = state.featureToggles.collectAsState().value
 
     FeatureToggleScreenTheme {
@@ -97,6 +96,7 @@ fun FeatureToggleScreenTheme(content: @Composable () -> Unit) {
         content()
     }
 }
+
 @Preview
 @PreviewAll
 @Composable

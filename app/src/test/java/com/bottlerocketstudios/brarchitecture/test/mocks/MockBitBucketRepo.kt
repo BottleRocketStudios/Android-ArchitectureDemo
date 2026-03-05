@@ -35,10 +35,10 @@ const val SNIPPET_CONTENTS = "snippet_contents"
 const val ZONE_DATE_TIME = "2022-07-09T17:09:43.365424Z[UTC]"
 
 object MockBitBucketRepo {
-    private val _user = MutableStateFlow<UserDto?>(null)
-    private val _pullRequests = MutableStateFlow<List<PullRequestDto>>(emptyList())
-    private val _repos = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
-    private val _snippets = MutableStateFlow<List<SnippetDto>>(emptyList())
+    private val userFlow = MutableStateFlow<UserDto?>(null)
+    private val pullRequestsFlow = MutableStateFlow<List<PullRequestDto>>(emptyList())
+    private val reposFlow = MutableStateFlow<List<GitRepositoryDto>>(emptyList())
+    private val snippetsFlow = MutableStateFlow<List<SnippetDto>>(emptyList())
 
     var authenticated = true
     var isPrivate = false
@@ -65,31 +65,31 @@ object MockBitBucketRepo {
             )
 
     val bitbucketRepository: BitbucketRepository = mock {
-        on { user }.then { _user.map { it?.toUser() } }
-        on { pullRequests }.then { _pullRequests.map { list -> list.map { it.toPullRequest() } } }
-        on { repos }.then { _repos.map { list -> list.map { it.convertToGitRepository() } } }
-        on { snippets }.then { _snippets.map { list -> list.map { it.convertToSnippet() } } }
+        on { user }.then { userFlow.map { it?.toUser() } }
+        on { pullRequests }.then { pullRequestsFlow.map { list -> list.map { it.toPullRequest() } } }
+        on { repos }.then { reposFlow.map { list -> list.map { it.convertToGitRepository() } } }
+        on { snippets }.then { snippetsFlow.map { list -> list.map { it.convertToSnippet() } } }
 
         onBlocking { authenticate("") }.then { authenticated }
         onBlocking { authenticate(null) }.then { authenticated }
         onBlocking { clear() }.then {
             authenticated = false
-            _user.value = null
-            _repos.value = emptyList()
-            _snippets.value = emptyList()
-            _pullRequests.value = emptyList()
+            userFlow.value = null
+            reposFlow.value = emptyList()
+            snippetsFlow.value = emptyList()
+            pullRequestsFlow.value = emptyList()
             Unit
         }
         onBlocking { refreshUser() }.then {
-            _user.value = testUserDto
+            userFlow.value = testUserDto
             Result.success(Unit)
         }
         onBlocking { refreshMyRepos() }.then {
-            _repos.value = testGitRepositoryDtoList
+            reposFlow.value = testGitRepositoryDtoList
             Result.success(Unit)
         }
         onBlocking { refreshMySnippets() }.then {
-            _snippets.value = listOf(snippetDto)
+            snippetsFlow.value = listOf(snippetDto)
             Result.success(listOf(snippetDto.convertToSnippet()))
         }
         onBlocking { getSourceFolder("", TEST_REPO, TEST_HASH, TEST_PATH) }.then {

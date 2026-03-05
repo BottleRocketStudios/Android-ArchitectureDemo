@@ -39,8 +39,11 @@ fun CircleAvatarImage(
     AsyncImage(
         model = imgUri,
         contentDescription = stringResource(contentDescription),
-        modifier = if (borderStroke == null)
-            modifier else modifier.border(borderStroke, shape = CircleShape),
+        modifier = if (borderStroke == null) {
+            modifier
+        } else {
+            modifier.border(borderStroke, shape = CircleShape)
+        },
         placeholder = painterResource(placeholder),
         contentScale = ContentScale.Crop,
     )

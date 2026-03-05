@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 // https://proandroiddev.com/supporting-different-screen-sizes-on-android-with-jetpack-compose-f215c13081bd
+
 /**
  * This Dimensions class is intended to provide a logical breakdown of the system that Material
  * design uses for spacing and elevation. The "grid" properties represent multiples of a base grid size

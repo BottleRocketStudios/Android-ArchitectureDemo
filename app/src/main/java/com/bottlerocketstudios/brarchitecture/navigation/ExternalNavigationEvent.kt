@@ -9,7 +9,6 @@ import android.content.Intent
  * @see ExternalNavigationObserver
  */
 data class ExternalNavigationEvent(val intent: Intent?) {
-
     /** Contains logic to navigate using [Activity.startActivity] (intended to be called from [ExternalNavigationObserver]) */
     fun navigate(activity: Activity) {
         intent?.let {

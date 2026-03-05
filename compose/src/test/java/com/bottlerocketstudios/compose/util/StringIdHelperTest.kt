@@ -10,7 +10,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class StringIdHelperTest : BaseTest() {
-
     @get:Rule
     val koinRule = KoinTestRule(TestModule.generateMockedTestModule())
 

@@ -53,9 +53,9 @@ class HomeViewModelTest : BaseTest() {
 
     @Test
     fun itemSelected_emitValue_shouldReturnUserRepoUiModel() = runTest {
-        viewModel.itemSelected.test {
+        viewModel.repositorySelected.test {
             val repo = MockBitBucketRepo.testGitRepositoryDto.convertToGitRepository()
-            (viewModel.itemSelected as? MutableSharedFlow)
+            (viewModel.repositorySelected as? MutableSharedFlow)
                 ?.emit(UserRepositoryUiModel(repo, repo.updated.formattedUpdateTime(Clock.systemDefaultZone())))
             assertThat(awaitItem().repo.name).isEqualTo(repo.name)
         }
@@ -64,8 +64,8 @@ class HomeViewModelTest : BaseTest() {
     @Test
     fun itemSelected_whenSelectItemIsCalled_shouldReturnTestRepo() = runTest {
         bitbucketRepository.refreshMyRepos()
-        viewModel.itemSelected.test {
-            viewModel.selectItem(viewModel.userRepositoryState.first()[0])
+        viewModel.repositorySelected.test {
+            viewModel.selectRepositoryItem(viewModel.userRepositoryState.first()[0])
             assertThat(awaitItem().repo.name).isEqualTo(TEST_REPO)
         }
     }

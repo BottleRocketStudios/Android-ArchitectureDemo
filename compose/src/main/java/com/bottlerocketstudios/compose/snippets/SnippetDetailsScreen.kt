@@ -154,10 +154,11 @@ fun LazyListScope.filesLayout(files: List<SnippetDetailsFile>) {
 fun LazyListScope.commentsLayout(state: SnippetDetailsScreenState) {
     item {
         CategoryHeader(
-            header = if (state.comments.value.isEmpty())
+            header = if (state.comments.value.isEmpty()) {
                 stringResource(id = R.string.header_snippet_comments_format, "")
-            else
+            } else {
                 stringResource(id = R.string.header_snippet_comments_format, "(${state.comments.value.size})")
+            }
         )
     }
 
