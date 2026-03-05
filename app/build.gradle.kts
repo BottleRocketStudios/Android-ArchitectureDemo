@@ -160,14 +160,12 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.material3.window.size)
     implementation(libs.compose.runtime)
-    implementation(libs.compose.runtime.livedata)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.compose)
-    implementation(libs.androidx.lifecycle.livedata)
 
     // Kotlin / Coroutines
     implementation(libs.kotlin.reflect)

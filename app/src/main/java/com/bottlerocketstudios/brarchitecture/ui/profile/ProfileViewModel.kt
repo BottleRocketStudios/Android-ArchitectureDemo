@@ -6,7 +6,7 @@ import com.bottlerocketstudios.brarchitecture.domain.repositories.BitbucketRepos
 import com.bottlerocketstudios.brarchitecture.navigation.ExternalNavigationEvent
 import com.bottlerocketstudios.brarchitecture.ui.BaseViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import org.koin.core.component.inject
@@ -23,14 +23,16 @@ class ProfileViewModel : BaseViewModel() {
     // endregion
 
     // region Events
-    val onLogout = MutableSharedFlow<Unit>()
+    val onLogout: SharedFlow<Unit> = event()
     // endregion
 
     // region UI Callbacks
     fun onEditClicked() {
-        externalNavigationEvent.postValue(
-                ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri()))
-        )
+        launchIO {
+            externalNavigationEvent.emit(
+                    ExternalNavigationEvent(Intent(Intent.ACTION_VIEW, BIT_BUCKET_SETTING_URL.toUri()))
+            )
+        }
     }
 
     fun onLogoutClicked() {
