@@ -77,12 +77,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     // endregion
 
     // region Helpers (continued)
-
-    /**
-     * Shared flow that behaves like event
-     */
-    fun <T> event(): SharedFlow<T> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-
     /**
      * Helper functions to get access down casted mutable SharedFlows
      * ```
